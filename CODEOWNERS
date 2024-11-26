@@ -1,0 +1,5 @@
+# see https://help.github.com/en/articles/about-code-owners#example-of-a-codeowners-file
+
+* @pagopa/engineering-team-devex
+
+/infra/ @pagopa/engineering-team-devex @pagopa/engineering-team-cloud-eng
