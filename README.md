@@ -14,6 +14,15 @@ nodenv install
 node -v
 ```
 
+### Yarn
+Yarn must be installed using [Corepack](https://yarnpkg.com/getting-started/install), included by default in `Node.js`.
+
+```shell
+corepack enable
+# Check the installd version
+yarn -v
+```
+
 ### Terraform
 Use [tfenv](https://github.com/tfutils/tfenv) to install [the desired version of Terraform](https://github.com/pagopa/dx-playground/blob/main/.terraform-version).  
 Once you've installed `tfenv`, execute the following commands:
