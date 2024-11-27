@@ -1,5 +1,28 @@
 # DX Playground
 
+## Requirements
+
+This project requires specific versions of the following tools.  
+To make sure your development setup matches with production follow the recommended installation methods.
+
+### Node.js
+Use [nodenv](https://github.com/nodenv/nodenv) to install the required version of Node.js.  
+Once you've installed `nodenv`, run the following script:
+```shell
+nodenv install
+# Check the installed version
+node -v
+```
+
+### Terraform
+Use [tfenv](https://github.com/tfutils/tfenv) to install [the desired version of Terraform](https://github.com/pagopa/dx-playground/blob/main/.terraform-version).  
+Once you've installed `tfenv`, execute the following commands:
+```shell
+tfenv install
+# Check the installed version
+terraform -v
+```
+
 ## Folder structure
 
 ### `/infra`
