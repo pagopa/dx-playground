@@ -15,7 +15,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_container_app_job_selfhosted_runner"></a> [container\_app\_job\_selfhosted\_runner](#module\_container\_app\_job\_selfhosted\_runner) | github.com/pagopa/dx//infra/modules/github_selfhosted_runner_on_container_app_jobs | f99b2fcb921aed8d39774112710f303169cb6e41 |
+| <a name="module_container_app_job_self_hosted_runner"></a> [container\_app\_job\_self\_hosted\_runner](#module\_container\_app\_job\_self\_hosted\_runner) | github.com/pagopa/dx//infra/modules/github_selfhosted_runner_on_container_app_jobs | f99b2fcb921aed8d39774112710f303169cb6e41 |
 
 ## Resources
 
