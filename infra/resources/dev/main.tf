@@ -17,3 +17,11 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+module "playground_dev_environment" {
+  source       = "github.com/pagopa/dx//infra/modules/azure_core_infra?ref=a66737a485c710eeb972076fab4a0e0bd94d05ef"
+  test_enabled = true
+  environment  = local.environment
+
+  tags = local.tags
+}
