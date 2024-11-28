@@ -32,6 +32,7 @@ module "container_app_job_self_hosted_runner" {
   }
 
   key_vault = {
+    // TODO: Replace values with the resources coming from the "core" module
     name                = "${local.prefix}-${local.env_short}-kv-common"
     resource_group_name = "${local.prefix}-${local.env_short}-rg-common"
   }
