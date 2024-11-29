@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: To Do List API
+  version: 0.0.0
+paths:
+
+  /info:
+    get:
+      operationId: info
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationInfo'
+        '500':
+          description: Internal Server error
+
+components:
+  schemas:
+    ApplicationInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+      required:
+        - name
+        - version
