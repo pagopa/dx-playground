@@ -13,7 +13,9 @@ No providers.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_cosmos"></a> [cosmos](#module\_cosmos) | ../modules/cosmosdb | n/a |
 
 ## Resources
 

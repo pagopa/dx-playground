@@ -17,3 +17,7 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+module "cosmos" {
+  source = "../modules/cosmosdb"
+}
