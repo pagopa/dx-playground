@@ -2,6 +2,10 @@
   "name": "dx-playground",
   "private": true,
   "packageManager": "yarn@4.5.3",
+  "scripts": {
+    "version": "changeset version",
+    "release": "changeset tag"
+  },
   "devDependencies": {
     "@changesets/cli": "^2.27.10"
   }
