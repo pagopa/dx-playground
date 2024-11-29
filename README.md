@@ -38,3 +38,21 @@ terraform -v
 
 It contains the _infrastructure-as-code_ project that defines the resources for the project as well as the execution environments.  
 Database schemas and migrations are defined here too, in case they are needed.
+
+
+## Releases
+
+Releases are handled using [Changeset](https://github.com/changesets/changesets).
+Changeset takes care of bumping packages, updating the changelog, and tag the repository accordingly.
+
+#### How it works
+
+- When opening a Pull Request with a change intended to be published, [add a changeset file](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md) to the proposed changes.
+- Once the Pull Request is merged, a new Pull Request named `Version Packages` will be automatically opened with all the release changes such as version bumping for each involved app or package and changelog update; if an open `Version Packages` PR already exists, it will be updated and the package versions calculated accordingly (see https://github.com/changesets/changesets/blob/main/docs/decisions.md#how-changesets-are-combined).
+  Only apps and packages mentioned in the changeset files will be bumped.
+- Review the `Version Packages` PR and merge it when ready. Changeset files will be deleted.
+- A Release entry is created for each app or package whose version has been bumped.
+
+> [!TIP]  
+> You can also set up the [Changeset bot](https://github.com/apps/changeset-bot) to alert you with a warning message (for example, [this one](https://github.com/pagopa/dx-playground/pull/9#issuecomment-2507383352)) if a changeset is missing.  
+> Additionally, the bot provides the capability to create a changeset file directly through the GitHub user interface.  
