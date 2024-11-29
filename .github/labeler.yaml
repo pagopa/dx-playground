@@ -5,3 +5,7 @@ infra:
 workflows:
   - changed-files:
       - any-glob-to-any-file: [ '.github/workflows/**' ]
+
+changeset:
+  - changed-files:
+      - any-glob-to-any-file: [ '.changeset/**' ]
