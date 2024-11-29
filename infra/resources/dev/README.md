@@ -13,7 +13,9 @@ No providers.
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_playground_dev_environment"></a> [playground\_dev\_environment](#module\_playground\_dev\_environment) | github.com/pagopa/dx//infra/modules/azure_core_infra | a66737a485c710eeb972076fab4a0e0bd94d05ef |
 
 ## Resources
 
