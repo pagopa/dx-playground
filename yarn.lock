@@ -248,6 +248,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@infra/identity@workspace:infra/identity":
+  version: 0.0.0-use.local
+  resolution: "@infra/identity@workspace:infra/identity"
+  languageName: unknown
+  linkType: soft
+
+"@infra/resources@workspace:infra/resources":
+  version: 0.0.0-use.local
+  resolution: "@infra/resources@workspace:infra/resources"
+  languageName: unknown
+  linkType: soft
+
 "@manypkg/find-root@npm:^1.1.0":
   version: 1.1.0
   resolution: "@manypkg/find-root@npm:1.1.0"
