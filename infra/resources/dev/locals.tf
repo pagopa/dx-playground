@@ -4,7 +4,6 @@ locals {
     env_short       = "d"
     location        = "italynorth"
     domain          = "playground"
-    app_name        = "dx-playground"
     instance_number = "01"
   }
 
@@ -13,5 +12,6 @@ locals {
     CreatedBy   = "Terraform"
     Environment = "Dev"
     Owner       = "DevEx"
+    Scope       = "Dynatrace PoC"
   }
 }

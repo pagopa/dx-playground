@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "<= 4.10.0"
+      version = "<= 3.116.0"
     }
   }
 
@@ -15,9 +15,12 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+  }
+  storage_use_azuread = true
 }
 
-module "cosmos" {
-  source = "../modules/cosmosdb"
+module "naming_convention" {
+  source      = "github.com/pagopa/dx//infra/modules/azure_naming_convention?ref=main"
+  environment = merge(local.environment, { app_name = "pg" })
 }
