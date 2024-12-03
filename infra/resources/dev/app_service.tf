@@ -1,7 +1,7 @@
 module "app_service" {
   source = "github.com/pagopa/dx//infra/modules/azure_app_service_exposed?ref=main"
 
-  environment         = local.environment
+  environment         = merge(local.environment, { app_name = "fe" })
   tier                = "xs"
   resource_group_name = data.azurerm_resource_group.test_rg.name
 
