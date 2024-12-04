@@ -8,7 +8,7 @@ module "cosmos" {
 
   private_dns_zone_resource_group_name = data.azurerm_resource_group.net_rg.name
 
-  force_public_network_access_enabled = true
+  force_public_network_access_enabled = false
 
   consistency_policy = {
     consistency_preset = "Default"
