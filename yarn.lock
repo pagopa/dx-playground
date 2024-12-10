@@ -319,6 +319,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@pagopa/typescript-config-node@workspace:packages/typescript-config-node":
+  version: 0.0.0-use.local
+  resolution: "@pagopa/typescript-config-node@workspace:packages/typescript-config-node"
+  languageName: unknown
+  linkType: soft
+
 "@types/node@npm:^12.7.1":
   version: 12.20.55
   resolution: "@types/node@npm:12.20.55"
