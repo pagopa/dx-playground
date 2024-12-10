@@ -1,0 +1,12 @@
+{
+  "name": "to-do-api",
+  "version": "0.0.0",
+  "description": "Azure Function REST API for To Do List",
+  "license": "MIT",
+  "scripts": {
+    "lint:api": "sh api-lint.sh"
+  },
+  "devDependencies": {
+    "swagger-cli": "^4.0.4"
+  }
+}
