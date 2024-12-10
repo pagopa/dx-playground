@@ -1,0 +1,24 @@
+name: Infra Code Review
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    paths:
+      # Trigger the workflow when resources are modified
+      - "infra/resources/**"
+      # Trigger the workflow when the involved workflows are modified
+      - ".github/workflows/code_review_infra.yaml"
+
+jobs:
+  code_review_dev:
+    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+    name: Code Review Infra Plan
+    secrets: inherit
+    with:
+      environment: dev
+      base_path: infra/resources
