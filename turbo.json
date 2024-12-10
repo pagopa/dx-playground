@@ -43,6 +43,7 @@
         "src/**/*.ts"
       ]
     },
+    "generate": {},
     "test": {
       "inputs": [
         "src/**/*.ts"
