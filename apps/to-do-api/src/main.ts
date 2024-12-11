@@ -1,9 +1,10 @@
-import { app } from '@azure/functions';
-import {makeInfoHandler} from "./adapters/azure/functions/info";
+import { app } from "@azure/functions";
 
-app.http('info', {
-  methods: ['GET'],
-  authLevel: 'anonymous',
+import { makeInfoHandler } from "./adapters/azure/functions/info";
+
+app.http("info", {
+  authLevel: "anonymous",
   handler: makeInfoHandler({}),
-  route: 'info',
+  methods: ["GET"],
+  route: "info",
 });
