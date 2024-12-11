@@ -3,7 +3,7 @@
   "globalDependencies": [
     "**/.env.*local"
   ],
-  "pipeline": {
+  "tasks": {
     "build": {
       "inputs": [
         "src/**/*.ts",
@@ -48,7 +48,7 @@
       "inputs": [
         "src/**/*.ts"
       ],
-      "outputMode": "errors-only",
+      "outputLogs": "errors-only",
       "dependsOn": [
         "^test",
         "^build"
@@ -58,7 +58,7 @@
       "inputs": [
         "src/**/*.ts"
       ],
-      "outputMode": "errors-only",
+      "outputLogs": "errors-only",
       "dependsOn": [
         "^test",
         "^build"
