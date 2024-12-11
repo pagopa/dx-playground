@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.2.0
+
+### Minor Changes
+
+- 1f38d3d: [CES-540] Create a DB in the existing Cosmos account
+
 ## 0.1.1
 
 ### Patch Changes
