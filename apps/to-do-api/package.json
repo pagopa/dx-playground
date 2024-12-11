@@ -3,10 +3,28 @@
   "version": "0.0.0",
   "description": "Azure Function REST API for To Do List",
   "license": "MIT",
+  "main": "./dist/main.js",
   "scripts": {
-    "lint:api": "sh api-lint.sh"
+    "clean": "shx rm -rf ./dist ./src/generated",
+    "build": "npm run generate && tsc",
+    "typecheck": "npm run build --noemit",
+    "lint:api": "sh api-lint.sh",
+    "generate": "shx mkdir -p ./src/generated/definitions/internal && gen-api-models --api-spec ./docs/openapi.yaml --no-strict --out-dir ./src/generated/definitions/internal",
+    "start": "func start --javascript"
   },
   "devDependencies": {
-    "swagger-cli": "^4.0.4"
+    "@pagopa/openapi-codegen-ts": "^14.0.0",
+    "@pagopa/typescript-config-node": "workspace:^",
+    "azure-functions-core-tools": "^4.0.6610",
+    "shx": "^0.3.4",
+    "swagger-cli": "^4.0.4",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.6.0",
+    "@pagopa/handler-kit": "^1.1.0",
+    "@pagopa/handler-kit-azure-func": "^2.0.7",
+    "fp-ts": "^2.16.9",
+    "io-ts": "^2.2.22"
   }
 }
