@@ -8,14 +8,18 @@
     "clean": "shx rm -rf ./dist ./src/generated",
     "build": "npm run generate && tsc",
     "typecheck": "npm run build --noemit",
+    "lint": "eslint --fix src",
+    "lint:check": "eslint src",
     "lint:api": "sh api-lint.sh",
     "generate": "shx mkdir -p ./src/generated/definitions/internal && gen-api-models --api-spec ./docs/openapi.yaml --no-strict --out-dir ./src/generated/definitions/internal",
     "start": "func start --javascript"
   },
   "devDependencies": {
+    "@pagopa/eslint-config": "^4.0.1",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
     "@pagopa/typescript-config-node": "workspace:^",
     "azure-functions-core-tools": "^4.0.6610",
+    "eslint": "^9.16.0",
     "shx": "^0.3.4",
     "swagger-cli": "^4.0.4",
     "typescript": "^5.7.2"
