@@ -14,6 +14,13 @@
     "generate": "shx mkdir -p ./src/generated/definitions/internal && gen-api-models --api-spec ./docs/openapi.yaml --no-strict --out-dir ./src/generated/definitions/internal",
     "start": "func start --javascript"
   },
+  "dependencies": {
+    "@azure/functions": "^4.6.0",
+    "@pagopa/handler-kit": "^1.1.0",
+    "@pagopa/handler-kit-azure-func": "^2.0.7",
+    "fp-ts": "^2.16.9",
+    "io-ts": "^2.2.22"
+  },
   "devDependencies": {
     "@pagopa/eslint-config": "^4.0.1",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
@@ -24,12 +31,5 @@
     "shx": "^0.3.4",
     "swagger-cli": "^4.0.4",
     "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "@azure/functions": "^4.6.0",
-    "@pagopa/handler-kit": "^1.1.0",
-    "@pagopa/handler-kit-azure-func": "^2.0.7",
-    "fp-ts": "^2.16.9",
-    "io-ts": "^2.2.22"
   }
 }
