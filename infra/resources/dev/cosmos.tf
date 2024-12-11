@@ -20,3 +20,10 @@ module "cosmos" {
 
   tags = local.tags
 }
+
+### Cosmos Database
+resource "azurerm_cosmosdb_sql_database" "db" {
+  name                = "db"
+  resource_group_name = module.cosmos.resource_group_name
+  account_name        = module.cosmos.name
+}
