@@ -4,6 +4,7 @@
   "packageManager": "yarn@4.5.3",
   "scripts": {
     "code-review": "turbo run typecheck lint:check test",
+    "lint": "turbo run lint",
     "version": "changeset version",
     "release": "changeset tag"
   },

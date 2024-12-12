@@ -16,9 +16,12 @@
     "start": "func start"
   },
   "dependencies": {
+    "@azure/cosmos": "^4.2.0",
     "@azure/functions": "^4.6.0",
+    "@azure/identity": "^4.5.0",
     "@pagopa/handler-kit": "^1.1.0",
     "@pagopa/handler-kit-azure-func": "^2.0.7",
+    "@pagopa/ts-commons": "^13.1.2",
     "fp-ts": "^2.16.9",
     "io-ts": "^2.2.22"
   },
