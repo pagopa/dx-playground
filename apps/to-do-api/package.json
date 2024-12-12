@@ -1,12 +1,13 @@
 {
   "name": "to-do-api",
   "version": "0.0.0",
+  "type": "module",
   "description": "Azure Function REST API for To Do List",
   "license": "MIT",
   "main": "./dist/main.js",
   "scripts": {
     "clean": "shx rm -rf ./dist ./src/generated",
-    "build": "npm run generate && tsc",
+    "build": "tsc",
     "typecheck": "npm run build --noemit",
     "lint": "eslint --fix",
     "lint:check": "eslint",
