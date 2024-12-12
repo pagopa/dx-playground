@@ -1,0 +1,49 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+
+processors:
+  batch:
+  attributes/collector_info:
+    actions:
+      - key: collector.hostname
+        value: $HOSTNAME
+        action: insert
+      - key: azure.container_app.revision
+        value: $CONTAINER_APP_REVISION
+        action: insert
+      - key: azure.container_app.name
+        value: $CONTAINER_APP_NAME
+        action: insert
+      - key: source.blog
+        value: "true"
+        action: insert
+  filter/healthcheck:
+    spans:
+      exclude:
+        match_type: strict
+        attributes:
+          - Key: http.target
+            Value: /health
+
+exporters:
+  otlphttp:
+    endpoint: "${env:$ENDPOINT}"
+    headers:
+      Authorization: "Api-Token ${env:$API_TOKEN}"
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch,filter/healthcheck,attributes/collector_info]
+      exporters: [otlp]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/logs]
