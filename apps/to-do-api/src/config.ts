@@ -11,7 +11,7 @@ export interface Config {
   };
 }
 
-export const EnvsCodec = t.type({
+const EnvsCodec = t.type({
   COSMOSDB_DATABASE_NAME: NonEmptyString,
   COSMOSDB_ENDPOINT: NonEmptyString,
 });

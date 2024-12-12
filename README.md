@@ -34,7 +34,7 @@ terraform -v
 
 ## Folder structure
 
-### `/app`
+### `/apps`
 
 It contains the applications included in the project. Each folder is meant to produce a deployable artifact; how and where to deploy it is demanded to a single application.
 
