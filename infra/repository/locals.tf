@@ -19,4 +19,10 @@ locals {
       "ARM_CLIENT_ID" = data.azurerm_user_assigned_identity.identity_dev_cd.client_id
     }
   }
+
+  app_cd = {
+    secrets = {
+      "ARM_CLIENT_ID" = data.azurerm_user_assigned_identity.identity_dev_cd.client_id
+    }
+  }
 }
