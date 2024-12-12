@@ -13,7 +13,7 @@
     "lint:check": "eslint",
     "lint:api": "sh api-lint.sh",
     "generate": "gen-api-models --api-spec ./docs/openapi.yaml --no-strict --out-dir ./src/generated/definitions/internal",
-    "start": "func start --javascript"
+    "start": "func start"
   },
   "dependencies": {
     "@azure/functions": "^4.6.0",
