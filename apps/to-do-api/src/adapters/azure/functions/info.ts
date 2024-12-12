@@ -1,8 +1,8 @@
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
-import * as RTE from "fp-ts/ReaderTaskEither";
+import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 
-import { ApplicationInfo } from "../../../generated/definitions/internal/ApplicationInfo";
+import { ApplicationInfo } from "../../../generated/definitions/internal/ApplicationInfo.js";
 
 const makeHandlerKitHandler: H.Handler<
   H.HttpRequest,

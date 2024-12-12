@@ -1,6 +1,6 @@
 import { app } from "@azure/functions";
 
-import { makeInfoHandler } from "./adapters/azure/functions/info";
+import { makeInfoHandler } from "./adapters/azure/functions/info.js";
 
 app.http("info", {
   authLevel: "anonymous",
