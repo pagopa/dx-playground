@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "shx rm -rf ./dist ./src/generated",
     "build": "tsc",
-    "typecheck": "npm run build --noemit",
+    "typecheck": "npm run build -- --noemit",
     "lint": "eslint src --fix",
     "lint:check": "eslint src",
     "lint:api": "sh api-lint.sh",
