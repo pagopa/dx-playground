@@ -18,5 +18,12 @@ locals {
     secrets = {
       "ARM_CLIENT_ID" = data.azurerm_user_assigned_identity.identity_dev_cd.client_id
     }
+    reviewers_teams = ["engineering-team-devex"]
+  }
+
+  app_cd = {
+    secrets = {
+      "ARM_CLIENT_ID" = data.azurerm_user_assigned_identity.identity_dev_cd.client_id
+    }
   }
 }

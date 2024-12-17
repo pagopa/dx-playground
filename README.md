@@ -34,6 +34,20 @@ terraform -v
 
 ## Folder structure
 
+### `/apps`
+
+It contains the applications included in the project. Each folder is meant to produce a deployable artifact; how and where to deploy it is demanded to a single application.
+
+Each sub-folder is a workspace.
+
+### `/packages`
+
+Packages are reusable TypeScript modules that implement a specific logic of the project. They are meant for sharing implementations across other apps and packages of the same projects, as well as being published in public registries.
+
+Packages that are meant for internal code sharing have `private: true` in their package.json file; all the others are meant to be published into the public registry.
+
+Each sub-folder is a workspace.
+
 ### `/infra`
 
 It contains the _infrastructure-as-code_ project that defines the resources for the project as well as the execution environments.  

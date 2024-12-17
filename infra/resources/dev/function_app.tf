@@ -16,7 +16,7 @@ module "function_app" {
   app_settings      = {}
   slot_app_settings = {}
 
-  health_check_path = "/health"
+  health_check_path = "/info"
 
   tags = local.tags
 }

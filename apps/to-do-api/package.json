@@ -1,0 +1,39 @@
+{
+  "name": "to-do-api",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Azure Function REST API for To Do List",
+  "license": "MIT",
+  "main": "./dist/main.js",
+  "scripts": {
+    "clean": "shx rm -rf ./dist ./src/generated",
+    "build": "tsc",
+    "typecheck": "yarn build --noemit",
+    "lint": "eslint src --fix",
+    "lint:check": "eslint src",
+    "lint:api": "sh api-lint.sh",
+    "generate": "gen-api-models --api-spec ./docs/openapi.yaml --no-strict --out-dir ./src/generated/definitions/internal",
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/cosmos": "^4.2.0",
+    "@azure/functions": "^4.6.0",
+    "@azure/identity": "^4.5.0",
+    "@pagopa/handler-kit": "^1.1.0",
+    "@pagopa/handler-kit-azure-func": "^2.0.7",
+    "@pagopa/ts-commons": "^13.1.2",
+    "fp-ts": "^2.16.9",
+    "io-ts": "^2.2.22"
+  },
+  "devDependencies": {
+    "@pagopa/eslint-config": "^4.0.1",
+    "@pagopa/openapi-codegen-ts": "^14.0.0",
+    "@pagopa/typescript-config-node": "workspace:^",
+    "azure-functions-core-tools": "^4.0.6610",
+    "eslint": "^8.57.1",
+    "prettier": "^3.4.2",
+    "shx": "^0.3.4",
+    "swagger-cli": "^4.0.4",
+    "typescript": "^5.7.2"
+  }
+}
