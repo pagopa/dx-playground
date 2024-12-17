@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.2.1
+
+### Patch Changes
+
+- 1a25f4b: [CES-616] Create APIM backend to point to the To Do List API Azure Function
+
 ## 0.2.0
 
 ### Minor Changes
