@@ -44,6 +44,7 @@ module "dynatrace_oneagent" {
     password = random_password.admin_password.result
   }
 
+  ## For Dynatrace installation is needed an active account
   # custom_data = <<-EOT
   #   #!/bin/bash
   #   wget -O Dynatrace-OneAgent.sh "https://<dynatrace-environment-id>.live.dynatrace.com/installer/agent/unix/latest"
@@ -72,6 +73,7 @@ module "dynatrace_activegate" {
     password = random_password.admin_password.result
   }
 
+  ## For Dynatrace installation is needed an active account
   # custom_data = <<-EOT
   #   #!/bin/bash
   #   wget -O Dynatrace-ActiveGate-Linux.sh "https://<tenant-id>.live.dynatrace.com/installer/activegate/unix/latest"
