@@ -1,3 +1,11 @@
+locals {
+  to_do_api = {
+    name        = "To Do API"
+    description = "To Do List API"
+    path        = "api/v1"
+  }
+}
+
 resource "azurerm_subnet" "apim" {
   name                 = "${module.naming_convention.project}-apim-snet-${local.environment.instance_number}"
   virtual_network_name = data.azurerm_virtual_network.test_vnet.name
@@ -29,9 +37,25 @@ module "apim" {
 
 resource "azurerm_api_management_backend" "to_do_api_fn" {
   name                = "to-do-api-azure-function"
-  description         = "To Do List API"
+  description         = local.to_do_api.description
   api_management_name = module.apim.name
   resource_group_name = module.apim.resource_group_name
   protocol            = "http"
   url                 = "https://${module.function_app.function_app.function_app.default_hostname}"
+}
+
+#### API
+resource "azurerm_api_management_api" "to_do_api" {
+  name                = "to-do-api"
+  description         = local.to_do_api.description
+  resource_group_name = module.apim.resource_group_name
+  api_management_name = module.apim.name
+  revision            = "1"
+  display_name        = local.to_do_api.name
+  path                = local.to_do_api.path
+  protocols           = ["https"]
+  import {
+    content_format = "openapi"
+    content_value  = file("../../../apps/to-do-api/docs/openapi.yaml")
+  }
 }
