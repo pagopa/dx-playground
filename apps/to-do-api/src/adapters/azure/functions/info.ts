@@ -23,7 +23,7 @@ const cosmosHealthCheck = ({ cosmosClient }: InfoEnv) =>
     ),
   );
 
-const ApplicativeParAccumulateErrors = RTE.getApplicativeReaderTaskValidation(
+const AccumulateErrors = RTE.getApplicativeReaderTaskValidation(
   T.ApplicativePar,
   RA.getSemigroup<string>(),
 );
@@ -35,7 +35,7 @@ export const makeHandlerKitHandler: H.Handler<
 > = H.of(() =>
   pipe(
     [cosmosHealthCheck],
-    RA.sequence(ApplicativeParAccumulateErrors),
+    RA.sequence(AccumulateErrors),
     RTE.map(() => H.successJson({ name: "ToDo", version: "0.0.0" })),
     RTE.mapLeft((problems) => new H.HttpError(problems.join("\n\n"))),
   ),
