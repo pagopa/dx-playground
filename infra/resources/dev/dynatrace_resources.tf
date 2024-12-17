@@ -29,7 +29,7 @@ resource "azurerm_key_vault_secret" "admin_password" {
 # Ref. Linux https://docs.dynatrace.com/docs/ingest-from/dynatrace-oneagent/installation-and-operation/linux/installation/install-oneagent-on-linux
 
 module "dynatrace_oneagent" {
-  source = "../modules/virtual_machine"
+  source = "../_modules/virtual_machine"
 
   name                = "oneagent"
   prefix              = module.naming_convention.prefix
@@ -58,7 +58,7 @@ module "dynatrace_oneagent" {
 # Ref. Linux https://docs.dynatrace.com/docs/ingest-from/dynatrace-activegate/installation/linux/linux-install-an-environment-activegate
 
 module "dynatrace_activegate" {
-  source = "../modules/virtual_machine"
+  source = "../_modules/virtual_machine"
 
   name                = "activegate"
   prefix              = module.naming_convention.project
