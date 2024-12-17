@@ -46,7 +46,7 @@ resource "azurerm_api_management_backend" "to_do_api_fn" {
 
 #### API
 resource "azurerm_api_management_api" "to_do_api" {
-  name                = local.to_do_api.name
+  name                = "to-do-api"
   description         = local.to_do_api.description
   resource_group_name = module.apim.resource_group_name
   api_management_name = module.apim.name
