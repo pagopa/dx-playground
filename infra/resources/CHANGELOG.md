@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.2.2
+
+### Patch Changes
+
+- 77503f0: [CES-618] Add To Do API to APIM
+
 ## 0.2.1
 
 ### Patch Changes
