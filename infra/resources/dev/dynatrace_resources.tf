@@ -61,7 +61,7 @@ module "dynatrace_activegate" {
   source = "../_modules/virtual_machine"
 
   name                = "activegate"
-  prefix              = module.naming_convention.project
+  prefix              = module.naming_convention.prefix
   suffix              = module.naming_convention.suffix
   resource_group_name = azurerm_resource_group.dynatrace_rg.name
   location            = local.environment.location

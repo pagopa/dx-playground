@@ -21,8 +21,8 @@
 | <a name="module_apim"></a> [apim](#module\_apim) | github.com/pagopa/dx//infra/modules/azure_api_management | main |
 | <a name="module_app_service"></a> [app\_service](#module\_app\_service) | github.com/pagopa/dx//infra/modules/azure_app_service | main |
 | <a name="module_cosmos"></a> [cosmos](#module\_cosmos) | github.com/pagopa/dx//infra/modules/azure_cosmos_account | main |
-| <a name="module_dynatrace_activegate"></a> [dynatrace\_activegate](#module\_dynatrace\_activegate) | ../modules/virtual_machine | n/a |
-| <a name="module_dynatrace_oneagent"></a> [dynatrace\_oneagent](#module\_dynatrace\_oneagent) | ../modules/virtual_machine | n/a |
+| <a name="module_dynatrace_activegate"></a> [dynatrace\_activegate](#module\_dynatrace\_activegate) | ../_modules/virtual_machine | n/a |
+| <a name="module_dynatrace_oneagent"></a> [dynatrace\_oneagent](#module\_dynatrace\_oneagent) | ../_modules/virtual_machine | n/a |
 | <a name="module_function_app"></a> [function\_app](#module\_function\_app) | github.com/pagopa/dx//infra/modules/azure_function_app | main |
 | <a name="module_naming_convention"></a> [naming\_convention](#module\_naming\_convention) | github.com/pagopa/dx//infra/modules/azure_naming_convention | main |
 
