@@ -26,3 +26,12 @@ module "apim" {
 
   tags = local.tags
 }
+
+resource "azurerm_api_management_backend" "to_do_api_fn" {
+  name                = "to-do-api-azure-function"
+  description         = "To Do List API"
+  api_management_name = module.apim.name
+  resource_group_name = module.apim.resource_group_name
+  protocol            = "http"
+  url                 = "https://${module.function_app.function_app.function_app.default_hostname}"
+}
