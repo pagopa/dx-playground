@@ -23,12 +23,14 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [github_actions_environment_secret.app_cd_dev_secrets](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_environment_secret.env_dev_cd_secrets](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_environment_secret.env_dev_ci_secrets](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_secret.repo_secrets](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/actions_secret) | resource |
 | [github_branch_default.default_main](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/branch_default) | resource |
 | [github_branch_protection.protection_main](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/branch_protection) | resource |
 | [github_repository.this](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository) | resource |
+| [github_repository_environment.app_dev_cd](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_dev_cd](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_dev_ci](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository_environment) | resource |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
