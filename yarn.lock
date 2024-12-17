@@ -1370,6 +1370,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@pagopa/typescript-config-react@workspace:packages/typescript-config-react":
+  version: 0.0.0-use.local
+  resolution: "@pagopa/typescript-config-react@workspace:packages/typescript-config-react"
+  languageName: unknown
+  linkType: soft
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
