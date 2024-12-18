@@ -50,6 +50,20 @@ module "federated_identities" {
   tags = local.tags
 }
 
+module "backend_federated_identities" {
+  source  = "pagopa/dx-azure-federated-identity-with-github/azurerm"
+  version = "0.0.2"
+
+  prefix       = local.prefix
+  env_short    = local.env_short
+  env          = "app-${local.env}"
+  domain       = local.domain
+  repositories = [local.repo_name]
+  tags         = local.tags
+
+  continuos_integration = { enable = false }
+}
+
 module "roles_ci" {
   source       = "github.com/pagopa/dx//infra/modules/azure_role_assignments?ref=19b6c8a118cdd60671d603dac87d3663089d72a7"
   principal_id = module.federated_identities.federated_ci_identity.id
