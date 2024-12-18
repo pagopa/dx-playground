@@ -5,21 +5,27 @@
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.100.0 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | <= 3.117.0 |
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.117.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_container_app_job_self_hosted_runner"></a> [container\_app\_job\_self\_hosted\_runner](#module\_container\_app\_job\_self\_hosted\_runner) | github.com/pagopa/dx//infra/modules/github_selfhosted_runner_on_container_app_jobs | f99b2fcb921aed8d39774112710f303169cb6e41 |
+| <a name="module_container_app_job_selfhosted_runner"></a> [container\_app\_job\_selfhosted\_runner](#module\_container\_app\_job\_selfhosted\_runner) | github.com/pagopa/dx//infra/modules/github_selfhosted_runner_on_container_app_jobs | 8d43d6db2ba632607ac2814c0dca5193d96065fb |
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [azurerm_container_app_environment.gh_runner](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/container_app_environment) | data source |
+| [azurerm_key_vault.key_vault](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
+| [azurerm_resource_group.gh_runner](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 
 ## Inputs
 
@@ -29,5 +35,5 @@ No inputs.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_container_app_job"></a> [container\_app\_job](#output\_container\_app\_job) | The id of the container app job |
+| <a name="output_container_app_job"></a> [container\_app\_job](#output\_container\_app\_job) | n/a |
 <!-- END_TF_DOCS -->
