@@ -32,6 +32,7 @@ No inputs.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_federated_app_cd_identity"></a> [federated\_app\_cd\_identity](#output\_federated\_app\_cd\_identity) | n/a |
 | <a name="output_federated_cd_identity"></a> [federated\_cd\_identity](#output\_federated\_cd\_identity) | n/a |
 | <a name="output_federated_ci_identity"></a> [federated\_ci\_identity](#output\_federated\_ci\_identity) | n/a |
 <!-- END_TF_DOCS -->
