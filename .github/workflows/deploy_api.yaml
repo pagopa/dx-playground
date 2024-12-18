@@ -22,5 +22,5 @@ jobs:
       environment: app-dev
       resource_group_name: dx-d-itn-test-rg-01
       web_app_name: dx-d-itn-playground-be-func-01
-      use_private_agent: false
+      use_private_agent: true
       use_staging_slot: false
