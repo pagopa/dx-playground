@@ -32,6 +32,8 @@ module "apim" {
   virtual_network_type_internal = true
   enable_public_network_access  = true
 
+  xml_content = azurerm_api_management_api_policy.to_do_api_policy.xml_content
+
   tags = local.tags
 }
 
@@ -58,4 +60,28 @@ resource "azurerm_api_management_api" "to_do_api" {
     content_format = "openapi"
     content_value  = file("../../../apps/to-do-api/docs/openapi.yaml")
   }
+}
+
+#### APIM Policy
+resource "azurerm_api_management_api_policy" "to_do_api_policy" {
+  api_name            = azurerm_api_management_api.to_do_api.name
+  api_management_name = module.apim.name
+  resource_group_name = module.apim.resource_group_name
+
+  xml_content = <<XML
+<policies>
+    <inbound>
+        <set-backend-service backend-id="${azurerm_api_management_backend.to_do_api_fn.name}" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+XML
 }
