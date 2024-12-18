@@ -28,7 +28,6 @@ module "federated_identities" {
 
   repositories = [local.repo_name]
 
-
   continuos_integration = {
     enable = true
     roles = {
@@ -57,7 +56,7 @@ module "backend_federated_identities" {
   prefix       = local.prefix
   env_short    = local.env_short
   env          = "app-${local.env}"
-  domain       = local.domain
+  domain       = "${local.domain}-app"
   repositories = [local.repo_name]
   tags         = local.tags
 
