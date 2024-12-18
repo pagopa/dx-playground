@@ -19,7 +19,7 @@ provider "azurerm" {
 }
 
 module "container_app_job_selfhosted_runner" {
-  source = "github.com/pagopa/dx//infra/modules/github_selfhosted_runner_on_container_app_jobs?ref=8d43d6db2ba632607ac2814c0dca5193d96065fb" # FIXME: When PR has been merged, get the SHA from main branch
+  source = "github.com/pagopa/dx//infra/modules/github_selfhosted_runner_on_container_app_jobs?ref=8d43d6db2ba632607ac2814c0dca5193d96065fb"
 
   environment = {
     prefix          = local.prefix
