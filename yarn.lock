@@ -765,6 +765,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@infra/github-runner@workspace:infra/github-runner":
+  version: 0.0.0-use.local
+  resolution: "@infra/github-runner@workspace:infra/github-runner"
+  languageName: unknown
+  linkType: soft
+
 "@infra/identity@workspace:infra/identity":
   version: 0.0.0-use.local
   resolution: "@infra/identity@workspace:infra/identity"
