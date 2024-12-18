@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.2.3
+
+### Patch Changes
+
+- b3f42f8: [CES-620] Add missing environment variables
+
 ## 0.2.2
 
 ### Patch Changes
