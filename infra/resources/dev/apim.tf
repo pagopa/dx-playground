@@ -2,7 +2,7 @@ locals {
   to_do_api = {
     name        = "To Do API"
     description = "To Do List API"
-    path        = "api/v1"
+    path        = ""
   }
 }
 
@@ -32,7 +32,7 @@ module "apim" {
   virtual_network_type_internal = true
   enable_public_network_access  = true
 
-  xml_content = azurerm_api_management_api_policy.to_do_api_policy.xml_content
+  xml_content = file("${path.module}/apim_fragments/policy.xml")
 
   tags = local.tags
 }
@@ -44,6 +44,15 @@ resource "azurerm_api_management_backend" "to_do_api_fn" {
   resource_group_name = module.apim.resource_group_name
   protocol            = "http"
   url                 = "https://${module.function_app.function_app.function_app.default_hostname}"
+  resource_id         = "https://management.azure.com${module.function_app.function_app.function_app.id}"
+}
+
+resource "azurerm_api_management_named_value" "to_do_api_fn_url" {
+  name                = "to-do-api-fn-url"
+  api_management_name = module.apim.name
+  resource_group_name = module.apim.resource_group_name
+  display_name        = "to-do-api-fn-url"
+  value                 = "https://${module.function_app.function_app.function_app.default_hostname}"
 }
 
 #### API
@@ -58,30 +67,17 @@ resource "azurerm_api_management_api" "to_do_api" {
   protocols           = ["https"]
   import {
     content_format = "openapi"
-    content_value  = file("../../../apps/to-do-api/docs/openapi.yaml")
+    content_value  = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
   }
 }
 
-#### APIM Policy
-resource "azurerm_api_management_api_policy" "to_do_api_policy" {
-  api_name            = azurerm_api_management_api.to_do_api.name
-  api_management_name = module.apim.name
-  resource_group_name = module.apim.resource_group_name
+resource "azurerm_api_management_policy_fragment" "set_be_service" {
+  name              = "set-backend-service"
+  api_management_id = module.apim.id
 
-  xml_content = <<XML
-<policies>
-    <inbound>
-        <set-backend-service backend-id="${azurerm_api_management_backend.to_do_api_fn.name}" />
-    </inbound>
-    <backend>
-        <base />
-    </backend>
-    <outbound>
-        <base />
-    </outbound>
-    <on-error>
-        <base />
-    </on-error>
-</policies>
-XML
+  description = "Set the backend service"
+  format      = "rawxml"
+  value = templatefile("./apim_fragments/backend-service.xml", {
+    backend_id = azurerm_api_management_backend.to_do_api_fn.name
+  })
 }
