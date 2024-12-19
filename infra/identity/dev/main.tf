@@ -28,7 +28,6 @@ module "federated_identities" {
 
   repositories = [local.repo_name]
 
-
   continuos_integration = {
     enable = true
     roles = {
@@ -48,6 +47,20 @@ module "federated_identities" {
   }
 
   tags = local.tags
+}
+
+module "backend_federated_identities" {
+  source  = "pagopa/dx-azure-federated-identity-with-github/azurerm"
+  version = "0.0.2"
+
+  prefix       = local.prefix
+  env_short    = local.env_short
+  env          = "app-${local.env}"
+  domain       = "${local.domain}-app"
+  repositories = [local.repo_name]
+  tags         = local.tags
+
+  continuos_integration = { enable = false }
 }
 
 module "roles_ci" {
