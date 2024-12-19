@@ -15,11 +15,12 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@43385b736be24d542924a26bf641247824b76a32
     secrets: inherit
     with:
       workspace_name: to-do-api
       environment: app-dev
       resource_group_name: dx-d-itn-test-rg-01
       web_app_name: dx-d-itn-playground-be-func-01
-      use_private_agent: false
+      use_private_agent: true
+      use_staging_slot: false
