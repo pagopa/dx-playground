@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.2.4
+
+### Patch Changes
+
+- 3a00299: [CES-623] Create role assignement to let the Azure Function to write on CosmosDB
+
 ## 0.2.3
 
 ### Patch Changes
