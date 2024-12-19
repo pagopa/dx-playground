@@ -23,7 +23,7 @@ module "function_app" {
   app_settings      = merge(local.to_do_api_settings, {})
   slot_app_settings = {}
 
-  health_check_path = "/info"
+  health_check_path = "/api/info"
 
   tags = local.tags
 }
