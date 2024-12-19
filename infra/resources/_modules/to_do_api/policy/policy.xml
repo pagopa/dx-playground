@@ -1,19 +1,21 @@
 <policies>
   <inbound>
     <base />
-    <include-fragment fragment-id="set-backend-service" />
+    <set-backend-service backend-id="${backend-id}" />
+    <!-- Append `api/` to the path before invoking the backend -->
+    <rewrite-uri template='@(System.String.Concat("api/", context.Request.Url.Path))' />
     <cors>
       <allowed-origins>
-        <origin>*</origin>
+          <origin>*</origin>
       </allowed-origins>
       <allowed-methods>
-        <method>*</method>
+          <method>*</method>
       </allowed-methods>
       <allowed-headers>
-        <header>*</header>
+          <header>*</header>
       </allowed-headers>
       <expose-headers>
-        <header>*</header>
+          <header>*</header>
       </expose-headers>
     </cors>
   </inbound>

@@ -1,3 +1,0 @@
-<fragment>
-  <set-backend-service base-url="${backend_id}" />
-</fragment>
