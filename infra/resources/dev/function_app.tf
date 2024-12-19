@@ -27,3 +27,18 @@ module "function_app" {
 
   tags = local.tags
 }
+
+module "func_api_role" {
+  source = "github.com/pagopa/dx//infra/modules/azure_role_assignments?ref=main"
+
+  principal_id = module.function_app.function_app.function_app.principal_id
+
+  cosmos = [
+    {
+      account_name        = module.cosmos.name
+      resource_group_name = module.cosmos.resource_group_name
+      database            = azurerm_cosmosdb_sql_database.db.name
+      role                = "writer"
+    }
+  ]
+}
