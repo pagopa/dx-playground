@@ -1,4 +1,4 @@
-resource "azurerm_api_management_api" "to_do_api" {
+resource "azurerm_api_management_api" "api" {
   name                = var.api.name
   description         = var.api.description
   resource_group_name = var.resource_group_name

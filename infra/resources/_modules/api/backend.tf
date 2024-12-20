@@ -1,4 +1,4 @@
-resource "azurerm_api_management_backend" "to_do_api_be" {
+resource "azurerm_api_management_backend" "backend" {
   name                = var.backend.name
   description         = var.api.description
   api_management_name = var.apim_name

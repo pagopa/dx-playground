@@ -29,7 +29,7 @@ module "apim" {
 
 # To Do API
 module "to_do_api" {
-  source = "../_modules/to_do_api"
+  source = "../_modules/api"
 
   api = {
     name        = "To Do API"
