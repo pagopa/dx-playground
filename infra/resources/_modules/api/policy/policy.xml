@@ -2,8 +2,16 @@
   <inbound>
     <base />
     <set-backend-service backend-id="${backend-id}" />
-    <!-- Append `api/` to the path before invoking the backend -->
-    <rewrite-uri template='@(System.String.Concat("api/", context.Request.Url.Path))' />
+
+     <!-- Append base-path, if defined, before invoking the backend -->
+    <choose>
+      <when condition='@(System.String.IsNullOrEmpty("${base-path}"))'>
+      </when>
+      <otherwise>
+        <rewrite-uri template='@(System.String.Concat("${base-path}/", context.Request.Url.Path))' />
+      </otherwise>
+    </choose>
+
     <cors>
       <allowed-origins>
           <origin>*</origin>
