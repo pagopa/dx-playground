@@ -11,10 +11,11 @@ variable "apim_name" {
 variable "api" {
   description = "API definition"
   type = object({
-    name        = string
-    path        = string
-    description = string
-    openapi     = string
+    name         = string
+    display_name = string
+    path         = string
+    description  = string
+    openapi      = string
   })
 }
 

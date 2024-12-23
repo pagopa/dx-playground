@@ -5,5 +5,6 @@ resource "azurerm_api_management_api_policy" "policy" {
 
   xml_content = templatefile("${path.module}/policy/policy.xml", {
     backend-id = azurerm_api_management_backend.backend.name
+    base-path  = "api"
   })
 }

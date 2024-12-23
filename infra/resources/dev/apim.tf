@@ -32,10 +32,11 @@ module "to_do_api" {
   source = "../_modules/api"
 
   api = {
-    name        = "To Do API"
-    description = "API to handle a To Do list"
-    path        = "todo"
-    openapi     = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
+    name         = "to-do-api"
+    display_name = "To Do API"
+    description  = "API to handle a To Do list"
+    path         = "todo"
+    openapi      = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
   }
 
   apim_name           = module.apim.name

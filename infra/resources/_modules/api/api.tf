@@ -4,7 +4,7 @@ resource "azurerm_api_management_api" "api" {
   resource_group_name = var.resource_group_name
   api_management_name = var.apim_name
   revision            = "1"
-  display_name        = var.api.name
+  display_name        = var.api.display_name
   path                = var.api.path
   protocols           = ["https"]
   import {
