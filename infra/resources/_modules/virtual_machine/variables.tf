@@ -39,3 +39,9 @@ variable "custom_data" {
   type    = string
   default = null
 }
+
+variable "sku" {
+  type    = string
+  default = "Standard_B1s"
+
+}
