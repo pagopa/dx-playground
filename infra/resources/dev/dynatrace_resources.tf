@@ -65,6 +65,7 @@ module "dynatrace_activegate" {
   suffix              = module.naming_convention.suffix
   resource_group_name = azurerm_resource_group.dynatrace_rg.name
   location            = local.environment.location
+  sku                 = "Standard_B1ms"
 
   subnet_id = azurerm_subnet.dynatrace_snet.id
 
