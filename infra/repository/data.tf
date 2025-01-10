@@ -19,6 +19,6 @@ data "azurerm_key_vault" "common" {
 }
 
 data "azurerm_key_vault_secret" "github_bot_pat" {
-  name         = "github-runner-pat"
+  name         = "dx-pagopa-bot-pat"
   key_vault_id = data.azurerm_key_vault.common.id
 }
