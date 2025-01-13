@@ -1,5 +1,15 @@
 # @infra/repository
 
+## 0.3.0
+
+### Minor Changes
+
+- cf62388: Add new repository secret
+
+### Patch Changes
+
+- 8e12dce: Fix `app_cd` secret reference
+
 ## 0.2.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.3.0
+
+### Minor Changes
+
+- 23913ac: [CES-625] Update APIM configuration to let it call the Azure Function
+
 ## 0.2.4
 
 ### Patch Changes
