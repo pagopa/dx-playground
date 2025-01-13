@@ -22,6 +22,8 @@ jobs:
           # https://github.com/actions/checkout/issues/1471#issuecomment-1771231294
           fetch-tags: true
           fetch-depth: 0
+          token: ${{ secrets.GH_BOT_PAT }}
+
       # Corepack is an official tool by Node.js that manages package managers versions
       - name: Setup yarn
         run: corepack enable
@@ -41,5 +43,6 @@ jobs:
         with:
           version: yarn run version
           publish: yarn run release
+          setupGitUser: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_BOT_PAT }}
