@@ -4,9 +4,13 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
+import { makeTaskRepository } from "./adapters/azure/cosmosdb/TaskRepository.js";
 import { makePostTaskHandler } from "./adapters/azure/functions/create-task.js";
 import { makeInfoHandler } from "./adapters/azure/functions/info.js";
 import { getConfigOrError } from "./config.js";
+import { Task } from "./domain/Task.js";
+import { TaskIdGenerator } from "./domain/TaskIdGenerator.js";
+import { TaskRepository } from "./domain/TaskRepository.js";
 
 const config = pipe(
   getConfigOrError(process.env),
@@ -21,6 +25,19 @@ const cosmosClient = new CosmosClient({
   endpoint: config.cosmosDb.endpoint,
 });
 
+export interface SystemEnv {
+  taskIdGenerator: TaskIdGenerator;
+  taskRepository: TaskRepository;
+}
+
+// FIXME
+const env: SystemEnv = {
+  taskIdGenerator: {
+    generate: () => "fake-task-id" as Task["id"],
+  },
+  taskRepository: makeTaskRepository(),
+};
+
 app.http("info", {
   authLevel: "anonymous",
   handler: makeInfoHandler({ cosmosClient }),
@@ -30,7 +47,7 @@ app.http("info", {
 
 app.http("createTask", {
   authLevel: "function",
-  handler: makePostTaskHandler({}),
+  handler: makePostTaskHandler(env),
   methods: ["POST"],
   route: "tasks",
 });

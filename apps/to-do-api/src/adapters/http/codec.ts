@@ -1,14 +1,13 @@
 import * as H from "@pagopa/handler-kit";
-import { pipe } from "fp-ts/function";
+import { pipe } from "fp-ts/lib/function.js";
 
+import { Task } from "../../domain/Task.js";
 import { TaskItem as TaskItemAPI } from "../../generated/definitions/internal/TaskItem.js";
 import { TaskStateEnum } from "../../generated/definitions/internal/TaskState.js";
 
-// TODO: Here we are going to add the implementation of the function that convert a domain object into a TaskItemAPI object
-export const toTaskItemAPI = (): TaskItemAPI => ({
-  id: "123",
-  state: TaskStateEnum.INCOMPLETE,
-  title: "Task Title",
+export const toTaskItemAPI = (task: Task): TaskItemAPI => ({
+  ...task,
+  state: TaskStateEnum[task.state],
 });
 
 /**
