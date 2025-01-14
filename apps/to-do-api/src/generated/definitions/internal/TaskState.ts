@@ -16,7 +16,7 @@ export enum TaskStateEnum {
 }
 
 /**
- * - COMPLETE: The task has been completed
+ * - COMPLETED: The task has been completed
  * - INCOMPLETE: The task is not yet completed
  * - DELETED: The task has been marked as deleted
  */

@@ -77,7 +77,7 @@ components:
         - COMPLETED: The task has been completed
         - INCOMPLETE: The task is not yet completed
         - DELETED: The task has been marked as deleted
-      enum:
+      x-extensible-enum:
         - COMPLETED
         - INCOMPLETE
         - DELETED
