@@ -9,8 +9,6 @@ import { makePostTaskHandler } from "./adapters/azure/functions/create-task.js";
 import { makeInfoHandler } from "./adapters/azure/functions/info.js";
 import { getConfigOrError } from "./config.js";
 import { Task } from "./domain/Task.js";
-import { TaskIdGenerator } from "./domain/TaskIdGenerator.js";
-import { TaskRepository } from "./domain/TaskRepository.js";
 
 const config = pipe(
   getConfigOrError(process.env),
@@ -25,13 +23,8 @@ const cosmosClient = new CosmosClient({
   endpoint: config.cosmosDb.endpoint,
 });
 
-export interface SystemEnv {
-  taskIdGenerator: TaskIdGenerator;
-  taskRepository: TaskRepository;
-}
-
 // FIXME
-const env: SystemEnv = {
+const env = {
   taskIdGenerator: {
     generate: () => "fake-task-id" as Task["id"],
   },
