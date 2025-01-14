@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.4.0
+
+### Minor Changes
+
+- 60f49c6: [CES-641] Create `tasks` CosmosDB Container
+
 ## 0.3.0
 
 ### Minor Changes
