@@ -4,6 +4,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
+import { makePostTaskHandler } from "./adapters/azure/functions/create-task.js";
 import { makeInfoHandler } from "./adapters/azure/functions/info.js";
 import { getConfigOrError } from "./config.js";
 
@@ -25,4 +26,11 @@ app.http("info", {
   handler: makeInfoHandler({ cosmosClient }),
   methods: ["GET"],
   route: "info",
+});
+
+app.http("createTask", {
+  authLevel: "function",
+  handler: makePostTaskHandler({}),
+  methods: ["POST"],
+  route: "tasks",
 });

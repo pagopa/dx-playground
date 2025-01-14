@@ -17,6 +17,35 @@ paths:
         '500':
           description: Internal Server error
 
+  /tasks:
+    post:
+      operationId: createTask
+      summary: Create a new task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskItem'
+      responses:
+        '201':
+          description: Returns the created task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+
 components:
   schemas:
     ApplicationInfo:
@@ -29,3 +58,51 @@ components:
       required:
         - name
         - version
+    CreateTaskItem:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          $ref: '#/components/schemas/TaskTitle'
+    TaskId:
+      description: The id of the task
+      type: string
+    TaskTitle:
+      description: The title of the task
+      type: string
+    TaskState:
+      type: string
+      description: |-
+        - COMPLETE: The task has been completed
+        - INCOMPLETE: The task is not yet completed
+        - DELETED: The task has been marked as deleted
+      enum:
+        - COMPLETED
+        - INCOMPLETE
+        - DELETED
+    TaskItem:
+      type: object
+      required:
+        - id
+        - title
+        - state
+      properties:
+        id:
+          $ref: '#/components/schemas/TaskId'
+        title:
+          $ref: '#/components/schemas/TaskTitle'
+        state:
+          $ref: '#/components/schemas/TaskState'
+    ProblemJSON:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: number
+          description: The HTTP status code
+        message:
+          type: string
+          description: The description of the error
