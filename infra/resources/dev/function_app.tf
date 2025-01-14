@@ -2,6 +2,9 @@ locals {
   to_do_api_settings = {
     COSMOSDB_DATABASE_NAME = azurerm_cosmosdb_sql_database.db.name
     COSMOSDB_ENDPOINT      = module.cosmos.endpoint
+
+    # Cosmos Container Names
+    COSMOSDB_TASKS_CONTAINER_NAME = azurerm_cosmosdb_sql_container.tasks.name
   }
 }
 
