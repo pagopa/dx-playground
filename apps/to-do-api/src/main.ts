@@ -7,8 +7,8 @@ import { pipe } from "fp-ts/lib/function.js";
 import { makeTaskRepository } from "./adapters/azure/cosmosdb/TaskRepository.js";
 import { makePostTaskHandler } from "./adapters/azure/functions/create-task.js";
 import { makeInfoHandler } from "./adapters/azure/functions/info.js";
+import { makeTaskIdGenerator } from "./adapters/ulid/id-generator.js";
 import { getConfigOrError } from "./config.js";
-import { Task } from "./domain/Task.js";
 
 const config = pipe(
   getConfigOrError(process.env),
@@ -23,11 +23,8 @@ const cosmosClient = new CosmosClient({
   endpoint: config.cosmosDb.endpoint,
 });
 
-// FIXME
 const env = {
-  taskIdGenerator: {
-    generate: () => "fake-task-id" as Task["id"],
-  },
+  taskIdGenerator: makeTaskIdGenerator(),
   taskRepository: makeTaskRepository(),
 };
 
