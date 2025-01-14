@@ -24,8 +24,7 @@ const cosmosClient = new CosmosClient({
 });
 
 const db = cosmosClient.database(config.cosmosDb.dbName);
-// FIXME: Get container name from config
-const taskContainer = db.container("tasks");
+const taskContainer = db.container(config.cosmosDb.containers.tasks);
 
 const env = {
   taskIdGenerator: makeTaskIdGenerator(),
