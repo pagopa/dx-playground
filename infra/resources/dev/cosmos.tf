@@ -27,3 +27,13 @@ resource "azurerm_cosmosdb_sql_database" "db" {
   resource_group_name = module.cosmos.resource_group_name
   account_name        = module.cosmos.name
 }
+
+### Cosmos Containers
+resource "azurerm_cosmosdb_sql_container" "tasks" {
+  account_name          = module.cosmos.name
+  database_name         = azurerm_cosmosdb_sql_database.db.name
+  name                  = "tasks"
+  resource_group_name   = module.cosmos.resource_group_name
+  partition_key_path    = "/id"
+  partition_key_version = "2"
+}
