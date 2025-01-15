@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.5.0
+
+### Minor Changes
+
+- b8c65cf: Update APIM OpenAPI specification
+
 ## 0.4.0
 
 ### Minor Changes

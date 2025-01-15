@@ -1,5 +1,12 @@
 # to-do-api
 
+## 0.3.0
+
+### Minor Changes
+
+- 964afe1: [CES-644] Add `GET /tasks` to list the tasks
+- b8c65cf: [CES-645] Add `GET task/{id}`
+
 ## 0.2.1
 
 ### Patch Changes
