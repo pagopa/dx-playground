@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.2.1
+
+### Patch Changes
+
+- b7cb10a: [CES-640] Implements adapters used by `POST /tasks`
+
 ## 0.2.0
 
 ### Minor Changes
