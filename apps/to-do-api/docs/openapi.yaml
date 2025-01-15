@@ -45,6 +45,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemJSON'
+    get:
+      operationId: listTasks
+      summary: List tasks
+      responses:
+        '200':
+          description: Returns a list of tasks.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItemList'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
 
 components:
   schemas:
@@ -94,6 +110,10 @@ components:
           $ref: '#/components/schemas/TaskTitle'
         state:
           $ref: '#/components/schemas/TaskState'
+    TaskItemList:
+      type: array
+      items:
+        $ref: '#/components/schemas/TaskItem'
     ProblemJSON:
       type: object
       required:
