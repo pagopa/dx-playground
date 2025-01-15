@@ -8,6 +8,7 @@ import { ItemNotFound } from "../domain/errors.js";
 export const getTaskById = (id: Task["id"]) =>
   pipe(
     getTask(id),
+    // Handle the Option
     RTE.flatMapOption(
       (some) => some,
       () => new ItemNotFound("Task not found"),
