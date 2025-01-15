@@ -46,6 +46,13 @@ app.http("createTask", {
   route: "tasks",
 });
 
+app.http("getTaskById", {
+  authLevel: "function",
+  handler: makeGetTaskHandler(env),
+  methods: ["GET"],
+  route: "tasks/{taskId}",
+});
+
 app.http("getTask", {
   authLevel: "function",
   handler: makeGetTasksHandler(env),
