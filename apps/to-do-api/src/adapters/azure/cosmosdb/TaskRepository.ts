@@ -12,4 +12,5 @@ export const makeTaskRepository = (container: Container): TaskRepository => ({
       TE.tryCatch(() => container.items.create(task), E.toError),
       TE.mapBoth(cosmosErrorToDomainError, () => task),
     ),
+  list: () => TE.of([]),
 });
