@@ -30,6 +30,7 @@ describe("createTask", () => {
     const actual = await createTask(title)(env)();
 
     expect(actual).toStrictEqual(E.right(task));
+    expect(env.taskIdGenerator.generate).toHaveBeenCalledTimes(1);
     expect(env.taskRepository.insert).toHaveBeenCalledWith(task);
   });
 });

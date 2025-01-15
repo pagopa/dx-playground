@@ -6,6 +6,8 @@
     "NODE_ENV": "development",
 
     "COSMOSDB_DATABASE_NAME": "db",
-    "COSMOSDB_ENDPOINT": "<insert-here-the-cosmosdb-endpoint>"
+    "COSMOSDB_ENDPOINT": "<insert-here-the-cosmosdb-endpoint>",
+
+    "COSMOSDB_TASKS_CONTAINER_NAME": "<insert-here-tasks-container-name>"
   }
 }
