@@ -1,4 +1,4 @@
-name: "Deploy API App Function"
+name: Deploy API App Function
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@43385b736be24d542924a26bf641247824b76a32
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
     secrets: inherit
     with:
       workspace_name: to-do-api
