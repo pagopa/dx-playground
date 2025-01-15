@@ -3,6 +3,11 @@ import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 import * as t from "io-ts";
 
+/**
+ * Decode a list of resources, extracted from a FeedResponse, using a codec.
+ *
+ * @param codec the io-ts codec to use to decode the resources
+ */
 export const decodeFromFeed =
   <A, O>(codec: t.Type<A, O>) =>
   <T extends FeedResponse<unknown>>(list: T) =>
