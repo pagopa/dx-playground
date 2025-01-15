@@ -3,6 +3,7 @@ import * as E from "fp-ts/lib/Either.js";
 import { describe, expect, it } from "vitest";
 
 import { aTask } from "../../../../domain/__tests__/data.js";
+import { TaskCodec } from "../../../../domain/Task.js";
 import { ItemAlreadyExists } from "../../../../domain/errors.js";
 import { makeTaskRepository } from "../TaskRepository.js";
 import { makeContainerMock } from "./mocks.js";
@@ -39,6 +40,54 @@ describe("TaskRepository", () => {
       const actual = await repository.insert(aTask)();
       expect(actual).toStrictEqual(E.right(aTask));
       expect(container.items.create).nthCalledWith(1, aTask);
+    });
+  });
+
+  describe("list", () => {
+    it("should return a Left with the error", async () => {
+      const container = makeContainerMock();
+
+      const error = new Error("Something went wrong");
+      container.items.query.mockReturnValueOnce({
+        fetchAll: () => Promise.reject(error),
+      });
+
+      const repository = makeTaskRepository(container as unknown as Container);
+
+      const actual = await repository.list()();
+      expect(actual).toStrictEqual(E.left(error));
+    });
+    it("should return a Left with the decoding error", async () => {
+      const container = makeContainerMock();
+
+      const anInvalidObject = { key: "aKey" };
+      container.items.query.mockReturnValueOnce({
+        fetchAll: () => Promise.resolve({ resources: [anInvalidObject] }),
+      });
+
+      const repository = makeTaskRepository(container as unknown as Container);
+
+      const actual = await repository.list()();
+      expect(actual).toStrictEqual(
+        E.left(
+          new Error(
+            `Unable to parse the resources using codec ${TaskCodec.name}`,
+          ),
+        ),
+      );
+    });
+    it("should return a Right with list of tasks", async () => {
+      const container = makeContainerMock();
+
+      container.items.query.mockReturnValueOnce({
+        fetchAll: () => Promise.resolve({ resources: [{ ...aTask }] }),
+      });
+
+      const repository = makeTaskRepository(container as unknown as Container);
+
+      const actual = await repository.list()();
+      expect(actual).toStrictEqual(E.right([aTask]));
+      expect(container.items.query).nthCalledWith(1, "SELECT * FROM c");
     });
   });
 });
