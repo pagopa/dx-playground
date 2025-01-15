@@ -62,6 +62,38 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemJSON'
 
+  /tasks/{taskId}:
+    get:
+      description: Get information of a task
+      summary: Get a task
+      operationId: getTaskById
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+          required: true
+          description: The id of the task
+      responses:
+        '200':
+          description: Details of the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+
 components:
   schemas:
     ApplicationInfo:

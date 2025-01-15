@@ -6,6 +6,7 @@ import { pipe } from "fp-ts/lib/function.js";
 
 import { makeTaskRepository } from "./adapters/azure/cosmosdb/TaskRepository.js";
 import { makePostTaskHandler } from "./adapters/azure/functions/create-task.js";
+import { makeGetTaskHandler } from "./adapters/azure/functions/get-task.js";
 import { makeGetTasksHandler } from "./adapters/azure/functions/get-tasks.js";
 import { makeInfoHandler } from "./adapters/azure/functions/info.js";
 import { makeTaskIdGenerator } from "./adapters/ulid/id-generator.js";
@@ -44,6 +45,13 @@ app.http("createTask", {
   handler: makePostTaskHandler(env),
   methods: ["POST"],
   route: "tasks",
+});
+
+app.http("getTaskById", {
+  authLevel: "function",
+  handler: makeGetTaskHandler(env),
+  methods: ["GET"],
+  route: "tasks/{taskId}",
 });
 
 app.http("getTask", {

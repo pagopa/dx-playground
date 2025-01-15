@@ -19,3 +19,15 @@ export const parseRequestBody =
       H.parse(schema),
       E.mapLeft(() => new H.HttpBadRequestError("Missing or invalid body")),
     );
+
+/**
+ * Parses a specific path parameter of an HTTP request using the provided schema.
+ */
+export const parsePathParameter =
+  <T>(schema: Decoder<unknown, T>, paramName: string) =>
+  (req: H.HttpRequest) =>
+    pipe(
+      req.path[paramName],
+      H.parse(schema, `Invalid format of ${paramName} parameter`),
+      E.mapLeft(({ message }) => new H.HttpBadRequestError(message)),
+    );
