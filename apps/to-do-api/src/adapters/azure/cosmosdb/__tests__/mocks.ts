@@ -4,5 +4,6 @@ export const makeContainerMock = () =>
   mock({
     items: {
       create: mockFn(),
+      query: mockFn(),
     },
   });
