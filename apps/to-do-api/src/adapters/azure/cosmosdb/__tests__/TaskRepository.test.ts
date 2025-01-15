@@ -10,6 +10,35 @@ import { makeTaskRepository } from "../TaskRepository.js";
 import { makeContainerMock } from "./mocks.js";
 
 describe("TaskRepository", () => {
+  describe("delete", () => {
+    const { id } = aTask;
+    it("should return a Left with the error", async () => {
+      const container = makeContainerMock();
+
+      const error = new Error("Something went wrong");
+      container.item.mockReturnValueOnce({
+        delete: () => Promise.reject(error),
+      });
+
+      const repository = makeTaskRepository(container as unknown as Container);
+
+      const actual = await repository.delete(id)();
+      expect(actual).toStrictEqual(E.left(error));
+    });
+    it("should return a Right", async () => {
+      const container = makeContainerMock();
+
+      container.item.mockReturnValueOnce({
+        delete: () => Promise.resolve(aTask),
+      });
+
+      const repository = makeTaskRepository(container as unknown as Container);
+
+      const actual = await repository.delete(id)();
+      expect(actual).toStrictEqual(E.right(undefined));
+    });
+  });
+
   describe("insert", () => {
     it("should return ItemAlreadyExists error", async () => {
       const container = makeContainerMock();
