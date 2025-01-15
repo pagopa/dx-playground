@@ -9,8 +9,5 @@ export const getTaskById = (id: Task["id"]) =>
   pipe(
     getTask(id),
     // Handle the Option
-    RTE.flatMapOption(
-      (some) => some,
-      () => new ItemNotFound("Task not found"),
-    ),
+    RTE.flatMap(RTE.fromOption(() => new ItemNotFound("Task not found"))),
   );
