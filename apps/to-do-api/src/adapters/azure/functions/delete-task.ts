@@ -1,11 +1,11 @@
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
+import { flow, pipe } from "fp-ts/lib/function.js";
 
 import { Capabilities } from "../../../domain/Capabilities.js";
 import { TaskIdCodec } from "../../../domain/Task.js";
-import { deleteTask } from "../../../domain/TaskRepository.js";
+import { deleteTaskById } from "../../../use-cases/delete-task.js";
 import { toHttpProblemJson } from "../../http/codec.js";
 import { parsePathParameter } from "../../http/middleware.js";
 
@@ -25,11 +25,9 @@ const makeHandlerKitHandler: H.Handler<
       RTE.fromEither(parsePathParameter(TaskIdCodec, "taskId")(req)),
     ),
     // execute use case
-    RTE.flatMap(({ id }) => deleteTask(id)),
+    RTE.flatMap(({ id }) => deleteTaskById(id)),
     // handle result and prepare response
-    RTE.mapBoth(toHttpProblemJson, () =>
-      pipe(H.successJson({}), H.withStatusCode(204)),
-    ),
+    RTE.mapBoth(toHttpProblemJson, flow(H.successJson, H.withStatusCode(204))),
     RTE.orElseW(RTE.of),
   ),
 );
