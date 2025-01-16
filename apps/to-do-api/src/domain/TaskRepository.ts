@@ -7,10 +7,17 @@ import { Capabilities } from "./Capabilities.js";
 import { Task } from "./Task.js";
 
 export interface TaskRepository {
+  delete: (id: Task["id"]) => TE.TaskEither<Error, void>;
   get: (id: Task["id"]) => TE.TaskEither<Error, O.Option<Task>>;
   insert: (task: Task) => TE.TaskEither<Error, Task>;
   list: () => TE.TaskEither<Error, readonly Task[]>;
 }
+
+export const deleteTask = (id: Task["id"]) =>
+  pipe(
+    RTE.ask<Pick<Capabilities, "taskRepository">>(),
+    RTE.flatMapTaskEither(({ taskRepository }) => taskRepository.delete(id)),
+  );
 
 export const getTask = (id: Task["id"]) =>
   pipe(
