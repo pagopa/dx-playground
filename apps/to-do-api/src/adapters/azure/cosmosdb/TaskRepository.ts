@@ -11,7 +11,7 @@ import { cosmosErrorToDomainError } from "./errors.js";
 export const makeTaskRepository = (container: Container): TaskRepository => ({
   delete: (id) =>
     pipe(
-      TE.tryCatch(() => container.item(id).delete(), E.toError),
+      TE.tryCatch(() => container.item(id, id).delete(), E.toError),
       TE.mapBoth(cosmosErrorToDomainError, () => void 0),
     ),
   get: (id) =>
