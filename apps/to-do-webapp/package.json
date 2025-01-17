@@ -2,6 +2,7 @@
   "name": "to-do-webapp",
   "version": "0.1.0",
   "private": true,
+  "main": "./out/standalone/apps/to-do-webapp/server.js",
   "scripts": {
     "clean": "shx rm -rf out/",
     "dev": "next dev --turbopack",
