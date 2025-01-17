@@ -1,5 +1,11 @@
 # @infra/repository
 
+## 0.3.1
+
+### Patch Changes
+
+- 3731a72: Add Terraform modules lock file
+
 ## 0.3.0
 
 ### Minor Changes

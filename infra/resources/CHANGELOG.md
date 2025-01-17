@@ -1,5 +1,15 @@
 # @infra/resources
 
+## 0.6.0
+
+### Minor Changes
+
+- e6d20c9: [CES-647] Add `DELETE /tasks/{id}` operation
+
+### Patch Changes
+
+- 3731a72: Add Terraform modules lock file
+
 ## 0.5.0
 
 ### Minor Changes

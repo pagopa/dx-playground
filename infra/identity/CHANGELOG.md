@@ -1,5 +1,11 @@
 # @infra/identity
 
+## 0.2.1
+
+### Patch Changes
+
+- 3731a72: Add Terraform modules lock file
+
 ## 0.2.0
 
 ### Minor Changes

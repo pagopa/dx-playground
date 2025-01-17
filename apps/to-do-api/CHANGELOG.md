@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.4.0
+
+### Minor Changes
+
+- e6d20c9: [CES-647] Add `DELETE /tasks/{id}` operation
+
 ## 0.3.0
 
 ### Minor Changes
