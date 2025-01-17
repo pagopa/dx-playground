@@ -1,0 +1,25 @@
+{
+  "extends": "@pagopa/typescript-config-react/tsconfig.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "./out/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
