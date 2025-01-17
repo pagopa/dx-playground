@@ -7826,6 +7826,7 @@ __metadata:
     next: "npm:15.1.2"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    shx: "npm:^0.3.4"
     typescript: "npm:^5.7.2"
   languageName: unknown
   linkType: soft
