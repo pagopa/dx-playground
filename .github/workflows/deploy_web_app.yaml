@@ -1,0 +1,24 @@
+name: Deploy Web App
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'to-do-webapp@[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  deploy:
+    name: Deploy Web App
+    concurrency:
+      group: ${{ github.workflow }}-cd
+      # Override this configuration to prevent cancelling a running deploy.
+      cancel-in-progress: false
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
+    secrets: inherit
+    with:
+      workspace_name: to-do-webapp
+      environment: app-dev
+      resource_group_name: dx-d-itn-test-rg-01
+      web_app_name: dx-d-itn-playground-fe-app-01
+      use_private_agent: true
+      use_staging_slot: false
