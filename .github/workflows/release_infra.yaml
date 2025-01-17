@@ -9,7 +9,7 @@ on:
 
 jobs:
   release_dev:
-    uses: pagopa/dx/.github/workflows/infra_apply.yaml@check-modules-lock-in-cicd # TODO: Replace with SHA or main
+    uses: pagopa/dx/.github/workflows/infra_apply.yaml@main
     name: Release Infrastructure
     secrets: inherit
     with:
