@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   output: "standalone",
-  distDir: "./out"
+  distDir: 'build',
 };
 
 export default nextConfig;

@@ -60,23 +60,9 @@ jobs:
           # generate node_modules folder excluding devDependencies
           yarn workspaces focus --production
 
-          FORMAT=$(jq -r 'if .type == "module" then "esm" else "cjs" end' package.json)
-          SHORT_SHA=$(git rev-parse --short ${{ github.sha }})
-
-          mkdir ${{ github.run_id }}
-
-          # bundle compiled code, excluding node_modules
-          curl -fsSL https://esbuild.github.io/dl/v0.21.5 | sh
-          ./esbuild index=$ENTRY_POINT --bundle --format=$FORMAT --platform=node --target=node20 --packages=external --outdir=${{ github.run_id }} --allow-overwrite
-
-          # create a new package.json file, with the updated entry point
-          jq --arg sha "+$SHORT_SHA" '{"name": .name, "version": (.version + $sha), "main": "index.js", "type": (if has("type") then .type else "commonjs" end), "dependencies": .dependencies}' package.json > ${{ github.run_id }}/package.json
-
-          DEFAULT_FILES='"host.json"'
-          FILES=$(jq -r --arg default "$DEFAULT_FILES" 'if has("files") then .files else [$default] end | join(" ")' package.json)
-
           # create the artifact (zip) with node_modules, index.js and package.json
-          zip -r $BUNDLE_NAME.zip out/standalone/apps/${{ env.WORKSPACE }}
+          cd build/standalone/apps/${{ env.WORKSPACE }}
+          zip -r $BUNDLE_NAME.zip .
 
           echo "artifact-path=$(realpath $BUNDLE_NAME.zip)" >> "$GITHUB_OUTPUT"
         working-directory: ./out/apps/${{ env.WORKSPACE }}
@@ -115,10 +101,11 @@ jobs:
           subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       - name: Deploy
-        run: |
-          az webapp deploy \
-           --resource-group dx-d-itn-test-rg-01 \
-           --name dx-d-itn-playground-fe-app-01 \
-           --src-path  ${{ env.BUNDLE_NAME }}.zip \
-           --type zip \
-           --async false
+        uses: azure/webapps-deploy@2fdd5c3ebb4e540834e86ecc1f6fdcd5539023ee # v3.0.2
+        with:
+          app-name: dx-d-itn-playground-fe-app-01
+          resource-group-name: dx-d-itn-test-rg-01
+          type: ZIP
+          clean: true
+          restart: true
+          package: ${{ env.BUNDLE_NAME }}.zip
