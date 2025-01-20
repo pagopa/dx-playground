@@ -53,7 +53,7 @@ module "to_do_api" {
     description                   = "API to handle a To Do list"
     path                          = "todo"
     openapi                       = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
-    function_key_named_value_name = "" # TODO: Reference the named value's name
+    function_key_named_value_name = azurerm_api_management_named_value.to_do_api_key.name
   }
 
   apim_name           = module.apim.name
