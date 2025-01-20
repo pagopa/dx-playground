@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.6.1
+
+### Patch Changes
+
+- 418359b: [CES-654] Permit APIM to read secrets from a Key Vault
+
 ## 0.6.0
 
 ### Minor Changes
