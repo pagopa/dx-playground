@@ -27,6 +27,22 @@ module "apim" {
   tags = local.tags
 }
 
+module "apim_roles" {
+  source       = "pagopa/dx-azure-role-assignments/azurerm"
+  version      = "0.1.0"
+  principal_id = module.apim.principal_id
+
+  key_vault = [
+    {
+      name                = data.azurerm_key_vault.common_kv.name
+      resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+      roles = {
+        secrets = "reader"
+      }
+    }
+  ]
+}
+
 # To Do API
 module "to_do_api" {
   source = "../_modules/api"
