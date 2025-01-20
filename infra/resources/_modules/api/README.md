@@ -29,7 +29,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_api"></a> [api](#input\_api) | API definition | <pre>object({<br/>    name         = string<br/>    display_name = string<br/>    path         = string<br/>    description  = string<br/>    openapi      = string<br/>  })</pre> | n/a | yes |
+| <a name="input_api"></a> [api](#input\_api) | API definition | <pre>object({<br/>    name                          = string<br/>    display_name                  = string<br/>    path                          = string<br/>    description                   = string<br/>    openapi                       = string<br/>    function_key_named_value_name = string<br/>  })</pre> | n/a | yes |
 | <a name="input_apim_name"></a> [apim\_name](#input\_apim\_name) | API Management instance name | `string` | n/a | yes |
 | <a name="input_backend"></a> [backend](#input\_backend) | Backend API configuration | <pre>object({<br/>    name = string<br/>    url  = string<br/>  })</pre> | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Resource group name where the API Management instance is deployed | `string` | n/a | yes |
