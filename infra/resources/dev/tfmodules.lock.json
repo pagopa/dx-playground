@@ -2,5 +2,6 @@
   "apim.naming_convention": "807e8fafaf3cda8d1df7cc5c624715555ff150e87a8df0becc7e5cab3e54f855",
   "app_service.naming_convention": "807e8fafaf3cda8d1df7cc5c624715555ff150e87a8df0becc7e5cab3e54f855",
   "cosmos.naming_convention": "807e8fafaf3cda8d1df7cc5c624715555ff150e87a8df0becc7e5cab3e54f855",
-  "function_app.naming_convention": "807e8fafaf3cda8d1df7cc5c624715555ff150e87a8df0becc7e5cab3e54f855"
+  "function_app.naming_convention": "807e8fafaf3cda8d1df7cc5c624715555ff150e87a8df0becc7e5cab3e54f855",
+  "apim_roles": "286469e8fb2a96ed28912a0def0115207e20ff9f2ab2c16d751dcf2fd97a543a"
 }
