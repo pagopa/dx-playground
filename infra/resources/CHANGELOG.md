@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.6.2
+
+### Patch Changes
+
+- 6801b26: [CES-655] Create a named value with the To Do API Function key
+
 ## 0.6.1
 
 ### Patch Changes
