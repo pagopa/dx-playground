@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.6.3
+
+### Patch Changes
+
+- 7ca8f8e: [CES-656] Add `x-functions-key` header in APIM policy
+
 ## 0.6.2
 
 ### Patch Changes
