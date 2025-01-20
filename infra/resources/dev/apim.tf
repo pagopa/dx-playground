@@ -63,3 +63,14 @@ module "to_do_api" {
     url  = "https://${module.function_app.function_app.function_app.default_hostname}"
   }
 }
+
+resource "azurerm_api_management_named_value" "to_do_api_key" {
+  name                = "to-do-api-function-key"
+  resource_group_name = module.apim.resource_group_name
+  api_management_name = module.apim.name
+  display_name        = "to-do-api-function-key"
+  secret              = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.to_do_api_key.versionless_id
+  }
+}
