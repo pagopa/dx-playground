@@ -6,19 +6,119 @@ on:
     tags:
       - 'to-do-webapp@[0-9]+.[0-9]+.[0-9]+'
 
+env:
+  WORKSPACE: to-do-webapp
+  BUNDLE_NAME: bundle
+
 jobs:
+  build:
+    name: Build Artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        name: Checkout
+
+      - name: Prune
+        run: npx turbo@2 prune --scope ${{ env.WORKSPACE }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+        with:
+          node-version-file: ".node-version"
+          cache: "yarn"
+          cache-dependency-path: "./out/yarn.lock"
+
+      - name: Install dependencies
+        run: yarn install --immutable
+        working-directory: ./out
+
+      - name: Build
+        run: yarn build
+        working-directory: ./out
+
+      - name: Build the artifact
+        id: make-artifact
+        env:
+          # we fall back to node-moules, even in case pnp is configured, in order to avoid bundling dependendencies
+          YARN_NODE_LINKER: node-modules
+          YARN_NM_HOISTING_LIMITS: workspaces
+        run: |
+          set -e
+
+          # determine the entry point file name from package.json main property
+          ENTRY_POINT=$(jq -r '.main' package.json)
+
+          if [ -z $ENTRY_POINT ]; then
+            echo "::error::invalid target"
+            exit 1
+          fi
+
+          # generate node_modules folder excluding devDependencies
+          yarn workspaces focus --production
+
+          FORMAT=$(jq -r 'if .type == "module" then "esm" else "cjs" end' package.json)
+          SHORT_SHA=$(git rev-parse --short ${{ github.sha }})
+
+          mkdir ${{ github.run_id }}
+
+          # bundle compiled code, excluding node_modules
+          curl -fsSL https://esbuild.github.io/dl/v0.21.5 | sh
+          ./esbuild index=$ENTRY_POINT --bundle --format=$FORMAT --platform=node --target=node20 --packages=external --outdir=${{ github.run_id }} --allow-overwrite
+
+          # create a new package.json file, with the updated entry point
+          jq --arg sha "+$SHORT_SHA" '{"name": .name, "version": (.version + $sha), "main": "index.js", "type": (if has("type") then .type else "commonjs" end), "dependencies": .dependencies}' package.json > ${{ github.run_id }}/package.json
+
+          DEFAULT_FILES='"host.json"'
+          FILES=$(jq -r --arg default "$DEFAULT_FILES" 'if has("files") then .files else [$default] end | join(" ")' package.json)
+
+          # create the artifact (zip) with node_modules, index.js and package.json
+          zip -r $BUNDLE_NAME.zip out/standalone/apps/${{ env.WORKSPACE }}
+
+          echo "artifact-path=$(realpath $BUNDLE_NAME.zip)" >> "$GITHUB_OUTPUT"
+        working-directory: ./out/apps/${{ env.WORKSPACE }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@694cdabd8bdb0f10b2cea11669e1bf5453eed0a6 # v4.2.0
+        with:
+          name: ${{ env.BUNDLE_NAME }}
+          path: ${{ steps.make-artifact.outputs.artifact-path }}
+          if-no-files-found: error
+          retention-days: 7
+
   deploy:
-    name: Deploy Web App
-    concurrency:
-      group: ${{ github.workflow }}-cd
-      # Override this configuration to prevent cancelling a running deploy.
-      cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
-    secrets: inherit
-    with:
-      workspace_name: to-do-webapp
-      environment: app-dev
-      resource_group_name: dx-d-itn-test-rg-01
-      web_app_name: dx-d-itn-playground-fe-app-01
-      use_private_agent: true
-      use_staging_slot: false
+    name: Deploy
+    if: ${{ !github.event.act }}
+    needs: [build]
+    runs-on: 'self-hosted'
+    environment: app-dev-cd
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 # v4.1.1
+        with:
+          name: ${{ env.BUNDLE_NAME }}
+
+      - name: Azure Login
+        uses: azure/login@v2 # v2.0.0
+        env:
+          ARM_USE_OIDC: true
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+      - name: Deploy
+        run: |
+          az webapp deploy \
+           --resource-group dx-d-itn-test-rg-01 \
+           --name dx-d-itn-playground-fe-app-01 \
+           --src-path  ${{ env.BUNDLE_NAME }}.zip \
+           --type zip \
+           --async false
