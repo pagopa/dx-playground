@@ -6,106 +6,19 @@ on:
     tags:
       - 'to-do-webapp@[0-9]+.[0-9]+.[0-9]+'
 
-env:
-  WORKSPACE: to-do-webapp
-  BUNDLE_NAME: bundle
-
 jobs:
-  build:
-    name: Build Artifact
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        name: Checkout
-
-      - name: Prune
-        run: npx turbo@2 prune --scope ${{ env.WORKSPACE }}
-
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Setup Node.js
-        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
-        with:
-          node-version-file: ".node-version"
-          cache: "yarn"
-          cache-dependency-path: "./out/yarn.lock"
-
-      - name: Install dependencies
-        run: yarn install --immutable
-        working-directory: ./out
-
-      - name: Build
-        run: yarn build
-        working-directory: ./out
-
-      - name: Build the artifact
-        id: make-artifact
-        env:
-          # we fall back to node-moules, even in case pnp is configured, in order to avoid bundling dependendencies
-          YARN_NODE_LINKER: node-modules
-          YARN_NM_HOISTING_LIMITS: workspaces
-        run: |
-          set -e
-
-          # determine the entry point file name from package.json main property
-          ENTRY_POINT=$(jq -r '.main' package.json)
-
-          if [ -z $ENTRY_POINT ]; then
-            echo "::error::invalid target"
-            exit 1
-          fi
-
-          # generate node_modules folder excluding devDependencies
-          yarn workspaces focus --production
-
-          # create the artifact (zip) with node_modules, index.js and package.json
-          cd build/standalone/apps/${{ env.WORKSPACE }}
-          zip -r $BUNDLE_NAME.zip .
-
-          echo "artifact-path=$(realpath $BUNDLE_NAME.zip)" >> "$GITHUB_OUTPUT"
-        working-directory: ./out/apps/${{ env.WORKSPACE }}
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@694cdabd8bdb0f10b2cea11669e1bf5453eed0a6 # v4.2.0
-        with:
-          name: ${{ env.BUNDLE_NAME }}
-          path: ${{ steps.make-artifact.outputs.artifact-path }}
-          if-no-files-found: error
-          retention-days: 7
-
   deploy:
-    name: Deploy
-    if: ${{ !github.event.act }}
-    needs: [build]
-    runs-on: 'self-hosted'
-    environment: app-dev-cd
-    permissions:
-      id-token: write
-      contents: read
-
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@6b208ae046db98c579e8a3aa621ab581ff575935 # v4.1.1
-        with:
-          name: ${{ env.BUNDLE_NAME }}
-
-      - name: Azure Login
-        uses: azure/login@v2 # v2.0.0
-        env:
-          ARM_USE_OIDC: true
-        with:
-          client-id: ${{ secrets.ARM_CLIENT_ID }}
-          tenant-id: ${{ secrets.ARM_TENANT_ID }}
-          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-
-      - name: Deploy
-        uses: azure/webapps-deploy@2fdd5c3ebb4e540834e86ecc1f6fdcd5539023ee # v3.0.2
-        with:
-          app-name: dx-d-itn-playground-fe-app-01
-          resource-group-name: dx-d-itn-test-rg-01
-          type: ZIP
-          clean: true
-          restart: true
-          package: ${{ env.BUNDLE_NAME }}.zip
+    name: Deploy Web App
+    concurrency:
+      group: ${{ github.workflow }}-cd
+      # Override this configuration to prevent cancelling a running deploy.
+      cancel-in-progress: false
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
+    secrets: inherit
+    with:
+      workspace_name: to-do-webapp
+      environment: app-dev
+      resource_group_name: dx-d-itn-test-rg-01
+      web_app_name: dx-d-itn-playground-fe-app-01
+      use_private_agent: true
+      use_staging_slot: false
