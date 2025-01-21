@@ -20,3 +20,17 @@ module "app_service" {
 
   tags = local.tags
 }
+
+module "app_service_roles" {
+  source  = "pagopa/dx-azure-role-assignments/azurerm"
+  version = "0.1.1"
+
+  principal_id = module.app_service.app_service.app_service.principal_id
+
+  apim = [
+    {
+      name                = module.apim.name
+      resource_group_name = module.apim.resource_group_name
+      role                = "reader"
+  }]
+}
