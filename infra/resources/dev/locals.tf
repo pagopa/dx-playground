@@ -11,7 +11,9 @@ locals {
     CostCenter  = "TS700 - ENGINEERING"
     CreatedBy   = "Terraform"
     Environment = "Dev"
-    Owner       = "DevEx"
+    BusinessUnit = "DevEx"
+    Source = "https://github.com/pagopa/dx-playground"
+    ManagementTeam = "Developer Experience"
     Scope       = "Dynatrace PoC"
   }
 }
