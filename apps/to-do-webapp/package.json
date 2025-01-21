@@ -2,13 +2,20 @@
   "name": "to-do-webapp",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/server.js",
   "scripts": {
     "clean": "shx rm -rf out/",
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build && yarn standalone:copy && yarn standalone:clean && yarn standalone:rename",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "standalone:copy": "shx mkdir tmp_dir && shx cp -r .next/standalone/apps/to-do-webapp/.next/* tmp_dir && shx mkdir dist && shx cp .next/standalone/apps/to-do-webapp/server.js dist",
+    "standalone:clean": "shx rm -rf .next",
+    "standalone:rename": "shx mv tmp_dir .next"
   },
+  "files": [
+    ".next"
+  ],
   "dependencies": {
     "next": "15.1.2",
     "react": "^19.0.0",
