@@ -2,20 +2,16 @@
   "name": "to-do-webapp",
   "version": "0.1.0",
   "private": true,
-  "config": {
-    "build_tmp_folder": ".tmp",
-    "dist_folder": "dist"
-  },
-  "main": "$npm_package_config_dist_folder/server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "clean": "shx rm -rf out/ $npm_package_config_dist_folder",
+    "clean": "shx rm -rf out/",
     "dev": "next dev --turbopack",
     "build": "next build && yarn standalone:copy && yarn standalone:clean && yarn standalone:rename",
     "start": "next start",
     "lint": "next lint",
-    "standalone:copy": "shx mkdir $npm_package_config_build_tmp_folder && shx cp -r .next/standalone/apps/to-do-webapp/.next/* $npm_package_config_build_tmp_folder && shx mkdir $npm_package_config_dist_folder && shx cp .next/standalone/apps/to-do-webapp/server.js $npm_package_config_dist_folder",
+    "standalone:copy": "shx mkdir tmp_dir && shx cp -r .next/standalone/apps/to-do-webapp/.next/* tmp_dir && shx mkdir dist && shx cp .next/standalone/apps/to-do-webapp/server.js dist",
     "standalone:clean": "shx rm -rf .next",
-    "standalone:rename": "shx mv $npm_package_config_build_tmp_folder .next"
+    "standalone:rename": "shx mv tmp_dir .next"
   },
   "files": [
     ".next"
