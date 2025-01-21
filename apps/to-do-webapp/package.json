@@ -8,21 +8,24 @@
     "dev": "next dev --turbopack",
     "build": "next build && yarn standalone:copy && yarn standalone:clean && yarn standalone:rename",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --fix",
     "standalone:copy": "shx mkdir tmp_dir && shx cp -r .next/standalone/apps/to-do-webapp/.next/* tmp_dir && shx mkdir dist && shx cp .next/standalone/apps/to-do-webapp/server.js dist",
     "standalone:clean": "shx rm -rf .next",
-    "standalone:rename": "shx mv tmp_dir .next"
+    "standalone:rename": "shx mv tmp_dir .next",
+    "generate": "gen-api-models --api-spec ../to-do-api/docs/openapi.yaml --out-dir ./src/lib/client --no-strict --request-types --response-decoders --client"
   },
   "files": [
     ".next"
   ],
   "dependencies": {
+    "fp-ts": "^2.16.9",
     "next": "15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@pagopa/openapi-codegen-ts": "^14.0.0",
     "@pagopa/typescript-config-react": "workspace:^",
     "@types/node": "^20",
     "@types/react": "^19",
