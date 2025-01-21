@@ -8,10 +8,12 @@ locals {
   }
 
   tags = {
-    CostCenter  = "TS700 - ENGINEERING"
-    CreatedBy   = "Terraform"
-    Environment = "Dev"
-    Owner       = "DevEx"
-    Scope       = "Dynatrace PoC"
+    CostCenter     = "TS700 - ENGINEERING"
+    CreatedBy      = "Terraform"
+    Environment    = "Dev"
+    BusinessUnit   = "DevEx"
+    Source         = "https://github.com/pagopa/dx-playground"
+    ManagementTeam = "Developer Experience"
+    Scope          = "Dynatrace PoC"
   }
 }
