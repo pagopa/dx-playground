@@ -5,8 +5,7 @@ locals {
 module "function_test_durable" {
   source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=CES-621-creare-modulo-terraform-durable-function-app"
 
-  has_durable_functions                  = true
-  application_insights_connection_string = "foobar"
+  has_durable_functions = true
 
   environment         = merge(local.environment, { app_name = "df" })
   tier                = "s"
