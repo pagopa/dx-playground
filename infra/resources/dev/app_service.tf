@@ -40,4 +40,12 @@ module "app_service_roles" {
       resource_group_name = module.apim.resource_group_name
       role                = "reader"
   }]
+
+  key_vault = [{
+    name                = data.azurerm_key_vault.common_kv.name
+    resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+    roles = {
+      secrets = "reader"
+    }
+  }]
 }
