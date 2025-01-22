@@ -4,5 +4,6 @@
   "cosmos.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64",
   "function_app.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64",
   "apim_roles": "286469e8fb2a96ed28912a0def0115207e20ff9f2ab2c16d751dcf2fd97a543a",
-  "event_hub.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64"
+  "event_hub.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64",
+  "app_service_roles": "70538ac55deebe95f1379ec5abe1f3dd207b468c18f69cdb1bc3e6a946e50b56"
 }
