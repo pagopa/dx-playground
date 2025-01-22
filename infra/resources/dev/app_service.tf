@@ -1,3 +1,10 @@
+locals {
+  to_do_webapp_settings = {
+    API_BASE_URL  = module.apim.gateway_url
+    API_BASE_PATH = "todo"
+  }
+}
+
 module "app_service" {
   source = "github.com/pagopa/dx//infra/modules/azure_app_service?ref=main"
 
@@ -13,7 +20,7 @@ module "app_service" {
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
   subnet_cidr   = "10.50.6.0/24"
 
-  app_settings      = {}
+  app_settings      = merge(local.to_do_webapp_settings, {})
   slot_app_settings = {}
 
   health_check_path = "/info"
