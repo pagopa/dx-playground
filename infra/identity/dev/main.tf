@@ -76,6 +76,14 @@ module "roles_ci" {
       }
     }
   ]
+
+  event_hub = [
+    {
+      namespace_name      = "${local.project}-${local.location_short}-playground-pg-evhns-01"
+      resource_group_name = "${local.project}-${local.location_short}-playground-pg-dynatrace-rg-01"
+      role                = "owner"
+    }
+  ]
 }
 
 module "roles_cd" {
@@ -89,6 +97,14 @@ module "roles_cd" {
       roles = {
         secrets = "reader"
       }
+    }
+  ]
+
+  event_hub = [
+    {
+      namespace_name      = "${local.project}-${local.location_short}-playground-pg-evhns-01"
+      resource_group_name = "${local.project}-${local.location_short}-playground-pg-dynatrace-rg-01"
+      role                = "owner"
     }
   ]
 }
