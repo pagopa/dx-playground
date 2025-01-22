@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.2.1
+
+### Patch Changes
+
+- 9f933fa: [CES-672] Add list of environment variables
+
 ## 0.2.0
 
 ### Minor Changes

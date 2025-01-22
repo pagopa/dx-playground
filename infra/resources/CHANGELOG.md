@@ -1,5 +1,13 @@
 # @infra/resources
 
+## 0.6.4
+
+### Patch Changes
+
+- 6412caa: [CES-671] Grant app service permission to read APIM
+- 9f933fa: [CES-672] Add environment variables to app service
+- cf3eaff: [CES-674] Add app service permission to read secrets from key vault
+
 ## 0.6.3
 
 ### Patch Changes
