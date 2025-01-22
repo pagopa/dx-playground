@@ -2,8 +2,8 @@ locals {
   fn_settings = {}
 }
 
-module "function_app" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=main"
+module "function_test_durable" {
+  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=CES-621-creare-modulo-terraform-durable-function-app"
 
   has_durable_functions = true
 
