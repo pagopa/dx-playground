@@ -22,7 +22,7 @@
 | <a name="module_apim"></a> [apim](#module\_apim) | github.com/pagopa/dx//infra/modules/azure_api_management | main |
 | <a name="module_apim_roles"></a> [apim\_roles](#module\_apim\_roles) | pagopa/dx-azure-role-assignments/azurerm | 0.1.0 |
 | <a name="module_app_service"></a> [app\_service](#module\_app\_service) | github.com/pagopa/dx//infra/modules/azure_app_service | main |
-| <a name="module_app_service_roles"></a> [app\_service\_roles](#module\_app\_service\_roles) | pagopa/dx-azure-role-assignments/azurerm | 0.1.1 |
+| <a name="module_app_service_roles"></a> [app\_service\_roles](#module\_app\_service\_roles) | pagopa/dx-azure-role-assignments/azurerm | ~> 0.1 |
 | <a name="module_cosmos"></a> [cosmos](#module\_cosmos) | github.com/pagopa/dx//infra/modules/azure_cosmos_account | main |
 | <a name="module_dynatrace_activegate"></a> [dynatrace\_activegate](#module\_dynatrace\_activegate) | ../_modules/virtual_machine | n/a |
 | <a name="module_dynatrace_oneagent"></a> [dynatrace\_oneagent](#module\_dynatrace\_oneagent) | ../_modules/virtual_machine | n/a |
