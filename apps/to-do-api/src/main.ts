@@ -1,6 +1,7 @@
 import { CosmosClient } from "@azure/cosmos";
 import { app } from "@azure/functions";
 import { DefaultAzureCredential } from "@azure/identity";
+import { initDynatrace } from "@dynatrace/opentelemetry-azure-functions";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
@@ -33,6 +34,9 @@ const env = {
   taskIdGenerator: makeTaskIdGenerator(),
   taskRepository: makeTaskRepository(taskContainer),
 };
+
+// initDynatrace with OpenTelemetry setup (recommended)
+initDynatrace(true);
 
 app.http("info", {
   authLevel: "anonymous",
