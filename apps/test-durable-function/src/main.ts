@@ -1,4 +1,4 @@
-import { app, HttpRequest, InvocationContext } from "@azure/functions";
+import { app } from "@azure/functions";
 import * as df from "durable-functions";
 import { OrchestrationContext } from "durable-functions";
 
@@ -15,21 +15,20 @@ df.app.orchestration(
     outputs.push(yield context.df.callActivity(activityName, "Seattle"));
     outputs.push(yield context.df.callActivity(activityName, "Cairo"));
     return outputs;
-  }
+  },
 );
 
 app.http("HealthCheckHttp", {
-  route: "info",
   handler: async () => ({
-    status: 200,
     body: {
       status: "OK",
     },
+    status: 200,
   }),
+  route: "info",
 });
 
 app.http("TestDurableFunctionHttp", {
-  route: "test-durable-function",
   extraInputs: [df.input.durableClient()],
   handler: async (request, context) => {
     const client = df.getClient(context);
@@ -40,4 +39,5 @@ app.http("TestDurableFunctionHttp", {
     context.log(`Started orchestration with ID = '${instanceId}'.`);
     return client.createCheckStatusResponse(request, instanceId);
   },
+  route: "test-durable-function",
 });
