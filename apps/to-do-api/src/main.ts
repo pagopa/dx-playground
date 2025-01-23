@@ -36,7 +36,7 @@ const env = {
 };
 
 // initDynatrace with OpenTelemetry setup (recommended)
-initDynatrace(true);
+initDynatrace();
 
 app.http("info", {
   authLevel: "anonymous",
