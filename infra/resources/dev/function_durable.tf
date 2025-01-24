@@ -8,7 +8,7 @@ module "function_test_durable" {
   has_durable_functions    = true
   application_insights_key = "app-insights-key"
 
-  environment         = merge(local.environment, { app_name = "d" })
+  environment         = merge(local.environment, { app_name = "df" })
   tier                = "s"
   resource_group_name = data.azurerm_resource_group.test_rg.name
 
