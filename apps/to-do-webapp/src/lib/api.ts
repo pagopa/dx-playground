@@ -1,6 +1,7 @@
 "use server";
 
 import { client } from "@/lib/client";
+import { TaskId } from "@/lib/client/TaskId";
 import * as E from "fp-ts/Either";
 import * as TE from "fp-ts/TaskEither";
 import { pipe } from "fp-ts/function";
@@ -33,7 +34,7 @@ export const insertTask = async (title: string) =>
     ),
   )();
 
-export const completeTask = async (taskId: string) =>
+export const completeTask = async (taskId: TaskId) =>
   pipe(
     TE.tryCatch(
       () => client.deleteTask({ taskId }),

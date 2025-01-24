@@ -4,7 +4,7 @@ import { Checkbox, ListItem, ListItemText } from "@mui/material";
 import React from "react";
 
 interface TodoItemProps {
-  id: string;
+  id: TaskId;
   // Function to execute when a task is completed
   onComplete: (id: TaskId) => void;
   state: "COMPLETED" | "DELETED" | "INCOMPLETE";
@@ -17,9 +17,9 @@ const ToDoItem: React.FC<TodoItemProps> = ({
   state,
   title,
 }) => {
-  const handleTaskComplete = async (text: string) => {
+  const handleTaskComplete = async (taskId: TaskId) => {
     try {
-      const { status } = await completeTask(text);
+      const { status } = await completeTask(taskId);
       if (status === 204) {
         onComplete(id);
       }
@@ -28,15 +28,13 @@ const ToDoItem: React.FC<TodoItemProps> = ({
     }
   };
   return (
-    <>
-      <ListItem dense divider={true} key={id}>
-        <Checkbox
-          checked={state === "COMPLETED"}
-          onChange={() => handleTaskComplete(id)}
-        />
-        <ListItemText primary={title} />
-      </ListItem>
-    </>
+    <ListItem dense divider={true} key={id}>
+      <Checkbox
+        checked={state === "COMPLETED"}
+        onChange={() => handleTaskComplete(id)}
+      />
+      <ListItemText primary={title} />
+    </ListItem>
   );
 };
 
