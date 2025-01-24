@@ -1,5 +1,12 @@
 # @infra/resources
 
+## 0.6.6
+
+### Patch Changes
+
+- 991f33a: Add security schema to OpenAPI specification
+- 084e3b3: Use webapp homepage as health_check_path
+
 ## 0.6.5
 
 ### Patch Changes
