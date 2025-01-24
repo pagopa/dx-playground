@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.4.1
+
+### Patch Changes
+
+- 991f33a: Add security schema to OpenAPI specification
+
 ## 0.4.0
 
 ### Minor Changes
