@@ -1,34 +1,42 @@
 {
   "name": "to-do-webapp",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "main": "dist/server.js",
   "scripts": {
     "clean": "shx rm -rf out/",
     "dev": "next dev --turbopack",
-    "build": "next build && yarn standalone:copy && yarn standalone:clean && yarn standalone:rename",
+    "build": "yarn generate && next build && yarn standalone:copy && yarn standalone:clean && yarn standalone:rename",
     "start": "next start",
-    "lint": "next lint",
-    "standalone:copy": "shx mkdir tmp_dir && shx cp -r .next/standalone/apps/to-do-webapp/.next/* tmp_dir && shx mkdir dist && shx cp .next/standalone/apps/to-do-webapp/server.js dist",
+    "lint": "eslint src --fix",
+    "standalone:copy": "shx mkdir tmp_dir && shx cp -r .next/standalone/apps/to-do-webapp/.next/* tmp_dir && shx cp -r .next/static tmp_dir && shx mkdir dist && shx cp .next/standalone/apps/to-do-webapp/server.js dist",
     "standalone:clean": "shx rm -rf .next",
-    "standalone:rename": "shx mv tmp_dir .next"
+    "standalone:rename": "shx mv tmp_dir .next",
+    "generate": "gen-api-models --api-spec https://raw.githubusercontent.com/pagopa/dx-playground/4cb60e3994eb14a76e6b3d1c49075c76f2f3cfbc/apps/to-do-api/docs/openapi.yaml --out-dir ./src/lib/client --no-strict --request-types --response-decoders --client"
   },
   "files": [
     ".next"
   ],
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.1",
+    "@pagopa/openapi-codegen-ts": "^14.0.0",
+    "fp-ts": "^2.16.9",
     "next": "15.1.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@pagopa/eslint-config": "^4.0.1",
     "@pagopa/typescript-config-react": "workspace:^",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
+    "eslint": "^8",
     "eslint-config-next": "15.1.2",
+    "prettier": "^3.4.2",
     "shx": "^0.3.4",
     "typescript": "^5.7.2"
   }

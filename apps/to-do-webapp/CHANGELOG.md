@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.0
+
+### Minor Changes
+
+- 991f33a: [CES-683] Create minimal UI for the To Do app
+
 ## 0.2.1
 
 ### Patch Changes

@@ -24,7 +24,7 @@ module "app_service" {
   app_settings      = merge(local.to_do_webapp_settings, {})
   slot_app_settings = {}
 
-  health_check_path = "/info"
+  health_check_path = "/"
 
   tags = local.tags
 }
