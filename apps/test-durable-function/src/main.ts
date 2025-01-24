@@ -20,9 +20,7 @@ df.app.orchestration(
 
 app.http("HealthCheckHttp", {
   handler: async () => ({
-    body: {
-      status: "OK",
-    },
+    body: JSON.stringify({ status: "OK" }),
     status: 200,
   }),
   route: "info",
