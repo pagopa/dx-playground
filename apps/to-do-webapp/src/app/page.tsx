@@ -11,21 +11,21 @@ export const dynamic = "force-dynamic";
 
 export default function Home() {
   const [tasks, setTasks] = useState<TaskItemList>([]);
-  const [hasErrors, setHasErrors] = useState<boolean>(false);
+  const [error, setError] = useState<null | string>(null);
 
   useEffect(() => {
     const fetchTasks = async () => {
       try {
         const { status, value: taskList } = await getTaskList();
         if (status === 200) {
-          setHasErrors(false);
+          setError(null);
           setTasks(taskList);
         } else {
-          setHasErrors(true);
+          setError("Failed to fetch tasks. Please try again later.");
           setTasks([]);
         }
       } catch (error) {
-        setHasErrors(true);
+        setError("Failed to fetch tasks. Please try again later.");
       }
     };
     fetchTasks();
@@ -50,8 +50,8 @@ export default function Home() {
 
       <ToDoTextArea label={"Add a task to the list"} onAddTask={addTask} />
 
-      {hasErrors ? (
-        <Alert severity="error">There was an error fetching the data</Alert>
+      {error ? (
+        <Alert severity="error">{error}</Alert>
       ) : (
         <ToDoList onTaskComplete={completeTask} tasks={tasks} />
       )}
