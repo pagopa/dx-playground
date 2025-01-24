@@ -2,6 +2,10 @@ openapi: 3.0.3
 info:
   title: To Do List API
   version: 0.0.0
+
+security:
+  - ApiKeyAuth: []
+
 paths:
 
   /info:
@@ -121,6 +125,11 @@ paths:
                 $ref: '#/components/schemas/ProblemJSON'
 
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
   schemas:
     ApplicationInfo:
       type: object
