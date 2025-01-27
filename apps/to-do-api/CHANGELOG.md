@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.4.2
+
+### Patch Changes
+
+- a9cccb5: [CES-696] Add Dynatrace env variable to Azure function (API)
+
 ## 0.4.1
 
 ### Patch Changes
