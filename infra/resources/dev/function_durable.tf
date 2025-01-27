@@ -18,7 +18,7 @@ module "function_test_durable" {
   }
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
-  subnet_cidr   = "10.50.6.0/24"
+  subnet_cidr   = "10.50.7.0/24"
 
   app_settings      = merge(local.fn_settings, {})
   slot_app_settings = {}
