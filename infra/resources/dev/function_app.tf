@@ -38,7 +38,8 @@ module "function_app" {
 }
 
 module "func_api_role" {
-  source = "github.com/pagopa/dx//infra/modules/azure_role_assignments?ref=main"
+  source  = "pagopa/dx-azure-role-assignments/azurerm"
+  version = "~> 0.1"
 
   principal_id = module.function_app.function_app.function_app.principal_id
 
@@ -50,4 +51,12 @@ module "func_api_role" {
       role                = "writer"
     }
   ]
+
+  key_vault = [{
+    name                = data.azurerm_key_vault.common_kv.name
+    resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+    roles = {
+      secrets = "reader"
+    }
+  }]
 }

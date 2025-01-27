@@ -27,8 +27,9 @@
 | <a name="module_dynatrace_activegate"></a> [dynatrace\_activegate](#module\_dynatrace\_activegate) | ../_modules/virtual_machine | n/a |
 | <a name="module_dynatrace_oneagent"></a> [dynatrace\_oneagent](#module\_dynatrace\_oneagent) | ../_modules/virtual_machine | n/a |
 | <a name="module_event_hub"></a> [event\_hub](#module\_event\_hub) | github.com/pagopa/dx//infra/modules/azure_event_hub | main |
-| <a name="module_func_api_role"></a> [func\_api\_role](#module\_func\_api\_role) | github.com/pagopa/dx//infra/modules/azure_role_assignments | main |
+| <a name="module_func_api_role"></a> [func\_api\_role](#module\_func\_api\_role) | pagopa/dx-azure-role-assignments/azurerm | ~> 0.1 |
 | <a name="module_function_app"></a> [function\_app](#module\_function\_app) | github.com/pagopa/dx//infra/modules/azure_function_app | main |
+| <a name="module_function_test_durable"></a> [function\_test\_durable](#module\_function\_test\_durable) | github.com/pagopa/dx//infra/modules/azure_function_app | CES-621-creare-modulo-terraform-durable-function-app |
 | <a name="module_naming_convention"></a> [naming\_convention](#module\_naming\_convention) | github.com/pagopa/dx//infra/modules/azure_naming_convention | main |
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 
