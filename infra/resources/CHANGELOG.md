@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.6.7
+
+### Patch Changes
+
+- 768d07c: Fix subnet CIDR allocation for Durable Function.
+
 ## 0.6.6
 
 ### Patch Changes
