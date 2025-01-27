@@ -8,11 +8,11 @@ locals {
   }
 
   tags = {
-    CostCenter     = "TS700 - ENGINEERING"
+    CostCenter     = "TS000 - Tecnologia e Servizi"
     CreatedBy      = "Terraform"
     Environment    = "Dev"
     BusinessUnit   = "DevEx"
-    Source         = "https://github.com/pagopa/dx-playground"
+    Source         = "https://github.com/pagopa/dx-playground/tree/main/infra/repository"
     ManagementTeam = "Developer Experience"
     Scope          = "Dynatrace PoC"
   }

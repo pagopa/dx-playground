@@ -10,9 +10,11 @@ locals {
   repo_name = "dx-playground"
 
   tags = {
-    CostCenter  = "TS700 - ENGINEERING"
-    CreatedBy   = "Terraform"
-    Environment = "Dev"
-    Owner       = "DevEx"
+    CostCenter     = "TS000 - Tecnologia e Servizi"
+    CreatedBy      = "Terraform"
+    Environment    = "Dev"
+    BusinessUnit   = "DevEx"
+    Source         = "https://github.com/pagopa/dx-playground/tree/main/infra/identity"
+    ManagementTeam = "Developer Experience"
   }
 }
