@@ -1,5 +1,12 @@
 # @infra/resources
 
+## 0.6.9
+
+### Patch Changes
+
+- ca1845d: [CES-698] Add read secret permission to the azure function
+- d055f0c: Updated tags
+
 ## 0.6.8
 
 ### Patch Changes

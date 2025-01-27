@@ -1,5 +1,11 @@
 # @infra/identity
 
+## 0.2.2
+
+### Patch Changes
+
+- d055f0c: Updated tags
+
 ## 0.2.1
 
 ### Patch Changes

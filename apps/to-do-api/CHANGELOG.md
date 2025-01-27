@@ -1,5 +1,15 @@
 # to-do-api
 
+## 0.5.0
+
+### Minor Changes
+
+- be69858: [CES-684] Install and configure Dynatrace
+
+### Patch Changes
+
+- ca1845d: [CES-698] Add read secret permission to the azure function
+
 ## 0.4.2
 
 ### Patch Changes
