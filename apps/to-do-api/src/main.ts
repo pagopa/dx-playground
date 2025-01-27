@@ -47,7 +47,14 @@ app.http("info", {
 
 app.http("createTask", {
   authLevel: "function",
-  handler: makePostTaskHandler(env),
+  handler: (req, context) => {
+    context.trace("CREATING A TASK");
+    context.debug("CREATING A TASK");
+    context.log("CREATING A TASK");
+    context.warn("CREATING A TASK");
+    context.error("CREATING A TASK");
+    return makePostTaskHandler(env)(req, context);
+  },
   methods: ["POST"],
   route: "tasks",
 });
