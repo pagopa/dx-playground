@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.6.8
+
+### Patch Changes
+
+- a9cccb5: [CES-696] Add Dynatrace env variable to Azure function (API)
+
 ## 0.6.7
 
 ### Patch Changes
