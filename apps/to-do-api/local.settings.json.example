@@ -8,6 +8,11 @@
     "COSMOSDB_DATABASE_NAME": "db",
     "COSMOSDB_ENDPOINT": "<insert-here-the-cosmosdb-endpoint>",
 
-    "COSMOSDB_TASKS_CONTAINER_NAME": "<insert-here-tasks-container-name>"
+    "COSMOSDB_TASKS_CONTAINER_NAME": "<insert-here-tasks-container-name>",
+
+    "DT_TENANT": "<insert-here-the-environment-id>",
+    "DT_CLUSTER_ID": "<insert-here-the-cluster-id>",
+    "DT_CONNECTION_BASE_URL": "<insert-here-the-environment-url>",
+    "DT_CONNECTION_AUTH_TOKEN": "<insert-here-the-connection-auth-token>"
   }
 }
