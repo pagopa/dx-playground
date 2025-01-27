@@ -1,6 +1,7 @@
 import { CosmosClient } from "@azure/cosmos";
 import { app } from "@azure/functions";
 import { DefaultAzureCredential } from "@azure/identity";
+import { initDynatrace } from "@dynatrace/opentelemetry-azure-functions";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
@@ -34,6 +35,9 @@ const env = {
   taskRepository: makeTaskRepository(taskContainer),
 };
 
+// initDynatrace with OpenTelemetry setup (recommended)
+initDynatrace(true);
+
 app.http("info", {
   authLevel: "anonymous",
   handler: makeInfoHandler({ cosmosClient }),
@@ -43,7 +47,14 @@ app.http("info", {
 
 app.http("createTask", {
   authLevel: "function",
-  handler: makePostTaskHandler(env),
+  handler: (req, context) => {
+    context.trace("CREATING A TASK");
+    context.debug("CREATING A TASK");
+    context.log("CREATING A TASK");
+    context.warn("CREATING A TASK");
+    context.error("CREATING A TASK");
+    return makePostTaskHandler(env)(req, context);
+  },
   methods: ["POST"],
   route: "tasks",
 });
