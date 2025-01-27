@@ -1,5 +1,5 @@
 ---
-"test-durable": patch
+"infra/resources": patch
 ---
 
-Fix subnet CIDR allocation for Durable Function
+Fix subnet CIDR allocation for Durable Function.
