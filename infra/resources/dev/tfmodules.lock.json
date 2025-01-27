@@ -1,9 +1,11 @@
 {
-  "apim.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64",
-  "app_service.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64",
-  "cosmos.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64",
-  "function_app.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64",
+  "apim.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
+  "app_service.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
+  "cosmos.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
+  "function_app.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
   "apim_roles": "286469e8fb2a96ed28912a0def0115207e20ff9f2ab2c16d751dcf2fd97a543a",
-  "event_hub.naming_convention": "cebed82c7742c150fbcb4c363670d8078bee27ebd7cb37a37c01cd3803670c64",
-  "app_service_roles": "70538ac55deebe95f1379ec5abe1f3dd207b468c18f69cdb1bc3e6a946e50b56"
+  "event_hub.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
+  "app_service_roles": "70538ac55deebe95f1379ec5abe1f3dd207b468c18f69cdb1bc3e6a946e50b56",
+  "func_api_role": "70538ac55deebe95f1379ec5abe1f3dd207b468c18f69cdb1bc3e6a946e50b56",
+  "function_test_durable.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4"
 }
