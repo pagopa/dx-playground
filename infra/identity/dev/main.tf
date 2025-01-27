@@ -107,4 +107,43 @@ module "roles_cd" {
       role                = "owner"
     }
   ]
+
+  storage_blob = [
+    {
+      storage_account_name = "dxditnplaygrounddfstfd01"
+      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      role                 = "owner"
+    },
+    {
+      storage_account_name = "dxditnplaygrounddfstfn01"
+      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      role                 = "owner"
+    }
+  ]
+
+  storage_queue = [
+    {
+      storage_account_name = "dxditnplaygrounddfstfd01"
+      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      role                 = "owner"
+    },
+    {
+      storage_account_name = "dxditnplaygrounddfstfn01"
+      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      role                 = "owner"
+    }
+  ]
+
+  storage_table = [
+    {
+      storage_account_name = "dxditnplaygrounddfstfd01"
+      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      role                 = "owner"
+    },
+    {
+      storage_account_name = "dxditnplaygrounddfstfn01"
+      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      role                 = "owner"
+    }
+  ]
 }
