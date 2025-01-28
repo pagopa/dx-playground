@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.0.3
+
+### Patch Changes
+
+- b69c58b: Upgrade Durable Function Bundle Version
+
 ## 1.0.2
 
 ### Patch Changes
