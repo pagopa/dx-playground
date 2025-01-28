@@ -5,9 +5,6 @@
   "description": "Azure Function to test TF module for Durable Functions",
   "license": "MIT",
   "main": "./dist/main.js",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "clean": "shx rm -rf ./dist",
     "build": "tsc",
