@@ -1,6 +1,6 @@
 {
   "name": "test-durable-function",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Azure Function to test TF module for Durable Functions",
   "license": "MIT",
