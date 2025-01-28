@@ -1,5 +1,5 @@
 {
-  "name": "test-durable",
+  "name": "test-durable-function",
   "version": "1.0.0",
   "type": "module",
   "description": "Azure Function to test TF module for Durable Functions",

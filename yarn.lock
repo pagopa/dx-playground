@@ -8697,9 +8697,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"test-durable@workspace:apps/test-durable-function":
+"test-durable-function@workspace:apps/test-durable-function":
   version: 0.0.0-use.local
-  resolution: "test-durable@workspace:apps/test-durable-function"
+  resolution: "test-durable-function@workspace:apps/test-durable-function"
   dependencies:
     "@azure/functions": "npm:^4.6.0"
     "@azure/identity": "npm:^4.5.0"
