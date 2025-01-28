@@ -39,6 +39,7 @@ const ToDoTextArea = ({ label, onAddTask }: Props) => {
   return (
     <>
       <TextField
+        disabled={isLoading}
         fullWidth
         label={label}
         onChange={(e) => setTaskText(e.target.value)}
