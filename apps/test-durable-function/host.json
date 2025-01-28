@@ -12,7 +12,7 @@
   "extensions": {
     "durableTask": {
       "storageProvider": {
-        "connectionName": "DurableFn"
+        "connectionStringName": "DurableFn"
       },
       "hubName": "TestDurableHub",
       "useGracefulShutdown": true
