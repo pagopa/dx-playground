@@ -14,7 +14,7 @@
       "storageProvider": {
         "connectionStringName": "DurableFn"
       },
-      "hubName": "TestDurableHub",
+      "hubName": "%SLOT_TASK_HUBNAME%",
       "useGracefulShutdown": true
     }
   }
