@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.1
+
+### Patch Changes
+
+- 90785fd: [CES-548] Add Dynatrace js
+
 ## 0.3.0
 
 ### Minor Changes
