@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.6.10
+
+### Patch Changes
+
+- f076a22: Get module from Terraform registry. The referenced branch no longer exists.
+
 ## 0.6.9
 
 ### Patch Changes
