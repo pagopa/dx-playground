@@ -1,7 +1,9 @@
 {
   "extends": "@pagopa/typescript-config-node/tsconfig.json",
   "exclude": [
-    "dist"
+    "dist",
+    "**/__tests__/",
+    "vitest.config.ts"
   ],
   "compilerOptions": {
     "outDir": "dist",
