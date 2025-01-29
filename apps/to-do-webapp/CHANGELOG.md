@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.2
+
+### Patch Changes
+
+- f9ae99a: Disable text area while HTTP request is not completed yet
+
 ## 0.3.1
 
 ### Patch Changes
