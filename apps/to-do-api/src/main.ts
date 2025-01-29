@@ -1,5 +1,6 @@
-import { setupDynatrace } from "./adapters/dynatrace/index.js";
-setupDynatrace();
+/* eslint-disable */
+import "./adapters/dynatrace/index.js";
+/* eslint-enable */
 
 import { CosmosClient } from "@azure/cosmos";
 import { app } from "@azure/functions";
@@ -7,7 +8,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
-// eslint-disable-next-line perfectionist/sort-imports
 import { makeTaskRepository } from "./adapters/azure/cosmosdb/TaskRepository.js";
 import { makePostTaskHandler } from "./adapters/azure/functions/create-task.js";
 import { makeDeleteTaskHandler } from "./adapters/azure/functions/delete-task.js";
