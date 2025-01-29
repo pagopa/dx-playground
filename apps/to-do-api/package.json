@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Azure Function REST API for To Do List",
   "license": "MIT",
-  "main": "./dist/src/main.js",
+  "main": "./dist/main.js",
   "scripts": {
     "clean": "shx rm -rf ./dist",
     "build": "tsc",
