@@ -3,7 +3,8 @@ locals {
 }
 
 module "function_test_durable" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=CES-621-creare-modulo-terraform-durable-function-app"
+  source  = "pagopa/dx-azure-function-app/azurerm"
+  version = "~> 0.2"
 
   has_durable_functions    = true
   application_insights_key = "app-insights-key"
