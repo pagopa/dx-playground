@@ -11,10 +11,6 @@
   },
   "extensions": {
     "durableTask": {
-      "storageProvider": {
-        "connectionStringName": "DfStorageConnectionName"
-      },
-      "hubName": "%SLOT_TASK_HUBNAME%",
       "useGracefulShutdown": true
     }
   }
