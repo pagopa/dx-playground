@@ -8,5 +8,5 @@
   "app_service_roles": "70538ac55deebe95f1379ec5abe1f3dd207b468c18f69cdb1bc3e6a946e50b56",
   "func_api_role": "70538ac55deebe95f1379ec5abe1f3dd207b468c18f69cdb1bc3e6a946e50b56",
   "function_test_durable.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
-  "function_test_durable": "990fcd1471872c90d7b5791182c2d0234215a13f02186a4df791a959e0d7fdd4"
+  "function_test_durable": "9bb1e709ec6db835ac84e6a5b9dbde1c6ad3a79c8e64c118f523fe2fd87873c6"
 }
