@@ -19,7 +19,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_apim"></a> [apim](#module\_apim) | github.com/pagopa/dx//infra/modules/azure_api_management | main |
+| <a name="module_apim"></a> [apim](#module\_apim) | pagopa/dx-azure-api-management/azurerm | ~> 0 |
 | <a name="module_apim_roles"></a> [apim\_roles](#module\_apim\_roles) | pagopa/dx-azure-role-assignments/azurerm | 0.1.0 |
 | <a name="module_app_service"></a> [app\_service](#module\_app\_service) | github.com/pagopa/dx//infra/modules/azure_app_service | main |
 | <a name="module_app_service_roles"></a> [app\_service\_roles](#module\_app\_service\_roles) | pagopa/dx-azure-role-assignments/azurerm | ~> 0.1 |
