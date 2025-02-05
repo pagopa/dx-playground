@@ -35,9 +35,6 @@ const env = {
   taskRepository: makeTaskRepository(taskContainer),
 };
 
-// initDynatrace with OpenTelemetry setup (recommended)
-initDynatrace(true);
-
 app.http("info", {
   authLevel: "anonymous",
   handler: makeInfoHandler({ cosmosClient }),
