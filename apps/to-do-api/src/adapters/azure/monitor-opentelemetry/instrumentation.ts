@@ -15,7 +15,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
       enabled: true,
     },
   },
-  samplingRatio: 1,
+  samplingRatio: Number(process.env.APPINSIGHTS_SAMPLING_PERCENTAGE) / 100 || 1,
 };
 
 useAzureMonitor(options);

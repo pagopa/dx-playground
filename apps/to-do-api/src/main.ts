@@ -1,5 +1,5 @@
 /* eslint-disable */
-import "./adapters/azure/applicationinsights.js";
+import "./adapters/azure/monitor-opentelemetry/instrumentation.js";
 /* eslint-enable */
 
 import { CosmosClient } from "@azure/cosmos";
