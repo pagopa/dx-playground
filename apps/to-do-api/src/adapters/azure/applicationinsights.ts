@@ -1,3 +1,18 @@
-import * as ai from "applicationinsights";
+import {
+  AzureMonitorOpenTelemetryOptions,
+  useAzureMonitor,
+} from "@azure/monitor-opentelemetry";
 
-ai.setup().start();
+const options: AzureMonitorOpenTelemetryOptions = {
+  instrumentationOptions: {
+    azureSdk: {
+      enabled: true,
+    },
+    http: {
+      enabled: true,
+    },
+  },
+  samplingRatio: 1,
+};
+
+useAzureMonitor(options);
