@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.7.1
+
+### Patch Changes
+
+- 3769c64: Remove Dynatrace configuration
+
 ## 0.7.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.5.3
+
+### Patch Changes
+
+- 3769c64: Remove Dynatrace configuration
+
 ## 0.5.2
 
 ### Patch Changes
