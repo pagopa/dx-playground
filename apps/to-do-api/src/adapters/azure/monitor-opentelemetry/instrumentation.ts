@@ -1,4 +1,3 @@
-import { AzureFunctionsInstrumentation } from "@azure/functions-opentelemetry-instrumentation";
 import {
   AzureMonitorOpenTelemetryOptions,
   useAzureMonitor,
@@ -6,6 +5,7 @@ import {
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
+import { instrumentAzureFunctions } from "azure-functions-otel-instrumentation/dist/index.js";
 
 const options: AzureMonitorOpenTelemetryOptions = {
   instrumentationOptions: {
@@ -24,7 +24,7 @@ useAzureMonitor(options);
 registerInstrumentations({
   instrumentations: [
     getNodeAutoInstrumentations(),
-    new AzureFunctionsInstrumentation({ enabled: true }),
+    instrumentAzureFunctions(),
     createAzureSdkInstrumentation(),
   ],
 });
