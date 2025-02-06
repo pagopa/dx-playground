@@ -1,3 +1,4 @@
+import { AzureFunctionsInstrumentation } from "@azure/functions-opentelemetry-instrumentation";
 import {
   AzureMonitorOpenTelemetryOptions,
   useAzureMonitor,
@@ -23,6 +24,7 @@ useAzureMonitor(options);
 registerInstrumentations({
   instrumentations: [
     getNodeAutoInstrumentations(),
+    new AzureFunctionsInstrumentation({ enabled: true }),
     createAzureSdkInstrumentation(),
   ],
 });
