@@ -48,6 +48,7 @@
     "@types/node": "^22.13.1",
     "@vitest/coverage-v8": "^2.1.8",
     "azure-functions-core-tools": "^4.0.6821",
+    "esbuild": "^0.24.2",
     "eslint": "^8.57.1",
     "prettier": "^3.4.2",
     "shx": "^0.3.4",
