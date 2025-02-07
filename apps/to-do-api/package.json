@@ -6,14 +6,16 @@
   "license": "MIT",
   "main": "./dist/main.js",
   "scripts": {
-    "clean": "shx rm -rf ./dist",
+    "clean": "shx rm -rf ./dist ./out",
     "build": "tsc",
+    "build:artifact": "esbuild index=dist/main.js --bundle --format=esm --platform=node --target=node20 --packages=external --outdir=out --allow-overwrite",
     "typecheck": "yarn build --noemit",
     "lint": "eslint src --fix",
     "lint:check": "eslint src",
     "lint:api": "sh api-lint.sh",
     "generate": "gen-api-models --api-spec ./docs/openapi.yaml --no-strict --out-dir ./src/generated/definitions/internal",
     "start": "func start",
+    "start:artifact": "func start out/index.js",
     "test": "vitest",
     "test:coverage": "vitest --coverage"
   },
