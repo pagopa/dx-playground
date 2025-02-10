@@ -1,4 +1,5 @@
 /* eslint-disable */
+import "@opentelemetry/instrumentation/hook.mjs";
 import "./adapters/azure/monitor-opentelemetry/instrumentation.js";
 /* eslint-enable */
 
