@@ -6,14 +6,6 @@
       "Function": "Error",
       "Host.Aggregator": "Error",
       "Host.Results": "Information"
-    },
-    "applicationInsights": {
-      "samplingSettings": {
-        "isEnabled": true,
-        "maxTelemetryItemsPerSecond": 1
-      },
-      "enableDependencyTracking": true,
-      "enableLiveMetrics": true
     }
   },
   "extensionBundle": {
