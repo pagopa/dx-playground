@@ -12,7 +12,7 @@ import * as appInsights from "applicationinsights";
 import { metrics, trace } from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { UndiciInstrumentation } from "@opentelemetry/instrumentation-undici";
-import { instrumentAzureFunctions } from "azure-functions-otel-instrumentation/dist/index.js";
+import { instrumentAzureFunctions } from "azure-functions-otel-instrumentation";
 
 appInsights.setup().start();
 
