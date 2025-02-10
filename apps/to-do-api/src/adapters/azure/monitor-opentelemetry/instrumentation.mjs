@@ -1,3 +1,10 @@
+import { createAddHookMessageChannel } from "import-in-the-middle";
+import { register } from "module";
+
+const { registerOptions, waitForAllMessagesAcknowledged } =
+  createAddHookMessageChannel();
+register("import-in-the-middle/hook.mjs", import.meta.url, registerOptions);
+
 /* eslint-disable */
 import * as appInsights from "applicationinsights";
 /* eslint-enable */
@@ -14,3 +21,5 @@ registerInstrumentations({
   meterProvider: metrics.getMeterProvider(),
   tracerProvider: trace.getTracerProvider(),
 });
+
+await waitForAllMessagesAcknowledged();
