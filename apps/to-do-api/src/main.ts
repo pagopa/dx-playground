@@ -1,8 +1,3 @@
-/* eslint-disable */
-import "@opentelemetry/instrumentation/hook.mjs";
-import "./adapters/azure/monitor-opentelemetry/instrumentation.js";
-/* eslint-enable */
-
 import { CosmosClient } from "@azure/cosmos";
 import { app } from "@azure/functions";
 import { DefaultAzureCredential } from "@azure/identity";
