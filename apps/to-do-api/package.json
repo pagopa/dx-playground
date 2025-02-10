@@ -19,6 +19,9 @@
     "test": "vitest",
     "test:coverage": "vitest --coverage"
   },
+  "files": [
+    "dist/adapters/azure/instrumentation.mjs"
+  ],
   "dependencies": {
     "@azure/cosmos": "^4.2.0",
     "@azure/functions": "^4.6.1",
