@@ -5,6 +5,8 @@ locals {
 
     # Cosmos Container Names
     COSMOSDB_TASKS_CONTAINER_NAME = azurerm_cosmosdb_sql_container.tasks.name
+
+    NODE_OPTIONS = "--import ./dist/instrumentation.mjs"
   }
 }
 
