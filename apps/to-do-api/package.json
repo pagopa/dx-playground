@@ -7,7 +7,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "clean": "shx rm -rf ./dist ./out",
-    "build": "tsc && cp src/adapters/azure/application-insights/instrumentation.mjs dist",
+    "build": "tsc && cp src/adapters/azure/monitor-opentelemetry/instrumentation.mjs dist",
     "build:artifact": "esbuild index=dist/main.js --bundle --format=esm --platform=node --target=node20 --packages=external --outdir=out --allow-overwrite",
     "typecheck": "yarn build --noemit",
     "lint": "eslint src --fix",
