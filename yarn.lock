@@ -10557,46 +10557,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"to-do-api-cjs@workspace:apps/to-do-api-cjs":
-  version: 0.0.0-use.local
-  resolution: "to-do-api-cjs@workspace:apps/to-do-api-cjs"
-  dependencies:
-    "@azure/cosmos": "npm:^4.2.0"
-    "@azure/functions": "npm:^4.6.1"
-    "@azure/identity": "npm:^4.5.0"
-    "@azure/monitor-opentelemetry": "npm:^1.8.1"
-    "@azure/monitor-opentelemetry-exporter": "npm:^1.0.0-beta.28"
-    "@azure/opentelemetry-instrumentation-azure-sdk": "npm:^1.0.0-beta.7"
-    "@opentelemetry/api": "npm:^1.9.0"
-    "@opentelemetry/auto-instrumentations-node": "npm:^0.56.0"
-    "@opentelemetry/instrumentation": "npm:^0.57.1"
-    "@opentelemetry/instrumentation-undici": "npm:^0.10.0"
-    "@opentelemetry/resources": "npm:^1.30.1"
-    "@opentelemetry/sdk-metrics": "npm:^1.30.1"
-    "@opentelemetry/sdk-trace-base": "npm:^1.30.1"
-    "@opentelemetry/semantic-conventions": "npm:^1.28.0"
-    "@pagopa/eslint-config": "npm:^4.0.1"
-    "@pagopa/handler-kit": "npm:^1.1.0"
-    "@pagopa/handler-kit-azure-func": "npm:^2.0.7"
-    "@pagopa/openapi-codegen-ts": "npm:^14.0.0"
-    "@pagopa/ts-commons": "npm:^13.1.2"
-    "@pagopa/typescript-config-node": "workspace:^"
-    "@types/node": "npm:^22.13.1"
-    applicationinsights: "npm:^3.5.0"
-    azure-functions-core-tools: "npm:^4.0.6821"
-    azure-functions-otel-instrumentation: "workspace:^"
-    esbuild: "npm:^0.24.2"
-    eslint: "npm:^8.57.1"
-    fp-ts: "npm:^2.16.9"
-    io-ts: "npm:^2.2.22"
-    prettier: "npm:^3.4.2"
-    shx: "npm:^0.3.4"
-    swagger-cli: "npm:^4.0.4"
-    typescript: "npm:^5.7.2"
-    ulid: "npm:^2.3.0"
-  languageName: unknown
-  linkType: soft
-
 "to-do-api@workspace:apps/to-do-api":
   version: 0.0.0-use.local
   resolution: "to-do-api@workspace:apps/to-do-api"
