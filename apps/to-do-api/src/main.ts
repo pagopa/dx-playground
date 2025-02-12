@@ -1,5 +1,5 @@
 /* eslint-disable */
-// import "./adapters/dynatrace/instrumentation.js";
+import "./adapters/dynatrace/instrumentation.js";
 /* eslint-enable */
 
 import { CosmosClient } from "@azure/cosmos";
