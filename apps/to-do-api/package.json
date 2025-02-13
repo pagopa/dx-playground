@@ -7,7 +7,8 @@
   "main": "./dist/main.js",
   "scripts": {
     "clean": "shx rm -rf ./dist ./out",
-    "build": "tsc",
+    "build": "yarn build:azure:monitor",
+    "build:ai": "tsc && cp src/adapters/azure/application-insights/instrumentation.mjs dist",
     "build:azure:monitor": "tsc && cp src/adapters/azure/monitor-opentelemetry/instrumentation.mjs dist",
     "build:dynatrace": "tsc",
     "build:artifact": "esbuild index=dist/main.js --bundle --format=esm --platform=node --target=node20 --packages=external --outdir=out --allow-overwrite",
