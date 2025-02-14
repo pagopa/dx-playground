@@ -7,9 +7,9 @@ locals {
     COSMOSDB_TASKS_CONTAINER_NAME = azurerm_cosmosdb_sql_container.tasks.name
 
     # Options to load instrumentation file with AI or Azure Monitor
-    # NODE_OPTIONS = "--import ./dist/instrumentation.mjs"
+    NODE_OPTIONS = "--import ./dist/instrumentation.mjs"
     # Options to load instrumentation hook with Dynatrace
-    NODE_OPTIONS = "--experimental-loader=@opentelemetry/instrumentation/hook.mjs"
+    # NODE_OPTIONS = "--experimental-loader=@opentelemetry/instrumentation/hook.mjs"
 
     # Dynatrace configurations
     DT_TENANT                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.dynatrace_tenant.versionless_id})"
