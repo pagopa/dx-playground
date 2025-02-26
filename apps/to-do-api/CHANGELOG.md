@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.5.2
+
+### Patch Changes
+
+- 204a50c: Setup Application Insights
+
 ## 0.5.1
 
 ### Patch Changes

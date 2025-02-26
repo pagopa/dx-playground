@@ -5,12 +5,6 @@ locals {
 
     # Cosmos Container Names
     COSMOSDB_TASKS_CONTAINER_NAME = azurerm_cosmosdb_sql_container.tasks.name
-
-    # Dynatrace
-    DT_TENANT = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.dynatrace_tenant.versionless_id})"
-    DT_CLUSTER_ID : "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.dynatrace_cluster_id.versionless_id})"
-    DT_CONNECTION_BASE_URL : "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.dynatrace_target_url.versionless_id})"
-    DT_CONNECTION_AUTH_TOKEN : "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.dynatrace_connection_auth_token.versionless_id})"
   }
 }
 
@@ -33,6 +27,9 @@ module "function_app" {
   slot_app_settings = {}
 
   health_check_path = "/api/info"
+
+  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.application_insights.connection_string_secret_id})"
+  application_insights_sampling_percentage = 100
 
   tags = local.tags
 }

@@ -1,5 +1,16 @@
 # @infra/resources
 
+## 0.7.0
+
+### Minor Changes
+
+- 204a50c: Create Application Insights resources
+
+### Patch Changes
+
+- fe7f850: Set Azure Function sampling percentage for Application Insights
+- 29165f5: Reference module from Terraform registry
+
 ## 0.6.10
 
 ### Patch Changes

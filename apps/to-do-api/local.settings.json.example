@@ -10,9 +10,8 @@
 
     "COSMOSDB_TASKS_CONTAINER_NAME": "<insert-here-tasks-container-name>",
 
-    "DT_TENANT": "<insert-here-the-environment-id>",
-    "DT_CLUSTER_ID": "<insert-here-the-cluster-id>",
-    "DT_CONNECTION_BASE_URL": "<insert-here-the-environment-url>",
-    "DT_CONNECTION_AUTH_TOKEN": "<insert-here-the-connection-auth-token>"
+    // Application Insights
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": "<insert-here-ai-connection-string>",
+    "APPINSIGHTS_SAMPLING_PERCENTAGE": 5
   }
 }
