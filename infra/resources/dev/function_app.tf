@@ -9,7 +9,8 @@ locals {
 }
 
 module "function_app" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=main"
+  source  = "pagopa/dx-azure-function-app/azurerm"
+  version = "~> 0.2"
 
   environment         = merge(local.environment, { app_name = "be" })
   tier                = "s"
