@@ -7,9 +7,9 @@ on:
 
 jobs:
   external:
-    uses: pagopa/dx-playground/reusable/_sample_template.yaml@test-workflow-directory
-  # same-folder:
-  #   uses: ./.github/workflows/_sample_template.yaml
+    uses: pagopa/dx-playground/.github/workflows/_sample_template.yaml@test-workflow-directory
+  same-folder:
+    uses: ./.github/workflows/_sample_template.yaml
   # reusable-folder-in-dir:
   #   uses: ./.github/workflows/reusable/_sample_template.yaml
   # base-folder:
