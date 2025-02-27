@@ -1,4 +1,5 @@
 ---
+"@infra/github-runner": patch
 "@infra/resources": patch
 ---
 
