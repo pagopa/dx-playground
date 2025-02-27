@@ -3,8 +3,7 @@ locals {
 }
 
 module "function_test_durable" {
-  source  = "pagopa/dx-azure-function-app/azurerm"
-  version = "~> 0.2"
+  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=env-durable-connection"
 
   has_durable_functions    = true
   application_insights_key = "app-insights-key"
