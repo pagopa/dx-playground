@@ -4,10 +4,9 @@
   "cosmos.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
   "function_app.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
   "apim_roles": "286469e8fb2a96ed28912a0def0115207e20ff9f2ab2c16d751dcf2fd97a543a",
-  "event_hub.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
-  "app_service_roles": "70538ac55deebe95f1379ec5abe1f3dd207b468c18f69cdb1bc3e6a946e50b56",
-  "func_api_role": "70538ac55deebe95f1379ec5abe1f3dd207b468c18f69cdb1bc3e6a946e50b56",
+  "app_service_roles": "52ca57b72bdf639846a472014cb2113d519bdc00dc4a642e925b97ad6b99d25c",
+  "func_api_role": "52ca57b72bdf639846a472014cb2113d519bdc00dc4a642e925b97ad6b99d25c",
   "function_test_durable.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
-  "function_test_durable": "9bb1e709ec6db835ac84e6a5b9dbde1c6ad3a79c8e64c118f523fe2fd87873c6",
-  "apim": "7c412ddbaef39940f9a2f3cef9b309513b97ca477a8c58b8b1e3aa0584748ad5"
+  "function_test_durable": "35993f0f57f017a544522dac18c8b585d9642d93edf9a45d7651a8388ed8980b",
+  "apim": "668b9b729d1d0ba5a074daf93b3ce4a19b1a3b8df668db2be8676ced14b33bf6"
 }
