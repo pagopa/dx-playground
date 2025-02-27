@@ -5,6 +5,8 @@
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "NODE_ENV": "development",
 
+    "NODE_OPTIONS": "--import ./dist/instrumentation.mjs",
+
     "COSMOSDB_DATABASE_NAME": "db",
     "COSMOSDB_ENDPOINT": "<insert-here-the-cosmosdb-endpoint>",
 
