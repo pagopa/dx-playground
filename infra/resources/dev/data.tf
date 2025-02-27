@@ -35,24 +35,3 @@ data "azurerm_key_vault_secret" "apim_api_key" {
   key_vault_id = data.azurerm_key_vault.common_kv.id
   name         = "playground-apim-test-key"
 }
-
-# Dynatrace Secrets
-data "azurerm_key_vault_secret" "dynatrace_tenant" {
-  key_vault_id = data.azurerm_key_vault.common_kv.id
-  name         = "dynatrace-tenant"
-}
-
-data "azurerm_key_vault_secret" "dynatrace_cluster_id" {
-  key_vault_id = data.azurerm_key_vault.common_kv.id
-  name         = "dynatrace-cluster-id"
-}
-
-data "azurerm_key_vault_secret" "dynatrace_target_url" {
-  key_vault_id = data.azurerm_key_vault.common_kv.id
-  name         = "dynatrace-target-url"
-}
-
-data "azurerm_key_vault_secret" "dynatrace_connection_auth_token" {
-  key_vault_id = data.azurerm_key_vault.common_kv.id
-  name         = "dynatrace-connection-auth-token"
-}
