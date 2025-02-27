@@ -30,7 +30,7 @@ module "apim" {
 
 module "apim_roles" {
   source       = "pagopa/dx-azure-role-assignments/azurerm"
-  version      = "0.1.0"
+  version      = "~> 0.1"
   principal_id = module.apim.principal_id
 
   key_vault = [
