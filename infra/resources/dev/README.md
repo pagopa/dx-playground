@@ -19,7 +19,7 @@
 |------|--------|---------|
 | <a name="module_apim"></a> [apim](#module\_apim) | pagopa/dx-azure-api-management/azurerm | ~> 0 |
 | <a name="module_apim_roles"></a> [apim\_roles](#module\_apim\_roles) | pagopa/dx-azure-role-assignments/azurerm | ~> 0.1 |
-| <a name="module_app_service"></a> [app\_service](#module\_app\_service) | github.com/pagopa/dx//infra/modules/azure_app_service | main |
+| <a name="module_app_service"></a> [app\_service](#module\_app\_service) | pagopa/dx-azure-app-service/azurerm | ~> 0.1 |
 | <a name="module_app_service_roles"></a> [app\_service\_roles](#module\_app\_service\_roles) | pagopa/dx-azure-role-assignments/azurerm | ~> 0.1 |
 | <a name="module_application_insights"></a> [application\_insights](#module\_application\_insights) | ../_modules/application_insights | n/a |
 | <a name="module_cosmos"></a> [cosmos](#module\_cosmos) | github.com/pagopa/dx//infra/modules/azure_cosmos_account | main |
