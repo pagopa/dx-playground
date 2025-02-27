@@ -1,5 +1,15 @@
 # @infra/resources
 
+## 0.8.0
+
+### Minor Changes
+
+- 260055f: Removed all Terraform resources for Dynatrace
+
+### Patch Changes
+
+- 3769c64: Remove Dynatrace configuration
+
 ## 0.7.0
 
 ### Minor Changes
