@@ -1,0 +1,18 @@
+name: TEST - Caller Workflow
+
+on:
+  push:
+    branches:
+      - test-workflow-directory
+
+jobs:
+  # same-folder:
+  #   uses: ./.github/workflows/_sample_template.yaml
+  reusable-folder-in-dir:
+    uses: ./.github/workflows/reusable/_sample_template.yaml
+  # base-folder:
+  #   uses: ./reusable/_sample_template.yaml
+  # base-github-folder:
+  #   uses: ./.github/reusable/_sample_template.yaml
+  # base-github:
+  #   uses: ./.github/_sample_template.yaml
