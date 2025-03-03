@@ -41,4 +41,5 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_connection_string_secret_id"></a> [connection\_string\_secret\_id](#output\_connection\_string\_secret\_id) | The id of the secret containing the connection string |
+| <a name="output_instrumentation_key"></a> [instrumentation\_key](#output\_instrumentation\_key) | The instrumentation key of Application Insights |
 <!-- END_TF_DOCS -->
