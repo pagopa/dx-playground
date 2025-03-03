@@ -21,6 +21,11 @@ module "apim" {
     resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
   }
 
+  application_insights = {
+    enabled             = true
+    instrumentation_key = module.application_insights.instrumentation_key
+  }
+
   subnet_id                     = azurerm_subnet.apim.id
   virtual_network_type_internal = true
   enable_public_network_access  = true
