@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.3
+
+### Patch Changes
+
+- 032794e: Remove Dynatrace tracking script
+
 ## 0.3.2
 
 ### Patch Changes

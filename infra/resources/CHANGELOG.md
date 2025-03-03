@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.8.1
+
+### Patch Changes
+
+- 032794e: Add `NODE_OPTIONS` as environment variable for Azure Function
+
 ## 0.8.0
 
 ### Minor Changes
