@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.5.5
+
+### Patch Changes
+
+- d20eebd: Upgrade `esbuild` to version `0.25.0`
+
 ## 0.5.4
 
 ### Patch Changes
