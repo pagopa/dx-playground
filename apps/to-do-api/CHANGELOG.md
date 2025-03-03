@@ -1,5 +1,12 @@
 # to-do-api
 
+## 0.5.4
+
+### Patch Changes
+
+- Updated dependencies [032794e]
+  - azure-functions-otel-instrumentation@0.1.0
+
 ## 0.5.3
 
 ### Patch Changes
