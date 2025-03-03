@@ -10,6 +10,6 @@ on:
 
 jobs:
   code_review:
-    uses: pagopa/dx/.github/workflows/js_code_review.yaml@8868a7ca63c501b975f354292d675dacb1d7c0d4
+    uses: pagopa/dx/.github/workflows/js_code_review.yaml@main
     name: Code Review
     secrets: inherit
