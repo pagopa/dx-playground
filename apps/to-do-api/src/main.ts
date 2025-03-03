@@ -1,7 +1,3 @@
-/* eslint-disable */
-import "./adapters/azure/applicationinsights.js";
-/* eslint-enable */
-
 import { CosmosClient } from "@azure/cosmos";
 import { app } from "@azure/functions";
 import { DefaultAzureCredential } from "@azure/identity";
