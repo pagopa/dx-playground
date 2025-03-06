@@ -6,8 +6,10 @@ resource "azurerm_subnet" "apim" {
 }
 
 module "apim" {
-  source  = "pagopa/dx-azure-api-management/azurerm"
-  version = "~> 0"
+  # source  = "pagopa/dx-azure-api-management/azurerm"
+  # version = "~> 1.0"
+
+  source = "github.com/pagopa/dx//infra/modules/azure_api_management?ref=c1df3fca7191bd77365181390b8d1924376c2da1"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name
@@ -21,11 +23,30 @@ module "apim" {
     resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
   }
 
+  application_insights = {
+    enabled           = true
+    connection_string = module.application_insights.connection_string
+  }
+
   subnet_id                     = azurerm_subnet.apim.id
   virtual_network_type_internal = true
   enable_public_network_access  = true
 
   tags = local.tags
+}
+
+resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic" {
+  name                       = "apim-diagnostic"
+  target_resource_id         = module.apim.id
+  log_analytics_workspace_id = module.application_insights.log_analytics_workspace_id
+
+  enabled_log {
+    category_group = "allLogs"
+  }
+
+  metric {
+    category = "AllMetrics"
+  }
 }
 
 module "apim_roles" {
