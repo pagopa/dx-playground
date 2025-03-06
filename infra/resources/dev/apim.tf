@@ -39,8 +39,9 @@ resource "azurerm_monitor_diagnostic_setting" "apim_diagnostic" {
   name                       = "apim-diagnostic"
   target_resource_id         = module.apim.id
   log_analytics_workspace_id = module.application_insights.log_analytics_workspace_id
+
   enabled_log {
-    category_group = "audit"
+    category_group = "allLogs"
   }
 
   metric {
