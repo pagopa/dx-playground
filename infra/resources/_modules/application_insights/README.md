@@ -40,5 +40,6 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_connection_string"></a> [connection\_string](#output\_connection\_string) | The connection string to the Application Insights instance |
 | <a name="output_connection_string_secret_id"></a> [connection\_string\_secret\_id](#output\_connection\_string\_secret\_id) | The id of the secret containing the connection string |
 <!-- END_TF_DOCS -->
