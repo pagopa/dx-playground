@@ -34,6 +34,6 @@ resource "azurerm_cosmosdb_sql_container" "tasks" {
   database_name         = azurerm_cosmosdb_sql_database.db.name
   name                  = "tasks"
   resource_group_name   = module.cosmos.resource_group_name
-  partition_key_path    = "/id"
+  partition_key_paths   = ["/id"]
   partition_key_version = "2"
 }
