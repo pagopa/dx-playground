@@ -6,6 +6,7 @@ output "connection_string_secret_id" {
 output "connection_string" {
   value       = azurerm_application_insights.main.connection_string
   description = "The connection string to the Application Insights instance"
+  sensitive   = true
 }
 
 output "log_analytics_workspace_id" {
