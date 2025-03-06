@@ -8,5 +8,6 @@
   "func_api_role": "52ca57b72bdf639846a472014cb2113d519bdc00dc4a642e925b97ad6b99d25c",
   "function_test_durable.naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4",
   "function_test_durable": "35993f0f57f017a544522dac18c8b585d9642d93edf9a45d7651a8388ed8980b",
-  "apim": "668b9b729d1d0ba5a074daf93b3ce4a19b1a3b8df668db2be8676ced14b33bf6"
+  "apim": "668b9b729d1d0ba5a074daf93b3ce4a19b1a3b8df668db2be8676ced14b33bf6",
+  "naming_convention": "5b1d21788783dcf33e17a9842f9f7c874c8c5f736c82e70979eb9c8785a74ce4"
 }

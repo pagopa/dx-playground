@@ -21,6 +21,8 @@ provider "azurerm" {
 }
 
 module "naming_convention" {
-  source      = "github.com/pagopa/dx//infra/modules/azure_naming_convention?ref=main"
+  source  = "pagopa/dx-azure-naming-convention/azurerm"
+  version = "0.0.5"
+
   environment = merge(local.environment, { app_name = "pg" })
 }
