@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.9.0
+
+### Minor Changes
+
+- 0cccced: Upgrade Terraform Azure provider
+
 ## 0.8.1
 
 ### Patch Changes
