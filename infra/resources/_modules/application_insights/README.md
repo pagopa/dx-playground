@@ -42,4 +42,5 @@ No modules.
 |------|-------------|
 | <a name="output_connection_string"></a> [connection\_string](#output\_connection\_string) | The connection string to the Application Insights instance |
 | <a name="output_connection_string_secret_id"></a> [connection\_string\_secret\_id](#output\_connection\_string\_secret\_id) | The id of the secret containing the connection string |
+| <a name="output_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#output\_log\_analytics\_workspace\_id) | The id of the Log Analytics Workspace |
 <!-- END_TF_DOCS -->
