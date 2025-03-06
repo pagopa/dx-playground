@@ -9,7 +9,7 @@ module "apim" {
   # source  = "pagopa/dx-azure-api-management/azurerm"
   # version = "~> 1.0"
 
-  source = "github.com/pagopa/dx//infra/modules/azure_api_management?ref=4fc1a1fa359c352f2b1078cf0917c72d29b9eca1"
+  source = "github.com/pagopa/dx//infra/modules/azure_api_management?ref=c1df3fca7191bd77365181390b8d1924376c2da1"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name
@@ -25,7 +25,7 @@ module "apim" {
 
   application_insights = {
     enabled           = true
-    connection_string = "@Microsoft.KeyVault(SecretUri=${module.application_insights.connection_string_secret_id})"
+    connection_string = module.application_insights.connection_string
   }
 
   subnet_id                     = azurerm_subnet.apim.id
