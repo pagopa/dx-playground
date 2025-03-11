@@ -1,5 +1,6 @@
 module "cosmos" {
-  source = "github.com/pagopa/dx//infra/modules/azure_cosmos_account?ref=main"
+  source  = "pagopa-dx/azure-cosmos-account/azurerm"
+  version = "~> 0.0"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name

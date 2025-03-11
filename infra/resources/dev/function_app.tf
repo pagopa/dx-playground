@@ -12,7 +12,8 @@ locals {
 }
 
 module "function_app" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=main"
+  source  = "pagopa-dx/azure-function-app/azurerm"
+  version = "~> 0.2"
 
   environment         = merge(local.environment, { app_name = "be" })
   tier                = "s"
@@ -38,7 +39,7 @@ module "function_app" {
 }
 
 module "func_api_role" {
-  source  = "pagopa/dx-azure-role-assignments/azurerm"
+  source  = "pagopa-dx/azure-role-assignments/azurerm"
   version = "~> 0.1"
 
   principal_id = module.function_app.function_app.function_app.principal_id

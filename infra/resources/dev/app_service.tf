@@ -7,7 +7,8 @@ locals {
 }
 
 module "app_service" {
-  source = "github.com/pagopa/dx//infra/modules/azure_app_service?ref=main"
+  source  = "pagopa-dx/azure-app-service/azurerm"
+  version = "~> 0.1"
 
   environment         = merge(local.environment, { app_name = "fe" })
   tier                = "s"
@@ -30,7 +31,7 @@ module "app_service" {
 }
 
 module "app_service_roles" {
-  source  = "pagopa/dx-azure-role-assignments/azurerm"
+  source  = "pagopa-dx/azure-role-assignments/azurerm"
   version = "~> 0.1"
 
   principal_id = module.app_service.app_service.app_service.principal_id
