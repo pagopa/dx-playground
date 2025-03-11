@@ -19,7 +19,8 @@ provider "azurerm" {
 }
 
 module "container_app_job_selfhosted_runner" {
-  source = "github.com/pagopa/dx//infra/modules/github_selfhosted_runner_on_container_app_jobs?ref=8d43d6db2ba632607ac2814c0dca5193d96065fb"
+  source  = "pagopa-dx/github-selfhosted-runner-on-container-app-jobs/azurerm"
+  version = "~> 1.0"
 
   environment = {
     prefix          = local.prefix
