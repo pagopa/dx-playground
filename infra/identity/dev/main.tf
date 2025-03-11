@@ -50,7 +50,7 @@ module "federated_identities" {
 }
 
 module "backend_federated_identities" {
-  source  = "pagopa/dx-azure-federated-identity-with-github/azurerm"
+  source  = "pagopa-dx/azure-federated-identity-with-github/azurerm"
   version = "0.0.2"
 
   prefix       = local.prefix

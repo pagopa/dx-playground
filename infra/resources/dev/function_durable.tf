@@ -3,7 +3,7 @@ locals {
 }
 
 module "function_test_durable" {
-  source  = "pagopa/dx-azure-function-app/azurerm"
+  source  = "pagopa-dx/azure-function-app/azurerm"
   version = "~> 0.2"
 
   has_durable_functions    = true

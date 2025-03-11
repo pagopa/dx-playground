@@ -6,8 +6,8 @@ resource "azurerm_subnet" "apim" {
 }
 
 module "apim" {
-  source  = "pagopa/dx-azure-api-management/azurerm"
-  version = "~> 0"
+  source  = "pagopa-dx/azure-api-management/azurerm"
+  version = "~> 0.0"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name
@@ -29,7 +29,7 @@ module "apim" {
 }
 
 module "apim_roles" {
-  source       = "pagopa/dx-azure-role-assignments/azurerm"
+  source       = "pagopa-dx/azure-role-assignments/azurerm"
   version      = "~> 0.1"
   principal_id = module.apim.principal_id
 

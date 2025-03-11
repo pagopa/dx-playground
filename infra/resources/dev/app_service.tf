@@ -30,7 +30,7 @@ module "app_service" {
 }
 
 module "app_service_roles" {
-  source  = "pagopa/dx-azure-role-assignments/azurerm"
+  source  = "pagopa-dx/azure-role-assignments/azurerm"
   version = "~> 0.1"
 
   principal_id = module.app_service.app_service.app_service.principal_id
