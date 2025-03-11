@@ -22,7 +22,7 @@ provider "azurerm" {
 
 module "naming_convention" {
   source  = "pagopa-dx/azure-naming-convention/azurerm"
-  version = "0.0.5"
+  version = "~> 0.0"
 
   environment = merge(local.environment, { app_name = "pg" })
 }
