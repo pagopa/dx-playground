@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.9.1
+
+### Patch Changes
+
+- 59825ed: Update module's sources using the new Terraform Registry
+
 ## 0.9.0
 
 ### Minor Changes
