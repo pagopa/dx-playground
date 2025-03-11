@@ -1,3 +1,5 @@
 {
-  "backend_federated_identities": "1e36a9f2561832bce69725dce4875455fe390fd487c8ec8bbdc81b7ba42c9b4c"
+  "backend_federated_identities": "1e36a9f2561832bce69725dce4875455fe390fd487c8ec8bbdc81b7ba42c9b4c",
+  "roles_cd": "52ca57b72bdf639846a472014cb2113d519bdc00dc4a642e925b97ad6b99d25c",
+  "roles_ci": "52ca57b72bdf639846a472014cb2113d519bdc00dc4a642e925b97ad6b99d25c"
 }

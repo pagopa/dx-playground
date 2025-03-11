@@ -17,8 +17,8 @@ No providers.
 |------|--------|---------|
 | <a name="module_backend_federated_identities"></a> [backend\_federated\_identities](#module\_backend\_federated\_identities) | pagopa-dx/azure-federated-identity-with-github/azurerm | 0.0.2 |
 | <a name="module_federated_identities"></a> [federated\_identities](#module\_federated\_identities) | github.com/pagopa/dx//infra/modules/azure_federated_identity_with_github | 19b6c8a118cdd60671d603dac87d3663089d72a7 |
-| <a name="module_roles_cd"></a> [roles\_cd](#module\_roles\_cd) | github.com/pagopa/dx//infra/modules/azure_role_assignments | 19b6c8a118cdd60671d603dac87d3663089d72a7 |
-| <a name="module_roles_ci"></a> [roles\_ci](#module\_roles\_ci) | github.com/pagopa/dx//infra/modules/azure_role_assignments | 19b6c8a118cdd60671d603dac87d3663089d72a7 |
+| <a name="module_roles_cd"></a> [roles\_cd](#module\_roles\_cd) | pagopa-dx/azure-role-assignments/azurerm | ~> 0.1 |
+| <a name="module_roles_ci"></a> [roles\_ci](#module\_roles\_ci) | pagopa-dx/azure-role-assignments/azurerm | ~> 0.1 |
 
 ## Resources
 
