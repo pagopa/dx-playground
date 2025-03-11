@@ -1,5 +1,11 @@
 # @infra/identity
 
+## 0.2.3
+
+### Patch Changes
+
+- 59825ed: Update module's sources using the new Terraform Registry
+
 ## 0.2.2
 
 ### Patch Changes
