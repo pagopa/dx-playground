@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.9.2
+
+### Patch Changes
+
+- 60a9b07: Enable Application Insights on App Service
+
 ## 0.9.1
 
 ### Patch Changes
