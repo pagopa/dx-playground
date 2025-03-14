@@ -32,7 +32,7 @@ module "apim" {
   }
 
   monitoring = {
-    enabled                    = false
+    enabled                    = true
     log_analytics_workspace_id = module.application_insights.log_analytics_workspace_id
     sampling_percentage        = 100
     verbosity                  = "information"
