@@ -29,4 +29,6 @@ locals {
       "ARM_CLIENT_ID" = data.azurerm_user_assigned_identity.identity_app_cd.client_id
     }
   }
+
+  jira_board_ids = ["CES"]
 }
