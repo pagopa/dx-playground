@@ -25,3 +25,10 @@ resource "github_repository" "this" {
 
   archive_on_destroy = true
 }
+
+resource "github_repository_autolink_reference" "jira_links" {
+  for_each            = toset(local.jira_board_ids)
+  repository          = github_repository.this.name
+  key_prefix          = "${each.value}-"
+  target_url_template = "https://pagopa.atlassian.net/browse/${each.value}-<num>"
+}
