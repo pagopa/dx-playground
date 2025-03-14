@@ -1,5 +1,11 @@
 # @infra/repository
 
+## 0.4.0
+
+### Minor Changes
+
+- 7280deb: Add resource that automatic generate links with Jira tasks
+
 ## 0.3.2
 
 ### Patch Changes
