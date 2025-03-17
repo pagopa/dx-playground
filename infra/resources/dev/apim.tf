@@ -6,10 +6,8 @@ resource "azurerm_subnet" "apim" {
 }
 
 module "apim" {
-  # source  = "pagopa-dx/azure-api-management/azurerm"
-  # version = "~> 1.0"
-
-  source = "github.com/pagopa/dx//infra/modules/azure_api_management?ref=90848c87fb34322c6006ffb7870aff2a74112b21"
+  source  = "pagopa-dx/azure-api-management/azurerm"
+  version = "~> 1.0"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name
@@ -29,22 +27,6 @@ module "apim" {
     id                  = module.application_insights.id
     sampling_percentage = 100
     verbosity           = "information"
-  }
-
-  monitoring = {
-    enabled                    = true
-    log_analytics_workspace_id = module.application_insights.log_analytics_workspace_id
-    sampling_percentage        = 100
-    verbosity                  = "information"
-
-    logs = {
-      enabled = true
-      groups  = ["allLogs", "audit"]
-    }
-
-    metrics = {
-      enabled = true
-    }
   }
 
   subnet_id                     = azurerm_subnet.apim.id
