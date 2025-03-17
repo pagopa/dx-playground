@@ -7,7 +7,7 @@ resource "azurerm_subnet" "apim" {
 
 module "apim" {
   source  = "pagopa-dx/azure-api-management/azurerm"
-  version = "~> 0.0"
+  version = "~> 1.0"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name
@@ -19,6 +19,14 @@ module "apim" {
   virtual_network = {
     name                = data.azurerm_virtual_network.test_vnet.name
     resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
+  }
+
+  application_insights = {
+    enabled             = true
+    connection_string   = module.application_insights.connection_string
+    id                  = module.application_insights.id
+    sampling_percentage = 100
+    verbosity           = "information"
   }
 
   subnet_id                     = azurerm_subnet.apim.id
