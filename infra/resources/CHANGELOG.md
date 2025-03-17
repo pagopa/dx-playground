@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.9.3
+
+### Patch Changes
+
+- a9f8263: Enable Application Insights on APIM
+
 ## 0.9.2
 
 ### Patch Changes
