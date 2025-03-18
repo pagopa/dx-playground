@@ -12,10 +12,6 @@
       </otherwise>
     </choose>
 
-    <set-header name="x-functions-key" exists-action="override">
-      <value>{{${function-key-name}}}</value>
-    </set-header>
-
     <cors>
       <allowed-origins>
           <origin>*</origin>
