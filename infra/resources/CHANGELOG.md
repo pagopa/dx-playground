@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.9.4
+
+### Patch Changes
+
+- 70e7d63: Remove `set-header` from the policy and handle that within the backend resource
+
 ## 0.9.3
 
 ### Patch Changes
