@@ -23,7 +23,8 @@ variable "api" {
 variable "backend" {
   description = "Backend API configuration"
   type = object({
-    name = string
-    url  = string
+    name               = string
+    url                = string
+    target_resource_id = string
   })
 }

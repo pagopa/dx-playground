@@ -69,8 +69,9 @@ module "to_do_api" {
   resource_group_name = module.apim.resource_group_name
 
   backend = {
-    name = "to-do-api-azure-function"
-    url  = "https://${module.function_app.function_app.function_app.default_hostname}"
+    name               = "to-do-api-azure-function"
+    url                = "https://${module.function_app.function_app.function_app.default_hostname}"
+    target_resource_id = module.function_app.function_app.function_app.id
   }
 }
 
