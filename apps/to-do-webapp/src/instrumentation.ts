@@ -1,13 +1,14 @@
-import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
+import { metrics, trace } from "@opentelemetry/api";
+import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { UndiciInstrumentation } from "@opentelemetry/instrumentation-undici";
-import { registerOTel } from "@vercel/otel";
 
 export async function register() {
-  registerOTel({
+  useAzureMonitor();
+
+  registerInstrumentations({
     instrumentations: [new UndiciInstrumentation()],
-    traceExporter: new AzureMonitorTraceExporter({
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING!,
-    }),
+    meterProvider: metrics.getMeterProvider(),
+    tracerProvider: trace.getTracerProvider(),
   });
 }
