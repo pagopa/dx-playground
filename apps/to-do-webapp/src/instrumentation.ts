@@ -7,7 +7,7 @@ export async function register() {
     instrumentations: [new UndiciInstrumentation()],
     traceExporter: new AzureMonitorTraceExporter({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      connectionString: process.env.APPINSIGHTS_CONNSCTION_STRING!,
+      connectionString: process.env.APPLICATIONINSIGHTS_CONNECTION_STRING!,
     }),
   });
 }
