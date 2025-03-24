@@ -23,7 +23,7 @@
     "@mui/material": "^6.4.1",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
     "fp-ts": "^2.16.9",
-    "next": "15.1.2",
+    "next": "15.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
