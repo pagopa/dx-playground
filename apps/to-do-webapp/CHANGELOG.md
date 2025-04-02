@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.4
+
+### Patch Changes
+
+- 1641b8b: Bump `next` from 15.1.2 to 15.2.3
+
 ## 0.3.3
 
 ### Patch Changes
