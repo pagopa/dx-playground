@@ -1,5 +1,11 @@
 # @infra/repository
 
+## 0.4.1
+
+### Patch Changes
+
+- 22d1d4e: Replace repo configuration using TF module
+
 ## 0.4.0
 
 ### Minor Changes
