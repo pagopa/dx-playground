@@ -17,7 +17,9 @@
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_repository"></a> [repository](#module\_repository) | pagopa-dx/github-environment-bootstrap/github | ~> 0 |
 
 ## Resources
 
@@ -27,10 +29,6 @@ No modules.
 | [github_actions_environment_secret.env_dev_cd_secrets](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_environment_secret.env_dev_ci_secrets](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/actions_environment_secret) | resource |
 | [github_actions_secret.repo_secrets](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/actions_secret) | resource |
-| [github_branch_default.default_main](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/branch_default) | resource |
-| [github_branch_protection.protection_main](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/branch_protection) | resource |
-| [github_repository.this](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository) | resource |
-| [github_repository_autolink_reference.jira_links](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository_autolink_reference) | resource |
 | [github_repository_environment.app_dev_cd](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_dev_cd](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository_environment) | resource |
 | [github_repository_environment.github_repository_environment_dev_ci](https://registry.terraform.io/providers/integrations/github/6.4.0/docs/resources/repository_environment) | resource |
