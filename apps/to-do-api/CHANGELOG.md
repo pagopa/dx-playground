@@ -1,5 +1,14 @@
 # to-do-api
 
+## 0.5.6
+
+### Patch Changes
+
+- 0a113af: Send custom events to Application Insights
+- 9893889: Fix eslint versions
+- Updated dependencies [9893889]
+  - azure-functions-otel-instrumentation@0.1.1
+
 ## 0.5.5
 
 ### Patch Changes

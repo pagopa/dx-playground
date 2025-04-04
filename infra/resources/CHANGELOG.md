@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.9.5
+
+### Patch Changes
+
+- 028c68b: Add environment variable to App Service
+
 ## 0.9.4
 
 ### Patch Changes
