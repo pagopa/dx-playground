@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.5
+
+### Patch Changes
+
+- 7d8ae66: Bump next from 15.2.3 to 15.2.4
+
 ## 0.3.4
 
 ### Patch Changes
