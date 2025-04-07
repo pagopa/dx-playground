@@ -29,6 +29,7 @@
     "@opentelemetry/sdk-node": "^0.200.0",
     "@opentelemetry/sdk-trace-node": "^2.0.0",
     "@opentelemetry/semantic-conventions": "^1.30.0",
+    "@pagopa/azure-tracing": "^0.0.0-a8afd245b081e824e7507c171e3ce85113ca744e",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
     "fp-ts": "^2.16.9",
     "next": "15.2.4",
