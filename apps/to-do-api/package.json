@@ -20,10 +20,10 @@
     "test:coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@azure/cosmos": "^4.2.0",
-    "@azure/functions": "^4.6.1",
-    "@azure/identity": "^4.5.0",
-    "@pagopa/azure-tracing": "^0.0.0-e9b0b0f6debe327b492c2834b2d492d6ad9c5a9a",
+    "@azure/cosmos": "^4.3.0",
+    "@azure/functions": "^4.7.0",
+    "@azure/identity": "^4.8.0",
+    "@pagopa/azure-tracing": "^0.0.0-ea1d7170b5e5edb47ab35f3c42b8c00d8732e611",
     "@pagopa/handler-kit": "^1.1.0",
     "@pagopa/handler-kit-azure-func": "^2.0.7",
     "@pagopa/ts-commons": "^13.1.2",
@@ -37,7 +37,7 @@
     "@pagopa/typescript-config-node": "workspace:^",
     "@types/node": "^22.13.1",
     "@vitest/coverage-v8": "^2.1.8",
-    "azure-functions-core-tools": "^4.0.6821",
+    "azure-functions-core-tools": "^4.0.7030",
     "esbuild": "^0.25.0",
     "eslint": "8.57.0",
     "prettier": "^3.4.2",

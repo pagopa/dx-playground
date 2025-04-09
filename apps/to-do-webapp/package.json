@@ -21,7 +21,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.1",
-    "@pagopa/azure-tracing": "0.0.0-e9b0b0f6debe327b492c2834b2d492d6ad9c5a9a",
+    "@pagopa/azure-tracing": "^0.0.0-ea1d7170b5e5edb47ab35f3c42b8c00d8732e611",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
     "fp-ts": "^2.16.9",
     "next": "15.2.4",
