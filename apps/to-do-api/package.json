@@ -23,7 +23,7 @@
     "@azure/cosmos": "^4.3.0",
     "@azure/functions": "^4.7.0",
     "@azure/identity": "^4.8.0",
-    "@pagopa/azure-tracing": "^0.0.0-ea1d7170b5e5edb47ab35f3c42b8c00d8732e611",
+    "@pagopa/azure-tracing": "^0.1.0",
     "@pagopa/handler-kit": "^1.1.0",
     "@pagopa/handler-kit-azure-func": "^2.0.7",
     "@pagopa/ts-commons": "^13.1.2",
