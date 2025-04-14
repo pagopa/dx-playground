@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.9.6
+
+### Patch Changes
+
+- e2c272c: Enable APIM monitoring to send logs and metrics to Log Analytics workspace
+
 ## 0.9.5
 
 ### Patch Changes
