@@ -8,10 +8,8 @@ locals {
 }
 
 module "app_service" {
-  # source  = "pagopa-dx/azure-app-service/azurerm"
-  # version = "~> 0.1"
-
-  source = "github.com/pagopa/dx//infra/modules/azure_app_service?ref=1553eb1925612b4448fb68294dccce1605d7252d"
+  source  = "pagopa-dx/azure-app-service/azurerm"
+  version = "~> 0.1"
 
   environment         = merge(local.environment, { app_name = "fe" })
   tier                = "s"
