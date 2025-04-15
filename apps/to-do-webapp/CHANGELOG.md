@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.7
+
+### Patch Changes
+
+- 9291f22: Use `@pagopa/azure-tracing` package
+
 ## 0.3.6
 
 ### Patch Changes

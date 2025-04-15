@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.5.7
+
+### Patch Changes
+
+- 9291f22: Use `@pagopa/azure-tracing` package
+
 ## 0.5.6
 
 ### Patch Changes
