@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 0.9.7
+
+### Patch Changes
+
+- 9291f22: Change value of `NODE_OPTIONS` environment variable
+
 ## 0.9.6
 
 ### Patch Changes
