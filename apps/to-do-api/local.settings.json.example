@@ -5,7 +5,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "NODE_ENV": "development",
 
-    "NODE_OPTIONS": "--import ./dist/instrumentation.mjs",
+    "NODE_OPTIONS": "--import @pagopa/azure-tracing",
 
     "COSMOSDB_DATABASE_NAME": "db",
     "COSMOSDB_ENDPOINT": "<insert-here-the-cosmosdb-endpoint>",
@@ -13,7 +13,11 @@
     "COSMOSDB_TASKS_CONTAINER_NAME": "<insert-here-tasks-container-name>",
 
     // Application Insights
+
+    // Enable host Application Insights integration
     "APPLICATIONINSIGHTS_CONNECTION_STRING": "<insert-here-ai-connection-string>",
+    // Used by the @pagopa/azure-tracing package
+    "APPINSIGHTS_CONNECTION_STRING": "<insert-here-ai-connection-string>",
     "APPINSIGHTS_SAMPLING_PERCENTAGE": 5
   }
 }

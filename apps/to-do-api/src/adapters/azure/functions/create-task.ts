@@ -1,3 +1,4 @@
+import { emitCustomEvent } from "@pagopa/azure-tracing/logger";
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
@@ -9,7 +10,6 @@ import { TaskItem } from "../../../generated/definitions/internal/TaskItem.js";
 import { createTask } from "../../../use-cases/create-task.js";
 import { toHttpProblemJson, toTaskItemAPI } from "../../http/codec.js";
 import { parseRequestBody } from "../../http/middleware.js";
-import { logCustomEvent } from "../monitor-opentelemetry/logger.js";
 
 type Env = Pick<Capabilities, "taskIdGenerator" | "taskRepository">;
 
@@ -26,7 +26,7 @@ const makeHandlerKitHandler: H.Handler<
     // execute use case
     RTE.flatMap(({ item }) => createTask(item.title)),
     RTE.chainFirst((task) => {
-      logCustomEvent("taskCreated", { id: task.id })("CreateTaskHandler");
+      emitCustomEvent("taskCreated", { id: task.id })("CreateTaskHandler");
       return RTE.of(task);
     }),
     // handle result and prepare response

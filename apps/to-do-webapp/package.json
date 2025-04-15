@@ -18,17 +18,10 @@
     ".next"
   ],
   "dependencies": {
-    "@azure/monitor-opentelemetry": "^1.9.0",
-    "@azure/monitor-opentelemetry-exporter": "^1.0.0-beta.29",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.1",
-    "@opentelemetry/exporter-trace-otlp-http": "^0.200.0",
-    "@opentelemetry/instrumentation-undici": "^0.11.0",
-    "@opentelemetry/resources": "^2.0.0",
-    "@opentelemetry/sdk-node": "^0.200.0",
-    "@opentelemetry/sdk-trace-node": "^2.0.0",
-    "@opentelemetry/semantic-conventions": "^1.30.0",
+    "@pagopa/azure-tracing": "^0.3.0",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
     "fp-ts": "^2.16.9",
     "next": "15.2.4",
