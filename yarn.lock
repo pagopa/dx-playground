@@ -2788,9 +2788,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pagopa/azure-tracing@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@pagopa/azure-tracing@npm:0.3.0"
+"@pagopa/azure-tracing@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@pagopa/azure-tracing@npm:0.3.1"
   dependencies:
     "@azure/functions": "npm:^4.7.0"
     "@azure/monitor-opentelemetry": "npm:^1.10.0"
@@ -2802,13 +2802,13 @@ __metadata:
     "@t3-oss/env-core": "npm:^0.12.0"
     import-in-the-middle: "npm:^1.13.1"
     zod: "npm:^3.24.2"
-  checksum: 10c0/ba15ec0181e2e5c3890b11c6a29fe0a51a659dd4b4aa58184868379c23f1f5db6bf3f911ed1ca825390bdfd0f67daeadaf3ec547e53deb91ce4e4b69c3426957
+  checksum: 10c0/cb71919f480154d6d33349dc263de9d314dcebb99e21783f78f85293a482d250fc0b5d39a5d3378303670f84749c6ac9638f3723615af8f59e4a2893261381e4
   languageName: node
   linkType: hard
 
-"@pagopa/eslint-config@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "@pagopa/eslint-config@npm:4.0.2"
+"@pagopa/eslint-config@npm:^4.0.3":
+  version: 4.0.3
+  resolution: "@pagopa/eslint-config@npm:4.0.3"
   dependencies:
     "@eslint/js": "npm:^9.0.0"
     eslint-config-prettier: "npm:^9.1.0"
@@ -2818,8 +2818,8 @@ __metadata:
     typescript: "npm:~5.2.2"
     typescript-eslint: "npm:^7.6.0"
   peerDependencies:
-    eslint: 8.57.0
-  checksum: 10c0/5ac78e093114bf4fdfb396fa84a5430c7ea11cff89ded8ebe76635dd7c2e68bb70a7916ddb523ce54d071a6839d52374a37433f081f9ac6de747d03571df4fb2
+    eslint: ^8.57.0
+  checksum: 10c0/b5599a6698fc00200905f6deb0911f808e374440b5db796135fede010ce725b5de0d69c1dbb79b43594c7bd228cfc131cbd4bea9c615f28a23f573857c52081a
   languageName: node
   linkType: hard
 
@@ -10145,7 +10145,7 @@ __metadata:
   dependencies:
     "@azure/functions": "npm:^4.7.0"
     "@azure/identity": "npm:^4.8.0"
-    "@pagopa/eslint-config": "npm:^4.0.2"
+    "@pagopa/eslint-config": "npm:^4.0.3"
     "@pagopa/handler-kit": "npm:^1.1.0"
     "@pagopa/handler-kit-azure-func": "npm:^2.0.7"
     "@pagopa/ts-commons": "npm:^13.1.2"
@@ -10261,8 +10261,8 @@ __metadata:
     "@azure/cosmos": "npm:^4.3.0"
     "@azure/functions": "npm:^4.7.0"
     "@azure/identity": "npm:^4.8.0"
-    "@pagopa/azure-tracing": "npm:^0.3.0"
-    "@pagopa/eslint-config": "npm:^4.0.2"
+    "@pagopa/azure-tracing": "npm:^0.3.1"
+    "@pagopa/eslint-config": "npm:^4.0.3"
     "@pagopa/handler-kit": "npm:^1.1.0"
     "@pagopa/handler-kit-azure-func": "npm:^2.0.7"
     "@pagopa/openapi-codegen-ts": "npm:^14.0.0"
@@ -10293,8 +10293,8 @@ __metadata:
     "@emotion/styled": "npm:^11.14.0"
     "@eslint/eslintrc": "npm:^3"
     "@mui/material": "npm:^6.4.1"
-    "@pagopa/azure-tracing": "npm:^0.3.0"
-    "@pagopa/eslint-config": "npm:^4.0.2"
+    "@pagopa/azure-tracing": "npm:^0.3.1"
+    "@pagopa/eslint-config": "npm:^4.0.3"
     "@pagopa/openapi-codegen-ts": "npm:^14.0.0"
     "@pagopa/typescript-config-react": "workspace:^"
     "@types/node": "npm:^20"

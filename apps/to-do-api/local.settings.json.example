@@ -16,8 +16,6 @@
 
     // Enable host Application Insights integration
     "APPLICATIONINSIGHTS_CONNECTION_STRING": "<insert-here-ai-connection-string>",
-    // Used by the @pagopa/azure-tracing package
-    "APPINSIGHTS_CONNECTION_STRING": "<insert-here-ai-connection-string>",
     "APPINSIGHTS_SAMPLING_PERCENTAGE": 5
   }
 }
