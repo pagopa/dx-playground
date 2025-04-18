@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.5.8
+
+### Patch Changes
+
+- 54e1f35: Upgrade PagoPA dependencies
+
 ## 0.5.7
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.8
+
+### Patch Changes
+
+- 54e1f35: Upgrade PagoPA dependencies
+
 ## 0.3.7
 
 ### Patch Changes
