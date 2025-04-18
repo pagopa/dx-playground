@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.0.6
+
+### Patch Changes
+
+- 54e1f35: Upgrade PagoPA dependencies
+
 ## 1.0.5
 
 ### Patch Changes
