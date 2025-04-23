@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.9
+
+### Patch Changes
+
+- d748c1f: Upgrade minor and patches dependencies
+
 ## 0.3.8
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.5.9
+
+### Patch Changes
+
+- d748c1f: Upgrade minor and patches dependencies
+
 ## 0.5.8
 
 ### Patch Changes

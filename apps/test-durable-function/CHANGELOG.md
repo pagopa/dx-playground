@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.0.7
+
+### Patch Changes
+
+- d748c1f: Upgrade minor and patches dependencies
+
 ## 1.0.6
 
 ### Patch Changes
