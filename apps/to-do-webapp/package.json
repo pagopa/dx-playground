@@ -20,25 +20,25 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@mui/material": "^6.4.1",
+    "@mui/material": "^6.4.11",
     "@pagopa/azure-tracing": "^0.3.1",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
-    "fp-ts": "^2.16.9",
-    "next": "15.2.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "fp-ts": "^2.16.10",
+    "next": "15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@eslint/eslintrc": "^3.3.1",
     "@pagopa/eslint-config": "^4.0.3",
     "@pagopa/typescript-config-react": "workspace:^",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "8.57.0",
-    "eslint-config-next": "15.1.2",
-    "prettier": "^3.4.2",
-    "shx": "^0.3.4",
-    "typescript": "^5.7.2"
+    "@types/node": "^20.17.30",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "eslint": "8.57.1",
+    "eslint-config-next": "15.3.1",
+    "prettier": "^3.5.3",
+    "shx": "^0.4.0",
+    "typescript": "^5.8.3"
   }
 }
