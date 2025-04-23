@@ -10186,7 +10186,7 @@ __metadata:
     prettier-eslint: "npm:^16.4.1"
     shx: "npm:^0.4.0"
     typescript: "npm:^5.8.3"
-    ulid: "npm:^2.4.0"
+    ulid: "npm:^3.0.0"
   languageName: unknown
   linkType: soft
 
@@ -10305,7 +10305,7 @@ __metadata:
     shx: "npm:^0.4.0"
     swagger-cli: "npm:^4.0.4"
     typescript: "npm:^5.8.3"
-    ulid: "npm:^2.4.0"
+    ulid: "npm:^3.0.0"
     vitest: "npm:^2.1.9"
     vitest-mock-extended: "npm:^2.0.2"
   languageName: unknown
@@ -10694,12 +10694,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ulid@npm:^2.3.0, ulid@npm:^2.4.0":
+"ulid@npm:^2.3.0":
   version: 2.4.0
   resolution: "ulid@npm:2.4.0"
   bin:
     ulid: bin/cli.js
   checksum: 10c0/96f7597a2f09dadd380707a0755753d85717059deae54a9e28b6cbc34c02ef211dd1d1dcbfa8bd557d12309f174b87f3ba5f45d6b67573d1a2da202b5a0c9319
+  languageName: node
+  linkType: hard
+
+"ulid@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "ulid@npm:3.0.0"
+  bin:
+    ulid: dist/cli.js
+  checksum: 10c0/1e31318c645198d565384c954b84ff7b1651daba570a713064349d782f09071da727e7a36240230e8e7757655c19c72017f47d9e4ff2cf130126b88f74a46d39
   languageName: node
   linkType: hard
 

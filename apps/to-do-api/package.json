@@ -29,7 +29,7 @@
     "@pagopa/ts-commons": "^13.1.2",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22",
-    "ulid": "^2.4.0"
+    "ulid": "^3.0.0"
   },
   "devDependencies": {
     "@pagopa/eslint-config": "^4.0.3",
