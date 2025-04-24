@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.5.10
+
+### Patch Changes
+
+- 6994e09: Upgrade vite related dependencies
+
 ## 0.5.9
 
 ### Patch Changes
