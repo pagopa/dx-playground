@@ -23,6 +23,7 @@
     "@mui/material": "^6.4.11",
     "@pagopa/azure-tracing": "^0.3.2",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
+    "@pagopa/ts-commons": "^13.1.2",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22",
     "next": "15.3.1",
