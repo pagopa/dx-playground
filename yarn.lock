@@ -10110,6 +10110,7 @@ __metadata:
     eslint: "npm:8.57.1"
     eslint-config-next: "npm:15.3.1"
     fp-ts: "npm:^2.16.10"
+    io-ts: "npm:^2.2.22"
     next: "npm:15.3.1"
     prettier: "npm:^3.5.3"
     react: "npm:^19.1.0"
