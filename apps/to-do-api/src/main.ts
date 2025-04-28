@@ -1,7 +1,6 @@
 import { CosmosClient } from "@azure/cosmos";
 import { app } from "@azure/functions";
 import { DefaultAzureCredential } from "@azure/identity";
-import { registerAzureFunctionHooks } from "@pagopa/azure-tracing/azure-functions";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
@@ -34,8 +33,6 @@ const env = {
   taskIdGenerator: makeTaskIdGenerator(),
   taskRepository: makeTaskRepository(taskContainer),
 };
-
-registerAzureFunctionHooks(app);
 
 app.http("info", {
   authLevel: "anonymous",
