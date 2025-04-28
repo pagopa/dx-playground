@@ -21,7 +21,6 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.11",
-    "@pagopa/azure-tracing": "^0.3.3",
     "@pagopa/ts-commons": "^13.1.2",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22",
