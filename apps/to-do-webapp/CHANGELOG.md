@@ -1,5 +1,12 @@
 # to-do-webapp
 
+## 0.3.10
+
+### Patch Changes
+
+- 025efc9: Install missing but required dependencies
+  Move `@pagopa/openapi-codegen-ts` to dev dependencies
+
 ## 0.3.9
 
 ### Patch Changes
