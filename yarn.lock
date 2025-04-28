@@ -10116,6 +10116,7 @@ __metadata:
     "@emotion/styled": "npm:^11.14.0"
     "@eslint/eslintrc": "npm:^3.3.1"
     "@mui/material": "npm:^6.4.11"
+    "@pagopa/azure-tracing": "npm:^0.3.2"
     "@pagopa/eslint-config": "npm:^4.0.3"
     "@pagopa/openapi-codegen-ts": "npm:^14.0.0"
     "@pagopa/ts-commons": "npm:^13.1.2"
