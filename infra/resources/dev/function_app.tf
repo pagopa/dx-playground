@@ -7,7 +7,7 @@ locals {
     COSMOSDB_TASKS_CONTAINER_NAME = azurerm_cosmosdb_sql_container.tasks.name
 
     # Options to load instrumentation file with AI or Azure Monitor
-    NODE_OPTIONS = "--import @pagopa/azure-tracing"
+    # NODE_OPTIONS = "--import @pagopa/azure-tracing"
   }
 }
 
