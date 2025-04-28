@@ -32,8 +32,8 @@ module "function_app" {
 
   health_check_path = "/api/info"
 
-  # application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.application_insights.connection_string_secret_id})"
-  # application_insights_sampling_percentage = 100
+  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.application_insights.connection_string_secret_id})"
+  application_insights_sampling_percentage = 100
 
   tags = local.tags
 }
