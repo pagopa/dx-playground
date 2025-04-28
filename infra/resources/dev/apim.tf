@@ -22,7 +22,7 @@ module "apim" {
   }
 
   application_insights = {
-    enabled             = true
+    enabled             = false
     connection_string   = module.application_insights.connection_string
     id                  = module.application_insights.id
     sampling_percentage = 100
@@ -30,7 +30,7 @@ module "apim" {
   }
 
   monitoring = {
-    enabled                    = true
+    enabled                    = false
     log_analytics_workspace_id = module.application_insights.log_analytics_workspace_id
 
     logs = {
