@@ -10330,7 +10330,6 @@ __metadata:
     "@azure/cosmos": "npm:^4.3.0"
     "@azure/functions": "npm:^4.7.0"
     "@azure/identity": "npm:^4.9.1"
-    "@pagopa/azure-tracing": "npm:^0.3.3"
     "@pagopa/eslint-config": "npm:^4.0.4"
     "@pagopa/handler-kit": "npm:^1.1.0"
     "@pagopa/handler-kit-azure-func": "npm:^2.0.7"
