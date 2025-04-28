@@ -1,4 +1,3 @@
-import { emitCustomEvent } from "@pagopa/azure-tracing/logger";
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
@@ -25,10 +24,6 @@ const makeHandlerKitHandler: H.Handler<
     RTE.apSW("item", RTE.fromEither(parseRequestBody(CreateTaskItem)(req))),
     // execute use case
     RTE.flatMap(({ item }) => createTask(item.title)),
-    RTE.chainFirst((task) => {
-      emitCustomEvent("taskCreated", { id: task.id })("CreateTaskHandler");
-      return RTE.of(task);
-    }),
     // handle result and prepare response
     RTE.mapBoth(toHttpProblemJson, flow(toTaskItemAPI, H.createdJson)),
     RTE.orElseW(RTE.of),
