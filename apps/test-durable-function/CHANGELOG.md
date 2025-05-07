@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.0.8
+
+### Patch Changes
+
+- 3d06c7f: Upgrade dependencies
+
 ## 1.0.7
 
 ### Patch Changes

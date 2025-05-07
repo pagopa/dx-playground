@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.5.11
+
+### Patch Changes
+
+- 3d06c7f: Upgrade dependencies
+
 ## 0.5.10
 
 ### Patch Changes
