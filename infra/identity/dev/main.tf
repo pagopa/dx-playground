@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "<= 3.117.0"
+      version = "~>4"
     }
   }
 
@@ -18,15 +18,34 @@ provider "azurerm" {
   features {}
 }
 
+data "azurerm_subscription" "current" {}
+
+resource "azurerm_resource_group" "rg_identity" {
+  name     = "${local.project}-identity-rg-${local.instance_number}"
+  location = local.location
+
+  tags = local.tags
+}
+
 module "federated_identities" {
-  source = "github.com/pagopa/dx//infra/modules/azure_federated_identity_with_github?ref=19b6c8a118cdd60671d603dac87d3663089d72a7"
+  source  = "pagopa-dx/azure-federated-identity-with-github/azurerm"
+  version = "1.0.3"
 
-  prefix    = local.prefix
-  env_short = local.env_short
-  env       = local.env
-  domain    = local.domain
+  environment = {
+    prefix          = local.prefix
+    env_short       = local.env_short
+    location        = local.location
+    domain          = local.domain
+    instance_number = local.instance_number
+  }
 
-  repositories = [local.repo_name]
+  repository = {
+    name = local.repo_name
+  }
+
+  resource_group_name = azurerm_resource_group.rg_identity.name
+
+  subscription_id = data.azurerm_subscription.current.id
 
   continuos_integration = {
     enable = true
@@ -47,80 +66,81 @@ module "federated_identities" {
   }
 
   tags = local.tags
+
+  depends_on = [
+    azurerm_resource_group.rg_identity
+  ]
 }
 
 module "backend_federated_identities" {
   source  = "pagopa-dx/azure-federated-identity-with-github/azurerm"
-  version = "0.0.2"
+  version = "1.0.3"
 
-  prefix       = local.prefix
-  env_short    = local.env_short
-  env          = "app-${local.env}"
-  domain       = "${local.domain}-app"
-  repositories = [local.repo_name]
-  tags         = local.tags
+  environment = {
+    prefix          = local.prefix
+    env_short       = local.env_short
+    location        = local.location
+    domain          = "${local.domain}-app"
+    instance_number = local.instance_number
+  }
+  repository = {
+    name = local.repo_name
+  }
+  subscription_id     = data.azurerm_subscription.current.id
+  resource_group_name = azurerm_resource_group.rg_identity.name
+  tags                = local.tags
 
   continuos_integration = { enable = false }
 }
 
 module "roles_ci" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 0.1"
+  version = "1.0.3"
 
-  principal_id = module.federated_identities.federated_ci_identity.id
+  principal_id    = module.federated_identities.federated_ci_identity.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
 
   key_vault = [
     {
-      name                = "${local.project}-${local.location_short}-common-kv-01"
-      resource_group_name = "${local.project}-${local.location_short}-common-rg-01"
+      name                = "${local.prefix}-${local.env_short}-${local.location_short}-common-kv-01"
+      resource_group_name = "${local.prefix}-${local.env_short}-${local.location_short}-common-rg-01"
+      description         = "Allow dx-playground repo CI to read secrets"
       roles = {
         secrets = "reader"
       }
-    }
-  ]
-
-  event_hub = [
-    {
-      namespace_name      = "${local.project}-${local.location_short}-playground-pg-evhns-01"
-      resource_group_name = "${local.project}-${local.location_short}-playground-pg-dynatrace-rg-01"
-      role                = "owner"
     }
   ]
 }
 
 module "roles_cd" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 0.1"
+  version = "1.0.3"
 
-  principal_id = module.federated_identities.federated_cd_identity.id
+  principal_id    = module.federated_identities.federated_cd_identity.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
 
   key_vault = [
     {
-      name                = "${local.project}-${local.location_short}-common-kv-01"
-      resource_group_name = "${local.project}-${local.location_short}-common-rg-01"
+      name                = "${local.prefix}-${local.env_short}-${local.location_short}-common-kv-01"
+      resource_group_name = "${local.prefix}-${local.env_short}-${local.location_short}-common-rg-01"
+      description         = "Allow dx-playground repo CD to read secrets"
       roles = {
         secrets = "reader"
       }
     }
   ]
 
-  event_hub = [
-    {
-      namespace_name      = "${local.project}-${local.location_short}-playground-pg-evhns-01"
-      resource_group_name = "${local.project}-${local.location_short}-playground-pg-dynatrace-rg-01"
-      role                = "owner"
-    }
-  ]
-
   storage_blob = [
     {
       storage_account_name = "dxditnplaygrounddfstfd01"
-      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      resource_group_name  = "${local.prefix}-${local.env_short}-${local.location_short}-test-rg-01"
+      description          = "Allow dx-playground repo CD to be owner of the storage account"
       role                 = "owner"
     },
     {
       storage_account_name = "dxditnplaygrounddfstfn01"
-      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      resource_group_name  = "${local.prefix}-${local.env_short}-${local.location_short}-test-rg-01"
+      description          = "Allow dx-playground repo CD to be owner of the storage account"
       role                 = "owner"
     }
   ]
@@ -128,12 +148,14 @@ module "roles_cd" {
   storage_queue = [
     {
       storage_account_name = "dxditnplaygrounddfstfd01"
-      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      resource_group_name  = "${local.prefix}-${local.env_short}-${local.location_short}-test-rg-01"
+      description          = "Allow dx-playground repo CD to be owner of the storage account"
       role                 = "owner"
     },
     {
       storage_account_name = "dxditnplaygrounddfstfn01"
-      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      resource_group_name  = "${local.prefix}-${local.env_short}-${local.location_short}-test-rg-01"
+      description          = "Allow dx-playground repo CD to be owner of the storage account"
       role                 = "owner"
     }
   ]
@@ -141,12 +163,14 @@ module "roles_cd" {
   storage_table = [
     {
       storage_account_name = "dxditnplaygrounddfstfd01"
-      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      resource_group_name  = "${local.prefix}-${local.env_short}-${local.location_short}-test-rg-01"
+      description          = "Allow dx-playground repo CD to be owner of the storage account"
       role                 = "owner"
     },
     {
       storage_account_name = "dxditnplaygrounddfstfn01"
-      resource_group_name  = "${local.project}-${local.location_short}-test-rg-01"
+      resource_group_name  = "${local.prefix}-${local.env_short}-${local.location_short}-test-rg-01"
+      description          = "Allow dx-playground repo CD to be owner of the storage account"
       role                 = "owner"
     }
   ]
