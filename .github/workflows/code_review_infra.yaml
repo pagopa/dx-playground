@@ -20,5 +20,5 @@ jobs:
     name: Code Review Infra Plan
     secrets: inherit
     with:
-      environment: dev
+      environment: infra-dev
       base_path: infra/resources

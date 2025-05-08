@@ -9,7 +9,7 @@ data "azurerm_user_assigned_identity" "identity_dev_cd" {
 }
 
 data "azurerm_user_assigned_identity" "identity_app_cd" {
-  name                = "${local.project}-${local.location_short}-playground-app-infra-github-cd-id-01"
+  name                = "${local.project}-${local.location_short}-playground-app-github-cd-id-01"
   resource_group_name = local.identity_resource_group_name
 }
 

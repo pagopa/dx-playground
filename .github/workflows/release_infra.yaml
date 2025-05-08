@@ -13,5 +13,5 @@ jobs:
     name: Release Infrastructure
     secrets: inherit
     with:
-      environment: dev
+      environment: infra-dev
       base_path: infra/resources

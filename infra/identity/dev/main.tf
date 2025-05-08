@@ -80,9 +80,10 @@ module "backend_federated_identities" {
     prefix          = local.prefix
     env_short       = local.env_short
     location        = local.location
-    domain          = "${local.domain}-app"
+    domain          = local.domain
     instance_number = local.instance_number
   }
+  identity_type = "app"
   repository = {
     name = local.repo_name
   }
