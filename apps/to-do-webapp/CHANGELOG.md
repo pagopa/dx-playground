@@ -1,5 +1,11 @@
 # to-do-webapp
 
+## 0.3.11
+
+### Patch Changes
+
+- 3d06c7f: Upgrade dependencies
+
 ## 0.3.10
 
 ### Patch Changes
