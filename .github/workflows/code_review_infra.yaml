@@ -20,5 +20,6 @@ jobs:
     name: Code Review Infra Plan
     secrets: inherit
     with:
-      environment: infra-dev
+      environment: dev
+      override_github_environment: infra-dev
       base_path: infra/resources

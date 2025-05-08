@@ -13,5 +13,6 @@ jobs:
     name: Release Infrastructure
     secrets: inherit
     with:
-      environment: infra-dev
+      environment: dev
+      override_github_environment: infra-dev
       base_path: infra/resources
