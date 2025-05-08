@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.6.0
+
+### Minor Changes
+
+- 3f56476: Remove OpenTelemetry adapter
+
 ## 0.5.11
 
 ### Patch Changes
