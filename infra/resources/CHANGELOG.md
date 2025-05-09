@@ -1,5 +1,15 @@
 # @infra/resources
 
+## 1.0.0
+
+### Major Changes
+
+- 5bc0f60: Bump to a next major of the role assignment module
+
+### Patch Changes
+
+- 5bc0f60: Set only major as terraform module version
+
 ## 0.9.7
 
 ### Patch Changes
