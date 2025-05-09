@@ -1,6 +1,6 @@
 {
-  "backend_federated_identities": "36e202eac71de0c2eb2d8e47de04db6a5fbbf9c5a1e5e3f9e4484e99e8b95a40",
-  "roles_cd": "56c49d9d320aaba30423c2755fa98a03d7982e5ca3222a6c3ef3dc5152c2e1e2",
-  "roles_ci": "56c49d9d320aaba30423c2755fa98a03d7982e5ca3222a6c3ef3dc5152c2e1e2",
-  "federated_identities": "36e202eac71de0c2eb2d8e47de04db6a5fbbf9c5a1e5e3f9e4484e99e8b95a40"
+  "backend_federated_identities": "be3f5e0ebbe9c3ce08c1fb8914bd78e673b8631261aa0da2fefaa29e40403460",
+  "roles_cd": "75197ddb43823de058e87f34980db910cf469610e2890ead4bdc9c096d1bf46e",
+  "roles_ci": "75197ddb43823de058e87f34980db910cf469610e2890ead4bdc9c096d1bf46e",
+  "federated_identities": "be3f5e0ebbe9c3ce08c1fb8914bd78e673b8631261aa0da2fefaa29e40403460"
 }

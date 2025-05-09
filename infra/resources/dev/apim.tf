@@ -7,7 +7,7 @@ resource "azurerm_subnet" "apim" {
 
 module "apim" {
   source  = "pagopa-dx/azure-api-management/azurerm"
-  version = "~> 1.1"
+  version = "~> 1"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name
@@ -51,14 +51,16 @@ module "apim" {
 }
 
 module "apim_roles" {
-  source       = "pagopa-dx/azure-role-assignments/azurerm"
-  version      = "~> 0.1"
-  principal_id = module.apim.principal_id
+  source          = "pagopa-dx/azure-role-assignments/azurerm"
+  version         = "~> 1"
+  principal_id    = module.apim.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
 
   key_vault = [
     {
       name                = data.azurerm_key_vault.common_kv.name
       resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+      description         = "Allow dx-playground repo to read secrets"
       roles = {
         secrets = "reader"
       }
