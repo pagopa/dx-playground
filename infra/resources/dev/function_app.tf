@@ -13,7 +13,7 @@ locals {
 
 module "function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
-  version = "~> 0.2"
+  version = "~> 0"
 
   environment         = merge(local.environment, { app_name = "be" })
   tier                = "s"

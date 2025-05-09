@@ -7,7 +7,7 @@ resource "azurerm_subnet" "apim" {
 
 module "apim" {
   source  = "pagopa-dx/azure-api-management/azurerm"
-  version = "~> 1.1"
+  version = "~> 1"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name
