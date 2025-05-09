@@ -51,14 +51,16 @@ module "apim" {
 }
 
 module "apim_roles" {
-  source       = "pagopa-dx/azure-role-assignments/azurerm"
-  version      = "~> 0.1"
-  principal_id = module.apim.principal_id
+  source          = "pagopa-dx/azure-role-assignments/azurerm"
+  version         = "~> 1"
+  principal_id    = module.apim.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
 
   key_vault = [
     {
       name                = data.azurerm_key_vault.common_kv.name
       resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+      description         = "Allow dx-playground repo to read secrets"
       roles = {
         secrets = "reader"
       }
