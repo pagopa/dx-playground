@@ -1,5 +1,11 @@
 # @infra/repository
 
+## 0.4.2
+
+### Patch Changes
+
+- 5bc0f60: Set only major as terraform module version
+
 ## 0.4.1
 
 ### Patch Changes

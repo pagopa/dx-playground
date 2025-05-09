@@ -1,5 +1,11 @@
 # @infra/identity
 
+## 0.2.4
+
+### Patch Changes
+
+- 5bc0f60: Set only major as terraform module version
+
 ## 0.2.3
 
 ### Patch Changes
