@@ -20,7 +20,7 @@ provider "azurerm" {
 
 module "container_app_job_selfhosted_runner" {
   source  = "pagopa-dx/github-selfhosted-runner-on-container-app-jobs/azurerm"
-  version = "~> 1.0"
+  version = "~> 1"
 
   environment = {
     prefix          = local.prefix
