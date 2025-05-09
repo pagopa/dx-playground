@@ -3,7 +3,7 @@ locals {
   suffix         = "01"
   location_short = "itn"
 
-  identity_resource_group_name = "${local.project}-identity-rg"
+  identity_resource_group_name = "${local.project}-${local.location_short}-playground-identity-rg-01"
 
   repo_secrets = {
     "ARM_TENANT_ID"       = data.azurerm_client_config.current.tenant_id,

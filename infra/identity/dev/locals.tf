@@ -1,11 +1,11 @@
 locals {
-  prefix         = "dx"
-  env_short      = "d"
-  env            = "dev"
-  location       = "italynorth"
-  location_short = "itn"
-  project        = "${local.prefix}-${local.env_short}"
-  domain         = "playground"
+  prefix          = "dx"
+  env_short       = "d"
+  location        = "italynorth"
+  location_short  = "itn"
+  domain          = "playground"
+  project         = "${local.prefix}-${local.env_short}-${local.location_short}-${local.domain}"
+  instance_number = "01"
 
   repo_name = "dx-playground"
 
