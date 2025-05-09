@@ -36,20 +36,23 @@ module "app_service" {
 
 module "app_service_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 0.1"
+  version = "~> 1"
 
-  principal_id = module.app_service.app_service.app_service.principal_id
+  principal_id    = module.app_service.app_service.app_service.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
 
   apim = [
     {
       name                = module.apim.name
       resource_group_name = module.apim.resource_group_name
+      description         = "Allow App Service to call APIM"
       role                = "reader"
   }]
 
   key_vault = [{
     name                = data.azurerm_key_vault.common_kv.name
     resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+    description         = "Allow App Service to read secrets from Key Vault"
     roles = {
       secrets = "reader"
     }
