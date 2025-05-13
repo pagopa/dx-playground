@@ -4440,6 +4440,12 @@ __metadata:
   languageName: node
   linkType: hard
 
+"azure-function-v3@workspace:apps/azure-function-v3":
+  version: 0.0.0-use.local
+  resolution: "azure-function-v3@workspace:apps/azure-function-v3"
+  languageName: unknown
+  linkType: soft
+
 "azure-functions-core-tools@npm:^4.0.7030":
   version: 4.0.7030
   resolution: "azure-functions-core-tools@npm:4.0.7030"
