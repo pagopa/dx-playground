@@ -97,3 +97,30 @@ module "func_api_role" {
     }
   }]
 }
+
+module "function_v3_api_role" {
+  source  = "pagopa-dx/azure-role-assignments/azurerm"
+  version = "~> 1"
+
+  principal_id    = module.azure_function_v3_function_app.function_app.function_app.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
+
+  cosmos = [
+    {
+      account_name        = module.cosmos.name
+      resource_group_name = module.cosmos.resource_group_name
+      database            = azurerm_cosmosdb_sql_database.db.name
+      description         = "Allow Function App to read and write on Cosmos DB"
+      role                = "writer"
+    }
+  ]
+
+  key_vault = [{
+    name                = data.azurerm_key_vault.common_kv.name
+    resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+    description         = "Allow Function App to read secrets from Key Vault"
+    roles = {
+      secrets = "reader"
+    }
+  }]
+}
