@@ -7,5 +7,6 @@
   "function_test_durable": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a",
   "naming_convention": "d7973237e601af346ca3cc8797623f4edff8bdb94b661453d4242609f8d49118",
   "app_service": "cdd72986f914c691abfbd82fef35e18bdecc31e6a7eafbb072af0bf23e4f2b61",
-  "function_app": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a"
+  "function_app": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a",
+  "azure_function_v3_function_app": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a"
 }
