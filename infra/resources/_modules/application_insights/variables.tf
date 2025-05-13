@@ -5,13 +5,13 @@ variable "tags" {
 
 variable "resource_group_name" {
   type        = string
-  description = "Resource group name for the Function App services"
+  description = "Resource group name"
 }
 
 variable "key_vault_id" {
   type        = string
   sensitive   = true
-  description = "The Id of the key vault where the AI connection String is going to be created"
+  description = "The Id of the key vault where the AI connection string is going to be created"
 }
 
 variable "environment" {

@@ -32,8 +32,8 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment configuration object for resource naming | <pre>object({<br/>    prefix          = string<br/>    env_short       = string<br/>    location        = string<br/>    domain          = optional(string)<br/>    app_name        = string<br/>    instance_number = string<br/>  })</pre> | n/a | yes |
-| <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | The Id of the key vault where the AI connection String is going to be created | `string` | n/a | yes |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Resource group name for the Function App services | `string` | n/a | yes |
+| <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | The Id of the key vault where the AI connection string is going to be created | `string` | n/a | yes |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Resource group name | `string` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Resource tags | `map(any)` | n/a | yes |
 
 ## Outputs
