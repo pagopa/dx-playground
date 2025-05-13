@@ -39,6 +39,11 @@ module "function_app" {
   tags = local.tags
 }
 
+resource "dx_available_subnet_cidr" "function_v3_cidr" {
+  virtual_network_id = data.azurerm_virtual_network.test_vnet.id
+  prefix_length      = 24
+}
+
 module "azure_function_v3_function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
   version = "~> 0"
@@ -53,7 +58,7 @@ module "azure_function_v3_function_app" {
   }
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
-  subnet_cidr   = "10.50.8.0/24"
+  subnet_cidr   = dx_available_subnet_cidr.function_v3_cidr.cidr_block
 
   app_settings      = merge(local.azure_function_v3_settings, {})
   slot_app_settings = {}

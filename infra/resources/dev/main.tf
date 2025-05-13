@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 4.1"
     }
+    dx = {
+      source  = "pagopa-dx/azure"
+      version = "~> 0"
+    }
   }
 
   backend "azurerm" {
