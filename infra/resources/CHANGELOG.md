@@ -1,5 +1,12 @@
 # @infra/resources
 
+## 1.1.0
+
+### Minor Changes
+
+- 04e0697: Improve AI (internal) Terraform module
+  Create new AI for the azure function v3
+
 ## 1.0.0
 
 ### Major Changes
