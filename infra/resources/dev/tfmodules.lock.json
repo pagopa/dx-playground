@@ -4,8 +4,8 @@
   "app_service_roles": "75197ddb43823de058e87f34980db910cf469610e2890ead4bdc9c096d1bf46e",
   "cosmos": "0f9f9b9f1c351e40db06b2c9a32af8ce30285a5e2665402088e7e2241c2af357",
   "func_api_role": "75197ddb43823de058e87f34980db910cf469610e2890ead4bdc9c096d1bf46e",
-  "function_test_durable": "538fdc5ca014d6eb4722651c7c78b6626943332023dfd5c42071042f18008bc9",
+  "function_test_durable": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a",
   "naming_convention": "d7973237e601af346ca3cc8797623f4edff8bdb94b661453d4242609f8d49118",
-  "app_service": "dbc24bc8fbdc8dca87bc7ba6558e57026332fd141ff99eae64d7caef2138b536",
-  "function_app": "538fdc5ca014d6eb4722651c7c78b6626943332023dfd5c42071042f18008bc9"
+  "app_service": "cdd72986f914c691abfbd82fef35e18bdecc31e6a7eafbb072af0bf23e4f2b61",
+  "function_app": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a"
 }
