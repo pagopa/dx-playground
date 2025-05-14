@@ -2,5 +2,8 @@
   "name": "azure-function-v3",
   "version": "0.1.0",
   "type": "module",
-  "main": "./dist/main.js"
+  "main": "./dist/main.js",
+  "dependencies": {
+    "@azure/functions": "^3.5.1"
+  }
 }

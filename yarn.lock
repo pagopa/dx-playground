@@ -247,6 +247,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/functions@npm:^3.5.1":
+  version: 3.5.1
+  resolution: "@azure/functions@npm:3.5.1"
+  dependencies:
+    iconv-lite: "npm:^0.6.3"
+    long: "npm:^4.0.0"
+    uuid: "npm:^8.3.0"
+  checksum: 10c0/1fc0723304b7a1defa273ff1f897bacb9ea4395865fe8bf5ef738cce870749c6afb5e873a00e46f83503f0e8512b28435085ebf8b48ca448b3ce4671d95f5642
+  languageName: node
+  linkType: hard
+
 "@azure/functions@npm:^4.0.0, @azure/functions@npm:^4.0.1, @azure/functions@npm:^4.7.0":
   version: 4.7.0
   resolution: "@azure/functions@npm:4.7.0"
@@ -4480,6 +4491,8 @@ __metadata:
 "azure-function-v3@workspace:apps/azure-function-v3":
   version: 0.0.0-use.local
   resolution: "azure-function-v3@workspace:apps/azure-function-v3"
+  dependencies:
+    "@azure/functions": "npm:^3.5.1"
   languageName: unknown
   linkType: soft
 
@@ -6929,7 +6942,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"iconv-lite@npm:^0.6.2":
+"iconv-lite@npm:^0.6.2, iconv-lite@npm:^0.6.3":
   version: 0.6.3
   resolution: "iconv-lite@npm:0.6.3"
   dependencies:
