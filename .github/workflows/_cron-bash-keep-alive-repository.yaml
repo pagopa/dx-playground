@@ -21,7 +21,7 @@ jobs:
   keep_alive:
     runs-on: 'ubuntu-latest'
     permissions:
-      contents: write
+      contents: read
       actions: write
 
     steps:
