@@ -1,7 +1,7 @@
 import {
   expressToAzureFunction,
-  makeExpressApp
+  makeExpressApp,
 } from "./adapters/express/index.js";
 
 const app = makeExpressApp();
-export const entryPoint = expressToAzureFunction(app)
+export const entryPoint = expressToAzureFunction(app);
