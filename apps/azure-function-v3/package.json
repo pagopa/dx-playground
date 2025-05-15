@@ -4,6 +4,28 @@
   "type": "module",
   "main": "./dist/main.js",
   "dependencies": {
-    "@azure/functions": "^3.5.1"
+    "@azure/functions": "^3.5.1",
+    "@pagopa/express-azure-functions": "^4.0.1",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@pagopa/eslint-config": "^4.0.4",
+    "@pagopa/typescript-config-node": "workspace:^",
+    "@types/express": "^5.0.1",
+    "azure-functions-core-tools": "^4.0.7030",
+    "esbuild": "^0.25.4",
+    "eslint": "^8.57.1",
+    "shx": "^0.4.0",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "clean": "shx rm -rf ./dist ./out",
+    "build": "tsc",
+    "build:artifact": "esbuild index=dist/main.js --bundle --format=esm --platform=node --target=node20 --packages=external --outdir=out --allow-overwrite",
+    "typecheck": "tsc --noemit",
+    "lint": "eslint src --fix",
+    "lint:check": "eslint src",
+    "start": "func start",
+    "start:artifact": "func start out/index.js"
   }
 }
