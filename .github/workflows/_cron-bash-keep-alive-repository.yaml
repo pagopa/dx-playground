@@ -7,9 +7,6 @@ name: Keep Alive - Test
 # however, if no commits have been made, it performs an empty push to keep the repository active.
 
 on:
-  push:
-    branches:
-      - fix/keep-alive-test
   workflow_dispatch:
     inputs:
       bypass:
@@ -49,4 +46,4 @@ jobs:
       - name: Keep Alive
         # If 55 days have passed then execute the action which makes an empty push
         if: steps.commit_date.outputs.days_since_commit >= '55' || inputs.bypass
-        uses: ./.github/actions/keep-alive
+        uses: pagopa/dx/.github/actions/keep-alive@fix/keep-alive-action
