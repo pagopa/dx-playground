@@ -27,8 +27,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.7
-        with:
-          token: ${{ secrets.GH_BOT_PAT }}
+        # with:
+        #   token: ${{ secrets.GH_BOT_PAT }}
 
       - name: Calculate days since last commit
         id: commit_date
@@ -49,5 +49,5 @@ jobs:
         # If 55 days have passed then execute the action which makes an empty push
         if: steps.commit_date.outputs.days_since_commit >= '55' || inputs.bypass
         uses: pagopa/dx/.github/actions/keep-alive@fix/keep-alive-action
-        # env:
-        #   GITHUB_TOKEN: ${{ secrets.GH_BOT_PAT }}
+        with:
+          bot_token: ${{ secrets.GH_BOT_PAT }}
