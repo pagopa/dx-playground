@@ -3231,9 +3231,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@to-do/azure-adapters@workspace:^, @to-do/azure-adapters@workspace:packages/azure-adapters":
+"@to-do/azure-adapters@workspace:^, @to-do/azure-adapters@workspace:packages/to-do-azure-adapters":
   version: 0.0.0-use.local
-  resolution: "@to-do/azure-adapters@workspace:packages/azure-adapters"
+  resolution: "@to-do/azure-adapters@workspace:packages/to-do-azure-adapters"
   dependencies:
     "@azure/cosmos": "npm:^4.3.0"
     "@azure/identity": "npm:^4.9.1"

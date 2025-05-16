@@ -1,9 +1,9 @@
 {
   "name": "@to-do/domain",
   "version": "0.1.1",
+  "private": true,
   "main": "dist/index.js",
   "type": "module",
-  "private": "true",
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
