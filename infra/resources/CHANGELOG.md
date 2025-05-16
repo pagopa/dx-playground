@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 1.2.0
+
+### Minor Changes
+
+- 583571b: Create function app to run legacy v3 Azure Function
+
 ## 1.1.0
 
 ### Minor Changes
