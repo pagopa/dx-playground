@@ -10,7 +10,6 @@ import { TaskItem } from "../../../generated/definitions/internal/TaskItem.js";
 import { createTask } from "../../../use-cases/create-task.js";
 import { toHttpProblemJson, toTaskItemAPI } from "../../http/codec.js";
 import { parseRequestBody } from "../../http/middleware.js";
-// import { TaskCreationRequest } from "../../../generated/definitions/internal/TaskCreationRequest.js";
 
 type Env = Pick<Capabilities, "taskIdGenerator" | "taskRepository">;
 
