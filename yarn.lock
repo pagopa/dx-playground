@@ -4443,6 +4443,7 @@ __metadata:
   resolution: "azure-function-v3@workspace:apps/azure-function-v3"
   dependencies:
     "@azure/functions": "npm:^3.5.1"
+    "@pagopa/azure-tracing": "npm:^0.3.3"
     "@pagopa/eslint-config": "npm:^4.0.4"
     "@pagopa/express-azure-functions": "npm:^4.0.1"
     "@pagopa/ts-commons": "npm:^13.1.2"
