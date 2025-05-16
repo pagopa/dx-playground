@@ -1,8 +1,5 @@
 name: Deploy Azure Function V3
 
-permissions:
-  contents: read
-
 on:
   workflow_dispatch:
   push:
