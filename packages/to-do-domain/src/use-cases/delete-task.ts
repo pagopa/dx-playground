@@ -1,4 +1,6 @@
-import { ItemNotFound, Task, deleteTask, getTask } from "@to-do/domain";
+import { ItemNotFound } from "../errors.js";
+import { Task } from "../Task.js";
+import { deleteTask, getTask } from "../TaskRepository.js";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 

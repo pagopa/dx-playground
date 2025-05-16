@@ -18,7 +18,8 @@
   "scripts": {
     "clean": "shx rm -rf dist/",
     "build": "tsc",
-    "typecheck": "tsc --noemit"
+    "typecheck": "tsc --noemit",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@pagopa/typescript-config-node": "workspace:^",
