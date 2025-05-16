@@ -1,5 +1,18 @@
 # to-do-api
 
+## 0.8.0
+
+### Minor Changes
+
+- 9518915: Move CosmosDB adapter into a separate package
+
+### Patch Changes
+
+- Updated dependencies [9518915]
+- Updated dependencies [9518915]
+  - @to-do/azure-adapters@0.1.0
+  - @to-do/domain@0.1.2
+
 ## 0.7.1
 
 ### Patch Changes
