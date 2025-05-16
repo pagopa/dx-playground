@@ -1,15 +1,16 @@
 import { emitCustomEvent } from "@pagopa/azure-tracing/logger";
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
+import { Capabilities } from "@to-do/domain";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 import { flow, pipe } from "fp-ts/lib/function.js";
 
-import { Capabilities } from "../../../domain/Capabilities.js";
 import { CreateTaskItem } from "../../../generated/definitions/internal/CreateTaskItem.js";
 import { TaskItem } from "../../../generated/definitions/internal/TaskItem.js";
 import { createTask } from "../../../use-cases/create-task.js";
 import { toHttpProblemJson, toTaskItemAPI } from "../../http/codec.js";
 import { parseRequestBody } from "../../http/middleware.js";
+// import { TaskCreationRequest } from "../../../generated/definitions/internal/TaskCreationRequest.js";
 
 type Env = Pick<Capabilities, "taskIdGenerator" | "taskRepository">;
 

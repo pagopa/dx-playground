@@ -1,10 +1,6 @@
+import { ItemNotFound, Task, deleteTask, getTask } from "@to-do/domain";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
-
-import { Task } from "../domain/Task.js";
-import { getTask } from "../domain/TaskRepository.js";
-import { deleteTask } from "../domain/TaskRepository.js";
-import { ItemNotFound } from "../domain/errors.js";
 
 export const deleteTaskById = (id: Task["id"]) =>
   pipe(

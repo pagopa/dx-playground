@@ -1,6 +1,5 @@
 import { ErrorResponse } from "@azure/cosmos";
-
-import { ItemAlreadyExists, ItemNotFound } from "../../../domain/errors.js";
+import { ItemAlreadyExists, ItemNotFound } from "@to-do/domain";
 
 export const cosmosErrorToDomainError = (error: Error) => {
   if (error instanceof ErrorResponse)

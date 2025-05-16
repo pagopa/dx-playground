@@ -1,10 +1,9 @@
 import { Container } from "@azure/cosmos";
+import { TaskCodec, TaskRepository } from "@to-do/domain";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
 
-import { TaskCodec } from "../../../domain/Task.js";
-import { TaskRepository } from "../../../domain/TaskRepository.js";
 import { decodeFromFeed, decodeFromItem } from "./decode.js";
 import { cosmosErrorToDomainError } from "./errors.js";
 

@@ -4,6 +4,7 @@
     "**/.env.*local"
   ],
   "tasks": {
+    "clean": {},
     "build": {
       "inputs": [
         "src/**/*.ts",
@@ -15,6 +16,7 @@
         "out/**"
       ],
       "dependsOn": [
+        "^clean",
         "^build"
       ]
     },

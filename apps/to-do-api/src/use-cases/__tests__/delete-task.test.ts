@@ -1,10 +1,10 @@
+import { ItemNotFound } from "@to-do/domain";
+import { aTask, makeTestEnvironment } from "@to-do/domain/test/data";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { describe, expect, it } from "vitest";
 
-import { aTask, makeTestEnvironment } from "../../domain/__tests__/data.js";
-import { ItemNotFound } from "../../domain/errors.js";
 import { deleteTaskById } from "../delete-task.js";
 
 describe("deleteTask", () => {

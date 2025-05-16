@@ -1,11 +1,10 @@
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
+import { Capabilities, listTasks } from "@to-do/domain";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 import * as RA from "fp-ts/lib/ReadonlyArray.js";
 import { flow, pipe } from "fp-ts/lib/function.js";
 
-import { Capabilities } from "../../../domain/Capabilities.js";
-import { listTasks } from "../../../domain/TaskRepository.js";
 import { TaskItemList } from "../../../generated/definitions/internal/TaskItemList.js";
 import { toHttpProblemJson, toTaskItemAPI } from "../../http/codec.js";
 

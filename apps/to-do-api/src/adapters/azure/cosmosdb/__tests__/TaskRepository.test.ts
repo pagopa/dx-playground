@@ -1,11 +1,10 @@
 import { Container, ErrorResponse } from "@azure/cosmos";
+import { ItemAlreadyExists, TaskCodec } from "@to-do/domain";
+import { aTask } from "@to-do/domain/test/data";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
 import { describe, expect, it } from "vitest";
 
-import { aTask } from "../../../../domain/__tests__/data.js";
-import { TaskCodec } from "../../../../domain/Task.js";
-import { ItemAlreadyExists } from "../../../../domain/errors.js";
 import { makeTaskRepository } from "../TaskRepository.js";
 import { makeContainerMock } from "./mocks.js";
 
