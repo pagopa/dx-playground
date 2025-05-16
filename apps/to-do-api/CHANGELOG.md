@@ -1,5 +1,13 @@
 # to-do-api
 
+## 0.7.1
+
+### Patch Changes
+
+- 209155a: Move use cases to the `@to-do/domain` package
+- Updated dependencies [209155a]
+  - @to-do/domain@0.1.1
+
 ## 0.7.0
 
 ### Minor Changes
