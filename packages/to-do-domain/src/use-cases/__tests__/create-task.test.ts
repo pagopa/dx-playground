@@ -1,8 +1,8 @@
-import { aTask, makeTestEnvironment } from "@to-do/domain/test/data";
 import * as E from "fp-ts/lib/Either.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
 import { describe, expect, it } from "vitest";
 
+import { aTask, makeTestEnvironment } from "../../__tests__/data";
 import { createTask } from "../create-task.js";
 
 describe("createTask", () => {
