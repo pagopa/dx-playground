@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 
-interface TaskIdBrand {
+export interface TaskIdBrand {
   readonly TaskId: unique symbol;
 }
 export const TaskIdCodec = t.brand(

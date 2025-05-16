@@ -1,7 +1,5 @@
+import { Task, TaskIdGenerator } from "@to-do/domain";
 import { monotonicFactory } from "ulid";
-
-import { Task } from "../../domain/Task.js";
-import { TaskIdGenerator } from "../../domain/TaskIdGenerator.js";
 
 const ulid = monotonicFactory();
 

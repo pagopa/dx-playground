@@ -1,8 +1,7 @@
 import * as H from "@pagopa/handler-kit";
+import { ItemAlreadyExists, ItemNotFound, Task } from "@to-do/domain";
 import { pipe } from "fp-ts/lib/function.js";
 
-import { Task } from "../../domain/Task.js";
-import { ItemAlreadyExists, ItemNotFound } from "../../domain/errors.js";
 import { TaskItem as TaskItemAPI } from "../../generated/definitions/internal/TaskItem.js";
 import { TaskStateEnum } from "../../generated/definitions/internal/TaskState.js";
 

@@ -5,7 +5,7 @@ import { TaskIdGenerator } from "../TaskIdGenerator.js";
 import { TaskRepository } from "../TaskRepository.js";
 
 const aTaskId = "aTaskId" as Task["id"];
-export const aTask = {
+export const aTask: Task = {
   id: aTaskId,
   state: "INCOMPLETE" as Task["state"],
   title: "aTitle",
