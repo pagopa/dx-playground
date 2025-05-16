@@ -1,0 +1,11 @@
+{
+  "extends": "@pagopa/typescript-config-node/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "sourceMap": true,
+    "declaration": true
+  },
+  "include": ["src/cosmosdb/**/*.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+} 

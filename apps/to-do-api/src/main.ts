@@ -1,11 +1,12 @@
-import { CosmosClient } from "@azure/cosmos";
 import { app } from "@azure/functions";
-import { DefaultAzureCredential } from "@azure/identity";
 import { registerAzureFunctionHooks } from "@pagopa/azure-tracing/azure-functions";
+import {
+  createCosmosClient,
+  makeTaskRepository,
+} from "@to-do/azure-adapters/cosmosdb";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
-import { makeTaskRepository } from "./adapters/azure/cosmosdb/TaskRepository.js";
 import { makePostTaskHandler } from "./adapters/azure/functions/create-task.js";
 import { makeDeleteTaskHandler } from "./adapters/azure/functions/delete-task.js";
 import { makeGetTaskHandler } from "./adapters/azure/functions/get-task.js";
@@ -21,11 +22,7 @@ const config = pipe(
   }),
 );
 
-const aadCredentials = new DefaultAzureCredential();
-const cosmosClient = new CosmosClient({
-  aadCredentials,
-  endpoint: config.cosmosDb.endpoint,
-});
+const cosmosClient = createCosmosClient({ endpoint: config.cosmosDb.endpoint });
 
 const db = cosmosClient.database(config.cosmosDb.dbName);
 const taskContainer = db.container(config.cosmosDb.containers.tasks);
