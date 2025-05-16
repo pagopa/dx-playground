@@ -1,5 +1,16 @@
 # to-do-api
 
+## 0.7.0
+
+### Minor Changes
+
+- 8849352: Move domain into a separate package (`@todo/domain`)
+
+### Patch Changes
+
+- Updated dependencies [8849352]
+  - @to-do/domain@0.1.0
+
 ## 0.6.0
 
 ### Minor Changes
