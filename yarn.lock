@@ -228,7 +228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/cosmos@npm:^4.3.0, @azure/cosmos@npm:^4.4.0":
+"@azure/cosmos@npm:^4.3.0":
   version: 4.4.1
   resolution: "@azure/cosmos@npm:4.4.1"
   dependencies:
@@ -268,7 +268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/identity@npm:^4.10.0, @azure/identity@npm:^4.9.1":
+"@azure/identity@npm:^4.9.1":
   version: 4.10.0
   resolution: "@azure/identity@npm:4.10.0"
   dependencies:
@@ -3067,7 +3067,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@to-do/azure-adapters@workspace:^, @to-do/azure-adapters@workspace:packages/to-do-azure-adapters":
+"@to-do/azure-adapters@workspace:*, @to-do/azure-adapters@workspace:^, @to-do/azure-adapters@workspace:packages/to-do-azure-adapters":
   version: 0.0.0-use.local
   resolution: "@to-do/azure-adapters@workspace:packages/to-do-azure-adapters"
   dependencies:
@@ -4442,13 +4442,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "azure-function-v3@workspace:apps/azure-function-v3"
   dependencies:
-    "@azure/cosmos": "npm:^4.4.0"
     "@azure/functions": "npm:^3.5.1"
-    "@azure/identity": "npm:^4.10.0"
     "@pagopa/eslint-config": "npm:^4.0.4"
     "@pagopa/express-azure-functions": "npm:^4.0.1"
     "@pagopa/ts-commons": "npm:^13.1.2"
     "@pagopa/typescript-config-node": "workspace:^"
+    "@to-do/azure-adapters": "workspace:*"
     "@to-do/domain": "workspace:^"
     "@types/express": "npm:^4.17.2"
     azure-functions-core-tools: "npm:^4.0.7030"

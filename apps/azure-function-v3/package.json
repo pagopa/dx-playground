@@ -4,11 +4,10 @@
   "type": "module",
   "main": "./dist/main.js",
   "dependencies": {
-    "@azure/cosmos": "^4.4.0",
     "@azure/functions": "^3.5.1",
-    "@azure/identity": "^4.10.0",
     "@pagopa/express-azure-functions": "^4.0.1",
     "@pagopa/ts-commons": "^13.1.2",
+    "@to-do/azure-adapters": "workspace:*",
     "@to-do/domain": "workspace:^",
     "express": "^4.17.2",
     "fp-ts": "^2.16.10",
