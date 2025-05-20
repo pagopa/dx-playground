@@ -1,13 +1,13 @@
 {
-  "apim": "e5925e67525443282aef8f432f9a2cfe2357acbfd20c86a753f890ac4fa65056",
-  "apim_roles": "75197ddb43823de058e87f34980db910cf469610e2890ead4bdc9c096d1bf46e",
-  "app_service_roles": "75197ddb43823de058e87f34980db910cf469610e2890ead4bdc9c096d1bf46e",
-  "cosmos": "0f9f9b9f1c351e40db06b2c9a32af8ce30285a5e2665402088e7e2241c2af357",
-  "func_api_role": "75197ddb43823de058e87f34980db910cf469610e2890ead4bdc9c096d1bf46e",
+  "apim": "3cb279a9513f855c5f99711bd4a2ee372dd5939d14686a620774c45dc01ba571",
+  "apim_roles": "07cdce758d809d16a5154b997dcb2b017b7b443c53f5a6de776b9f0de6b19c9e",
+  "app_service_roles": "07cdce758d809d16a5154b997dcb2b017b7b443c53f5a6de776b9f0de6b19c9e",
+  "cosmos": "398ffd2c1fb90f2228a5d42e7f90e6601162c2e90e23daeee726e1f1f02aa322",
+  "func_api_role": "07cdce758d809d16a5154b997dcb2b017b7b443c53f5a6de776b9f0de6b19c9e",
   "function_test_durable": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a",
   "naming_convention": "d7973237e601af346ca3cc8797623f4edff8bdb94b661453d4242609f8d49118",
-  "app_service": "cdd72986f914c691abfbd82fef35e18bdecc31e6a7eafbb072af0bf23e4f2b61",
-  "function_app": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a",
-  "azure_function_v3_function_app": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a",
-  "function_v3_api_role": "75197ddb43823de058e87f34980db910cf469610e2890ead4bdc9c096d1bf46e"
+  "app_service": "6ef4826b03ef7acb71ac47258a4c46f0fbaeadbd182aad489fb3c9d3de4a0a0f",
+  "function_app": "a419c89960ff6b3decb90ba15173a3146a31ceff9a3d09409ee80c0b8212bde1",
+  "azure_function_v3_function_app": "a419c89960ff6b3decb90ba15173a3146a31ceff9a3d09409ee80c0b8212bde1",
+  "function_v3_api_role": "07cdce758d809d16a5154b997dcb2b017b7b443c53f5a6de776b9f0de6b19c9e"
 }
