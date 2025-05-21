@@ -1,7 +1,7 @@
 locals {
   to_do_webapp_settings = {
     API_BASE_URL      = module.apim.gateway_url
-    API_BASE_PATH     = "todo"
+    API_BASE_PATH     = "v3"
     API_KEY           = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.apim_api_key.versionless_id})"
     OTEL_SERVICE_NAME = "To Do WebApp"
   }
@@ -28,7 +28,7 @@ module "app_service" {
 
   health_check_path = "/"
 
-  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.to_do_api_application_insights.connection_string_secret_id})"
+  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.azure_function_v3_application_insights.connection_string_secret_id})"
   application_insights_sampling_percentage = 100
 
   tags = local.tags
