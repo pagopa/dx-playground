@@ -1,5 +1,11 @@
 # azure-function-v3
 
+## 0.2.1
+
+### Patch Changes
+
+- 9d75b9b: Fix `package.json`, adding the `files` entry making sure the `function.json` files are bundled
+
 ## 0.2.0
 
 ### Minor Changes
