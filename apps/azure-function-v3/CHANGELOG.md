@@ -1,5 +1,11 @@
 # azure-function-v3
 
+## 0.2.2
+
+### Patch Changes
+
+- 09b058a: Install `@pagopa/azure-tracing` package
+
 ## 0.2.1
 
 ### Patch Changes
