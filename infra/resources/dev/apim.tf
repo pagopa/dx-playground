@@ -107,7 +107,7 @@ module "to_do_api_v3" {
   resource_group_name = module.apim.resource_group_name
 
   backend = {
-    name               = "to-do-api-azure-function"
+    name               = "to-do-api-azure-function-v3"
     url                = "https://${module.azure_function_v3_function_app.function_app.function_app.default_hostname}"
     target_resource_id = module.azure_function_v3_function_app.function_app.function_app.id
   }
