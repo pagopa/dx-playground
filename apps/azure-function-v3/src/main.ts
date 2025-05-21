@@ -1,3 +1,5 @@
+import { ExpressInstrumentation } from "@opentelemetry/instrumentation-express";
+import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import { initAzureMonitor } from "@pagopa/azure-tracing/azure-monitor";
 import {
   createCosmosClient,
@@ -13,7 +15,7 @@ import {
 } from "./adapters/express/index.js";
 import { getConfigOrError } from "./config.js";
 
-initAzureMonitor();
+initAzureMonitor([new HttpInstrumentation(), new ExpressInstrumentation()]);
 
 const config = pipe(
   getConfigOrError(process.env),
