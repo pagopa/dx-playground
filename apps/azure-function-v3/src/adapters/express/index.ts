@@ -24,16 +24,16 @@ export const makeExpressApp = (env: Capabilities) => {
 export const expressToAzureFunction =
   (app: Express): AzureFunction =>
   (context: Context): void => {
-    app.set("context", context);
-    const ctx = context.traceContext;
-    if (ctx) {
-      context.executionContext = otelContext.bind(
-        propagation.extract(otelContext.active(), {
-          traceparent: ctx.traceparent,
-          tracestate: ctx.tracestate,
-        }),
-        context.executionContext,
-      );
-    }
-    createAzureFunctionHandler.default(app)(context);
+    const traceContext = context.traceContext ?? {};
+    const headers = {
+      traceparent: traceContext.traceparent,
+      tracestate: traceContext.tracestate,
+    };
+
+    const otelCtx = propagation.extract(otelContext.active(), headers);
+
+    otelContext.with(otelCtx, () => {
+      app.set("context", context);
+      createAzureFunctionHandler.default(app)(context);
+    });
   };
