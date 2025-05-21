@@ -1,5 +1,15 @@
 # @infra/resources
 
+## 1.3.0
+
+### Minor Changes
+
+- de14023: Create API for Azure Function V3
+
+### Patch Changes
+
+- de14023: Redirect APIM traffic to the Azure Function V3
+
 ## 1.2.1
 
 ### Patch Changes
