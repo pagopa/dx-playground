@@ -1,3 +1,4 @@
+import { initAzureMonitor } from "@pagopa/azure-tracing/azure-monitor";
 import {
   createCosmosClient,
   makeTaskRepository,
@@ -11,6 +12,8 @@ import {
   makeExpressApp,
 } from "./adapters/express/index.js";
 import { getConfigOrError } from "./config.js";
+
+initAzureMonitor();
 
 const config = pipe(
   getConfigOrError(process.env),
