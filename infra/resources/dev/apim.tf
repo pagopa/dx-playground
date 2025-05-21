@@ -98,7 +98,7 @@ module "to_do_api_v3" {
     name                          = "to-do-api-v3"
     display_name                  = "To Do API - V3"
     description                   = "API to handle a To Do list - Function V3"
-    path                          = "todo"
+    path                          = "v3"
     openapi                       = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
     function_key_named_value_name = azurerm_api_management_named_value.to_do_api_key_v3.name
   }
