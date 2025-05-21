@@ -23,15 +23,15 @@ module "apim" {
 
   application_insights = {
     enabled             = true
-    connection_string   = module.to_do_api_application_insights.connection_string
-    id                  = module.to_do_api_application_insights.id
+    connection_string   = module.azure_function_v3_application_insights.connection_string
+    id                  = module.azure_function_v3_application_insights.id
     sampling_percentage = 100
     verbosity           = "information"
   }
 
   monitoring = {
     enabled                    = true
-    log_analytics_workspace_id = module.to_do_api_application_insights.log_analytics_workspace_id
+    log_analytics_workspace_id = module.azure_function_v3_application_insights.log_analytics_workspace_id
 
     logs = {
       enabled = true
@@ -91,6 +91,28 @@ module "to_do_api" {
   }
 }
 
+module "to_do_api_v3" {
+  source = "../_modules/api"
+
+  api = {
+    name                          = "to-do-api-v3"
+    display_name                  = "To Do API - V3"
+    description                   = "API to handle a To Do list - Function V3"
+    path                          = "todo"
+    openapi                       = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
+    function_key_named_value_name = azurerm_api_management_named_value.to_do_api_key_v3.name
+  }
+
+  apim_name           = module.apim.name
+  resource_group_name = module.apim.resource_group_name
+
+  backend = {
+    name               = "to-do-api-azure-function"
+    url                = "https://${module.azure_function_v3_function_app.function_app.function_app.default_hostname}"
+    target_resource_id = module.azure_function_v3_function_app.function_app.function_app.id
+  }
+}
+
 resource "azurerm_api_management_named_value" "to_do_api_key" {
   name                = "to-do-api-function-key"
   resource_group_name = module.apim.resource_group_name
@@ -99,5 +121,16 @@ resource "azurerm_api_management_named_value" "to_do_api_key" {
   secret              = true
   value_from_key_vault {
     secret_id = data.azurerm_key_vault_secret.to_do_api_key.versionless_id
+  }
+}
+
+resource "azurerm_api_management_named_value" "to_do_api_key_v3" {
+  name                = "to-do-api-function-key-v3"
+  resource_group_name = module.apim.resource_group_name
+  api_management_name = module.apim.name
+  display_name        = "to-do-api-function-key-v3"
+  secret              = true
+  value_from_key_vault {
+    secret_id = data.azurerm_key_vault_secret.to_do_api_key_func_v3.versionless_id
   }
 }
