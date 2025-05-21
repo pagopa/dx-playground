@@ -33,5 +33,10 @@
     "lint:check": "eslint src",
     "start": "func start",
     "start:artifact": "func start out/index.js"
-  }
+  },
+  "files": [
+    "**/function.json",
+    "dist",
+    "host.json"
+  ]
 }
