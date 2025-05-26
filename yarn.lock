@@ -2673,9 +2673,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pagopa/azure-tracing@npm:^0.3.3":
-  version: 0.3.3
-  resolution: "@pagopa/azure-tracing@npm:0.3.3"
+"@pagopa/azure-tracing@npm:^0.4.0-c6d7bf89233d4ab352bf237bb80b108ec91c8ac3":
+  version: 0.4.0-c6d7bf89233d4ab352bf237bb80b108ec91c8ac3
+  resolution: "@pagopa/azure-tracing@npm:0.4.0-c6d7bf89233d4ab352bf237bb80b108ec91c8ac3"
   dependencies:
     "@azure/functions": "npm:^4.7.0"
     "@azure/monitor-opentelemetry": "npm:^1.11.0"
@@ -2687,7 +2687,7 @@ __metadata:
     "@t3-oss/env-core": "npm:^0.13.0"
     import-in-the-middle: "npm:^1.13.1"
     zod: "npm:^3.24.3"
-  checksum: 10c0/99124ec0cbf8d36f847c5377365bb73f3dcf6ca338360587d10c5105a22cef2834a5f2c29a26f403045cf3e10d5605fab7ac189100c0037873ffdc4dcd0cbdff
+  checksum: 10c0/82918d6eb467015889e6d204a76664083318fd05121cbb75288475c48e0ec460a5631ef417d10ca885fe22dbbc4ff5f104c52eefcb7a7d7e944bf9a1a16cf235
   languageName: node
   linkType: hard
 
@@ -4497,7 +4497,7 @@ __metadata:
     "@opentelemetry/api": "npm:^1.9.0"
     "@opentelemetry/instrumentation-express": "npm:^0.50.0"
     "@opentelemetry/instrumentation-http": "npm:^0.201.1"
-    "@pagopa/azure-tracing": "npm:^0.3.3"
+    "@pagopa/azure-tracing": "npm:^0.4.0-c6d7bf89233d4ab352bf237bb80b108ec91c8ac3"
     "@pagopa/eslint-config": "npm:^4.0.4"
     "@pagopa/express-azure-functions": "npm:^4.0.1"
     "@pagopa/ts-commons": "npm:^13.1.2"
@@ -10632,7 +10632,7 @@ __metadata:
   resolution: "to-do-api@workspace:apps/to-do-api"
   dependencies:
     "@azure/functions": "npm:^4.7.0"
-    "@pagopa/azure-tracing": "npm:^0.3.3"
+    "@pagopa/azure-tracing": "npm:^0.4.0-c6d7bf89233d4ab352bf237bb80b108ec91c8ac3"
     "@pagopa/eslint-config": "npm:^4.0.4"
     "@pagopa/handler-kit": "npm:^1.1.0"
     "@pagopa/handler-kit-azure-func": "npm:^2.0.7"
@@ -10666,7 +10666,7 @@ __metadata:
     "@emotion/styled": "npm:^11.14.0"
     "@eslint/eslintrc": "npm:^3.3.1"
     "@mui/material": "npm:^6.4.11"
-    "@pagopa/azure-tracing": "npm:^0.3.3"
+    "@pagopa/azure-tracing": "npm:^0.4.0-c6d7bf89233d4ab352bf237bb80b108ec91c8ac3"
     "@pagopa/eslint-config": "npm:^4.0.4"
     "@pagopa/openapi-codegen-ts": "npm:^14.0.0"
     "@pagopa/ts-commons": "npm:^13.1.2"

@@ -1,5 +1,5 @@
 import { AzureFunction, Context } from "@azure/functions";
-import { context as otelContext, propagation } from "@opentelemetry/api";
+import { withOtelContextFunctionV3 } from "@pagopa/azure-tracing/azure-functions/v3";
 import createAzureFunctionHandler from "@pagopa/express-azure-functions/dist/src/createAzureFunctionsHandler.js";
 import { Capabilities, listTasks } from "@to-do/domain";
 import express, { Express } from "express";
@@ -25,15 +25,5 @@ export const expressToAzureFunction =
   (app: Express): AzureFunction =>
   (context: Context): void => {
     app.set("context", context);
-    const ctx = context.traceContext;
-    if (ctx) {
-      context.executionContext = otelContext.bind(
-        propagation.extract(otelContext.active(), {
-          traceparent: ctx.traceparent,
-          tracestate: ctx.tracestate,
-        }),
-        context.executionContext,
-      );
-    }
-    createAzureFunctionHandler.default(app)(context);
+    withOtelContextFunctionV3(context)(createAzureFunctionHandler.default(app));
   };

@@ -8,7 +8,7 @@
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/instrumentation-express": "^0.50.0",
     "@opentelemetry/instrumentation-http": "^0.201.1",
-    "@pagopa/azure-tracing": "^0.3.3",
+    "@pagopa/azure-tracing": "^0.4.0-c6d7bf89233d4ab352bf237bb80b108ec91c8ac3",
     "@pagopa/express-azure-functions": "^4.0.1",
     "@pagopa/ts-commons": "^13.1.2",
     "@to-do/azure-adapters": "workspace:*",

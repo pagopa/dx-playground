@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@azure/functions": "^4.7.0",
-    "@pagopa/azure-tracing": "^0.3.3",
+    "@pagopa/azure-tracing": "^0.4.0-c6d7bf89233d4ab352bf237bb80b108ec91c8ac3",
     "@pagopa/handler-kit": "^1.1.0",
     "@pagopa/handler-kit-azure-func": "^2.0.7",
     "@pagopa/ts-commons": "^13.1.2",
