@@ -1,4 +1,4 @@
-import { AzureFunction, Context } from "@azure/functions";
+import { AzureFunction, Context as FunctionContext } from "@azure/functions";
 import { context as otelContext, propagation } from "@opentelemetry/api";
 import createAzureFunctionHandler from "@pagopa/express-azure-functions/dist/src/createAzureFunctionsHandler.js";
 import { Capabilities, listTasks } from "@to-do/domain";
@@ -21,19 +21,25 @@ export const makeExpressApp = (env: Capabilities) => {
   return app;
 };
 
-export const expressToAzureFunction =
-  (app: Express): AzureFunction =>
-  (context: Context): void => {
+const withOtelContextFunctionV3 =
+  (context: FunctionContext) =>
+  (v3Function: (context: FunctionContext) => void) => {
     const traceContext = context.traceContext ?? {};
     const headers = {
       traceparent: traceContext.traceparent,
       tracestate: traceContext.tracestate,
     };
 
-    const otelCtx = propagation.extract(otelContext.active(), headers);
+    const ctx = propagation.extract(otelContext.active(), headers);
 
-    otelContext.with(otelCtx, () => {
-      app.set("context", context);
-      createAzureFunctionHandler.default(app)(context);
+    return otelContext.with(ctx, () => {
+      v3Function(context);
     });
+  };
+
+export const expressToAzureFunction =
+  (app: Express): AzureFunction =>
+  (context: FunctionContext): void => {
+    app.set("context", context);
+    withOtelContextFunctionV3(context)(createAzureFunctionHandler.default(app));
   };
