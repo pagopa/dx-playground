@@ -7,5 +7,5 @@ export class ItemAlreadyExists extends Error {
 }
 
 export class ItemNotFound extends Error {
-  readonly _tag = "ItemNotFound";
+  readonly _tag = "ItemNotFoundd";
 }
