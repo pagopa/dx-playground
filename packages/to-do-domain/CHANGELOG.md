@@ -1,5 +1,11 @@
 # @to-do/domain
 
+## 0.2.0-beta.0
+
+### Minor Changes
+
+- 5d9a192: Update tag
+
 ## 0.1.2
 
 ### Patch Changes
