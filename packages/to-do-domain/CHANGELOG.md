@@ -1,5 +1,15 @@
 # @to-do/domain
 
+## 0.2.0
+
+### Minor Changes
+
+- e272e2e: Change tag value
+
+### Patch Changes
+
+- e272e2e: Fix typo
+
 ## 0.2.0-beta.1
 
 ### Patch Changes
