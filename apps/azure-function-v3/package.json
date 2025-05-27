@@ -5,7 +5,8 @@
   "main": "./dist/main.js",
   "dependencies": {
     "@azure/functions": "^3.5.1",
-    "@pagopa/azure-tracing": "^0.3.3",
+    "@opentelemetry/api": "^1.9.0",
+    "@pagopa/azure-tracing": "^0.4.0",
     "@pagopa/express-azure-functions": "^4.0.1",
     "@pagopa/ts-commons": "^13.1.2",
     "@to-do/azure-adapters": "workspace:*",

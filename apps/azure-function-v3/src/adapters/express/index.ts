@@ -1,4 +1,5 @@
-import { AzureFunction, Context } from "@azure/functions";
+import { AzureFunction, Context as FunctionContext } from "@azure/functions";
+import { withOtelContextFunctionV3 } from "@pagopa/azure-tracing/azure-functions/v3";
 import createAzureFunctionHandler from "@pagopa/express-azure-functions/dist/src/createAzureFunctionsHandler.js";
 import { Capabilities, listTasks } from "@to-do/domain";
 import express, { Express } from "express";
@@ -22,7 +23,7 @@ export const makeExpressApp = (env: Capabilities) => {
 
 export const expressToAzureFunction =
   (app: Express): AzureFunction =>
-  (context: Context): void => {
+  (context: FunctionContext): void => {
     app.set("context", context);
-    createAzureFunctionHandler.default(app)(context);
+    withOtelContextFunctionV3(context)(createAzureFunctionHandler.default(app));
   };
