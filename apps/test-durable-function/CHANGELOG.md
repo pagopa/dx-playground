@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.0.9-rc.0
+
+### Patch Changes
+
+- 735a6e9: Fake changelog
+
 ## 1.0.8
 
 ### Patch Changes
