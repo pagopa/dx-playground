@@ -1,5 +1,13 @@
 # to-do-api
 
+## 0.8.1-beta.1
+
+### Patch Changes
+
+- Updated dependencies [3e0fbef]
+  - @to-do/domain@0.2.0-beta.1
+  - @to-do/azure-adapters@0.1.1-beta.1
+
 ## 0.8.1-beta.0
 
 ### Patch Changes
