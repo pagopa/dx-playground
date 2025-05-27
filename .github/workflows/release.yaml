@@ -87,7 +87,7 @@ jobs:
 
       - name: Enter changeset pre mode
         run: |
-          changeset pre enter rc
+          yarn changeset pre enter rc
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
