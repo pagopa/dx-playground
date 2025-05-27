@@ -1,5 +1,17 @@
 # @to-do/domain
 
+## 0.2.0-beta.1
+
+### Patch Changes
+
+- 3e0fbef: Fix typo
+
+## 0.2.0-beta.0
+
+### Minor Changes
+
+- 2ce8c9f: Change tag value
+
 ## 0.1.2
 
 ### Patch Changes
