@@ -1,5 +1,11 @@
 # @to-do/domain
 
+## 0.2.0-beta.1
+
+### Patch Changes
+
+- d6562eb: Fix typo
+
 ## 0.2.0-beta.0
 
 ### Minor Changes

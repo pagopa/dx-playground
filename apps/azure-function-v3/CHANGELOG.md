@@ -1,5 +1,13 @@
 # azure-function-v3
 
+## 0.2.3-beta.1
+
+### Patch Changes
+
+- Updated dependencies [d6562eb]
+  - @to-do/domain@0.2.0-beta.1
+  - @to-do/azure-adapters@0.1.1-beta.1
+
 ## 0.2.3-beta.0
 
 ### Patch Changes
