@@ -1,5 +1,12 @@
 # azure-function-v3
 
+## 0.2.2
+
+### Patch Changes
+
+- 09b058a: Install `@pagopa/azure-tracing` package
+- fda1db4: Wrap Azure Function v3 execution within OpenTelemetry context
+
 ## 0.2.1
 
 ### Patch Changes
