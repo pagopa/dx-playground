@@ -1,5 +1,13 @@
 # @to-do/azure-adapters
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [2ce8c9f]
+- Updated dependencies [3e0fbef]
+  - @to-do/domain@0.2.0
+
 ## 0.1.1-beta.1
 
 ### Patch Changes
