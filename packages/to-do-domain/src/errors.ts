@@ -3,7 +3,7 @@ export class TooManyRequestsError extends Error {
 }
 
 export class ItemAlreadyExists extends Error {
-  readonly _tag = "ItemAlreadyExists";
+  readonly _tag = "ItemAlreadyExistss";
 }
 
 export class ItemNotFound extends Error {
