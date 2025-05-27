@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 1.3.1
+
+### Patch Changes
+
+- fda1db4: Set `NODE_OPTIONS` environment variable
+
 ## 1.3.0
 
 ### Minor Changes
