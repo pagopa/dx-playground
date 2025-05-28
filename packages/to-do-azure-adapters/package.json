@@ -18,8 +18,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@azure/cosmos": "^4.3.0",
-    "@azure/identity": "^4.9.1",
+    "@azure/cosmos": "^4.4.1",
+    "@azure/identity": "^4.10.0",
     "@to-do/domain": "workspace:^",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22"

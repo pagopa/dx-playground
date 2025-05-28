@@ -228,7 +228,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/cosmos@npm:^4.3.0":
+"@azure/cosmos@npm:^4.4.1":
   version: 4.4.1
   resolution: "@azure/cosmos@npm:4.4.1"
   dependencies:
@@ -279,7 +279,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/identity@npm:^4.9.1":
+"@azure/identity@npm:^4.10.0":
   version: 4.10.0
   resolution: "@azure/identity@npm:4.10.0"
   dependencies:
@@ -3082,8 +3082,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@to-do/azure-adapters@workspace:packages/to-do-azure-adapters"
   dependencies:
-    "@azure/cosmos": "npm:^4.3.0"
-    "@azure/identity": "npm:^4.9.1"
+    "@azure/cosmos": "npm:^4.4.1"
+    "@azure/identity": "npm:^4.10.0"
     "@pagopa/eslint-config": "npm:^4.0.4"
     "@pagopa/typescript-config-node": "workspace:^"
     "@to-do/domain": "workspace:^"
@@ -10475,7 +10475,7 @@ __metadata:
   resolution: "test-durable-function@workspace:apps/test-durable-function"
   dependencies:
     "@azure/functions": "npm:^4.7.2"
-    "@azure/identity": "npm:^4.9.1"
+    "@azure/identity": "npm:^4.10.0"
     "@pagopa/eslint-config": "npm:^4.0.4"
     "@pagopa/handler-kit": "npm:^1.1.0"
     "@pagopa/handler-kit-azure-func": "npm:^2.0.7"
