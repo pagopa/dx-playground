@@ -12,9 +12,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release-candidate:
-    if: |
-      ${{ github.event.issue.pull_request }} &&
-      ${{ startsWith(github.event.comment.body, '/test') }}
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/test') }}
     runs-on: ubuntu-latest
     steps:
       - name: Comment on PR
@@ -25,5 +23,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Hello there!'
+              body: '👋 Hello there!'
             })
