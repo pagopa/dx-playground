@@ -1,5 +1,12 @@
 # to-do-api
 
+## 0.8.2-rc.dae4a8668e018bdd2c61827237615f0423621208
+
+### Patch Changes
+
+- Updated dependencies [a7ed105]
+  - @to-do/azure-adapters@0.1.2-rc.dae4a8668e018bdd2c61827237615f0423621208
+
 ## 0.8.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "azure-function-v3",
-  "version": "0.2.3",
+  "version": "0.2.4-rc.dae4a8668e018bdd2c61827237615f0423621208",
   "type": "module",
   "main": "./dist/main.js",
   "dependencies": {

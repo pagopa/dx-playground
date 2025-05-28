@@ -1,5 +1,11 @@
 # @to-do/azure-adapters
 
+## 0.1.2-rc.dae4a8668e018bdd2c61827237615f0423621208
+
+### Patch Changes
+
+- a7ed105: Upgrade `@azure/cosmos` and `@azure/identity` dependencies
+
 ## 0.1.1
 
 ### Patch Changes
