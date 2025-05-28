@@ -9,8 +9,10 @@
     "lint": "turbo run lint",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "version": "changeset version",
-    "release": "changeset tag"
+    "version": "yarn changeset version && yarn --mode update-lockfile",
+    "version:snapshot": "yarn changeset version --snapshot rc && yarn --mode update-lockfile",
+    "release": "yarn build && changeset publish",
+    "release:snapshot": "yarn build && changeset publish --no-git-tag --tag rc"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.3",
