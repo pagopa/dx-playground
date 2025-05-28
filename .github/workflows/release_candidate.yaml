@@ -2,7 +2,7 @@ name: Release Candidate
 
 on:
   issue_comment:
-    types: [created, edited]
+    types: [created]
 
 permissions:
   contents: write
@@ -12,7 +12,9 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release-candidate:
-    if: ${{ github.event.issue.pull_request }}
+    if: |
+      ${{ github.event.issue.pull_request }} &&
+      ${{ startsWith(github.event.comment.body, '/test') }}
     runs-on: ubuntu-latest
     steps:
       - name: Comment on PR
