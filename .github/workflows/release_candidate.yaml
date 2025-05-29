@@ -36,6 +36,20 @@ jobs:
           git config --global user.email "dx-pagopa-github-bot@pagopa.it"
           git config --global user.name "dx-pagopa-bot"
 
+      - name: Check pre state and enter pre mode if needed
+        id: check_pre_state
+        run: |
+          if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
+            echo "Enter the pre-release mode"
+            yarn dlx @changesets/cli pre enter beta
+            # Ensure the pre.json is pushed to the repository
+            echo "Pushing pre-release state..."
+            echo ${{ github.ref_name }}
+          else
+            PRE_STATE=$(jq -r ".mode" .changeset/pre.json)
+            echo "Pre-release mode already active or in a different state: $PRE_STATE"
+          fi
+
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308 # v1.4.9
