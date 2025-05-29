@@ -50,6 +50,7 @@ jobs:
           else
             PRE_STATE=$(jq -r ".mode" .changeset/pre.json)
             echo ":: error title=Already in pre-release mode:: The Pull Request is already in pre-release mode. Close the Version Package (beta) PR if you need a new release candidate."
+            exit 1
           fi
 
       - name: Create Release Pull Request or Publish to npm
