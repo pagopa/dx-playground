@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.0.10
+
+### Patch Changes
+
+- 8e2eede: Bump
+
 ## 1.0.9
 
 ### Patch Changes
