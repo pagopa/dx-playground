@@ -46,7 +46,7 @@ jobs:
             # Check there are changeset files for the pre release
             if [ "$(jq -r '.changesets | length' .changeset/pre.json)" -eq 0 ]; then
               echo "The 'changesets' array is empty."
-              echo ":: error title=Missing changeset files:: Add one (or more) changeset files before entering the pre-release mode."
+              echo "::error title=Missing changeset files::Add one (or more) changeset files before entering the pre-release mode."
               exit 1
             fi
             # Ensure the pre.json is pushed to the repository
@@ -56,7 +56,7 @@ jobs:
             git push origin HEAD:${{ github.ref_name }}
           else
             PRE_STATE=$(jq -r ".mode" .changeset/pre.json)
-            echo ":: error title=Already in pre-release mode:: The Pull Request is already in pre-release mode. Close the Version Package (beta) PR if you need a new release candidate."
+            echo "::error title=Already in pre-release mode::The Pull Request is already in pre-release mode. Close the Version Package (beta) PR if you need a new release candidate."
             exit 1
           fi
 
