@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.8.2-beta.1
+
+### Patch Changes
+
+- 1c32d0a: Upgrade @vitest/coverage-v8 dependency
+
 ## 0.8.2-beta.0
 
 ### Patch Changes
