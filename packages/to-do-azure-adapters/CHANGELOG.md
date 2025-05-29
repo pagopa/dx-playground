@@ -1,5 +1,13 @@
 # @to-do/azure-adapters
 
+## 0.1.2-beta.0
+
+### Patch Changes
+
+- 2a6eb1e: Upgrade vitest to latest version
+- Updated dependencies [2a6eb1e]
+  - @to-do/domain@0.2.1-beta.0
+
 ## 0.1.1
 
 ### Patch Changes

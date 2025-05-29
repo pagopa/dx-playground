@@ -1,5 +1,11 @@
 # @to-do/domain
 
+## 0.2.1-beta.0
+
+### Patch Changes
+
+- 2a6eb1e: Upgrade vitest to latest version
+
 ## 0.2.0
 
 ### Minor Changes
