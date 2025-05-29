@@ -44,7 +44,9 @@ jobs:
             yarn dlx @changesets/cli pre enter beta
             # Ensure the pre.json is pushed to the repository
             echo "Pushing pre-release state..."
-            echo ${{ github.ref_name }}
+            git add .changeset/pre.json
+            git commit -m "Enter pre-release mode"
+            git push origin HEAD:${{ github.ref_name }}
           else
             PRE_STATE=$(jq -r ".mode" .changeset/pre.json)
             echo "Pre-release mode already active or in a different state: $PRE_STATE"
