@@ -1,6 +1,6 @@
 {
   "name": "@to-do/azure-adapters",
-  "version": "0.1.2-beta.0",
+  "version": "0.1.2-beta.1",
   "private": true,
   "type": "module",
   "exports": {
