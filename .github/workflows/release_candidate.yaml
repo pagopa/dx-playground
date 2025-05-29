@@ -56,8 +56,8 @@ jobs:
         id: changesets
         uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308 # v1.4.9
         with:
-          version: yarn run version:snapshot
-          publish: yarn run release:snapshot
+          version: yarn run version
+          publish: yarn run release
           setupGitUser: false
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_PAT }}
