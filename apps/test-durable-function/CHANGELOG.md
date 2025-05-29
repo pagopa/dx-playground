@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.0.9-beta.0
+
+### Patch Changes
+
+- cccd6ee: Upgrade Azure dependencies to latest version
+
 ## 1.0.8
 
 ### Patch Changes

@@ -2,21 +2,22 @@
   "mode": "exit",
   "tag": "beta",
   "initialVersions": {
-    "azure-function-v3": "0.2.3",
+    "azure-function-v3": "0.2.4-beta.0",
     "test-durable-function": "1.0.8",
-    "to-do-api": "0.8.1",
+    "to-do-api": "0.8.2-beta.1",
     "to-do-webapp": "0.3.11",
     "@infra/github-runner": "0.1.1",
     "@infra/identity": "0.2.4",
     "@infra/repository": "0.4.2",
     "@infra/resources": "1.3.1",
-    "@to-do/azure-adapters": "0.1.1",
-    "@to-do/domain": "0.2.0",
+    "@to-do/azure-adapters": "0.1.2-beta.0",
+    "@to-do/domain": "0.2.1-beta.0",
     "@pagopa/typescript-config-node": "0.1.0",
     "@pagopa/typescript-config-react": "0.1.0"
   },
   "changesets": [
     "forty-ducks-exist",
-    "sixty-heads-sneeze"
+    "sixty-heads-sneeze",
+    "thirty-mails-carry"
   ]
 }
