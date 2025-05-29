@@ -16,6 +16,7 @@
     "@pagopa/typescript-config-react": "0.1.0"
   },
   "changesets": [
-    "forty-ducks-exist"
+    "forty-ducks-exist",
+    "sixty-heads-sneeze"
   ]
 }
