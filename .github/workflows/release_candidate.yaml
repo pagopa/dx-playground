@@ -43,8 +43,9 @@ jobs:
           if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
             echo "Enter the pre-release mode"
             yarn dlx @changesets/cli pre enter beta
-            CHANGED_FILES=$(git diff --name-only origin/${{ github.event.repository.default_branch }} HEAD -- .changeset)
-            if [ -z "$CHANGED_FILES" ]; then
+            yarn dlx @changesets/cli version
+            if [ "$(jq -r '.changesets | length' .changeset/pre.json)" -eq 0 ]; then
+              echo "The 'changesets' array is empty."
               echo "::error title=Missing changeset files::Add one (or more) changeset files before entering the pre-release mode."
               exit 1
             else
