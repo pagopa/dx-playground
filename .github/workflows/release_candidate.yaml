@@ -49,7 +49,7 @@ jobs:
             git push origin HEAD:${{ github.ref_name }}
           else
             PRE_STATE=$(jq -r ".mode" .changeset/pre.json)
-            echo "Pre-release mode already active or in a different state: $PRE_STATE"
+            echo ":: error title=Already in pre-release mode:: The Pull Request is already in pre-release mode. Close the Version Package (beta) PR if you need a new release candidate."
           fi
 
       - name: Create Release Pull Request or Publish to npm
