@@ -1,5 +1,5 @@
 {
-  "mode": "exit",
+  "mode": "pre",
   "tag": "beta",
   "initialVersions": {
     "azure-function-v3": "0.2.4",
@@ -15,5 +15,7 @@
     "@pagopa/typescript-config-node": "0.1.0",
     "@pagopa/typescript-config-react": "0.1.0"
   },
-  "changesets": []
+  "changesets": [
+    "young-carpets-nail"
+  ]
 }

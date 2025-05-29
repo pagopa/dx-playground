@@ -73,3 +73,10 @@ jobs:
           setupGitUser: false
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_PAT }}
+
+      - name: Exit pre-release mode
+        run: |
+          yarn dlx @changesets/cli pre exit
+          git add .changeset/pre.json
+          git commit -m "Enter pre-release mode"
+          git push origin HEAD:${{ github.ref_name }}
