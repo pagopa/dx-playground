@@ -1,5 +1,16 @@
 # to-do-api
 
+## 0.8.2
+
+### Patch Changes
+
+- d5d1410: Upgrade vitest to latest version
+- d5d1410: Upgrade @vitest/coverage-v8 dependency
+- Updated dependencies [d5d1410]
+- Updated dependencies [3e7241c]
+  - @to-do/azure-adapters@0.1.2
+  - @to-do/domain@0.2.1
+
 ## 0.8.2-beta.2
 
 ### Patch Changes
