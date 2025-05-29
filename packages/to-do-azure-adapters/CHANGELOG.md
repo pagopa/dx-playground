@@ -1,5 +1,11 @@
 # @to-do/azure-adapters
 
+## 0.1.2-beta.1
+
+### Patch Changes
+
+- cccd6ee: Upgrade Azure dependencies to latest version
+
 ## 0.1.2-beta.0
 
 ### Patch Changes
