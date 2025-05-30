@@ -1,5 +1,4 @@
 import * as core from "@actions/core";
-import * as github from "@actions/github";
 import { enterPre, exitPre } from "@changesets/pre";
 import {
   publish as publishPackages,
@@ -8,9 +7,6 @@ import {
 } from "@changesets/release-utils";
 
 const run = async () => {
-  const pr = github.context.payload.pull_request;
-  core.info(`Preparing a pre-release or PR ${pr?.number}`);
-
   const workDir = core.getInput("workDir", {
     required: true,
     trimWhitespace: true,
