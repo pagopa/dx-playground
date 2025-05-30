@@ -1,5 +1,13 @@
 # test-durable
 
+## 1.0.10
+
+### Patch Changes
+
+- 39c3df9: Another bump
+- 39c3df9: Fix typo
+- 39c3df9: Bump
+
 ## 1.0.10-beta.1
 
 ### Patch Changes
