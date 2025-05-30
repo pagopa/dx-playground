@@ -1,5 +1,12 @@
 # test-durable
 
+## 1.0.10-beta.0
+
+### Patch Changes
+
+- 4294827: Another bump
+- 8e2eede: Bump
+
 ## 1.0.9
 
 ### Patch Changes
