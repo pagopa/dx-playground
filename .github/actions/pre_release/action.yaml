@@ -1,0 +1,15 @@
+name: Create a pre-release
+description: Create a tagged release, before going to production
+inputs:
+  workDir:
+    description: Working directory
+    default: .
+    required: true
+  releaseType:
+    description: The pre-release (such as alpha, beta, rc). Default set to rc
+    default: rc
+    required: true
+
+runs:
+  using: node20
+  main: ../../../apps/release-candidate/dist/index.js
