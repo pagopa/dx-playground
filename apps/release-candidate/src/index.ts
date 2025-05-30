@@ -1,5 +1,4 @@
 import * as core from "@actions/core";
-import * as github from "@actions/github";
 import { enterPre, exitPre } from "@changesets/pre";
 import {
   publish as publishPackages,
@@ -8,9 +7,6 @@ import {
 } from "@changesets/release-utils";
 
 const run = async () => {
-  const pr = github.context.payload.pull_request;
-  core.info(`Preparing a pre-release or PR ${pr?.number}`);
-
   const workDir = core.getInput("workDir", {
     required: true,
     trimWhitespace: true,
@@ -34,12 +30,13 @@ const run = async () => {
     const versionResult = await versionPackages({
       commitMessage: `Prepare packages ${preReleaseTag} version`,
       cwd: workDir,
+      script: "yarn run version",
     });
     core.debug(`Version result: ${JSON.stringify(versionResult, null, 2)}`);
     core.info("Publishing the packages...");
     const publishResult = await publishPackages({
       cwd: workDir,
-      script: "publish",
+      script: "yarn run publish",
     });
     core.debug(`Publish result: ${JSON.stringify(publishResult, null, 2)}`);
 

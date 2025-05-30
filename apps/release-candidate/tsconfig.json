@@ -7,5 +7,7 @@
     "declaration": true,
     "moduleResolution": "bundler",
     "module": "ESNext"
-  }
+  },
+  "exclude": ["rollup.config.ts"],
+  "include": ["src"]
 }

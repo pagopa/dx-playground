@@ -41,5 +41,3 @@ jobs:
 
       - name: Generate pre-release
         uses: ./.github/actions/pre_release
-        with:
-          workDir: .
