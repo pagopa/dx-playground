@@ -24,3 +24,4 @@ jobs:
       web_app_name: dx-d-itn-playground-be-func-01
       use_private_agent: true
       use_staging_slot: true
+      enable_staging_auto_deployment: true
