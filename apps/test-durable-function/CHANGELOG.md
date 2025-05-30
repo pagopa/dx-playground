@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.1.0-beta.0
+
+### Minor Changes
+
+- c2931ed: Set `private` property to `true` in the `package.json`
+
 ## 1.0.10
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # azure-function-v3
 
+## 0.3.0-beta.0
+
+### Minor Changes
+
+- c2931ed: Set `private` property to `true` in the `package.json`
+
 ## 0.2.4
 
 ### Patch Changes
