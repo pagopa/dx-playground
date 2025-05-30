@@ -1,0 +1,26 @@
+{
+  "name": "github-helper",
+  "version": "0.0.0",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/main.js",
+  "scripts": {
+    "clean": "shx rm -rf ./dist",
+    "build": "tsc",
+    "typecheck": "tsc --noemit",
+    "lint": "eslint src --fix",
+    "lint:check": "eslint src"
+  },
+  "devDependencies": {
+    "@pagopa/eslint-config": "^4.0.4",
+    "@pagopa/typescript-config-node": "workspace:^",
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.3",
+    "shx": "^0.4.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1"
+  }
+}

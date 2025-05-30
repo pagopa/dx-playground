@@ -1,0 +1,5 @@
+name: Unsigned Commits
+description: Check if commits are signed and add a comment to the PR if not
+runs:
+  using: node20
+  main: ../../../apps/github-helper/dist/index.js
