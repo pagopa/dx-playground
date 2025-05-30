@@ -1,7 +1,8 @@
 {
   "name": "azure-function-v3",
-  "version": "0.2.4",
+  "version": "0.3.0-beta.0",
   "type": "module",
+  "private": true,
   "main": "./dist/main.js",
   "dependencies": {
     "@azure/functions": "^3.5.1",

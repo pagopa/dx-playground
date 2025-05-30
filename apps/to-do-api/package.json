@@ -1,7 +1,8 @@
 {
   "name": "to-do-api",
-  "version": "0.8.2",
+  "version": "0.9.0-beta.0",
   "type": "module",
+  "private": true,
   "description": "Azure Function REST API for To Do List",
   "license": "MIT",
   "main": "./dist/main.js",
