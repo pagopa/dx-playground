@@ -23,7 +23,7 @@ jobs:
         run: corepack enable
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version-file: ".node-version"
           cache: "yarn"
@@ -36,12 +36,35 @@ jobs:
           git config --global user.email "dx-pagopa-github-bot@pagopa.it"
           git config --global user.name "dx-pagopa-bot"
 
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308 # v1.4.9
-        with:
-          version: yarn run version:snapshot
-          publish: yarn run release:snapshot
-          setupGitUser: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_BOT_PAT }}
+      - name: Check pre state and enter pre mode if needed
+        id: check_pre_state
+        run: |
+          # If pre.json does not exist or it is in "exit" mode
+          if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
+            echo "Enter the pre-release mode"
+            yarn dlx @changesets/cli pre enter beta
+            # Create pre-release versions (update CHANGELOG and package.json files)
+            yarn dlx @changesets/cli version
+            #if [ "$(jq -r '.changesets | length' .changeset/pre.json)" -eq 0 ]; then
+            #  echo "The 'changesets' array is empty."
+            #  echo "::error title=Missing changeset files::Add one (or more) changeset files before entering the pre-release mode."
+            #  exit 1
+            #else
+            #  echo "Changes detected in the .changeset folder:"
+            #fi
+            # Ensure the pre.json is pushed to the repository
+            echo "Pushing pre-release state..."
+            git add .
+            git commit -m "Enter pre-release mode and version packages"
+            echo "Publishing pre-release packages..."
+            yarn dlx @changesets/cli tag
+            git push --follow-tags
+            echo "Exiting pre-release mode"
+            yarn dlx @changesets/cli pre exit
+            git add .
+            git commit -m "Exit prerelease mode"
+            git push origin HEAD:${{ github.ref_name }}
+          else
+            echo "::debug::Already in pre-release mode"
+            exit 1
+          fi
