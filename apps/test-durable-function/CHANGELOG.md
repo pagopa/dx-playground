@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.1.0
+
+### Minor Changes
+
+- a190df3: Set `private` property to `true` in the `package.json`
+
 ## 1.1.0-beta.0
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.9.0
+
+### Minor Changes
+
+- a190df3: Set `private` property to `true` in the `package.json`
+
 ## 0.9.0-beta.0
 
 ### Minor Changes
