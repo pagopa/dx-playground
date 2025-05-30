@@ -57,7 +57,7 @@ jobs:
             git add .
             git commit -m "Enter pre-release mode and version packages"
             echo "Publishing pre-release packages..."
-            yarn dlx @changesets/cli tag
+            yarn dlx @changesets/cli publish
             git push --follow-tags
             echo "Exiting pre-release mode"
             yarn dlx @changesets/cli pre exit
