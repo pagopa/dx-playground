@@ -1,5 +1,5 @@
 {
-  "mode": "exit",
+  "mode": "pre",
   "tag": "beta",
   "initialVersions": {
     "azure-function-v3": "0.2.4",
@@ -17,6 +17,7 @@
   },
   "changesets": [
     "hip-trams-teach",
+    "slow-ends-wave",
     "young-carpets-nail"
   ]
 }
