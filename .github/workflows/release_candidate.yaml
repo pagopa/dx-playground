@@ -32,12 +32,6 @@ jobs:
           node-version-file: ".node-version"
           cache: "yarn"
 
-      - name: Install dependencies
-        run: yarn
-
-      - name: Build Pre-Release Action
-        run: yarn workspace release-candidate build
-
       - name: Configure Git user
         run: |
           git config --global user.email "dx-pagopa-github-bot@pagopa.it"
