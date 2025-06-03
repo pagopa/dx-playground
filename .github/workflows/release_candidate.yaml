@@ -32,10 +32,13 @@ jobs:
           node-version-file: ".node-version"
           cache: "yarn"
 
+      - name: Install dependencies
+        run: yarn
+
       - name: Configure Git user
         run: |
           git config --global user.email "dx-pagopa-github-bot@pagopa.it"
           git config --global user.name "dx-pagopa-bot"
 
       - name: Generate pre-release
-        uses: ./.github/actions/pre_release
+        uses: pagopa/dx-playground/apps/release-candidate@fixes/rc-workflow-trigger

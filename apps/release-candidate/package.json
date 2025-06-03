@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "shx rm -rf dist",
-    "build": "tsc",
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "typecheck": "tsc --noemit",
     "lint": "eslint src --fix",
     "lint:check": "eslint src",
