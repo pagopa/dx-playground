@@ -15,11 +15,11 @@ const run = async () => {
     required: true,
     trimWhitespace: true,
   });
-  core.debug(`Working directory: ${workDir}`);
+  core.info(`Working directory: ${workDir}`);
 
   const { changesets, preState } = await readChangesetState(workDir);
-  core.debug(`PreState: ${JSON.stringify(preState, null, 2)}`);
-  core.debug(`Changesets: ${JSON.stringify(changesets, null, 2)}`);
+  core.info(`PreState: ${JSON.stringify(preState, null, 2)}`);
+  core.info(`Changesets: ${JSON.stringify(changesets, null, 2)}`);
 
   if (!preState || preState.mode === "exit") {
     core.info("It is possible to enter the pre-release mode");
@@ -32,15 +32,19 @@ const run = async () => {
       cwd: workDir,
       script: "yarn run version",
     });
-    core.debug(`Version result: ${JSON.stringify(versionResult, null, 2)}`);
+    core.info(`Version branch: ${versionResult.versionBranch}`);
+    core.info(`Version result: ${JSON.stringify(versionResult, null, 2)}`);
     core.info("Publishing the packages...");
     const publishResult = await publishPackages({
       cwd: workDir,
-      script: "yarn run publish",
+      script: "yarn run release",
     });
-    core.debug(`Publish result: ${JSON.stringify(publishResult, null, 2)}`);
-
+    core.info(`Publish result: ${JSON.stringify(publishResult, null, 2)}`);
     core.info("Exit pre-release mode");
+
+    core.info(
+      `Published packages: ${JSON.stringify(publishResult.published, null, 2)}`,
+    );
     await exitPre(workDir);
   } else {
     core.warning("Already in pre-release mode");
