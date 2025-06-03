@@ -1,7 +1,11 @@
 name: Release a candidate version
 
 on:
-  workflow_dispatch:
+  workflow_call:
+    secrets:
+      github-token:
+        description: 'A token passed from the caller workflow'
+        required: true
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -16,7 +20,7 @@ jobs:
           # https://github.com/actions/checkout/issues/1471#issuecomment-1771231294
           fetch-tags: true
           fetch-depth: 0
-          token: ${{ secrets.GH_BOT_PAT }}
+          token: ${{ secrets.github-token }}
 
       # Corepack is an official tool by Node.js that manages package managers versions
       - name: Setup yarn
