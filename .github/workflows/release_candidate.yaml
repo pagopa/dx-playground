@@ -47,27 +47,27 @@ jobs:
         run: |
           # If pre.json does not exist or it is in "exit" mode
           if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
-            echo "Enter the pre-release mode"
+            echo "::info::Enter the pre-release mode"
             yarn dlx @changesets/cli pre enter beta
 
             # Create pre-release versions (update CHANGELOG and package.json files)
             yarn dlx @changesets/cli version
 
             # Ensure the pre.json is pushed to the repository
-            echo "Pushing pre-release state..."
+            echo "::info::Pushing pre-release state..."
             git add .
             git commit -m "Enter pre-release mode and version packages"
 
-            echo "Publishing pre-release packages..."
+            echo "::info::Publishing pre-release packages..."
             yarn dlx @changesets/cli publish
             git push --follow-tags
 
-            echo "Exiting pre-release mode"
+            echo "::info::Exiting pre-release mode"
             yarn dlx @changesets/cli pre exit
             git add .
             git commit -m "Exit prerelease mode"
             git push origin HEAD:${{ env.BRANCH_NAME }}
           else
-            echo "::debug::Already in pre-release mode"
+            echo "::warning::Already in pre-release mode"
             exit 1
           fi
