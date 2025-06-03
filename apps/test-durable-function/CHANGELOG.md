@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.2.0-rc.0
+
+### Minor Changes
+
+- a8607c6: Another bump
+
 ## 1.1.0
 
 ### Minor Changes
