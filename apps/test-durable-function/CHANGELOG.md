@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.2.0-rc.0
+
+### Minor Changes
+
+- c32499f: Another bump
+
 ## 1.1.0
 
 ### Minor Changes
