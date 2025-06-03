@@ -36,7 +36,7 @@ const run = async () => {
     core.info("Publishing the packages...");
     const publishResult = await publishPackages({
       cwd: workDir,
-      script: "yarn run publish",
+      script: "yarn run release",
     });
     core.debug(`Publish result: ${JSON.stringify(publishResult, null, 2)}`);
 
