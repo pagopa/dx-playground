@@ -1,0 +1,37 @@
+{
+  "name": "release-candidate",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.cjs",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "build": "tsc",
+    "typecheck": "tsc --noemit",
+    "lint": "eslint src --fix",
+    "lint:check": "eslint src",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@pagopa/eslint-config": "^4.0.4",
+    "@pagopa/typescript-config-node": "workspace:^",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/node": "^22.15.27",
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.3",
+    "rollup": "^4.41.1",
+    "shx": "^0.4.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.1",
+    "@changesets/cli": "^2.29.4",
+    "@changesets/pre": "^2.0.2",
+    "@changesets/release-utils": "^0.2.5"
+  }
+}
