@@ -117,8 +117,8 @@ jobs:
         id: plan
         working-directory: ${{ steps.directory.outputs.dir }}
         run: |
-          $PIPE_PATH="/tmp/pipe_terraform_plan"
-          $LOG_FILE="plan_output.log"
+          PIPE_PATH="/tmp/pipe_terraform_plan"
+          LOG_FILE="plan_output.log"
 
           mkfifo "$PIPE_PATH"
           trap 'rm -f /tmp/pipe_terraform_plan' EXIT
