@@ -6,6 +6,9 @@ on:
       github-token:
         description: 'A token passed from the caller workflow'
         required: true
+      npm-token:
+        description: "The npm token to use to publish the packages"
+        required: true
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -44,25 +47,27 @@ jobs:
         id: check_pre_state
         env:
           BRANCH_NAME: ${{ github.ref_name }}
+          NPM_TOKEN: ${{ secrets.npm-token }}
         run: |
+          echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" > ~/.npmrc
           # If pre.json does not exist or it is in "exit" mode
           if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
-            echo "::info::Enter the pre-release mode"
+            echo "Enter the pre-release mode"
             yarn dlx @changesets/cli pre enter beta
 
             # Create pre-release versions (update CHANGELOG and package.json files)
             yarn dlx @changesets/cli version
 
             # Ensure the pre.json is pushed to the repository
-            echo "::info::Pushing pre-release state..."
+            echo "Pushing pre-release state..."
             git add .
             git commit -m "Enter pre-release mode and version packages"
 
-            echo "::info::Publishing pre-release packages..."
+            echo "Publishing pre-release packages..."
             yarn dlx @changesets/cli publish
             git push --follow-tags
 
-            echo "::info::Exiting pre-release mode"
+            echo "Exiting pre-release mode"
             yarn dlx @changesets/cli pre exit
             git add .
             git commit -m "Exit prerelease mode"
