@@ -46,7 +46,7 @@ module "storage_account" {
     env_short       = local.environment.env_short
     location        = local.environment.location
     domain          = local.environment.domain
-    app_name        = "unbf"
+    app_name        = "unb"
     instance_number = local.environment.instance_number
   }
 
