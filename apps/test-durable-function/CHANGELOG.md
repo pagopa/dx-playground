@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.2.0-beta.1
+
+### Minor Changes
+
+- d426884: Another bump
+
 ## 1.2.0-test.0
 
 ### Minor Changes
