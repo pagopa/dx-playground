@@ -1,5 +1,15 @@
 # test-durable
 
+## 1.2.0-test.0
+
+### Minor Changes
+
+- 75fbd11: Another bump
+
+### Patch Changes
+
+- b015eb9: Test bump
+
 ## 1.1.0
 
 ### Minor Changes
