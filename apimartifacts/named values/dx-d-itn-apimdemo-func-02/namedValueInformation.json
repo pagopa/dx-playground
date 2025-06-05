@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "dx-d-itn-apimdemo-func-02",
+    "secret": true,
+    "tags": [
+      "function-key"
+    ]
+  }
+}

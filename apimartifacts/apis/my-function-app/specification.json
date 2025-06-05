@@ -1,0 +1,49 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "my-function-app",
+    "description": "",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://dx-d-itn-playground-pg-apim-01.azure-api.net/fapp"
+    }
+  ],
+  "paths": {
+    "/FunctionName": {
+      "get": {
+        "summary": "GetFunctionName",
+        "description": "Get the name of the invoked function",
+        "operationId": "getfunctionname",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": [ ]
+    },
+    {
+      "apiKeyQuery": [ ]
+    }
+  ]
+}

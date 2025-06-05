@@ -1,0 +1,37 @@
+<policies>
+	<inbound>
+		<base />
+		<set-backend-service backend-id="to-do-api-azure-function" />
+		<!-- Append base-path, if defined, before invoking the backend -->
+		<choose>
+			<when condition="@(System.String.IsNullOrEmpty("api"))">
+			</when>
+			<otherwise>
+				<rewrite-uri template="@(System.String.Concat("api/", context.Request.Url.Path))" />
+			</otherwise>
+		</choose>
+		<cors>
+			<allowed-origins>
+				<origin>*</origin>
+			</allowed-origins>
+			<allowed-methods>
+				<method>*</method>
+			</allowed-methods>
+			<allowed-headers>
+				<header>*</header>
+			</allowed-headers>
+			<expose-headers>
+				<header>*</header>
+			</expose-headers>
+		</cors>
+	</inbound>
+	<outbound>
+		<base />
+	</outbound>
+	<backend>
+		<base />
+	</backend>
+	<on-error>
+		<base />
+	</on-error>
+</policies>

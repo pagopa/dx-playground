@@ -1,0 +1,16 @@
+{
+  "properties": {
+    "credentials": {
+      "header": {
+        "x-functions-key": [
+          "{{to-do-api-function-key}}"
+        ]
+      },
+      "query": {}
+    },
+    "description": "API to handle a To Do list",
+    "protocol": "http",
+    "resourceId": "https://management.azure.com/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Web/sites/dx-d-itn-playground-be-func-01",
+    "url": "https://dx-d-itn-playground-be-func-01.azurewebsites.net"
+  }
+}

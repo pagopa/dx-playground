@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "loggerType": "applicationInsights",
+    "credentials": {
+      "connectionString": "{{Logger-Credentials--682d8a3b217d2019ac23fd97}}"
+    },
+    "description": "",
+    "isBuffered": true,
+    "resourceId": "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Insights/components/dx-d-itn-playground-azure-function-v3-appi-01"
+  }
+}
