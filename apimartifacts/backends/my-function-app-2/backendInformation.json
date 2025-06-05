@@ -1,0 +1,21 @@
+{
+  "properties": {
+    "credentials": {
+      "header": {
+        "x-functions-key": [
+          "{{dx-d-itn-apimdemo-func-02}}"
+        ]
+      },
+      "query": {}
+    },
+    "description": "Invoke dx-d-itn-apimdemo-func-02",
+    "protocol": "http",
+    "resourceId": "https://management.azure.com/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Web/Sites/dx-d-itn-apimdemo-func-02",
+    "tls": {
+      "validateCertificateChain": true,
+      "validateCertificateName": true
+    },
+    "type": "Single",
+    "url": "https://dx-d-itn-apimdemo-func-02.azurewebsites.net/api"
+  }
+}
