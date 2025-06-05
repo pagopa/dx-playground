@@ -113,80 +113,15 @@ jobs:
       # The plan output is saved in a file and then processed to remove unnecessary lines
       # The step never fails but the result is checked in the next step
       # This is because we want to post the plan output in the PR even if the plan fails
-      - name: Terraform Plan (Inline Script con Streaming Forzato)
-        working-directory: ${{ steps.directory.outputs.dir }}
+ # Passo per installare le dipendenze della nostra azione locale
+      - name: Install Action Dependencies
+        run: npm install
+        working-directory: ./.github/actions/terraform-plan-stream
+
+      # Esegui la nostra azione locale!
+      - name: Terraform Plan (Direct Execution)
         id: plan
-        run: |
-          # Usiamo stdbuf per forzare terraform a usare il line-buffering
-          # Questo è il comando che eseguiremmo manualmente:
-          # stdbuf -oL terraform plan [...]
-          # Lo replichiamo nello script Node.js qui sotto.
-          node - <<'EOF'
-          
-          // --- Inizio dello script Node.js Inline ---
-          const { spawn } = require('child_process');
-          const { createWriteStream } = require('fs');
-          const { Transform } = require('stream');
-
-          const logFile = 'plan_output.txt';
-          const filterString = 'hidden-link:';
-
-          console.log(`Avvio di terraform plan con stdbuf per forzare lo streaming...`);
-
-          const logStream = createWriteStream(logFile);
-
-          // --- MODIFICA CHIAVE ---
-          // Invochiamo `stdbuf` che a sua volta eseguirà terraform.
-          // `-oL` forza lo standard output (stdout) ad essere Line Buffered.
-          const command = 'stdbuf';
-          const args = ['-oL', 'terraform', 'plan', '-lock-timeout=3000s', '-no-color'];
-          const terraform = spawn(command, args);
-          // --- FINE MODIFICA CHIAVE ---
-
-          const lineFilter = new Transform({
-            transform(chunk, encoding, callback) {
-              const lines = (this.carry || '' + chunk.toString()).split(/\r?\n/);
-              this.carry = lines.pop();
-
-              for (const line of lines) {
-                if (!line.includes(filterString)) {
-                  this.push(line + '\n');
-                }
-              }
-              callback();
-            },
-            flush(callback) {
-              if (this.carry && !this.carry.includes(filterString)) {
-                this.push(this.carry);
-              }
-              callback();
-            }
-          });
-
-          terraform.stdout.pipe(lineFilter);
-          lineFilter.pipe(process.stdout);
-          lineFilter.pipe(logStream);
-
-          terraform.stderr.pipe(process.stderr);
-          terraform.stderr.pipe(logStream);
-
-          terraform.on('error', (err) => {
-            console.error(`Errore nell'avvio del processo: ${err.message}`);
-            logStream.write(`Errore nell'avvio del processo: ${err.message}\n`);
-          });
-
-          terraform.on('close', (code) => {
-            if (code !== 0) {
-              const message = `Il processo è terminato con codice ${code}`;
-              console.log(message);
-              logStream.write(message + '\n');
-            }
-            logStream.end();
-            process.exit(code);
-          });
-          // --- Fine dello script Node.js Inline ---
-          
-          EOF
+        uses: ./.github/actions/terraform-plan-stream
 
       # Post the plan output in the PR
       # The plan output is posted in a comment in the PR
