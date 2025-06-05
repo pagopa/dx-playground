@@ -113,110 +113,79 @@ jobs:
       # The plan output is saved in a file and then processed to remove unnecessary lines
       # The step never fails but the result is checked in the next step
       # This is because we want to post the plan output in the PR even if the plan fails
-      - name: Terraform Plan
+      - name: Terraform Plan (Inline Script con Streaming Forzato)
+        working-directory: ${{ steps.directory.outputs.dir }}
         id: plan
         run: |
+          # Usiamo stdbuf per forzare terraform a usare il line-buffering
+          # Questo è il comando che eseguiremmo manualmente:
+          # stdbuf -oL terraform plan [...]
+          # Lo replichiamo nello script Node.js qui sotto.
           node - <<'EOF'
+          
+          // --- Inizio dello script Node.js Inline ---
+          const { spawn } = require('child_process');
+          const { createWriteStream } = require('fs');
+          const { Transform } = require('stream');
 
-            const { spawn } = require('child_process');
-            const { createWriteStream } = require('fs');
-            const { Transform } = require('stream');
+          const logFile = 'plan_output.txt';
+          const filterString = 'hidden-link:';
 
-            console.log(`Running Terraform Plan in directory: ${{ steps.directory.outputs.dir }}`);
+          console.log(`Avvio di terraform plan con stdbuf per forzare lo streaming...`);
 
-            // --- Configurazione ---
-            const logFile = 'plan_output.txt';
-            const terraformArgs = ['plan', '-lock-timeout=3000s', '-no-color'];
-            const filterString = 'hidden-link:';
+          const logStream = createWriteStream(logFile);
 
-            // --- Creazione dello stream di scrittura per il file di log ---
-            const logStream = createWriteStream(logFile);
+          // --- MODIFICA CHIAVE ---
+          // Invochiamo `stdbuf` che a sua volta eseguirà terraform.
+          // `-oL` forza lo standard output (stdout) ad essere Line Buffered.
+          const command = 'stdbuf';
+          const args = ['-oL', 'terraform', 'plan', '-lock-timeout=3000s', '-no-color'];
+          const terraform = spawn(command, args);
+          // --- FINE MODIFICA CHIAVE ---
 
-            // --- Avvio del processo 'terraform' ---
-            const terraform = spawn('terraform', terraformArgs, {
-              // Esegui il comando nella directory di lavoro originale
-              cwd: '${{ steps.directory.outputs.dir }}',
-            });
+          const lineFilter = new Transform({
+            transform(chunk, encoding, callback) {
+              const lines = (this.carry || '' + chunk.toString()).split(/\r?\n/);
+              this.carry = lines.pop();
 
-            // --- Creazione di uno stream di trasformazione per il filtraggio ---
-            // Questo stream riceverà i dati, li filtrerà e li passerà oltre.
-            const lineFilter = new Transform({
-              transform(chunk, encoding, callback) {
-                // Converte il chunk di dati in una stringa e la divide per righe.
-                // Il `carry` gestisce le righe incomplete tra un chunk e l'altro.
-                const lines = (this.carry || '' + chunk.toString()).split(/\r?\n/);
-                this.carry = lines.pop(); // L'ultima riga potrebbe essere incompleta, la teniamo da parte
-
-                for (const line of lines) {
-                  if (!line.includes(filterString)) {
-                    // Se la riga non contiene la stringa da filtrare, la inoltriamo
-                    // aggiungendo un a capo per mantenere la formattazione.
-                    this.push(line + '\n');
-                  }
+              for (const line of lines) {
+                if (!line.includes(filterString)) {
+                  this.push(line + '\n');
                 }
-                callback();
-              },
-              // La funzione flush viene chiamata alla fine dello stream
-              // per processare eventuali dati rimasti nel buffer (l'ultima riga).
-              flush(callback) {
-                if (this.carry) {
-                    if (!this.carry.includes(filterString)) {
-                        this.push(this.carry);
-                    }
-                }
-                callback();
               }
-            });
-
-            // --- Gestione dello streaming ---
-
-            // 1. Collega (pipe) lo stdout di terraform allo stream di filtraggio
-            terraform.stdout.pipe(lineFilter);
-
-            // 2. Stampa l'output filtrato sulla console principale (process.stdout)
-            lineFilter.pipe(process.stdout);
-            //    ...e contemporaneamente scrivilo nel file di log
-            lineFilter.pipe(logStream);
-
-            // 3. Stampa lo stderr di terraform direttamente (gli errori non vengono filtrati)
-            terraform.stderr.pipe(process.stderr);
-            //    ...e contemporaneamente scrivilo nel file di log
-            terraform.stderr.pipe(logStream);
-
-            // --- Gestione degli errori e della chiusura dei processi ---
-
-            terraform.on('error', (err) => {
-              console.error(`Errore nell'avvio di 'terraform': ${err.message}`);
-              logStream.write(`Errore nell'avvio di 'terraform': ${err.message}\n`);
-            });
-
-            lineFilter.on('error', (err) => {
-              console.error(`Errore durante il filtraggio dello stream: ${err.message}`);
-              logStream.write(`Errore durante il filtraggio dello stream: ${err.message}\n`);
-            });
-
-            terraform.on('close', (code) => {
-              if (code !== 0) {
-                const message = `Il processo 'terraform' è terminato con codice ${code}`;
-                console.log(message);
-                logStream.write(message + '\n');
+              callback();
+            },
+            flush(callback) {
+              if (this.carry && !this.carry.includes(filterString)) {
+                this.push(this.carry);
               }
-              // Chiudi lo stream del file quando terraform ha finito
-              logStream.end();
-              process.exit(code);
-            });
+              callback();
+            }
+          });
 
-            // terraform plan -lock-timeout=3000s -no-color 2>&1 | grep -v "hidden-link:"  --line-buffered > $PIPE_PATH
+          terraform.stdout.pipe(lineFilter);
+          lineFilter.pipe(process.stdout);
+          lineFilter.pipe(logStream);
 
-            // OUTPUT=$(grep -Ev "Refreshing state|state lock|Reading|Read" plan_output.txt | tail -c 60000)
+          terraform.stderr.pipe(process.stderr);
+          terraform.stderr.pipe(logStream);
 
-            // printf "%s" "$OUTPUT" > plan_output_multiline.txt
+          terraform.on('error', (err) => {
+            console.error(`Errore nell'avvio del processo: ${err.message}`);
+            logStream.write(`Errore nell'avvio del processo: ${err.message}\n`);
+          });
 
-            // if grep -q "::error::Terraform exited with code" plan_output.txt; then
-            // echo "failed"
-            // exit 1
-            // fi
-
+          terraform.on('close', (code) => {
+            if (code !== 0) {
+              const message = `Il processo è terminato con codice ${code}`;
+              console.log(message);
+              logStream.write(message + '\n');
+            }
+            logStream.end();
+            process.exit(code);
+          });
+          // --- Fine dello script Node.js Inline ---
+          
           EOF
 
       # Post the plan output in the PR
