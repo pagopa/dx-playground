@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const { spawn } = require('child_process');
+const pty = require('node-pty'); // <-- Importa node-pty
 const { createWriteStream } = require('fs');
 
 async function run() {
@@ -8,67 +8,63 @@ async function run() {
     const logFile = 'plan_output.txt';
     const filterString = 'hidden-link:';
 
-    core.info('Azione avviata.');
+    core.info('Azione avviata con emulazione TTY.');
     core.info(`Working Directory: ${workingDir}`);
     core.info(`L'output verrà filtrato e scritto anche su ${logFile}`);
 
     const logStream = createWriteStream(logFile);
-    
-    // Comando e argomenti rimangono invariati
-    const command = 'stdbuf';
-    const args = ['-oL', 'terraform', 'plan', '-lock-timeout=3000s', '-no-color'];
 
-    const terraformProcess = spawn(command, args, { cwd: workingDir });
+    // Con node-pty, NON abbiamo più bisogno di stdbuf.
+    // Il comando è direttamente terraform.
+    const command = 'terraform';
+    const args = ['plan', '-lock-timeout=3000s']; 
+    // NON usare '-no-color', vogliamo i colori! Il log di GitHub li supporta.
 
-    // **MODIFICA PRINCIPALE: Gestione manuale del buffer e logging per riga**
+    // Avvia il processo usando pty.spawn
+    const ptyProcess = pty.spawn(command, args, {
+      name: 'xterm-color',
+      cols: 80,
+      rows: 30,
+      cwd: workingDir,
+      env: process.env
+    });
+
     let buffer = '';
-    terraformProcess.stdout.on('data', (chunk) => {
-      // Aggiungi il nuovo blocco di dati al buffer
-      buffer += chunk.toString();
+    // L'evento di node-pty si chiama 'onData', non 'on('data')'
+    ptyProcess.onData(chunk => {
+      // Scrivi l'output grezzo (con colori) direttamente nel log di Actions.
+      // Il viewer di GitHub Actions interpreterà correttamente i codici colore.
+      process.stdout.write(chunk);
       
-      // Processa il buffer finché contiene interruzioni di riga
+      // Ora gestiamo il buffer per il file di log e il filtro
+      buffer += chunk.toString();
       let eolIndex;
       while ((eolIndex = buffer.indexOf('\n')) >= 0) {
-        // Estrai la riga completa (rimuovendo \r se presente)
         const line = buffer.substring(0, eolIndex).trimEnd();
-        // Rimuovi la riga processata dal buffer
         buffer = buffer.substring(eolIndex + 1);
 
-        // Filtra e logga la riga
         if (!line.includes(filterString)) {
-          core.info(line); // <-- Chiamata chiave per l'output in tempo reale
-          logStream.write(line + '\n');
+          // Scrivi sul file di log senza codici colore (più pulito)
+          // La regex rimuove i codici di escape ANSI
+          const cleanLine = line.replace(/[\u001b\u009b][[()#;?]*.?[0-9]{1,4}(?:;[0-9]{0,4})*.?[0-9A-ORZcf-nqry=><]/g, '');
+          logStream.write(cleanLine + '\n');
         }
       }
     });
 
-    // Gestisce lo stderr (invariato)
-    terraformProcess.stderr.on('data', (data) => {
-      const dataStr = data.toString();
-      // Scrivi su stderr per visualizzarlo come errore nel log di Actions
-      process.stderr.write(dataStr); 
-      logStream.write(dataStr);
-    });
-    
     // Gestisce la conclusione del processo
-    terraformProcess.on('close', (code) => {
-      // Processa eventuali dati rimasti nel buffer alla fine del processo
+    ptyProcess.onExit(({ exitCode }) => {
+      // Processa eventuali dati rimasti nel buffer
       if (buffer.length > 0 && !buffer.includes(filterString)) {
-        core.info(buffer);
-        logStream.write(buffer);
+        const cleanBuffer = buffer.replace(/[\u001b\u009b][[()#;?]*.?[0-9]{1,4}(?:;[0-9]{0,4})*.?[0-9A-ORZcf-nqry=><]/g, '');
+        logStream.write(cleanBuffer);
       }
       logStream.end();
-      if (code !== 0) {
-        core.setFailed(`Il processo Terraform è terminato con codice ${code}`);
+      if (exitCode !== 0) {
+        core.setFailed(`Il processo Terraform è terminato con codice ${exitCode}`);
       } else {
         core.info('Processo Terraform completato con successo.');
       }
-    });
-
-    // Gestisce eventuali errori nell'avvio del processo (invariato)
-    terraformProcess.on('error', (err) => {
-        logStream.end();
-        core.setFailed(`Errore nell'avvio del processo: ${err.message}`);
     });
 
   } catch (error) {

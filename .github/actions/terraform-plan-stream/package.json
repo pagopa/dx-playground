@@ -4,6 +4,7 @@
   "description": "Runs terraform plan with real-time streaming",
   "main": "index.js",
   "dependencies": {
-    "@actions/core": "^1.10.1"
+    "@actions/core": "^1.10.1",
+    "node-pty": "^1.0.0"
   }
 }
