@@ -118,7 +118,7 @@ jobs:
         working-directory: ${{ steps.directory.outputs.dir }}
         run: |
           export TERM=xterm-256color
-          stdbuf -oL -eL terraform plan -lock-timeout=3000s -no-color 2>&1
+          stdbuf -oL -eL terraform plan -lock-timeout=3000s -no-color
 
       # Post the plan output in the PR
       # The plan output is posted in a comment in the PR
