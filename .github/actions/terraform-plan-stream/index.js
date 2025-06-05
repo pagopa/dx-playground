@@ -1,51 +1,55 @@
 const core = require('@actions/core');
-const pty = require('node-pty'); // <-- Importa node-pty
+const pty = require('node-pty');
 const { createWriteStream } = require('fs');
 
 async function run() {
+  let ptyProcess; // Definiamo qui per accedervi nel blocco catch
+
+  // ** DIAGNOSTICA: HEARTBEAT **
+  // Stampa un messaggio ogni 5 secondi per verificare se l'event loop di Node.js
+  // e il logging di Actions funzionano in tempo reale.
+  const heartbeat = setInterval(() => {
+    core.info(`[Heartbeat] L'azione è ancora in esecuzione... ${new Date().toLocaleTimeString()}`);
+  }, 5000);
+
   try {
     const workingDir = core.getInput('working-directory', { required: true });
     const logFile = 'plan_output.txt';
     const filterString = 'hidden-link:';
 
-    core.info('Azione avviata con emulazione TTY.');
+    core.info('Azione avviata (Versione diagnostica con Heartbeat).');
     core.info(`Working Directory: ${workingDir}`);
-    core.info(`L'output verrà filtrato e scritto anche su ${logFile}`);
 
     const logStream = createWriteStream(logFile);
-
-    // Con node-pty, NON abbiamo più bisogno di stdbuf.
-    // Il comando è direttamente terraform.
+    
     const command = 'terraform';
-    const args = ['plan', '-lock-timeout=3000s']; 
-    // NON usare '-no-color', vogliamo i colori! Il log di GitHub li supporta.
+    const args = ['plan', '-lock-timeout=3000s'];
 
     // Avvia il processo usando pty.spawn
-    const ptyProcess = pty.spawn(command, args, {
+    ptyProcess = pty.spawn(command, args, {
       name: 'xterm-color',
-      cols: 80,
+      cols: 120, // Diamo più colonne, a volte aiuta
       rows: 30,
       cwd: workingDir,
       env: process.env
     });
 
-    let buffer = '';
-    // L'evento di node-pty si chiama 'onData', non 'on('data')'
+    let lineBuffer = '';
+    // L'evento di node-pty si chiama 'onData'
     ptyProcess.onData(chunk => {
-      // Scrivi l'output grezzo (con colori) direttamente nel log di Actions.
-      // Il viewer di GitHub Actions interpreterà correttamente i codici colore.
-      process.stdout.write(chunk);
-      
-      // Ora gestiamo il buffer per il file di log e il filtro
-      buffer += chunk.toString();
+      // Non usiamo più process.stdout.write.
+      // Processiamo ogni chunk per trovare le righe complete.
+      lineBuffer += chunk.toString();
       let eolIndex;
-      while ((eolIndex = buffer.indexOf('\n')) >= 0) {
-        const line = buffer.substring(0, eolIndex).trimEnd();
-        buffer = buffer.substring(eolIndex + 1);
+      while ((eolIndex = lineBuffer.indexOf('\n')) >= 0) {
+        const line = lineBuffer.substring(0, eolIndex).trimEnd();
+        lineBuffer = lineBuffer.substring(eolIndex + 1);
 
+        // **CHIAMATA FORZATA AL LOG PER OGNI RIGA**
+        core.info(line); // Usiamo core.info per ogni riga ricevuta da pty
+
+        // Scrittura su file (con filtro e pulizia colori)
         if (!line.includes(filterString)) {
-          // Scrivi sul file di log senza codici colore (più pulito)
-          // La regex rimuove i codici di escape ANSI
           const cleanLine = line.replace(/[\u001b\u009b][[()#;?]*.?[0-9]{1,4}(?:;[0-9]{0,4})*.?[0-9A-ORZcf-nqry=><]/g, '');
           logStream.write(cleanLine + '\n');
         }
@@ -54,11 +58,18 @@ async function run() {
 
     // Gestisce la conclusione del processo
     ptyProcess.onExit(({ exitCode }) => {
-      // Processa eventuali dati rimasti nel buffer
-      if (buffer.length > 0 && !buffer.includes(filterString)) {
-        const cleanBuffer = buffer.replace(/[\u001b\u009b][[()#;?]*.?[0-9]{1,4}(?:;[0-9]{0,4})*.?[0-9A-ORZcf-nqry=><]/g, '');
-        logStream.write(cleanBuffer);
+      // Ferma l'heartbeat
+      clearInterval(heartbeat);
+
+      // Processa e logga eventuali dati rimasti nel buffer
+      if (lineBuffer.length > 0) {
+        core.info(lineBuffer);
+        if (!lineBuffer.includes(filterString)) {
+            const cleanBuffer = lineBuffer.replace(/[\u001b\u009b][[()#;?]*.?[0-9]{1,4}(?:;[0-9]{0,4})*.?[0-9A-ORZcf-nqry=><]/g, '');
+            logStream.write(cleanBuffer);
+        }
       }
+
       logStream.end();
       if (exitCode !== 0) {
         core.setFailed(`Il processo Terraform è terminato con codice ${exitCode}`);
@@ -68,6 +79,11 @@ async function run() {
     });
 
   } catch (error) {
+    // Ferma l'heartbeat anche in caso di errore
+    clearInterval(heartbeat);
+    if (ptyProcess) {
+      ptyProcess.kill();
+    }
     core.setFailed(error.message);
   }
 }
