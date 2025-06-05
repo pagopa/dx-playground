@@ -46,7 +46,9 @@ async function run() {
         lineBuffer = lineBuffer.substring(eolIndex + 1);
 
         // **CHIAMATA FORZATA AL LOG PER OGNI RIGA**
-        core.info(line); // Usiamo core.info per ogni riga ricevuta da pty
+        setTimeout(() => {
+          core.info(line);
+        }, 0); // Assicuriamoci che il log venga eseguito in modo asincrono
 
         // Scrittura su file (con filtro e pulizia colori)
         if (!line.includes(filterString)) {
