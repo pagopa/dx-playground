@@ -113,18 +113,21 @@ jobs:
       # The plan output is saved in a file and then processed to remove unnecessary lines
       # The step never fails but the result is checked in the next step
       # This is because we want to post the plan output in the PR even if the plan fails
- # Passo per installare le dipendenze della nostra azione locale
-      - name: Install Action Dependencies
-        run: npm install
-        working-directory: ./.github/actions/terraform-plan-stream
-
-      # Esegui la nostra azione locale!
-      - name: Terraform Plan (Direct Execution)
+      - name: Terraform Plan
         id: plan
-        uses: ./.github/actions/terraform-plan-stream
-        with:
-          # Passa l'output dello step precedente come input alla nostra azione
-          working-directory: ${{ steps.directory.outputs.dir }}
+        working-directory: ${{ steps.directory.outputs.dir }}
+        run: |
+          export TERM=xterm-256color
+          stdbuf -oL -eL terraform plan -lock-timeout=3000s -no-color 2>&1 | grep -v "hidden-link:" --line-buffered | tee plan_output.txt
+
+          OUTPUT=$(grep -Ev "Refreshing state|state lock|Reading|Read" plan_output.txt | tail -c 60000)
+
+          printf "%s" "$OUTPUT" > plan_output_multiline.txt
+
+          if grep -q "::error::Terraform exited with code" plan_output.txt; then
+            echo "failed"
+            exit 1
+          fi
 
       # Post the plan output in the PR
       # The plan output is posted in a comment in the PR
