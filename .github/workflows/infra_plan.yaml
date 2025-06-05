@@ -117,23 +117,22 @@ jobs:
         id: plan
         working-directory: ${{ steps.directory.outputs.dir }}
         run: |
-          PIPE_PATH="/tmp/pipe_terraform_plan"
-          LOG_FILE="plan_output.log"
-
-          mkfifo "$PIPE_PATH"
-          trap 'rm -f /tmp/pipe_terraform_plan' EXIT
-          tail -f "$PIPE_PATH" > "$LOG_FILE" 2>&1 &
-          TAIL_PID=$!
+          npx --package=execa -- node -e 'import {$} from "execa";
+          $({cwd: process.env.INIT_CWD, 
+             buffer: false,
+             all: true,
+             stdout:["inherit", {file:"plan_output.txt"}], 
+             stderr:["inherit", {file:"plan_output.txt"}]}
+          )`terraform plan -lock-timeout=3000s -no-color`
+          .pipe`grep -v "hidden-link:"`'
          
-          terraform plan -lock-timeout=3000s -no-color 2>&1 | grep -v "hidden-link:"  --line-buffered > $PIPE_PATH
+          # terraform plan -lock-timeout=3000s -no-color 2>&1 | grep -v "hidden-link:"  --line-buffered > $PIPE_PATH
 
-          wait $TAIL_PID
-
-          OUTPUT=$(grep -Ev "Refreshing state|state lock|Reading|Read" $LOG_FILE | tail -c 60000)
+          OUTPUT=$(grep -Ev "Refreshing state|state lock|Reading|Read" plan_output.txt | tail -c 60000)
 
           printf "%s" "$OUTPUT" > plan_output_multiline.txt
 
-          if grep -q "::error::Terraform exited with code" $LOG_FILE; then
+          if grep -q "::error::Terraform exited with code" plan_output.txt; then
             echo "failed"
             exit 1
           fi
