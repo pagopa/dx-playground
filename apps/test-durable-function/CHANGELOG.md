@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.2.0-alpha.0
+
+### Minor Changes
+
+- 75fbd11: Another bump
+
 ## 1.1.0
 
 ### Minor Changes
