@@ -13,8 +13,8 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | ~>2.4.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.28.0 |
+| <a name="provider_azapi"></a> [azapi](#provider\_azapi) | 2.4.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.31.0 |
 | <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0 |
 
 ## Modules
