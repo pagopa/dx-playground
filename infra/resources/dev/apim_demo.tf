@@ -80,6 +80,18 @@ resource "azurerm_api_management_named_value" "demo02_key" {
   ]
 }
 
+# Product
+
+resource "azurerm_api_management_product" "devportal" {
+  product_id            = "devportal"
+  api_management_name   = module.apim.name
+  resource_group_name   = module.apim.resource_group_name
+  display_name          = "DevPortal"
+  subscription_required = true
+  approval_required     = false
+  published             = true
+}
+
 # Demo API
 
 # V1 - Invoke Demo 01
@@ -149,6 +161,13 @@ resource "azurerm_api_management_api_tag" "demo" {
   name   = azurerm_api_management_tag.demo.name
 }
 
+resource "azurerm_api_management_product_api" "demo_v1_rev1" {
+  api_name            = azurerm_api_management_api.demo_v1_rev1.name
+  product_id          = azurerm_api_management_product.devportal.product_id
+  api_management_name = module.apim.name
+  resource_group_name = module.apim.resource_group_name
+}
+
 # Rev2 - Introducing the Backend Demo 01
 # APIM Backend
 resource "azurerm_api_management_backend" "demo_01" {
@@ -188,6 +207,13 @@ resource "azurerm_api_management_api" "demo_v1_rev2" {
     content_format = "openapi+json-link"
     content_value  = "https://dxditnapimdemooast01.blob.core.windows.net/open-api/dx-d-itn-apimdemo-func-02.openapi+json.json"
   }
+}
+
+resource "azurerm_api_management_product_api" "demo_v1_rev2" {
+  api_name            = azurerm_api_management_api.demo_v1_rev2.name
+  product_id          = azurerm_api_management_product.devportal.product_id
+  api_management_name = module.apim.name
+  resource_group_name = module.apim.resource_group_name
 }
 
 resource "azurerm_api_management_api_policy" "demo_v1_rev2" {
@@ -252,6 +278,13 @@ resource "azurerm_api_management_api" "demo_v2_rev1" {
     content_format = "openapi+json-link"
     content_value  = "https://dxditnapimdemooast01.blob.core.windows.net/open-api/dx-d-itn-apimdemo-func-02.openapi+json.json"
   }
+}
+
+resource "azurerm_api_management_product_api" "demo_v2_rev1" {
+  api_name            = azurerm_api_management_api.demo_v2_rev1.name
+  product_id          = azurerm_api_management_product.devportal.product_id
+  api_management_name = module.apim.name
+  resource_group_name = module.apim.resource_group_name
 }
 
 resource "azapi_resource" "demo_apps_pool" {
