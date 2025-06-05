@@ -19,7 +19,7 @@ on:
 env:
   apiops_release_version: v6.0.1.7
   #By default, this will be Information but if you want something different you will need to add a variable in the Settings -> Environment -> Environment variables section
-  Logging__LogLevel__Default: ${{ vars.LOG_LEVEL }}
+  Logging__LogLevel__Default: "Debug"
   AZURE_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   AZURE_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
   AZURE_RESOURCE_GROUP_NAME: ${{ secrets.AZURE_RESOURCE_GROUP_NAME }}
