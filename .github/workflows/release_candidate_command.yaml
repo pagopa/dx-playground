@@ -48,13 +48,26 @@ jobs:
           else
             echo "Parsed type: $type"
           fi
-
           echo "type=$type" >> $GITHUB_OUTPUT
+
+      - name: Get PR branch name
+        id: get_pr_branch
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const prNumber = context.payload.issue.number;
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+            return pr.head.ref;
+          result-encoding: string
 
       - name: Create a pre-release
         id: check_pre_state
         env:
-          BRANCH_NAME: ${{ github.head_ref }}
+          BRANCH_NAME: ${{ steps.get_pr_branch.outputs.result }}
           NPM_TOKEN: ${{ secrets.npm-token }}
           DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
         run: |
