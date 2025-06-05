@@ -77,10 +77,16 @@ jobs:
           if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
             echo "Entering pre-release mode with distribution: $DISTRIBUTION_TYPE"
             yarn dlx @changesets/cli pre enter "$DISTRIBUTION_TYPE"
+            # Create pre-release versions (update CHANGELOG and package.json files)
             yarn dlx @changesets/cli version
+            # Ensure the pre.json is pushed to the repository
+            echo "Pushing pre-release state..."
             git add .
             git commit -m "Enter pre-release mode and version packages"
+            echo "Publishing pre-release packages..."
             yarn dlx @changesets/cli publish
+            git pull --rebase origin "$BRANCH_NAME"
+            echo "Exiting pre-release mode"
             yarn dlx @changesets/cli pre exit
             git add .
             git commit -m "Exit prerelease mode"
