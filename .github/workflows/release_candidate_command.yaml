@@ -1,0 +1,109 @@
+name: Release Candidate Command
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release-candidate:
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/release-candidate') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-tags: true
+          fetch-depth: 0
+          token: ${{ secrets.GH_BOT_PAT }}
+
+      - name: Setup yarn
+        run: corepack enable
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version-file: ".node-version"
+          cache: "yarn"
+
+      - name: Configure Git user
+        run: |
+          git config --global user.email "dx-pagopa-github-bot@pagopa.it"
+          git config --global user.name "dx-pagopa-bot"
+
+      - name: Extract type from comment (with default)
+        id: parse
+        run: |
+          body="${{ github.event.comment.body }}"
+          echo "Full comment: $body"
+
+          type=$(echo "$body" | sed -En 's/^\/release-candidate[[:space:]]{1,}([^[:space:]]+).*/\1/p')
+
+          if [ -z "$type" ]; then
+            echo "No type argument provided, defaulting to beta"
+            type="beta"
+          else
+            echo "Parsed type: $type"
+          fi
+
+          echo "type=$type" >> $GITHUB_OUTPUT
+
+      - name: Create a pre-release
+        id: check_pre_state
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+          NPM_TOKEN: ${{ secrets.npm-token }}
+          DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
+        run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+          # Use the distribution type as argument for pre enter (replace 'beta' with $DISTRIBUTION_TYPE)
+          if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
+            echo "Entering pre-release mode with distribution: $DISTRIBUTION_TYPE"
+            yarn dlx @changesets/cli pre enter "$DISTRIBUTION_TYPE"
+            yarn dlx @changesets/cli version
+            git add .
+            git commit -m "Enter pre-release mode and version packages"
+            yarn dlx @changesets/cli publish
+            yarn dlx @changesets/cli pre exit
+            git add .
+            git commit -m "Exit prerelease mode"
+            git push origin HEAD:$BRANCH_NAME --follow-tags
+          else
+            echo "::warning::Already in pre-release mode"
+            exit 1
+          fi
+
+      - name: Generate PR comment content
+        id: generate-comment
+        run: |
+          echo "RELEASED_PACKAGES<<EOF" >> $GITHUB_OUTPUT
+          echo "New artifacts version ($DISTRIBUTION_TYPE distribution):" >> $GITHUB_OUTPUT
+          jq -r '.releases[] | "- \(.name)@\(.newVersion)"' changeset-release-info.json >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        with:
+          script: |
+            const issueNumber = context.issue.number;
+            const distribution = '${{ steps.parse.outputs.type }}';
+            const releasedPackages = `\${{ steps.generate-comment.outputs.RELEASED_PACKAGES }}`;
+
+            const body = `
+            🚀 Release Candidate Command executed.
+
+            Distribution type: **${distribution}**
+
+            ${releasedPackages}
+            `;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body,
+            });
