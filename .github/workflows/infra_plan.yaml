@@ -135,7 +135,7 @@ jobs:
             // --- Avvio del processo 'terraform' ---
             const terraform = spawn('terraform', terraformArgs, {
               // Esegui il comando nella directory di lavoro originale
-              cwd: ${{ steps.directory.outputs.dir }},
+              cwd: '${{ steps.directory.outputs.dir }}',
             });
 
             // --- Creazione di uno stream di trasformazione per il filtraggio ---
