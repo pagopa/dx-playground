@@ -117,6 +117,7 @@ jobs:
         id: plan
         working-directory: ${{ steps.directory.outputs.dir }}
         run: |
+          yarn add execa
           npx --package=execa -- node -e 'import {$} from "execa";
           $({cwd: process.env.INIT_CWD, 
              buffer: false,
