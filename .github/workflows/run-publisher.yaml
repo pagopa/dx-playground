@@ -18,6 +18,11 @@ on:
           - "publish-artifacts-in-last-commit"
           - "publish-all-artifacts-in-repo"
 
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
 jobs:
   get-commit:
     runs-on: ubuntu-latest
