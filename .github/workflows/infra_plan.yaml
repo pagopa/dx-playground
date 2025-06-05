@@ -122,6 +122,9 @@ jobs:
       - name: Terraform Plan (Direct Execution)
         id: plan
         uses: ./.github/actions/terraform-plan-stream
+        with:
+          # Passa l'output dello step precedente come input alla nostra azione
+          working-directory: ${{ steps.directory.outputs.dir }}
 
       # Post the plan output in the PR
       # The plan output is posted in a comment in the PR

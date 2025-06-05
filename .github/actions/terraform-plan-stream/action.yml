@@ -1,5 +1,9 @@
 name: 'Terraform Plan Stream'
 description: 'Esegue terraform plan con output in streaming in tempo reale, bypassando la shell.'
+inputs:
+  working-directory:
+    description: 'La directory in cui eseguire i comandi terraform.'
+    required: true # Rendiamo l'input obbligatorio
 runs:
   using: 'node20'  # Specifica la versione di Node.js da usare
   main: 'index.js' # Il file principale da eseguire
