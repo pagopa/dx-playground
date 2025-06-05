@@ -113,11 +113,11 @@ jobs:
       # The plan output is saved in a file and then processed to remove unnecessary lines
       # The step never fails but the result is checked in the next step
       # This is because we want to post the plan output in the PR even if the plan fails
-      - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-        name: Terraform Plan
+      - name: Terraform Plan
         id: plan
-        with:
-          script: |
+        run: |
+          node - <<'EOF'
+
             const { spawn } = require('child_process');
             const { createWriteStream } = require('fs');
             const { Transform } = require('stream');
@@ -203,6 +203,7 @@ jobs:
               }
               // Chiudi lo stream del file quando terraform ha finito
               logStream.end();
+              process.exit(code);
             });
 
             // terraform plan -lock-timeout=3000s -no-color 2>&1 | grep -v "hidden-link:"  --line-buffered > $PIPE_PATH
@@ -215,6 +216,8 @@ jobs:
             // echo "failed"
             // exit 1
             // fi
+
+          EOF
 
       # Post the plan output in the PR
       # The plan output is posted in a comment in the PR
