@@ -1,0 +1,337 @@
+data.azurerm_resource_group.common_rg: Reading...
+module.function_v3_api_role.module.key_vault.data.azurerm_client_config.current: Reading...
+module.func_api_role.module.key_vault.data.azurerm_client_config.current: Reading...
+module.storage_account.data.azurerm_subscription.current: Reading...
+data.azurerm_resource_group.net_rg: Reading...
+data.azurerm_resource_group.test_rg: Reading...
+module.app_service_roles.module.key_vault.data.azurerm_client_config.current: Reading...
+module.apim_roles.module.key_vault.data.azurerm_client_config.current: Reading...
+data.azurerm_subscription.current: Reading...
+module.apim_roles.module.key_vault.data.azurerm_client_config.current: Read complete after 0s [id=Y2xpZW50Q29uZmlncy9jbGllbnRJZD0wNGIwNzc5NS04ZGRiLTQ2MWEtYmJlZS0wMmY5ZTFiZjdiNDY7b2JqZWN0SWQ9NmUxMjg0NDktMTg4ZS00ZTFkLTg5NDEtZGI1MWZjMzVhMTY4O3N1YnNjcmlwdGlvbklkPWQ3ZGU4M2UwLTA1NzEtNDBhZC1iNjNhLTY0Yzk0MjM4NWVhZTt0ZW5hbnRJZD03Nzg4ZWRhZi0wMzQ2LTQwNjgtOWQ3OS1jODY4YWVkMTViM2Q=]
+module.app_service_roles.module.key_vault.data.azurerm_client_config.current: Read complete after 0s [id=Y2xpZW50Q29uZmlncy9jbGllbnRJZD0wNGIwNzc5NS04ZGRiLTQ2MWEtYmJlZS0wMmY5ZTFiZjdiNDY7b2JqZWN0SWQ9NmUxMjg0NDktMTg4ZS00ZTFkLTg5NDEtZGI1MWZjMzVhMTY4O3N1YnNjcmlwdGlvbklkPWQ3ZGU4M2UwLTA1NzEtNDBhZC1iNjNhLTY0Yzk0MjM4NWVhZTt0ZW5hbnRJZD03Nzg4ZWRhZi0wMzQ2LTQwNjgtOWQ3OS1jODY4YWVkMTViM2Q=]
+module.func_api_role.module.key_vault.data.azurerm_client_config.current: Read complete after 0s [id=Y2xpZW50Q29uZmlncy9jbGllbnRJZD0wNGIwNzc5NS04ZGRiLTQ2MWEtYmJlZS0wMmY5ZTFiZjdiNDY7b2JqZWN0SWQ9NmUxMjg0NDktMTg4ZS00ZTFkLTg5NDEtZGI1MWZjMzVhMTY4O3N1YnNjcmlwdGlvbklkPWQ3ZGU4M2UwLTA1NzEtNDBhZC1iNjNhLTY0Yzk0MjM4NWVhZTt0ZW5hbnRJZD03Nzg4ZWRhZi0wMzQ2LTQwNjgtOWQ3OS1jODY4YWVkMTViM2Q=]
+module.function_v3_api_role.module.key_vault.data.azurerm_client_config.current: Read complete after 0s [id=Y2xpZW50Q29uZmlncy9jbGllbnRJZD0wNGIwNzc5NS04ZGRiLTQ2MWEtYmJlZS0wMmY5ZTFiZjdiNDY7b2JqZWN0SWQ9NmUxMjg0NDktMTg4ZS00ZTFkLTg5NDEtZGI1MWZjMzVhMTY4O3N1YnNjcmlwdGlvbklkPWQ3ZGU4M2UwLTA1NzEtNDBhZC1iNjNhLTY0Yzk0MjM4NWVhZTt0ZW5hbnRJZD03Nzg4ZWRhZi0wMzQ2LTQwNjgtOWQ3OS1jODY4YWVkMTViM2Q=]
+data.azurerm_resource_group.common_rg: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-common-rg-01]
+data.azurerm_key_vault.common_kv: Reading...
+data.azurerm_resource_group.test_rg: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01]
+module.to_do_api_application_insights.azurerm_log_analytics_workspace.main: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.OperationalInsights/workspaces/dx-d-itn-playground-to-do-api-log-01]
+module.azure_function_v3_application_insights.azurerm_log_analytics_workspace.main: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.OperationalInsights/workspaces/dx-d-itn-playground-azure-function-v3-log-01]
+module.cosmos.azurerm_cosmosdb_account.this: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.DocumentDB/databaseAccounts/dx-d-itn-playground-pg-cosno-01]
+module.azure_function_v3_function_app.azurerm_storage_account.this: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygroundv3stfn01]
+module.function_app.azurerm_storage_account.this: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygroundbestfn01]
+module.function_test_durable.azurerm_storage_account.this: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfn01]
+data.azurerm_subscription.current: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae]
+module.azure_function_v3_function_app.azurerm_service_plan.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Web/serverFarms/dx-d-itn-playground-v3-asp-01]
+module.storage_account.data.azurerm_subscription.current: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae]
+module.app_service.azurerm_service_plan.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Web/serverFarms/dx-d-itn-playground-fe-asp-01]
+data.azurerm_resource_group.net_rg: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01]
+module.function_app.azurerm_service_plan.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Web/serverFarms/dx-d-itn-playground-be-asp-01]
+module.function_test_durable.azurerm_storage_account.durable_function[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfd01]
+data.azurerm_key_vault.common_kv: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-common-rg-01/providers/Microsoft.KeyVault/vaults/dx-d-itn-common-kv-01]
+module.function_test_durable.azurerm_service_plan.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Web/serverFarms/dx-d-itn-playground-df-asp-01]
+data.azurerm_virtual_network.test_vnet: Reading...
+data.azurerm_key_vault_secret.apim_api_key: Reading...
+data.azurerm_key_vault_secret.to_do_api_key_func_v3: Reading...
+data.azurerm_key_vault_secret.to_do_api_key: Reading...
+module.cosmos.data.azurerm_private_dns_zone.cosmos: Reading...
+module.azure_function_v3_application_insights.azurerm_application_insights.main: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Insights/components/dx-d-itn-playground-azure-function-v3-appi-01]
+data.azurerm_virtual_network.test_vnet: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01]
+azurerm_subnet.apim: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01/subnets/dx-d-itn-apim-snet-01]
+module.to_do_api_application_insights.azurerm_application_insights.main: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Insights/components/dx-d-itn-playground-to-do-api-appi-01]
+dx_available_subnet_cidr.function_v3_cidr: Refreshing state... [id=_subscriptions_d7de83e0-0571-40ad-b63a-64c942385eae_resourceGroups_dx-d-itn-network-rg-01_providers_Microsoft.Network_virtualNetworks_dx-d-itn-common-vnet-01_24_10.50.8.0_24]
+data.azurerm_subnet.pep_snet: Reading...
+module.cosmos.data.azurerm_private_dns_zone.cosmos: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.documents.azure.com]
+module.azure_function_v3_function_app.data.azurerm_virtual_network.this: Reading...
+module.storage_account.data.azurerm_private_dns_zone.storage_account["blob"]: Reading...
+data.azurerm_subnet.pep_snet: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01/subnets/dx-d-itn-pep-snet-01]
+module.function_app.data.azurerm_virtual_network.this: Reading...
+module.azure_function_v3_function_app.data.azurerm_virtual_network.this: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01]
+module.app_service.data.azurerm_virtual_network.this: Reading...
+module.function_test_durable.data.azurerm_virtual_network.this: Reading...
+module.function_app.data.azurerm_virtual_network.this: Read complete after 0s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01]
+module.apim.data.azurerm_virtual_network.this: Reading...
+module.azure_function_v3_function_app.data.azurerm_private_dns_zone.function_app: Reading...
+module.storage_account.data.azurerm_private_dns_zone.storage_account["blob"]: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net]
+module.azure_function_v3_function_app.data.azurerm_private_dns_zone.storage_account_file: Reading...
+module.app_service.data.azurerm_virtual_network.this: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01]
+module.azure_function_v3_function_app.data.azurerm_private_dns_zone.storage_account_queue: Reading...
+module.azure_function_v3_function_app.data.azurerm_private_dns_zone.function_app: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net]
+module.azure_function_v3_function_app.data.azurerm_private_dns_zone.storage_account_blob: Reading...
+module.function_test_durable.data.azurerm_virtual_network.this: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01]
+module.function_app.data.azurerm_private_dns_zone.storage_account_queue: Reading...
+module.apim.data.azurerm_virtual_network.this: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01]
+module.function_app.data.azurerm_private_dns_zone.function_app: Reading...
+module.azure_function_v3_function_app.data.azurerm_private_dns_zone.storage_account_file: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net]
+module.function_app.data.azurerm_private_dns_zone.storage_account_blob: Reading...
+module.azure_function_v3_function_app.data.azurerm_private_dns_zone.storage_account_queue: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net]
+module.function_app.data.azurerm_private_dns_zone.storage_account_file: Reading...
+module.function_test_durable.data.azurerm_private_dns_zone.storage_account_blob: Reading...
+data.azurerm_key_vault_secret.apim_api_key: Still reading... [10s elapsed]
+data.azurerm_key_vault_secret.to_do_api_key_func_v3: Still reading... [10s elapsed]
+module.azure_function_v3_function_app.data.azurerm_private_dns_zone.storage_account_blob: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net]
+module.app_service.data.azurerm_private_dns_zone.app_service: Reading...
+module.function_test_durable.data.azurerm_private_dns_zone.function_app: Reading...
+module.function_app.data.azurerm_private_dns_zone.function_app: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net]
+module.function_test_durable.data.azurerm_private_dns_zone.storage_account_table[0]: Reading...
+module.function_app.data.azurerm_private_dns_zone.storage_account_file: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net]
+module.function_test_durable.data.azurerm_private_dns_zone.storage_account_file: Reading...
+module.function_app.data.azurerm_private_dns_zone.storage_account_queue: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net]
+module.function_app.data.azurerm_private_dns_zone.storage_account_blob: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net]
+module.function_test_durable.data.azurerm_private_dns_zone.storage_account_queue: Reading...
+module.function_app.azurerm_subnet.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01/subnets/dx-d-itn-playground-be-func-snet-01]
+module.app_service.azurerm_subnet.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01/subnets/dx-d-itn-playground-fe-app-snet-01]
+module.function_test_durable.data.azurerm_private_dns_zone.storage_account_blob: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net]
+module.function_test_durable.azurerm_subnet.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01/subnets/dx-d-itn-playground-df-func-snet-01]
+data.azurerm_key_vault_secret.to_do_api_key: Still reading... [10s elapsed]
+module.apim.azurerm_api_management.this: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01]
+module.app_service.data.azurerm_private_dns_zone.app_service: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net]
+module.cosmos.azurerm_private_endpoint.sql: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-pg-cosno-pep-01]
+module.apim.azurerm_network_security_group.nsg_apim: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/networkSecurityGroups/dx-d-itn-playground-pg-apim-nsg-01]
+module.function_test_durable.data.azurerm_private_dns_zone.storage_account_table[0]: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net]
+module.azure_function_v3_function_app.azurerm_private_endpoint.st_file: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-v3-file-pep-01]
+module.azure_function_v3_function_app.azurerm_private_endpoint.st_queue: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-v3-queue-pep-01]
+module.function_test_durable.data.azurerm_private_dns_zone.storage_account_queue: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net]
+module.azure_function_v3_function_app.azurerm_private_endpoint.st_blob: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-v3-blob-pep-01]
+module.azure_function_v3_application_insights.azurerm_key_vault_secret.ai_connection_string: Refreshing state... [id=https://dx-d-itn-common-kv-01.vault.azure.net/secrets/dx-d-itn-playground-azure-function-v3-appi-01-connection-string/53d772fcdf734a84a87cc1e1df3a8d7b]
+module.function_test_durable.data.azurerm_private_dns_zone.storage_account_file: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net]
+azurerm_cosmosdb_sql_database.db: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.DocumentDB/databaseAccounts/dx-d-itn-playground-pg-cosno-01/sqlDatabases/db]
+module.function_app.azurerm_private_endpoint.st_queue: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-be-queue-pep-01]
+module.function_app.azurerm_private_endpoint.st_blob: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-be-blob-pep-01]
+module.function_test_durable.data.azurerm_private_dns_zone.function_app: Read complete after 3s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net]
+module.function_app.azurerm_private_endpoint.st_file: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-be-file-pep-01]
+module.azure_function_v3_function_app.azurerm_subnet.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01/subnets/dx-d-itn-playground-v3-func-snet-01]
+module.function_test_durable.azurerm_private_endpoint.st_blob: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-df-blob-pep-01]
+module.to_do_api_application_insights.azurerm_key_vault_secret.ai_connection_string: Refreshing state... [id=https://dx-d-itn-common-kv-01.vault.azure.net/secrets/dx-d-itn-playground-to-do-api-appi-01-connection-string/3fbcb17add3c4d39b6c5803d392afb5d]
+module.apim.data.azurerm_private_dns_zone.scm_azure_api_net: Reading...
+module.apim.data.azurerm_private_dns_zone.azure_api_net: Reading...
+data.azurerm_key_vault_secret.apim_api_key: Still reading... [20s elapsed]
+data.azurerm_key_vault_secret.to_do_api_key_func_v3: Still reading... [20s elapsed]
+module.apim.data.azurerm_private_dns_zone.management_azure_api_net: Reading...
+data.azurerm_key_vault_secret.to_do_api_key: Still reading... [20s elapsed]
+module.apim.data.azurerm_private_dns_zone.scm_azure_api_net: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/scm.azure-api.net]
+module.function_test_durable.azurerm_private_endpoint.std_blob[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-df-dblob-pep-01]
+module.apim.data.azurerm_private_dns_zone.azure_api_net: Read complete after 1s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/azure-api.net]
+module.function_test_durable.azurerm_private_endpoint.std_table[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-df-dtable-pep-01]
+module.function_test_durable.azurerm_private_endpoint.st_queue: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-df-queue-pep-01]
+module.function_test_durable.azurerm_private_endpoint.std_queue[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-df-dqueue-pep-01]
+module.apim.data.azurerm_private_dns_zone.management_azure_api_net: Read complete after 2s [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/management.azure-api.net]
+module.function_test_durable.azurerm_private_endpoint.st_file: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-df-file-pep-01]
+module.function_test_durable.azurerm_private_endpoint.std_file[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-df-dfile-pep-01]
+module.apim.azurerm_subnet_network_security_group_association.snet_nsg: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/virtualNetworks/dx-d-itn-common-vnet-01/subnets/dx-d-itn-apim-snet-01]
+azurerm_cosmosdb_sql_container.tasks: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.DocumentDB/databaseAccounts/dx-d-itn-playground-pg-cosno-01/sqlDatabases/db/containers/tasks]
+module.apim.azurerm_private_dns_a_record.apim_management_azure_api_net: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/management.azure-api.net/A/dx-d-itn-playground-pg-apim-01]
+module.apim.azurerm_private_dns_a_record.apim_scm_azure_api_net: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/scm.azure-api.net/A/dx-d-itn-playground-pg-apim-01]
+module.apim.azurerm_monitor_diagnostic_setting.apim[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01|dx-d-itn-playground-pg-apim-01-diagnostic]
+module.apim.azurerm_private_dns_a_record.apim_azure_api_net: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/privateDnsZones/azure-api.net/A/dx-d-itn-playground-pg-apim-01]
+data.azurerm_key_vault_secret.apim_api_key: Still reading... [30s elapsed]
+data.azurerm_key_vault_secret.to_do_api_key_func_v3: Still reading... [30s elapsed]
+module.apim.azurerm_api_management_logger.this[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01/loggers/dx-d-itn-playground-pg-apim-01-logger]
+module.apim_roles.module.key_vault.azurerm_role_assignment.secrets["dx-d-itn-common-rg-01|dx-d-itn-common-kv-01|reader"]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-common-rg-01/providers/Microsoft.KeyVault/vaults/dx-d-itn-common-kv-01/providers/Microsoft.Authorization/roleAssignments/591e121c-1fb0-7b64-0864-67fa13e39c13]
+data.azurerm_key_vault_secret.to_do_api_key: Still reading... [30s elapsed]
+module.function_test_durable.azurerm_linux_function_app.this: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Web/sites/dx-d-itn-playground-df-func-01]
+module.apim.azurerm_api_management_diagnostic.applicationinsights[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01/diagnostics/applicationinsights]
+data.azurerm_key_vault_secret.apim_api_key: Still reading... [40s elapsed]
+data.azurerm_key_vault_secret.to_do_api_key_func_v3: Still reading... [40s elapsed]
+data.azurerm_key_vault_secret.to_do_api_key: Still reading... [40s elapsed]
+module.function_test_durable.azurerm_role_assignment.function_storage_queue_data_contributor: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfn01/providers/Microsoft.Authorization/roleAssignments/9aa4a203-b9a9-dbea-f032-bbd19e476f8d]
+module.function_test_durable.azurerm_storage_account_network_rules.std_network_rules[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfd01]
+module.function_test_durable.azurerm_storage_account_network_rules.st_network_rules: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfn01]
+module.function_test_durable.azurerm_role_assignment.durable_function_storage_queue_data_contributor[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfd01/providers/Microsoft.Authorization/roleAssignments/4a78e09f-7d49-2bbf-250d-8428a271e068]
+module.function_test_durable.azurerm_role_assignment.durable_function_storage_blob_data_contributor[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfd01/providers/Microsoft.Authorization/roleAssignments/a1d14955-18de-a042-dd85-79efe3fc0d26]
+module.function_test_durable.azurerm_role_assignment.function_storage_account_contributor: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfn01/providers/Microsoft.Authorization/roleAssignments/1e82b08a-d8c6-cc55-89dc-17f382fa0cad]
+module.function_test_durable.azurerm_role_assignment.function_storage_blob_data_owner: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfn01/providers/Microsoft.Authorization/roleAssignments/a7b47f32-92f8-836f-f2e8-4a9700afa104]
+module.function_test_durable.azurerm_role_assignment.durable_function_storage_table_data_contributor[0]: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Storage/storageAccounts/dxditnplaygrounddfstfd01/providers/Microsoft.Authorization/roleAssignments/99ace3cb-5d03-30f8-1034-d420b4bf846f]
+module.function_test_durable.azurerm_private_endpoint.function_sites: Refreshing state... [id=/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.Network/privateEndpoints/dx-d-itn-playground-df-func-pep-01]
+data.azurerm_key_vault_secret.apim_api_key: Still reading... [50s elapsed]
+data.azurerm_key_vault_secret.to_do_api_key_func_v3: Still reading... [50s elapsed]
+data.azurerm_key_vault_secret.to_do_api_key: Still reading... [50s elapsed]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform planned the following actions, but then encountered a problem:
+
+  # module.apim.azurerm_api_management.this will be updated in-place
+  ~ resource "azurerm_api_management" "this" {
+        id                            = "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01"
+        name                          = "dx-d-itn-playground-pg-apim-01"
+      ~ tags                          = {
+            "BusinessUnit"   = "DevEx"
+            "CostCenter"     = "TS000 - Tecnologia e Servizi"
+            "CreatedBy"      = "Terraform"
+            "Environment"    = "Dev"
+            "ManagementTeam" = "Developer Experience"
+            "ModuleName"     = "azure_api_management"
+            "ModuleSource"   = "DX"
+          ~ "ModuleVersion"  = "1.2.1" -> "1.1.4"
+            "Scope"          = "Dynatrace PoC"
+            "Source"         = "https://github.com/pagopa/dx-playground/tree/main/infra/repository"
+        }
+        # (21 unchanged attributes hidden)
+
+        # (9 unchanged blocks hidden)
+    }
+
+  # module.apim.azurerm_network_security_group.nsg_apim will be updated in-place
+  ~ resource "azurerm_network_security_group" "nsg_apim" {
+        id                  = "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/networkSecurityGroups/dx-d-itn-playground-pg-apim-nsg-01"
+        name                = "dx-d-itn-playground-pg-apim-nsg-01"
+      ~ security_rule       = [
+          - {
+              - access                                     = "Allow"
+              - description                                = "Access to Azure Key Vault for core service functionality"
+              - destination_address_prefix                 = "AzureKeyVault"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "443"
+              - destination_port_ranges                    = []
+              - direction                                  = "Outbound"
+              - name                                       = "azure-keyvault"
+              - priority                                   = 202
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "VirtualNetwork"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+            },
+          - {
+              - access                                     = "Allow"
+              - description                                = "Access to Azure SQL endpoints for core service functionality"
+              - destination_address_prefix                 = "SQL"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "1433"
+              - destination_port_ranges                    = []
+              - direction                                  = "Outbound"
+              - name                                       = "sql"
+              - priority                                   = 201
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "VirtualNetwork"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+            },
+          - {
+              - access                                     = "Allow"
+              - description                                = "Azure Infrastructure Load Balancer"
+              - destination_address_prefix                 = "VirtualNetwork"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "6390"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "azure-load-balancer"
+              - priority                                   = 201
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "AzureLoadBalancer"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+            },
+          - {
+              - access                                     = "Allow"
+              - description                                = "Dependency on Azure Storage for core service functionality"
+              - destination_address_prefix                 = "Storage"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "443"
+              - destination_port_ranges                    = []
+              - direction                                  = "Outbound"
+              - name                                       = "storage"
+              - priority                                   = 200
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "VirtualNetwork"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+            },
+          - {
+              - access                                     = "Allow"
+              - description                                = "Management endpoint for Azure portal and PowerShell"
+              - destination_address_prefix                 = "VirtualNetwork"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "3443"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "apim-management"
+              - priority                                   = 200
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "ApiManagement"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+            },
+          - {
+              - access                                     = "Allow"
+              - description                                = "Publish Diagnostics Logs and Metrics, Resource Health, and Application Insights"
+              - destination_address_prefix                 = "AzureMonitor"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_ranges                    = [
+                  - "1886",
+                  - "443",
+                ]
+              - direction                                  = "Outbound"
+              - name                                       = "azure-monitor"
+              - priority                                   = 203
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "VirtualNetwork"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+                # (1 unchanged attribute hidden)
+            },
+          + {
+              + access                                     = "Allow"
+              + destination_address_prefix                 = "VirtualNetwork"
+              + destination_address_prefixes               = []
+              + destination_application_security_group_ids = []
+              + destination_port_range                     = "3443"
+              + destination_port_ranges                    = []
+              + direction                                  = "Inbound"
+              + name                                       = "managementapim"
+              + priority                                   = 100
+
+Error: making Read request on Azure KeyVault Secret to-do-api-key: keyvault.BaseClient#GetSecret: Failure responding to request: StatusCode=403 -- Original Error: autorest/azure: Service returned an error. Status=403 Code="Forbidden" Message="Caller is not authorized to perform action on resource.\r\nIf role assignments, deny assignments or role definitions were changed recently, please observe propagation time.\r\nCaller: appid=04b07795-8ddb-461a-bbee-02f9e1bf7b46;oid=6e128449-188e-4e1d-8941-db51fc35a168;iss=https://sts.windows.net/7788edaf-0346-4068-9d79-c868aed15b3d/\r\nAction: 'Microsoft.KeyVault/vaults/secrets/getSecret/action'\r\nResource: '/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourcegroups/dx-d-itn-common-rg-01/providers/microsoft.keyvault/vaults/dx-d-itn-common-kv-01/secrets/to-do-api-key'\r\nAssignment: (not found)\r\nDenyAssignmentId: null\r\nDecisionReason: null \r\nVault: dx-d-itn-common-kv-01;location=italynorth\r\n" InnerError={"code":"ForbiddenByRbac"}
+
+  with data.azurerm_key_vault_secret.to_do_api_key,
+  on data.tf line 29, in data "azurerm_key_vault_secret" "to_do_api_key":
+  29: data "azurerm_key_vault_secret" "to_do_api_key" {
+
+
+Error: making Read request on Azure KeyVault Secret to-do-api-key-func-v3: keyvault.BaseClient#GetSecret: Failure responding to request: StatusCode=403 -- Original Error: autorest/azure: Service returned an error. Status=403 Code="Forbidden" Message="Caller is not authorized to perform action on resource.\r\nIf role assignments, deny assignments or role definitions were changed recently, please observe propagation time.\r\nCaller: appid=04b07795-8ddb-461a-bbee-02f9e1bf7b46;oid=6e128449-188e-4e1d-8941-db51fc35a168;iss=https://sts.windows.net/7788edaf-0346-4068-9d79-c868aed15b3d/\r\nAction: 'Microsoft.KeyVault/vaults/secrets/getSecret/action'\r\nResource: '/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourcegroups/dx-d-itn-common-rg-01/providers/microsoft.keyvault/vaults/dx-d-itn-common-kv-01/secrets/to-do-api-key-func-v3'\r\nAssignment: (not found)\r\nDenyAssignmentId: null\r\nDecisionReason: null \r\nVault: dx-d-itn-common-kv-01;location=italynorth\r\n" InnerError={"code":"ForbiddenByRbac"}
+
+  with data.azurerm_key_vault_secret.to_do_api_key_func_v3,
+  on data.tf line 34, in data "azurerm_key_vault_secret" "to_do_api_key_func_v3":
+  34: data "azurerm_key_vault_secret" "to_do_api_key_func_v3" {
+
+
+Error: making Read request on Azure KeyVault Secret playground-apim-test-key: keyvault.BaseClient#GetSecret: Failure responding to request: StatusCode=403 -- Original Error: autorest/azure: Service returned an error. Status=403 Code="Forbidden" Message="Caller is not authorized to perform action on resource.\r\nIf role assignments, deny assignments or role definitions were changed recently, please observe propagation time.\r\nCaller: appid=04b07795-8ddb-461a-bbee-02f9e1bf7b46;oid=6e128449-188e-4e1d-8941-db51fc35a168;iss=https://sts.windows.net/7788edaf-0346-4068-9d79-c868aed15b3d/\r\nAction: 'Microsoft.KeyVault/vaults/secrets/getSecret/action'\r\nResource: '/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourcegroups/dx-d-itn-common-rg-01/providers/microsoft.keyvault/vaults/dx-d-itn-common-kv-01/secrets/playground-apim-test-key'\r\nAssignment: (not found)\r\nDenyAssignmentId: null\r\nDecisionReason: null \r\nVault: dx-d-itn-common-kv-01;location=italynorth\r\n" InnerError={"code":"ForbiddenByRbac"}
+
+  with data.azurerm_key_vault_secret.apim_api_key,
+  on data.tf line 39, in data "azurerm_key_vault_secret" "apim_api_key":
+  39: data "azurerm_key_vault_secret" "apim_api_key" {
+
+
+Error: making Read request on Azure KeyVault Secret dx-d-itn-playground-to-do-api-appi-01-connection-string: keyvault.BaseClient#GetSecret: Failure responding to request: StatusCode=403 -- Original Error: autorest/azure: Service returned an error. Status=403 Code="Forbidden" Message="Caller is not authorized to perform action on resource.\r\nIf role assignments, deny assignments or role definitions were changed recently, please observe propagation time.\r\nCaller: appid=04b07795-8ddb-461a-bbee-02f9e1bf7b46;oid=6e128449-188e-4e1d-8941-db51fc35a168;iss=https://sts.windows.net/7788edaf-0346-4068-9d79-c868aed15b3d/\r\nAction: 'Microsoft.KeyVault/vaults/secrets/getSecret/action'\r\nResource: '/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourcegroups/dx-d-itn-common-rg-01/providers/microsoft.keyvault/vaults/dx-d-itn-common-kv-01/secrets/dx-d-itn-playground-to-do-api-appi-01-connection-string'\r\nAssignment: (not found)\r\nDenyAssignmentId: null\r\nDecisionReason: null \r\nVault: dx-d-itn-common-kv-01;location=italynorth\r\n" InnerError={"code":"ForbiddenByRbac"}
+
+  with module.to_do_api_application_insights.azurerm_key_vault_secret.ai_connection_string,
+  on ../_modules/application_insights/main.tf line 22, in resource "azurerm_key_vault_secret" "ai_connection_string":
+  22: resource "azurerm_key_vault_secret" "ai_connection_string" {
+
+
+Error: making Read request on Azure KeyVault Secret dx-d-itn-playground-azure-function-v3-appi-01-connection-string: keyvault.BaseClient#GetSecret: Failure responding to request: StatusCode=403 -- Original Error: autorest/azure: Service returned an error. Status=403 Code="Forbidden" Message="Caller is not authorized to perform action on resource.\r\nIf role assignments, deny assignments or role definitions were changed recently, please observe propagation time.\r\nCaller: appid=04b07795-8ddb-461a-bbee-02f9e1bf7b46;oid=6e128449-188e-4e1d-8941-db51fc35a168;iss=https://sts.windows.net/7788edaf-0346-4068-9d79-c868aed15b3d/\r\nAction: 'Microsoft.KeyVault/vaults/secrets/getSecret/action'\r\nResource: '/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourcegroups/dx-d-itn-common-rg-01/providers/microsoft.keyvault/vaults/dx-d-itn-common-kv-01/secrets/dx-d-itn-playground-azure-function-v3-appi-01-connection-string'\r\nAssignment: (not found)\r\nDenyAssignmentId: null\r\nDecisionReason: null \r\nVault: dx-d-itn-common-kv-01;location=italynorth\r\n" InnerError={"code":"ForbiddenByRbac"}
+
+  with module.azure_function_v3_application_insights.azurerm_key_vault_secret.ai_connection_string,
+  on ../_modules/application_insights/main.tf line 22, in resource "azurerm_key_vault_secret" "ai_connection_string":
+  22: resource "azurerm_key_vault_secret" "ai_connection_string" {
+

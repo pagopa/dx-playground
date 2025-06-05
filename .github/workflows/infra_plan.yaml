@@ -122,6 +122,8 @@ jobs:
             const { createWriteStream } = require('fs');
             const { Transform } = require('stream');
 
+            console.log(`Running Terraform Plan in directory: ${{ steps.directory.outputs.dir }}`);
+
             // --- Configurazione ---
             const logFile = 'plan_output.txt';
             const terraformArgs = ['plan', '-lock-timeout=3000s', '-no-color'];
@@ -133,7 +135,7 @@ jobs:
             // --- Avvio del processo 'terraform' ---
             const terraform = spawn('terraform', terraformArgs, {
               // Esegui il comando nella directory di lavoro originale
-              cwd: process.env.INIT_CWD,
+              cwd: ${{ steps.directory.outputs.dir }},
             });
 
             // --- Creazione di uno stream di trasformazione per il filtraggio ---
