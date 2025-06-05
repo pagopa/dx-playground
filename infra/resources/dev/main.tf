@@ -8,13 +8,17 @@ terraform {
       source  = "pagopa-dx/azure"
       version = "~> 0"
     }
+    azapi = {
+      source  = "azure/azapi"
+      version = "~>2.4.0"
+    }
   }
 
   backend "azurerm" {
     resource_group_name  = "terraform-state-rg"
     storage_account_name = "tfdevdx"
     container_name       = "terraform-state"
-    key                  = "dx-playground.resources.dev.italynorth.tfstate"
+    key                  = "dx-playground.resources.dev.tfstate"
   }
 }
 
@@ -22,6 +26,9 @@ provider "azurerm" {
   features {
   }
   storage_use_azuread = true
+}
+
+provider "azapi" {
 }
 
 module "naming_convention" {
