@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@pagopa/eslint-config": "^4.0.4",
+    "@pagopa/eslint-config": "^4.0.5",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
     "@pagopa/typescript-config-react": "workspace:^",
     "@types/node": "^20.17.43",

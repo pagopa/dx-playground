@@ -17,7 +17,7 @@
     "io-ts": "^2.2.22"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^4.0.4",
+    "@pagopa/eslint-config": "^4.0.5",
     "@pagopa/typescript-config-node": "workspace:^",
     "@types/express": "^4.17.2",
     "azure-functions-core-tools": "^4.0.7030",

@@ -23,6 +23,7 @@ const ToDoItem: React.FC<TodoItemProps> = ({
       if (status === 204) {
         onComplete(id);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       /* error when deleting the task */
     }
