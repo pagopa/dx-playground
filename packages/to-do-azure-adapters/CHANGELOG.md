@@ -1,5 +1,16 @@
 # @to-do/azure-adapters
 
+## 0.1.3
+
+### Patch Changes
+
+- 3244df9: Upgrade @pagopa/eslint-config package
+
+  This will remove a warning when executing the `lint` script
+
+- Updated dependencies [3244df9]
+  - @to-do/domain@0.2.2
+
 ## 0.1.2
 
 ### Patch Changes
