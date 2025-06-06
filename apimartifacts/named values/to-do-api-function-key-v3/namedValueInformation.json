@@ -1,9 +1,0 @@
-{
-  "properties": {
-    "displayName": "to-do-api-function-key-v3",
-    "keyVault": {
-      "secretIdentifier": "https://dx-d-itn-common-kv-01.vault.azure.net/secrets/to-do-api-key-func-v3"
-    },
-    "secret": true
-  }
-}
