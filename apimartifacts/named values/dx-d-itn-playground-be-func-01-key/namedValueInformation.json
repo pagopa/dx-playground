@@ -1,0 +1,11 @@
+{
+  "properties": {
+    "displayName": "dx-d-itn-playground-be-func-01-key",
+    "secret": true,
+    "tags": [
+      "key",
+      "function",
+      "auto"
+    ]
+  }
+}

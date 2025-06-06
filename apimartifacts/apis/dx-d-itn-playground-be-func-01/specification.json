@@ -1,0 +1,48 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "dx-d-itn-playground-be-func-01",
+    "description": "Import from \"dx-d-itn-playground-be-func-01\" Function App",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://dx-d-itn-playground-pg-apim-01.azure-api.net/dx-d-itn-playground-be-func-01"
+    }
+  ],
+  "paths": {
+    "/tasks": {
+      "get": {
+        "summary": "getTask",
+        "operationId": "get-gettask",
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyHeader": {
+        "type": "apiKey",
+        "name": "Ocp-Apim-Subscription-Key",
+        "in": "header"
+      },
+      "apiKeyQuery": {
+        "type": "apiKey",
+        "name": "subscription-key",
+        "in": "query"
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyHeader": [ ]
+    },
+    {
+      "apiKeyQuery": [ ]
+    }
+  ]
+}

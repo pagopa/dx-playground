@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "displayName": "Andrea Grillo Subscription",
+    "scope": "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01/apis",
+    "allowTracing": false,
+    "ownerId": "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01/users/andrea-grillo-pagopa-it",
+    "state": "active"
+  }
+}

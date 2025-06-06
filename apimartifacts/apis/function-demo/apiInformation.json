@@ -1,0 +1,23 @@
+{
+  "properties": {
+    "path": "fnapp",
+    "apiRevision": "2",
+    "apiRevisionDescription": "Invoke Demo App 02",
+    "apiVersion": "v1",
+    "apiVersionDescription": "Invoke Demo App 01",
+    "apiVersionSetId": "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01/apiVersionSets/demo-app-version",
+    "authenticationSettings": {},
+    "description": "",
+    "isCurrent": true,
+    "displayName": "Demo Function App",
+    "protocols": [
+      "https"
+    ],
+    "serviceUrl": "https://dx-d-itn-apimdemo-func-02.azurewebsites.net/api",
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

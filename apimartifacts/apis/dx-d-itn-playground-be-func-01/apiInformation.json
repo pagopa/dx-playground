@@ -1,0 +1,18 @@
+{
+  "properties": {
+    "path": "dx-d-itn-playground-be-func-01",
+    "apiRevision": "1",
+    "authenticationSettings": {},
+    "description": "Import from \u0022dx-d-itn-playground-be-func-01\u0022 Function App",
+    "isCurrent": true,
+    "displayName": "dx-d-itn-playground-be-func-01",
+    "protocols": [
+      "https"
+    ],
+    "subscriptionKeyParameterNames": {
+      "header": "Ocp-Apim-Subscription-Key",
+      "query": "subscription-key"
+    },
+    "subscriptionRequired": true
+  }
+}

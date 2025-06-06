@@ -1,0 +1,37 @@
+{
+  "properties": {
+    "loggerId": "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01/loggers/dx-d-itn-playground-pg-apim-01-logger",
+    "alwaysLog": "allErrors",
+    "backend": {
+      "request": {
+        "dataMasking": {
+          "queryParams": [
+            {
+              "mode": "Hide",
+              "value": "*"
+            }
+          ]
+        }
+      }
+    },
+    "frontend": {
+      "request": {
+        "dataMasking": {
+          "queryParams": [
+            {
+              "mode": "Hide",
+              "value": "*"
+            }
+          ]
+        }
+      }
+    },
+    "httpCorrelationProtocol": "W3C",
+    "logClientIp": true,
+    "sampling": {
+      "percentage": 100,
+      "samplingType": "fixed"
+    },
+    "verbosity": "information"
+  }
+}

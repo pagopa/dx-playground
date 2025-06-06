@@ -1,0 +1,34 @@
+{
+  "properties": {
+    "loggerId": "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01/loggers/azuremonitor",
+    "backend": {
+      "request": {
+        "dataMasking": {
+          "queryParams": [
+            {
+              "mode": "Hide",
+              "value": "*"
+            }
+          ]
+        }
+      }
+    },
+    "frontend": {
+      "request": {
+        "dataMasking": {
+          "queryParams": [
+            {
+              "mode": "Hide",
+              "value": "*"
+            }
+          ]
+        }
+      }
+    },
+    "logClientIp": true,
+    "sampling": {
+      "percentage": 100,
+      "samplingType": "fixed"
+    }
+  }
+}
