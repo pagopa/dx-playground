@@ -22,6 +22,7 @@ const ToDoTextArea = ({ label, onAddTask }: Props) => {
         setTaskText("");
         onAddTask(value);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       /* error when creating a task */
     } finally {

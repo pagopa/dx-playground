@@ -25,7 +25,7 @@
     "io-ts": "^2.2.22"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^4.0.4",
+    "@pagopa/eslint-config": "^4.0.5",
     "@pagopa/typescript-config-node": "workspace:^",
     "eslint": "^8.57.1",
     "prettier": "^3.5.3",

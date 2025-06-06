@@ -24,6 +24,7 @@ export default function Home() {
           setError("Failed to fetch tasks. Please try again later.");
           setTasks([]);
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         setError("Failed to fetch tasks. Please try again later.");
       }

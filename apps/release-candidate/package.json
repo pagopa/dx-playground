@@ -14,7 +14,7 @@
     "start": "node dist/index.js"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^4.0.4",
+    "@pagopa/eslint-config": "^4.0.5",
     "@pagopa/typescript-config-node": "workspace:^",
     "@rollup/plugin-commonjs": "^28.0.3",
     "@rollup/plugin-json": "^6.1.0",

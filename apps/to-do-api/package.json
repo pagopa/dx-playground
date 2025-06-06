@@ -33,7 +33,7 @@
     "ulid": "^3.0.0"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^4.0.4",
+    "@pagopa/eslint-config": "^4.0.5",
     "@pagopa/openapi-codegen-ts": "^14.0.0",
     "@pagopa/typescript-config-node": "workspace:^",
     "@types/node": "^22.15.14",
