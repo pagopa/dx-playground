@@ -1,9 +1,6 @@
 name: Run - Extractor
 
 on:
-  push:
-    branches:
-      - demo-apim
   workflow_dispatch:
     inputs:
       CONFIGURATION_YAML_PATH:

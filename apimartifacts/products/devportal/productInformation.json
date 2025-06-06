@@ -1,0 +1,10 @@
+{
+  "properties": {
+    "displayName": "DevPortal",
+    "description": "",
+    "approvalRequired": false,
+    "state": "published",
+    "subscriptionRequired": true,
+    "terms": ""
+  }
+}

@@ -2,7 +2,7 @@
   "properties": {
     "path": "fnapp",
     "apiRevision": "1",
-    "apiRevisionDescription": "Invoke Demo App 01",
+    "apiRevisionDescription": "Invoke Demo App 01 via Named Value",
     "apiVersion": "v1",
     "apiVersionDescription": "Invoke Demo App 01",
     "apiVersionSetId": "/subscriptions/d7de83e0-0571-40ad-b63a-64c942385eae/resourceGroups/dx-d-itn-test-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01/apiVersionSets/demo-app-version",

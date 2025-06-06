@@ -9,7 +9,22 @@
     - Policies are applied in the order of their appearance, from the top down.
 -->
 <policies>
-	<inbound />
+	<inbound>
+		<cors allow-credentials="true" terminate-unmatched-request="false">
+			<allowed-origins>
+				<origin>https://dx-d-itn-playground-pg-apim-01.developer.azure-api.net</origin>
+			</allowed-origins>
+			<allowed-methods preflight-result-max-age="300">
+				<method>*</method>
+			</allowed-methods>
+			<allowed-headers>
+				<header>*</header>
+			</allowed-headers>
+			<expose-headers>
+				<header>*</header>
+			</expose-headers>
+		</cors>
+	</inbound>
 	<backend>
 		<forward-request />
 	</backend>
