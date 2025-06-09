@@ -77,6 +77,11 @@ jobs:
           if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
             echo "Entering pre-release mode with distribution: $DISTRIBUTION_TYPE"
             yarn dlx @changesets/cli pre enter "$DISTRIBUTION_TYPE"
+            
+            # Create changeset-status.json with the list of packages to be updated
+            echo "Generating changeset status..."
+            yarn dlx @changesets/cli status --json > changeset-status.json
+
             # Create pre-release versions (update CHANGELOG and package.json files)
             yarn dlx @changesets/cli version
             # Ensure the pre.json is pushed to the repository
@@ -99,9 +104,11 @@ jobs:
       - name: Generate PR comment content
         id: generate-comment
         run: |
-          echo "RELEASED_PACKAGES<<EOF" >> $GITHUB_OUTPUT
+          # Get published packages from changeset-status.json (from top-level releases array)
+          RELEASED_PACKAGES=$(jq -r '.releases[] | "- \(.name)@\(.newVersion)"' changeset-status.json)
+          echo "PUBLISHED_PACKAGES<<EOF" >> $GITHUB_OUTPUT
           echo "New artifacts version ($DISTRIBUTION_TYPE distribution):" >> $GITHUB_OUTPUT
-          jq -r '.releases[] | "- \(.name)@\(.newVersion)"' changeset-release-info.json >> $GITHUB_OUTPUT
+          echo "$RELEASED_PACKAGES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Comment on PR
@@ -110,14 +117,14 @@ jobs:
           script: |
             const issueNumber = context.issue.number;
             const distribution = '${{ steps.parse.outputs.type }}';
-            const releasedPackages = `\${{ steps.generate-comment.outputs.RELEASED_PACKAGES }}`;
+            const publishedPackages = `${{ steps.generate-comment.outputs.PUBLISHED_PACKAGES }}`;
 
             const body = `
             🚀 Release Candidate Command executed.
 
             Distribution type: **${distribution}**
 
-            ${releasedPackages}
+            ${publishedPackages}
             `;
 
             await github.rest.issues.createComment({
