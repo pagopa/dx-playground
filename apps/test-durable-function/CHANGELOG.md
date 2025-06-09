@@ -1,5 +1,17 @@
 # test-durable
 
+## 1.2.0
+
+### Minor Changes
+
+- 75fbd11: Another bump
+
+### Patch Changes
+
+- 3244df9: Upgrade @pagopa/eslint-config package
+
+  This will remove a warning when executing the `lint` script
+
 ## 1.1.0
 
 ### Minor Changes

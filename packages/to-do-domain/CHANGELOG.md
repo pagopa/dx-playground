@@ -1,5 +1,13 @@
 # @to-do/domain
 
+## 0.2.2
+
+### Patch Changes
+
+- 3244df9: Upgrade @pagopa/eslint-config package
+
+  This will remove a warning when executing the `lint` script
+
 ## 0.2.1
 
 ### Patch Changes
