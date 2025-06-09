@@ -80,7 +80,7 @@ jobs:
             
             # Create changeset-status.json with the list of packages to be updated
             echo "Generating changeset status..."
-            yarn dlx @changesets/cli status --json > changeset-status.json
+            yarn dlx @changesets/cli status --output=changeset-status.json
 
             # Create pre-release versions (update CHANGELOG and package.json files)
             yarn dlx @changesets/cli version
