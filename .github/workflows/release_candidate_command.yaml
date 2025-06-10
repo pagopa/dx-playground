@@ -10,6 +10,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   release-candidate:
+    name: Release Candidate
     if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/release-candidate') }}
     runs-on: ubuntu-latest
     steps:
@@ -27,6 +28,22 @@ jobs:
             });
             return pr.head.ref;
           result-encoding: string
+
+      - name: Extract type from comment (with default)
+        id: parse
+        run: |
+          body="${{ github.event.comment.body }}"
+          echo "Full comment: $body"
+
+          type=$(echo "$body" | sed -En 's/^\/release-candidate[[:space:]]{1,}([^[:space:]]+).*/\1/p')
+
+          if [ -z "$type" ]; then
+            echo "No type argument provided, defaulting to beta"
+            type="beta"
+          else
+            echo "Parsed type: $type"
+          fi
+          echo "type=$type" >> $GITHUB_OUTPUT
 
       - name: Checkout Repo
         env:
@@ -51,24 +68,8 @@ jobs:
           git config --global user.email "dx-pagopa-github-bot@pagopa.it"
           git config --global user.name "dx-pagopa-bot"
 
-      - name: Extract type from comment (with default)
-        id: parse
-        run: |
-          body="${{ github.event.comment.body }}"
-          echo "Full comment: $body"
-
-          type=$(echo "$body" | sed -En 's/^\/release-candidate[[:space:]]{1,}([^[:space:]]+).*/\1/p')
-
-          if [ -z "$type" ]; then
-            echo "No type argument provided, defaulting to beta"
-            type="beta"
-          else
-            echo "Parsed type: $type"
-          fi
-          echo "type=$type" >> $GITHUB_OUTPUT
-
-      - name: Create a pre-release
-        id: check_pre_state
+      - name: Create a pre-release (${{ steps.parse.outputs.type }})
+        id: generate_pre_release
         env:
           BRANCH_NAME: ${{ steps.get_pr_branch.outputs.result }}
           NPM_TOKEN: ${{ secrets.npm-token }}
@@ -113,12 +114,10 @@ jobs:
           fi
 
       - name: Generate PR comment content
-        id: generate-comment
+        id: generate_comment
         env:
           DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
         run: |
-          ls
-          cat changeset-status.json
           # Get published packages from changeset-status.json
           RELEASED_PACKAGES=$(jq -r '.releases[] | "- \(.name)@\(.newVersion)"' changeset-status.json)
           echo "PUBLISHED_PACKAGES<<EOF" >> $GITHUB_OUTPUT
@@ -132,7 +131,7 @@ jobs:
           script: |
             const issueNumber = context.issue.number;
             const distribution = '${{ steps.parse.outputs.type }}';
-            const publishedPackages = `${{ steps.generate-comment.outputs.PUBLISHED_PACKAGES }}`;
+            const publishedPackages = `${{ steps.generate_comment.outputs.PUBLISHED_PACKAGES }}`;
 
             const body = `
             🚀 Release Candidate Command executed.
