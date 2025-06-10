@@ -114,6 +114,8 @@ jobs:
 
       - name: Generate PR comment content
         id: generate-comment
+        env:
+          DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
         run: |
           # Get published packages from changeset-status.json (from top-level releases array)
           RELEASED_PACKAGES=$(jq -r '.releases[] | "- \(.name)@\(.newVersion)"' changeset-status.json)
