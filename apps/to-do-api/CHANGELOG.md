@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.9.2
+
+### Patch Changes
+
+- 33efd2f: Remove generated code using ts2esm library and converting code before building it
+
 ## 0.9.1
 
 ### Patch Changes
