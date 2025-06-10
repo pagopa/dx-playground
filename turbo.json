@@ -17,6 +17,7 @@
       ],
       "dependsOn": [
         "^clean",
+        "^generate",
         "^build"
       ]
     },
@@ -28,6 +29,7 @@
       ],
       "outputs": [],
       "dependsOn": [
+        "generate",
         "^build",
         "^typecheck"
       ]
