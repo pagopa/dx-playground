@@ -1,5 +1,17 @@
 # test-durable
 
+## 2.0.0-beta.1
+
+### Patch Changes
+
+- 51c1274: Fix typecheck command"
+
+## 2.0.0-beta.0
+
+### Major Changes
+
+- 1036870: A new major
+
 ## 1.2.0
 
 ### Minor Changes

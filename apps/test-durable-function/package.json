@@ -1,6 +1,6 @@
 {
   "name": "test-durable-function",
-  "version": "1.2.0",
+  "version": "2.0.0-beta.1",
   "type": "module",
   "private": true,
   "description": "Azure Function to test TF module for Durable Functions",
@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "shx rm -rf ./dist",
     "build": "tsc",
-    "typecheck": "yarn build --noemit",
+    "typecheck": "tsc --noemit",
     "lint": "eslint src --fix",
     "lint:check": "eslint src",
     "start": "func start"
