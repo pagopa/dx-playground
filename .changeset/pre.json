@@ -1,9 +1,9 @@
 {
-  "mode": "exit",
+  "mode": "pre",
   "tag": "beta",
   "initialVersions": {
     "azure-function-v3": "0.3.1",
-    "test-durable-function": "1.2.0",
+    "test-durable-function": "2.0.0-beta.0",
     "to-do-api": "0.9.1",
     "to-do-webapp": "0.3.12",
     "@infra/github-runner": "0.1.1",
