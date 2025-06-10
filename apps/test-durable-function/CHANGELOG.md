@@ -8,7 +8,7 @@
 
 ### Patch Changes
 
-- 8d6eeac: Fix typecheck command"
+- 8d6eeac: Fix typecheck command
 
 ## 2.0.0-beta.1
 
