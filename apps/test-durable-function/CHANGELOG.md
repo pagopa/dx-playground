@@ -1,5 +1,11 @@
 # test-durable
 
+## 1.3.0-beta.0
+
+### Minor Changes
+
+- 93fa4be: A new minor
+
 ## 1.2.0
 
 ### Minor Changes
