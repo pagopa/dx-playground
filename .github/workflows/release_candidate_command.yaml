@@ -80,15 +80,15 @@ jobs:
 
           # Use the distribution type as argument for pre enter (replace 'beta' with $DISTRIBUTION_TYPE)
           if [ ! -f ".changeset/pre.json" ] || [ "$(jq -r ".mode" .changeset/pre.json)" = "exit" ]; then
+            # Rebase first. Fetch any changes from the remote branch
+            git pull --rebase origin "$BRANCH_NAME"
+
             echo "Entering pre-release mode with distribution: $DISTRIBUTION_TYPE"
             yarn dlx @changesets/cli pre enter "$DISTRIBUTION_TYPE"
 
             # Generate status file
             echo "Generating changeset status..."
             yarn dlx @changesets/cli status --output=changeset-status.json
-
-            # Rebase first to avoid non-fast-forward
-            git pull --rebase origin "$BRANCH_NAME"
 
             # Version and commit
             yarn dlx @changesets/cli version
