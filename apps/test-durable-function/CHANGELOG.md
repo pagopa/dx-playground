@@ -1,5 +1,15 @@
 # test-durable
 
+## 2.0.0
+
+### Major Changes
+
+- 8d6eeac: A new major
+
+### Patch Changes
+
+- 8d6eeac: Fix typecheck command"
+
 ## 2.0.0-beta.1
 
 ### Patch Changes

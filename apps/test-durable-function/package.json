@@ -1,6 +1,6 @@
 {
   "name": "test-durable-function",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0",
   "type": "module",
   "private": true,
   "description": "Azure Function to test TF module for Durable Functions",
