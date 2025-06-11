@@ -1,5 +1,11 @@
 # test-durable
 
+## 2.1.0-beta.1
+
+### Patch Changes
+
+- c426d7e: A patch
+
 ## 2.1.0-beta.0
 
 ### Minor Changes
