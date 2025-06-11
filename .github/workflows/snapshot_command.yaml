@@ -36,6 +36,7 @@ jobs:
         with:
           script: |
             const prNumber = core.getInput('pr_number');
+            console.log(prNumber);
             const { data: pr } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
