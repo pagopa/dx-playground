@@ -1,5 +1,11 @@
 # test-durable
 
+## 2.1.0-beta.2
+
+### Patch Changes
+
+- 7aa54b8: Another small fix
+
 ## 2.1.0-beta.1
 
 ### Patch Changes
