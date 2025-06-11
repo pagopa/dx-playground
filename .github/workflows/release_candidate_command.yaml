@@ -138,7 +138,7 @@ jobs:
             const body = `
             🚀 Release Candidate Command executed.
 
-            Distribution type: **${$DISTRIBUTION_TYPE}**
+            Distribution type: **${DISTRIBUTION_TYPE}**
 
             ${DISTRIBUTION_TYPE}
             `;
