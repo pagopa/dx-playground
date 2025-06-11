@@ -33,9 +33,11 @@ jobs:
       - name: Get PR branch name
         id: get_pr_branch
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        env:
+          PR_NUMBER: ${{ inputs.pr_number }}
         with:
           script: |
-            const pull_number = core.getInput('pr_number');
+            const pull_number = process.env.PR_NUMBER;
             core.warning('pull_number: ' + pull_number);
 
             const { data: pr } = await github.rest.pulls.get({
