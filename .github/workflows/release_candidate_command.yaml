@@ -37,7 +37,7 @@ jobs:
         with:
           script: |
             const pull_number = core.getInput('pr_number');
-            core.warn('pull_number: ' + pull_number);
+            core.warning('pull_number: ' + pull_number);
 
             const { data: pr } = await github.rest.pulls.get({
               owner: context.repo.owner,
