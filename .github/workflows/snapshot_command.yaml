@@ -1,7 +1,23 @@
-name: Snapshot Command
+name: Snapshot Reusable Workflow
 on:
-  issue_comment:
-    types: [created]
+  workflow_call:
+    inputs:
+      pr_number:
+        description: "The pull request number."
+        required: true
+        type: number
+      distribution_type:
+        description: "The type of distribution (e.g., beta, alpha)."
+        required: false
+        type: string
+        default: "beta"
+    secrets:
+      gh_bot_pat:
+        description: "GitHub Bot PAT for repository access."
+        required: true
+      npm_token:
+        description: "npm token for package publishing."
+        required: true
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -12,7 +28,6 @@ permissions:
 jobs:
   snapshot:
     name: Snapshot
-    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/snapshot') }}
     runs-on: ubuntu-latest
     steps:
       - name: Get PR branch name
@@ -20,7 +35,7 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         with:
           script: |
-            const prNumber = context.payload.issue.number;
+            const prNumber = inputs.pr_number;
             const { data: pr } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -29,22 +44,10 @@ jobs:
             return pr.head.ref;
           result-encoding: string
 
-      - name: Extract type from comment (with default)
+      - name: Set distribution type
         id: parse
-        env:
-          COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
-          echo "Full comment: $COMMENT_BODY"
-
-          type=$(echo "$COMMENT_BODY" | sed -En 's/^\/snapshot[[:space:]]{1,}([^[:space:]]+).*/\1/p')
-
-          if [ -z "$type" ]; then
-            echo "No type argument provided, defaulting to beta"
-            type="beta"
-          else
-            echo "Parsed type: $type"
-          fi
-          echo "type=$type" >> $GITHUB_OUTPUT
+          echo "type=${{ inputs.distribution_type }}" >> $GITHUB_OUTPUT
 
       - name: Checkout Repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -54,7 +57,7 @@ jobs:
           # https://github.com/actions/checkout/issues/1471#issuecomment-1771231294
           fetch-tags: true
           fetch-depth: 0
-          token: ${{ secrets.GH_BOT_PAT }}
+          token: ${{ secrets.gh_bot_pat }}
           ref: ${{ env.BRANCH_NAME }}
 
       # Corepack is an official tool by Node.js that manages package managers versions
@@ -78,7 +81,7 @@ jobs:
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_BOT_PAT }}
+          GITHUB_TOKEN: ${{ secrets.gh_bot_pat }}
           DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
         uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308 # v1.4.9
         with:
@@ -92,9 +95,9 @@ jobs:
           PUBLISHED_ARTIFACTS: ${{ steps.changesets.outputs.publishedPackages }}
           DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
         with:
-          github-token: ${{ secrets.GH_BOT_PAT }}
+          github-token: ${{ secrets.gh_bot_pat }}
           script: |
-            const issueNumber = context.issue.number;
+            const issueNumber = inputs.pr_number;
             const distribution = process.env.DISTRIBUTION_TYPE;
             const publishedPackages = process.env.PUBLISHED_ARTIFACTS;
 

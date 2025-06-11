@@ -1,0 +1,43 @@
+name: Call Snapshot Reusable Workflow
+on:
+  issue_comment:
+    types: [created]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  call-snapshot:
+    name: Call Snapshot
+    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/snapshot') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract PR Number from comment
+        id: get_pr_number
+        run: |
+          echo "pr_number=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+
+      - name: Extract type from comment (with default)
+        id: parse
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
+        run: |
+          echo "Full comment: $COMMENT_BODY"
+
+          type=$(echo "$COMMENT_BODY" | sed -En 's/^\/snapshot[[:space:]]{1,}([^[:space:]]+).*/\1/p')
+
+          if [ -z "$type" ]; then
+            echo "No type argument provided, defaulting to beta"
+            type="beta"
+          else
+            echo "Parsed type: $type"
+          fi
+          echo "type=$type" >> $GITHUB_OUTPUT
+
+      - name: Call Snapshot Reusable Workflow
+        uses: ./.github/workflows/snapshot_command.yaml
+        with:
+          pr_number: ${{ steps.get_pr_number.outputs.pr_number }}
+          distribution_type: ${{ steps.parse.outputs.type }}
+        secrets:
+          gh_bot_pat: ${{ secrets.GH_BOT_PAT }} 
+          npm_token: ${{ secrets.NPM_TOKEN }} 
