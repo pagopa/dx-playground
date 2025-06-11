@@ -8,6 +8,9 @@ on:
       - packages/**
       - yarn.lock
 
+permissions:
+  contents: read
+
 jobs:
   code_review:
     uses: pagopa/dx/.github/workflows/js_code_review.yaml@main
