@@ -1,5 +1,11 @@
 # test-durable
 
+## 2.1.0-beta.0
+
+### Minor Changes
+
+- a29d021: Another minor
+
 ## 2.0.0
 
 ### Major Changes
