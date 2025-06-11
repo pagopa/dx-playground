@@ -133,6 +133,7 @@ jobs:
           PUBLISHED_ARTIFACTS: ${{ steps.generate_comment.outputs.PUBLISHED_PACKAGES }}
           DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
         with:
+          github-token: ${{ secrets.GH_BOT_PAT }}
           script: |
             const issueNumber = context.issue.number;
             const distribution = process.env.DISTRIBUTION_TYPE;
