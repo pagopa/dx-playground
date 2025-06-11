@@ -66,8 +66,8 @@ jobs:
           DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
         uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308 # v1.4.9
         with:
-          version: yarn dlx @changeset/cli version --snapshot $DISTRIBUTION_TYPE
-          publish: yarn dlx @changeset/cli publish --tag $DISTRIBUTION_TYPE
+          version: yarn dlx @changesets/cli version --snapshot $DISTRIBUTION_TYPE
+          publish: yarn dlx @changesets/cli publish --tag $DISTRIBUTION_TYPE
           setupGitUser: false
 
       - name: Comment on PR
