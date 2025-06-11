@@ -32,11 +32,12 @@ jobs:
 
       - name: Extract type from comment (with default)
         id: parse
+        env:
+          COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
-          body="${{ github.event.comment.body }}"
-          echo "Full comment: $body"
+          echo "Full comment: $COMMENT_BODY"
 
-          type=$(echo "$body" | sed -En 's/^\/release-candidate[[:space:]]{1,}([^[:space:]]+).*/\1/p')
+          type=$(echo "$COMMENT_BODY" | sed -En 's/^\/release-candidate[[:space:]]{1,}([^[:space:]]+).*/\1/p')
 
           if [ -z "$type" ]; then
             echo "No type argument provided, defaulting to beta"
