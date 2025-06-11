@@ -98,12 +98,13 @@ jobs:
             yarn dlx @changesets/cli status --output=changeset-status.json
 
             # Version and commit
+            echo "Running changeset version..."
             yarn dlx @changesets/cli version
             git add .
             git diff --cached --quiet || git commit -m "Enter pre-release mode and version packages"
 
             # Publish
-            echo "Publishing pre-release packages..."
+            echo "Publishing pre-release ($DISTRIBUTION_TYPE) packages..."
             yarn dlx @changesets/cli publish
 
             # Exit pre-release
@@ -113,6 +114,7 @@ jobs:
             git diff --cached --quiet || git commit -m "Exit prerelease mode"
 
             # Push everything
+            echo "Wrapping up and pushing to $BRANCH_NAME..."
             git push origin HEAD:"$BRANCH_NAME" --follow-tags
           else
             echo "::warning::Already in pre-release mode"
