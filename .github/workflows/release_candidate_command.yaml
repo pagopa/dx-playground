@@ -55,10 +55,13 @@ jobs:
 
       - name: Checkout Repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        env:
+          BRANCH_NAME: ${{ steps.get_pr_branch.outputs.result }}
         with:
           fetch-tags: true
           fetch-depth: 0
           token: ${{ secrets.gh_bot_pat }}
+          ref: ${{ env.BRANCH_NAME }}
 
       - name: Setup yarn
         run: corepack enable
@@ -74,7 +77,7 @@ jobs:
           git config --global user.email "dx-pagopa-github-bot@pagopa.it"
           git config --global user.name "dx-pagopa-bot"
 
-      - name: Create a pre-release (${{ steps.parse.outputs.type }})
+      - name: Create a pre-release
         id: generate_pre_release
         env:
           BRANCH_NAME: ${{ steps.get_pr_branch.outputs.result }}
