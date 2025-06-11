@@ -135,12 +135,15 @@ jobs:
         with:
           script: |
             const issueNumber = context.issue.number;
+            const distribution = process.env.DISTRIBUTION_TYPE;
+            const publishedPackages = process.env.PUBLISHED_PACKAGES;
+
             const body = `
             🚀 Release Candidate Command executed.
 
-            Distribution type: **${DISTRIBUTION_TYPE}**
+            Distribution type: **${distribution}**
 
-            ${DISTRIBUTION_TYPE}
+            ${publishedPackages}
             `;
 
             await github.rest.issues.createComment({
