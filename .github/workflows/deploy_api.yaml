@@ -8,6 +8,10 @@ on:
       # E.g.: `to-do-api@1.2.3` triggers the workflow; `to-do-api@1` does not.
       - 'to-do-api@[0-9]+.[0-9]+.[0-9]+'
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   deploy:
     name: Deploy API
