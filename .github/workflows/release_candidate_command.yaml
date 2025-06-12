@@ -36,6 +36,7 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Step required to ensure changeset works properly
       - name: Ensure main is available locally
         run: |
           # Fetch remote main branch
@@ -122,7 +123,7 @@ jobs:
             exit 1
           fi
 
-      - name: Generate PR comment content
+      - name: Generate PR comment
         id: generate_comment
         env:
           DISTRIBUTION_TYPE: ${{ inputs.distribution_type }}
@@ -139,10 +140,11 @@ jobs:
         env:
           PUBLISHED_ARTIFACTS: ${{ steps.generate_comment.outputs.PUBLISHED_PACKAGES }}
           DISTRIBUTION_TYPE: ${{ inputs.distribution_type }}
+          PR_NUMBER: ${{ inputs.pr_number }}
         with:
           github-token: ${{ secrets.gh_bot_pat }}
           script: |
-            const issueNumber = inputs.pr_number;
+            const issueNumber = process.env.PR_NUMBER;
             const distribution = process.env.DISTRIBUTION_TYPE;
             const publishedPackages = process.env.PUBLISHED_ARTIFACTS;
 

@@ -3,13 +3,15 @@ on:
   issue_comment:
     types: [created]
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
-
 jobs:
   call_release_candidate:
     name: Release Candidate
     if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/release-candidate') }}
     uses: ./.github/workflows/release_candidate_command.yaml
+    permissions:
+      contents: write
+      pull-requests: write
+    concurrency: ${{ github.workflow }}-${{ github.ref }}
     with:
       pr_number: ${{ github.event.issue.number }}
     secrets:
