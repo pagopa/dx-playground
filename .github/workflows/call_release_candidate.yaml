@@ -9,7 +9,7 @@ jobs:
   call-release-candidate:
     name: Release Candidate
     if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/release-candidate') }}
-    uses: ./.github/workflows/release_candidate_command.yaml@main
+    uses: ./.github/workflows/release_candidate_command.yaml
     with:
       pr_number: ${{ github.event.issue.number }}
     secrets:
