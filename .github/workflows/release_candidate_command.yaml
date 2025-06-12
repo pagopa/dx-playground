@@ -37,6 +37,16 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Ensure main is available locally
+        run: |
+          # Fetch remote main branch
+          git fetch origin main
+
+          # Check if local 'main' branch exists; if not, create it to track origin/main
+          if ! git show-ref --quiet refs/heads/main; then
+            git branch main origin/main
+          fi
+
       - name: Setup Node
         uses: pagopa/dx/.github/actions/node-setup@main
 
