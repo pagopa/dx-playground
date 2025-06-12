@@ -30,27 +30,6 @@ jobs:
     name: Snapshot
     runs-on: ubuntu-latest
     steps:
-      - name: Get PR branch name
-        id: get_pr_branch
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
-        env:
-          PR_NUMBER: ${{ inputs.pr_number }}
-        with:
-          script: |
-            const pull_number = process.env.PR_NUMBER;
-
-            const { data: pr } = await github.rest.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number,
-            });
-            return pr.head.ref;
-          result-encoding: string
-
-      - name: Set distribution type
-        id: parse
-        run: |
-          echo "type=${{ inputs.distribution_type }}" >> $GITHUB_OUTPUT
 
       - name: Configure Git user
         run: |
@@ -61,7 +40,7 @@ jobs:
         id: changesets
         env:
           GITHUB_TOKEN: ${{ secrets.gh_bot_pat }}
-          DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
+          DISTRIBUTION_TYPE: ${{ inputs.distribution_type }}
         uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308 # v1.4.9
         with:
           version: yarn dlx @changesets/cli version --snapshot $DISTRIBUTION_TYPE
@@ -72,7 +51,7 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         env:
           PUBLISHED_ARTIFACTS: ${{ steps.changesets.outputs.publishedPackages }}
-          DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
+          DISTRIBUTION_TYPE: ${{ inputs.distribution_type }}
         with:
           github-token: ${{ secrets.gh_bot_pat }}
           script: |
@@ -81,7 +60,7 @@ jobs:
             const publishedPackages = process.env.PUBLISHED_ARTIFACTS;
 
             const body = `
-            🚀 Release Candidate Command executed.
+            🚀 Snapshot Command executed.
 
             Distribution type: **${distribution}**
 

@@ -48,11 +48,6 @@ jobs:
             return pr.head.ref;
           result-encoding: string
 
-      - name: Set distribution type
-        id: parse
-        run: |
-          echo "type=${{ inputs.distribution_type }}" >> $GITHUB_OUTPUT
-
       - name: Configure Git user
         run: |
           git config --global user.email "dx-pagopa-github-bot@pagopa.it"
@@ -63,7 +58,7 @@ jobs:
         env:
           BRANCH_NAME: ${{ steps.get_pr_branch.outputs.result }}
           NPM_TOKEN: ${{ secrets.npm_token }}
-          DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
+          DISTRIBUTION_TYPE: ${{ inputs.distribution_type }}
         run: |
           set -e
 
@@ -80,6 +75,7 @@ jobs:
             # Generate status file
             echo "Generating changeset status..."
             yarn dlx @changesets/cli status --output=changeset-status.json
+            cat changeset-status.json
 
             # Version and commit
             echo "Running changeset version..."
@@ -108,7 +104,7 @@ jobs:
       - name: Generate PR comment content
         id: generate_comment
         env:
-          DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
+          DISTRIBUTION_TYPE: ${{ inputs.distribution_type }}
         run: |
           # Get published packages from changeset-status.json
           RELEASED_PACKAGES=$(jq -r '.releases[] | "- \(.name)@\(.newVersion)"' changeset-status.json)
@@ -121,7 +117,7 @@ jobs:
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
         env:
           PUBLISHED_ARTIFACTS: ${{ steps.generate_comment.outputs.PUBLISHED_PACKAGES }}
-          DISTRIBUTION_TYPE: ${{ steps.parse.outputs.type }}
+          DISTRIBUTION_TYPE: ${{ inputs.distribution_type }}
         with:
           github-token: ${{ secrets.gh_bot_pat }}
           script: |
