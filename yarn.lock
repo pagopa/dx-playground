@@ -279,17 +279,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/functions@npm:^4.7.3":
-  version: 4.7.3
-  resolution: "@azure/functions@npm:4.7.3"
-  dependencies:
-    cookie: "npm:^0.7.0"
-    long: "npm:^4.0.0"
-    undici: "npm:^7.10.0"
-  checksum: 10c0/a02713bc2caa6063c5eb094a8bd847961f9d089f8787744261c02ab262b0c75b952901a022eaaf8d2043475b70363be1bad7ee960f3fc6e7bbd33fd57fbc884f
-  languageName: node
-  linkType: hard
-
 "@azure/identity@npm:^4.10.1":
   version: 4.10.1
   resolution: "@azure/identity@npm:4.10.1"
@@ -10945,7 +10934,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "test-durable-function@workspace:apps/test-durable-function"
   dependencies:
-    "@azure/functions": "npm:^4.7.3"
+    "@azure/functions": "npm:^4.7.2"
     "@azure/identity": "npm:^4.10.1"
     "@pagopa/eslint-config": "npm:^4.0.5"
     "@pagopa/handler-kit": "npm:^1.1.0"
@@ -11070,7 +11059,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "to-do-api@workspace:apps/to-do-api"
   dependencies:
-    "@azure/functions": "npm:^4.7.3"
+    "@azure/functions": "npm:^4.7.2"
     "@pagopa/azure-tracing": "npm:^0.4.0"
     "@pagopa/eslint-config": "npm:^4.0.5"
     "@pagopa/handler-kit": "npm:^1.1.0"
@@ -11583,13 +11572,6 @@ __metadata:
   dependencies:
     "@fastify/busboy": "npm:^2.0.0"
   checksum: 10c0/e4e4d631ca54ee0ad82d2e90e7798fa00a106e27e6c880687e445cc2f13b4bc87c5eba2a88c266c3eecffb18f26e227b778412da74a23acc374fca7caccec49b
-  languageName: node
-  linkType: hard
-
-"undici@npm:^7.10.0":
-  version: 7.10.0
-  resolution: "undici@npm:7.10.0"
-  checksum: 10c0/756ac876a8df845bc89eb8348c35d33a0ff63c17eb45b664075c961a7fbd4a398f94f9dce438262f55fe66e4bbb0a46aa63a3fd58ce51361c616aff11a270450
   languageName: node
   linkType: hard
 
