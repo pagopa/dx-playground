@@ -1,5 +1,11 @@
 # test-durable
 
+## 2.0.1
+
+### Patch Changes
+
+- [#269](https://github.com/pagopa/dx-playground/pull/269) [`0442312`](https://github.com/pagopa/dx-playground/commit/044231217596b285b8eab5d5af47e677e9c30af4) Thanks [@kin0992](https://github.com/kin0992)! - Upgrade Azure related dependencies
+
 ## 2.0.0
 
 ### Major Changes
