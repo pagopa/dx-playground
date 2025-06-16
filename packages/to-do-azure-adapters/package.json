@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.4.1",
-    "@azure/identity": "^4.10.0",
+    "@azure/identity": "^4.10.1",
     "@to-do/domain": "workspace:^",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22"
