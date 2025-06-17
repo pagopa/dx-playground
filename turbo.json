@@ -68,16 +68,10 @@
       ]
     },
 
-    "opex:build": {
-      "dependsOn": ["^opex:build"],
-      "outputs": ["dist/**", ".gen/**", "main.js"]
-    },
     "opex:plan": {
-      "dependsOn": ["^opex:build"],
       "cache": false
     },
     "opex:deploy": {
-      "dependsOn": ["^opex:build"],
       "cache": false
     }
 

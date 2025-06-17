@@ -19,7 +19,6 @@
     "start:artifact": "func start out/index.js",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "opex:build": "cdktf synth",
     "opex:plan": "cdktf plan",
     "opex:deploy": "cdktf deploy --auto-approve"
   },
