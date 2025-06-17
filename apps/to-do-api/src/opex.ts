@@ -13,7 +13,7 @@ const app = new App();
 //
 new MonitoringStack(app, "to-do-api", {
   config: opexConfig,
-  openApiFilePath: "docs/openapi.yaml",
+  openApiFilePaths: ["docs/openapi.yaml"],
 });
 
 app.synth();
