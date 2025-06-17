@@ -10607,6 +10607,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"opex-common@workspace:*, opex-common@workspace:packages/opex-common":
+  version: 0.0.0-use.local
+  resolution: "opex-common@workspace:packages/opex-common"
+  dependencies:
+    "@pagopa/eslint-config": "npm:^4.0.5"
+    "@pagopa/typescript-config-node": "workspace:^"
+    cdktf-monitoring-stack: "workspace:*"
+    eslint: "npm:^8.57.1"
+    prettier: "npm:^3.5.3"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "optionator@npm:^0.9.3":
   version: 0.9.4
   resolution: "optionator@npm:0.9.4"
@@ -13040,6 +13053,7 @@ __metadata:
     eslint: "npm:8.57.1"
     fp-ts: "npm:^2.16.10"
     io-ts: "npm:^2.2.22"
+    opex-common: "workspace:*"
     prettier: "npm:^3.5.3"
     shx: "npm:^0.4.0"
     swagger-cli: "npm:^4.0.4"
