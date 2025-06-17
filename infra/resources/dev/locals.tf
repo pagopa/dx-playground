@@ -17,7 +17,6 @@ locals {
     Scope          = "Dynatrace PoC"
   }
 
-
   # Update with the resources you want to monitor with Dynatrace
   targets = {
     cosmos-account = module.cosmos.id

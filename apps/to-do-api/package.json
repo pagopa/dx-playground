@@ -18,16 +18,21 @@
     "start": "func start",
     "start:artifact": "func start out/index.js",
     "test": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "opex:build": "cdktf synth",
+    "opex:plan": "cdktf plan",
+    "opex:deploy": "cdktf deploy --auto-approve"
   },
   "dependencies": {
     "@azure/functions": "^4.7.2",
+    "@cdktf/provider-azurerm": "^14.2.0",
     "@pagopa/azure-tracing": "^0.4.0",
     "@pagopa/handler-kit": "^1.1.0",
     "@pagopa/handler-kit-azure-func": "^2.0.7",
     "@pagopa/ts-commons": "^13.1.2",
     "@to-do/azure-adapters": "workspace:^",
     "@to-do/domain": "workspace:^",
+    "cdktf-monitoring-stack": "workspace:*",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22",
     "ulid": "^3.0.0"
@@ -39,6 +44,7 @@
     "@types/node": "^22.15.14",
     "@vitest/coverage-v8": "^3.1.4",
     "azure-functions-core-tools": "^4.0.7317",
+    "cdktf-cli": "^0.21.0",
     "esbuild": "^0.25.4",
     "eslint": "8.57.1",
     "prettier": "^3.5.3",
