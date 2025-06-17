@@ -12931,6 +12931,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"test-opex-api@workspace:apps/test-opex-api":
+  version: 0.0.0-use.local
+  resolution: "test-opex-api@workspace:apps/test-opex-api"
+  dependencies:
+    "@cdktf/provider-azurerm": "npm:^14.2.0"
+    "@pagopa/eslint-config": "npm:^4.0.5"
+    "@pagopa/typescript-config-node": "workspace:^"
+    "@types/node": "npm:^22.15.14"
+    cdktf-cli: "npm:^0.21.0"
+    cdktf-monitoring-stack: "workspace:*"
+    eslint: "npm:8.57.1"
+    opex-common: "workspace:*"
+    prettier: "npm:^3.5.3"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "text-decoder@npm:^1.1.0":
   version: 1.2.3
   resolution: "text-decoder@npm:1.2.3"

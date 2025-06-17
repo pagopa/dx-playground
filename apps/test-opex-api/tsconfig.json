@@ -1,0 +1,15 @@
+{
+  "extends": "@pagopa/typescript-config-node/tsconfig.json",
+  "exclude": [
+    "dist",
+    "**/__tests__/",
+    "vitest.config.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "moduleResolution": "NodeNext"
+  }
+}

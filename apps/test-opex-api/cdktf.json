@@ -1,0 +1,9 @@
+{
+  "language": "typescript",
+  "app": "yarn dlx tsx src/opex.ts",
+  "projectId": "6a280d6b-bda1-4d0e-834a-87f8d678df17",
+  "sendCrashReports": "false",
+  "terraformProviders": [],
+  "terraformModules": [],
+  "context": {}
+}

@@ -21,6 +21,7 @@ env:
   ARM_USE_OIDC: true
   ARM_USE_AZUREAD: true
   ARM_STORAGE_USE_AZUREAD: true
+  TURBO_CACHE_DIR: .turbo-cache
 
 jobs:
   deploy:

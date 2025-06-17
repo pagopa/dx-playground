@@ -69,13 +69,21 @@
     },
 
     "opex:plan": {
-      "cache": false,
+      "inputs": [
+        "src/**/opex.ts",
+        "**/openapi.yaml",
+        "cdktf.json"
+      ],
       "env": [
         "ARM_SUBSCRIPTION_ID"
       ]
     },
     "opex:deploy": {
-      "cache": false,
+      "inputs": [
+        "src/opex.ts",
+        "**/openapi.yaml",
+        "cdktf.json"
+      ],
       "env": [
         "ARM_SUBSCRIPTION_ID"
       ]
