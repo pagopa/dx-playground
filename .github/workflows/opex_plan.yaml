@@ -1,6 +1,7 @@
 name: 'Run Opex Plan on API Spec Change'
 
 on:
+  workflow_dispatch:
   pull_request:
     paths:
       - 'apps/**/openapi.yaml'
