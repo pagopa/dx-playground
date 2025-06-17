@@ -69,10 +69,16 @@
     },
 
     "opex:plan": {
-      "cache": false
+      "cache": false,
+      "env": [
+        "ARM_SUBSCRIPTION_ID"
+      ]
     },
     "opex:deploy": {
-      "cache": false
+      "cache": false,
+      "env": [
+        "ARM_SUBSCRIPTION_ID"
+      ]
     }
 
   }
