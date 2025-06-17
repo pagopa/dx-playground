@@ -59,28 +59,44 @@ jobs:
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
 
-      - name: Run Turbo Deploy
-        id: turbo_deploy
+      - name: Run Turbo Plan
+        id: turbo_plan
         continue-on-error: true
         run: |
-          deploy_output=$(turbo run opex:deploy)
-          echo "deploy_output<<EOF" >> $GITHUB_OUTPUT
-          echo "$deploy_output" >> $GITHUB_OUTPUT
+          plan_output=$(turbo run opex:plan)
+          echo "plan_output<<EOF" >> $GITHUB_OUTPUT
+          echo "$plan_output" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
           exit ${PIPESTATUS[0]}
 
-      - name: Comment deploy on PR
+      - name: Comment plan on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
         with:
           script: |
-            const outcome = "${{ steps.turbo_deploy.outcome }}" === "success" ? "✅ Success" : "❌ Failure";
-            const output = `#### \`turbo run deploy\` results\n**Outcome:** ${outcome}\n\n<details><summary>Mostra il Piano Completo</summary>\n\n\`\`\`terraform\n${{ steps.turbo_deploy.outputs.deploy_output }}\n\`\`\`\n\n</details>\n\n*Workflow run: [${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})*`;
+            const outcome = "${{ steps.turbo_plan.outcome }}" === "success" ? "✅ Success" : "❌ Failure";
+            const output = `#### \`turbo run plan\` results\n**Outcome:** ${outcome}\n\n<details><summary>Mostra il Piano Completo</summary>\n\n\`\`\`terraform\n${{ steps.turbo_plan.outputs.plan_output }}\n\`\`\`\n\n</details>\n\n*Workflow run: [${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})*`;
             github.rest.issues.createComment({ issue_number: context.issue.number, owner: context.repo.owner, repo: context.repo.repo, body: output });
 
-      - name: Check deploy status
-        if: steps.turbo_deploy.outcome != 'success'
+      - name: Check plan status
+        if: steps.turbo_plan.outcome != 'success'
         run: |
-          echo "Il comando 'turbo run deploy' failed."
+          echo "Command 'turbo run plan' failed."
           exit 1
+
+      # - name: Run Turbo Deploy
+      #   id: turbo_deploy
+      #   continue-on-error: true
+      #   run: |
+      #     deploy_output=$(turbo run opex:deploy)
+      #     echo "deploy_output<<EOF" >> $GITHUB_OUTPUT
+      #     echo "$deploy_output" >> $GITHUB_OUTPUT
+      #     echo "EOF" >> $GITHUB_OUTPUT
+      #     exit ${PIPESTATUS[0]}
+
+      # - name: Check deploy status
+      #   if: steps.turbo_deploy.outcome != 'success'
+      #   run: |
+      #     echo "Command 'turbo run deploy' failed."
+      #     exit 1
   
