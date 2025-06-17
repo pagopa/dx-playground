@@ -4,11 +4,12 @@ import { AzurermProvider } from "@cdktf/provider-azurerm/lib/provider";
 import { ResourceGroup } from "@cdktf/provider-azurerm/lib/resource-group";
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
-
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 
 export interface Tags {
+  // Allow additional unknown properties
+  [key: string]: string;
   BusinessUnit: string;
   CostCenter: string;
   CreatedBy: string;
@@ -16,7 +17,6 @@ export interface Tags {
   ManagementTeam: string;
   Scope: string;
   Source: string;
-  [key: string]: string; // Allow additional unknown properties
 }
 
 export interface MonitoringConfig {
@@ -44,8 +44,8 @@ export class MonitoringStack extends TerraformStack {
     const { config, openApiFilePath } = props;
 
     new AzurermProvider(this, "azurerm", {
+      features: [{}],
       storageUseAzuread: true,
-      features: [{}]
     });
 
     const resourceGroup = new ResourceGroup(this, "rg", {
@@ -60,8 +60,12 @@ export class MonitoringStack extends TerraformStack {
     const endpoints = Object.keys(openApiSpec.paths);
     const endpointsWithProps = endpoints.map((path) => ({
       availabilityThreshold: 99.0,
+      availabilityTimeSpan: "5m",
       path: path,
+      responseCodeThreshold: 1000,
+      responseCodeTimeSpan: "5m",
       responseTimeThreshold: 1000,
+      responseTimeTimeSpan: "5m",
     }));
 
     // --- ALERTING ---
@@ -70,6 +74,8 @@ export class MonitoringStack extends TerraformStack {
         .replace(/[/{}]/g, "-")
         .replace(/^-|-$/g, "");
       const baseAlertName = `${id}-${sanitizedName}`;
+
+      const endpointPath = uriToRegex(endpoint.path);
 
       new MonitorScheduledQueryRulesAlert(
         this,
@@ -80,11 +86,12 @@ export class MonitoringStack extends TerraformStack {
           frequency: 5,
           location: config.location,
           name: `Alert-Avail-${baseAlertName}`,
-          query: getAvailabilityQuery(
-            endpoint.path,
-            config.apimServiceName,
-            endpoint.availabilityThreshold,
-          ),
+          query: getApimAvailabilityQuery({
+            endpointPath,
+            isAlarm: true,
+            threshold: endpoint.availabilityThreshold,
+            timeSpan: endpoint.availabilityTimeSpan,
+          }),
           resourceGroupName: resourceGroup.name,
           severity: 2,
           tags: config.tags,
@@ -102,11 +109,12 @@ export class MonitoringStack extends TerraformStack {
           frequency: 5,
           location: config.location,
           name: `Alert-RespTime-${baseAlertName}`,
-          query: getResponseTimeQuery(
-            endpoint.path,
-            config.apimServiceName,
-            endpoint.responseTimeThreshold,
-          ),
+          query: getApimResponseTimeQuery({
+            endpointPath,
+            isAlarm: true,
+            threshold: endpoint.responseTimeThreshold,
+            timeSpan: endpoint.responseTimeTimeSpan,
+          }),
           resourceGroupName: resourceGroup.name,
           severity: 2,
           tags: config.tags,
@@ -177,8 +185,12 @@ export class MonitoringStack extends TerraformStack {
   private generateDashboardProperties(
     endpoints: {
       availabilityThreshold: number;
+      availabilityTimeSpan: string;
       path: string;
+      responseCodeThreshold: number;
+      responseCodeTimeSpan: string;
       responseTimeThreshold: number;
+      responseTimeTimeSpan: string;
     }[],
     config: MonitoringConfig,
   ): string {
@@ -186,6 +198,7 @@ export class MonitoringStack extends TerraformStack {
     endpoints.forEach((endpoint, index) => {
       const yPos = index * 4;
       const subtitle = endpoint.path;
+      const endpointPath = uriToRegex(endpoint.path);
 
       // Create three parts for each endpoint: Availability, Response Codes,
       // and Response Time
@@ -194,11 +207,12 @@ export class MonitoringStack extends TerraformStack {
       parts[index * 3 + 0] = this.createChartPart({
         logAnalyticsWorkspaceId: config.logAnalyticsWorkspaceId,
         position: { colSpan: 6, rowSpan: 4, x: 0, y: yPos },
-        query: getAvailabilityQuery(
-          endpoint.path,
-          config.apimServiceName,
-          endpoint.availabilityThreshold,
-        ),
+        query: getApimAvailabilityQuery({
+          endpointPath,
+          isAlarm: false,
+          threshold: endpoint.availabilityThreshold,
+          timeSpan: endpoint.availabilityTimeSpan,
+        }),
         specificChart: "Line",
         subtitle,
         title: "Availability (PT5M)",
@@ -212,7 +226,12 @@ export class MonitoringStack extends TerraformStack {
       parts[index * 3 + 1] = this.createChartPart({
         logAnalyticsWorkspaceId: config.logAnalyticsWorkspaceId,
         position: { colSpan: 6, rowSpan: 4, x: 6, y: yPos },
-        query: getResponseCodesQuery(endpoint.path, config.apimServiceName),
+        query: getApimResponseCodesQuery({
+          endpointPath,
+          isAlarm: false,
+          threshold: endpoint.responseCodeThreshold,
+          timeSpan: endpoint.responseCodeTimeSpan,
+        }),
         specificChart: "StackedArea",
         splitBy: [{ name: "HTTPStatus", type: "string" }],
         subtitle,
@@ -224,11 +243,12 @@ export class MonitoringStack extends TerraformStack {
       parts[index * 3 + 2] = this.createChartPart({
         logAnalyticsWorkspaceId: config.logAnalyticsWorkspaceId,
         position: { colSpan: 6, rowSpan: 4, x: 12, y: yPos },
-        query: getResponseTimeQuery(
-          endpoint.path,
-          config.apimServiceName,
-          endpoint.responseTimeThreshold,
-        ),
+        query: getApimResponseTimeQuery({
+          endpointPath,
+          isAlarm: false,
+          threshold: endpoint.responseTimeThreshold,
+          timeSpan: endpoint.responseTimeTimeSpan,
+        }),
         specificChart: "Line",
         subtitle,
         title: "95th Percentile Response Time (ms)",
@@ -257,22 +277,69 @@ export class MonitoringStack extends TerraformStack {
 }
 
 // --- FUNCTIONS FOR KQL QUERIES ---
-const getAvailabilityQuery = (
-  endpointPath: string,
-  apimServiceName: string,
-  threshold: number,
-): string =>
-  `let data = AzureDiagnostics | where ResourceProvider == "MICROSOFT.APIMANAGEMENT" and serviceName_s == "${apimServiceName}" and OperationName contains "${endpointPath}" | summarize count() by bin(TimeGenerated, 5m), success_ = (ResponseCode < 500); let success = data | where success_ == true | summarize success_count = sum(count_) by TimeGenerated; let failed = data | where success_ == false | summarize failed_count = sum(count_) by TimeGenerated; success | join kind=fullouter failed on TimeGenerated | project TimeGenerated, success_count, failed_count | extend success_count = iif(isempty(success_count), 0, success_count), failed_count = iif(isempty(failed_count), 0, failed_count) | extend total = success_count + failed_count | extend availability = iif(total > 0, round(success_count * 100.0 / total, 2), 100.0) | project TimeGenerated, availability, watermark = ${threshold}`;
+interface QueryParams {
+  endpointPath: string;
+  isAlarm: boolean;
+  threshold: number;
+  timeSpan: string;
+}
 
-const getResponseCodesQuery = (
-  endpointPath: string,
-  apimServiceName: string,
-): string =>
-  `AzureDiagnostics | where ResourceProvider == "MICROSOFT.APIMANAGEMENT" and serviceName_s == "${apimServiceName}" and OperationName contains "${endpointPath}" | summarize count_ = count() by bin(TimeGenerated, 5m), HTTPStatus = tostring(ResponseCode) | project TimeGenerated, HTTPStatus, count_`;
+const getApimAvailabilityQuery = (params: QueryParams): string => {
+  const { endpointPath, isAlarm, threshold, timeSpan } = params;
+  return `
+  let threshold = ${threshold / 100};
+  AzureDiagnostics
+  | where ResourceProvider == "MICROSOFT.APIMANAGEMENT"
+    and url_s matches regex "${endpointPath}"
+  | summarize
+    Total=count(),
+    Success=count(responseCode_d < 500) by bin(TimeGenerated, ${timeSpan})
+  | extend availability=toreal(Success) / Total
+  ${
+    isAlarm
+      ? "| where availability < threshold"
+      : `| project TimeGenerated, availability, watermark=threshold
+   | render timechart with (xtitle = "time", ytitle= "availability(%)")`
+  }
+`;
+};
 
-const getResponseTimeQuery = (
-  endpointPath: string,
-  apimServiceName: string,
-  threshold: number,
-): string =>
-  `AzureDiagnostics | where ResourceProvider == "MICROSOFT.APIMANAGEMENT" and serviceName_s == "${apimServiceName}" and OperationName contains "${endpointPath}" | summarize duration_percentile_95 = percentile(TotalTime, 95) by bin(TimeGenerated, 5m) | project TimeGenerated, duration_percentile_95, watermark = ${threshold}`;
+const getApimResponseCodesQuery = (params: QueryParams): string => {
+  const { endpointPath, timeSpan } = params;
+  return `
+  AzureDiagnostics
+  | where url_s matches regex "${endpointPath}"
+  | extend HTTPStatus = case(
+    responseCode_d between (100 .. 199), "1XX",
+    responseCode_d between (200 .. 299), "2XX",
+    responseCode_d between (300 .. 399), "3XX",
+    responseCode_d between (400 .. 499), "4XX",
+    "5XX")
+  | summarize count() by HTTPStatus, bin(TimeGenerated, ${timeSpan})
+  | render areachart with (xtitle = "time", ytitle= "count")
+  `;
+};
+
+const getApimResponseTimeQuery = (params: QueryParams): string => {
+  const { endpointPath, isAlarm, threshold, timeSpan } = params;
+  return `
+  let threshold = ${threshold};
+  AzureDiagnostics
+  | where url_s matches regex "${endpointPath}"
+  | summarize
+      watermark=threshold,
+      duration_percentile_95=percentiles(todouble(DurationMs)/1000, 95) by bin(TimeGenerated, ${timeSpan})
+  ${
+    isAlarm
+      ? `| where duration_percentile_95 > threshold`
+      : `| render timechart with (xtitle = "time", ytitle= "response time(s)")`
+  }
+  `;
+};
+
+function uriToRegex(value: string): string {
+  /**
+   * Translate path parameters of a URI to a generic version thanks to regex
+   */
+  return String(value).replace(/{[^/]+}/g, "[^/]+") + "$";
+}
