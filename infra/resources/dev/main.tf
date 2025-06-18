@@ -31,4 +31,5 @@ module "naming_convention" {
   environment = merge(local.environment, { app_name = "pg" })
 }
 
+
 data "azurerm_subscription" "current" {}
