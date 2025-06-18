@@ -12,7 +12,7 @@ paths:
     get:
       operationId: info
       responses:
-        '201':
+        '202':
           description: Success
           content:
             application/json:
@@ -22,7 +22,7 @@ paths:
           description: Internal Server error
 
   /tasks:
-    post:
+    put:
       operationId: createTask
       summary: Create a new task
       requestBody:
