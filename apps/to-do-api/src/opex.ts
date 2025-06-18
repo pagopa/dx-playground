@@ -1,6 +1,6 @@
-import { App } from "cdktf";
+import { App, AzurermBackend } from "cdktf";
 import { MonitoringStack } from "cdktf-monitoring-stack";
-import { opexConfig } from "opex-common";
+import { backendConfig, opexConfig } from "opex-common";
 
 const app = new App({
   outdir: `${process.cwd()}/../../infra/resources/opex`,
@@ -13,9 +13,14 @@ const app = new App({
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
 //
-new MonitoringStack(app, "to-do-api", {
+const stack = new MonitoringStack(app, "to-do-api", {
   config: opexConfig,
   openApiFilePaths: ["docs/openapi.yaml"],
+});
+
+new AzurermBackend(stack, {
+  ...backendConfig,
+  key: "dx.opex.to-do-api.tfstate",
 });
 
 app.synth();

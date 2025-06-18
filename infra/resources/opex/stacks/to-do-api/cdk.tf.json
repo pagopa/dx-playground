@@ -1,7 +1,7 @@
 {
   "//": {
     "metadata": {
-      "backend": "local",
+      "backend": "azurerm",
       "stackName": "to-do-api",
       "version": "0.21.0"
     },
@@ -401,8 +401,11 @@
   },
   "terraform": {
     "backend": {
-      "local": {
-        "path": "/Users/danilo.spinelli/Developer/dx-playground/apps/to-do-api/terraform.to-do-api.tfstate"
+      "azurerm": {
+        "container_name": "terraform-state",
+        "key": "dx.opex.to-do-api.tfstate",
+        "resource_group_name": "terraform-state-rg",
+        "storage_account_name": "tfdevdx"
       }
     },
     "required_providers": {
