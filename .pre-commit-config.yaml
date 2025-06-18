@@ -23,5 +23,5 @@ repos:
         entry: yarn turbo opex:synth
         language: system
         pass_filenames: false
-        files: apps/**/opex.ts
+        files: ^apps/.*/opex\.ts$
 
