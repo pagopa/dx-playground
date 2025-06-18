@@ -10,9 +10,7 @@
     "build": "tsc",
     "typecheck": "tsc --noemit",
     "lint": "eslint src --fix",
-    "lint:check": "eslint src",
-    "opex:plan": "cdktf plan",
-    "opex:deploy": "cdktf deploy --auto-approve"
+    "lint:check": "eslint src"
   },
   "dependencies": {
     "cdktf-monitoring-stack": "workspace:*",

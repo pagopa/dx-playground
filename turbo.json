@@ -67,27 +67,14 @@
         "^build"
       ]
     },
-
-    "opex:plan": {
+    "opex:synth": {
       "inputs": [
         "src/**/opex.ts",
-        "**/openapi.yaml",
-        "cdktf.json"
-      ],
-      "env": [
-        "ARM_SUBSCRIPTION_ID"
-      ]
-    },
-    "opex:deploy": {
-      "inputs": [
-        "src/opex.ts",
-        "**/openapi.yaml",
-        "cdktf.json"
+        "**/openapi.yaml"
       ],
       "env": [
         "ARM_SUBSCRIPTION_ID"
       ]
     }
-
   }
 }
