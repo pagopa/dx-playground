@@ -19,9 +19,8 @@ repos:
   - repo: local
     hooks:
       - id: turbo-opex-synth
-        name: Run turbo opex:synth
+        name: Generate OPEX Terraform
         entry: yarn turbo opex:synth
         language: system
         pass_filenames: false
-        files: ^apps/.*/opex\.ts$|.*/openapi.*\.yaml$|.*/openapi/.*\.yaml$
 
