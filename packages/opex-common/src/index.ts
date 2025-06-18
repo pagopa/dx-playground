@@ -24,6 +24,6 @@ export const opexConfig: MonitoringConfig = {
 export const backendConfig: AzurermBackendConfig = {
   containerName: "terraform-state",
   key: "dx.opex.tfstate",
-  resourceGroupName: "dx-d-itn-common-rg-01",
-  storageAccountName: "dxditntfexamplesst01",
+  resourceGroupName: "terraform-state-rg",
+  storageAccountName: "tfdevdx",
 } as const;

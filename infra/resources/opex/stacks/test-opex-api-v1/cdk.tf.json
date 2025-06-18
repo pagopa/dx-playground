@@ -404,8 +404,8 @@
       "azurerm": {
         "container_name": "terraform-state",
         "key": "dx.test-opex-api1.tfstate",
-        "resource_group_name": "dx-d-itn-common-rg-01",
-        "storage_account_name": "dxditntfexamplesst01"
+        "resource_group_name": "terraform-state-rg",
+        "storage_account_name": "tfdevdx"
       }
     },
     "required_providers": {
