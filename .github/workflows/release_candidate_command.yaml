@@ -139,10 +139,11 @@ jobs:
         env:
           PUBLISHED_ARTIFACTS: ${{ steps.generate_comment.outputs.PUBLISHED_PACKAGES }}
           DISTRIBUTION_TYPE: ${{ inputs.distribution_type }}
+          PR_NUMBER: ${{ inputs.pr_number }}
         with:
           github-token: ${{ secrets.gh_bot_pat }}
           script: |
-            const issueNumber = inputs.pr_number;
+            const issueNumber = process.env.PR_NUMBER;
             const distribution = process.env.DISTRIBUTION_TYPE;
             const publishedPackages = process.env.PUBLISHED_ARTIFACTS;
 
