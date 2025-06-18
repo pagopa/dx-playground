@@ -1,26 +1,15 @@
 {
   "stacks": {
-    "test-opex-api-v1": {
+    "to-do-api": {
       "annotations": [
       ],
-      "constructPath": "test-opex-api-v1",
+      "constructPath": "to-do-api",
       "dependencies": [
       ],
-      "name": "test-opex-api-v1",
-      "stackMetadataPath": "stacks/test-opex-api-v1/metadata.json",
-      "synthesizedStackPath": "stacks/test-opex-api-v1/cdk.tf.json",
-      "workingDirectory": "stacks/test-opex-api-v1"
-    },
-    "test-opex-api-v2": {
-      "annotations": [
-      ],
-      "constructPath": "test-opex-api-v2",
-      "dependencies": [
-      ],
-      "name": "test-opex-api-v2",
-      "stackMetadataPath": "stacks/test-opex-api-v2/metadata.json",
-      "synthesizedStackPath": "stacks/test-opex-api-v2/cdk.tf.json",
-      "workingDirectory": "stacks/test-opex-api-v2"
+      "name": "to-do-api",
+      "stackMetadataPath": "stacks/to-do-api/metadata.json",
+      "synthesizedStackPath": "stacks/to-do-api/cdk.tf.json",
+      "workingDirectory": "stacks/to-do-api"
     }
   },
   "version": "0.21.0"

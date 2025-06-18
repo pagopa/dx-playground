@@ -2,7 +2,9 @@ import { App } from "cdktf";
 import { MonitoringStack } from "cdktf-monitoring-stack";
 import { opexConfig } from "opex-common";
 
-const app = new App();
+const app = new App({
+  outdir: `${process.cwd()}/../../infra/resources/opex`,
+});
 
 // Use the following lines if you need to resolve paths dynamically
 //
