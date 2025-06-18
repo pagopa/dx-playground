@@ -1,3 +1,4 @@
+import { AzurermBackendConfig } from "cdktf";
 import { MonitoringConfig } from "cdktf-monitoring-stack";
 
 export const opexConfig: MonitoringConfig = {
@@ -18,4 +19,11 @@ export const opexConfig: MonitoringConfig = {
     Source:
       "https://github.com/pagopa/dx-playground/tree/main/infra/repository",
   },
+} as const;
+
+export const backendConfig: AzurermBackendConfig = {
+  containerName: "terraform-state",
+  key: "dx.opex.tfstate",
+  resourceGroupName: "dx-d-itn-common-rg-01",
+  storageAccountName: "dxditntfexamplesst01",
 } as const;

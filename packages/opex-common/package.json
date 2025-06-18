@@ -12,6 +12,7 @@
     "lint:check": "eslint src"
   },
   "dependencies": {
+    "cdktf": "^0.21.0",
     "cdktf-monitoring-stack": "workspace:*"
   },
   "devDependencies": {
