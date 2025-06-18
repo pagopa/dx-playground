@@ -10,6 +10,12 @@
       "installTFsec": true,
       "installTerraformDocs": true
     },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "20.18.1",
+      "installYarnUsingApt": false,
+      "pnpmVersion": "none",
+      "nvmInstallPath": "/opt/nvm"
+    },
     "ghcr.io/pagopa/devcontainer-features/trivy:1": {}
   },
   "postStartCommand": {

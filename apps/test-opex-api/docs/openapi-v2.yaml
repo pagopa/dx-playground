@@ -1,0 +1,195 @@
+openapi: 3.0.3
+info:
+  title: To Do List API
+  version: 0.0.0
+
+security:
+  - ApiKeyAuth: []
+
+paths:
+
+  /info:
+    get:
+      operationId: info
+      responses:
+        '202':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationInfo'
+        '500':
+          description: Internal Server error
+
+  /tasks:
+    post:
+      operationId: createTask
+      summary: Create a new task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskItem'
+      responses:
+        '201':
+          description: Returns the created task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+    get:
+      operationId: listTasks
+      summary: List tasks
+      responses:
+        '200':
+          description: Returns a list of tasks.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItemList'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+
+  /tasks/{taskId}:
+    get:
+      description: Get information of a task
+      summary: Get a task
+      operationId: getTaskById
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+          required: true
+          description: The id of the task
+      responses:
+        '200':
+          description: Details of the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+    delete:
+      description: Delete a task
+      summary: Delete a task
+      operationId: deleteTask
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+          required: true
+          description: The id of the task
+      responses:
+        '204':
+          description: Task deleted
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Ocp-Apim-Subscription-Key
+  schemas:
+    ApplicationInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+      required:
+        - name
+        - version
+    CreateTaskItem:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          $ref: '#/components/schemas/TaskTitle'
+    TaskId:
+      description: The id of the task
+      type: string
+    TaskTitle:
+      description: The title of the task
+      type: string
+    TaskState:
+      type: string
+      description: |-
+        - COMPLETED: The task has been completed
+        - INCOMPLETE: The task is not yet completed
+        - DELETED: The task has been marked as deleted
+      x-extensible-enum:
+        - COMPLETED
+        - INCOMPLETE
+        - DELETED
+    TaskItem:
+      type: object
+      required:
+        - id
+        - title
+        - state
+      properties:
+        id:
+          $ref: '#/components/schemas/TaskId'
+        title:
+          $ref: '#/components/schemas/TaskTitle'
+        state:
+          $ref: '#/components/schemas/TaskState'
+    TaskItemList:
+      type: array
+      items:
+        $ref: '#/components/schemas/TaskItem'
+    ProblemJSON:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: number
+          description: The HTTP status code
+        message:
+          type: string
+          description: The description of the error

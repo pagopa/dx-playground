@@ -66,6 +66,17 @@
         "^test",
         "^build"
       ]
+    },
+    "opex:synth": {
+      "inputs": [
+        "src/**/opex.ts",
+        "infra/resources/opex/**",
+        "**/openapi*.yaml",
+        "**/openapi/**/*.yaml"
+      ],
+      "env": [
+        "ARM_SUBSCRIPTION_ID"
+      ]
     }
   }
 }

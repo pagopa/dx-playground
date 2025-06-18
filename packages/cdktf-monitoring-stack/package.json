@@ -1,0 +1,28 @@
+{
+  "name": "cdktf-monitoring-stack",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noemit",
+    "lint": "eslint src --fix",
+    "lint:check": "eslint src"
+  },
+  "dependencies": {
+    "@cdktf/provider-azurerm": "^14.2.0",
+    "cdktf": "^0.21.0",
+    "constructs": "^10.4.2",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@pagopa/eslint-config": "^4.0.5",
+    "@pagopa/typescript-config-node": "workspace:^",
+    "@types/js-yaml": "^4.0.9",
+    "eslint": "^8.57.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  }
+}

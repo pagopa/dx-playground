@@ -10,7 +10,9 @@
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "version": "changeset version",
-    "release": "changeset tag"
+    "release": "changeset tag",
+    "opex:plan": "turbo run opex:plan",
+    "opex:deploy": "turbo run opex:deploy"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",

@@ -15,3 +15,13 @@ repos:
       - id: lock_modules
         exclude: ^.*/(_modules|modules|\.terraform)(/.*)?$ # directories to exclude
         files: infra/(github_runner|identity/dev|repository|resources/dev) # directories with terraform files to validate
+
+  - repo: local
+    hooks:
+      - id: turbo-opex-synth
+        name: Run turbo opex:synth
+        entry: yarn turbo opex:synth
+        language: system
+        pass_filenames: false
+        files: ^apps/.*/opex\.ts$|.*/openapi.*\.yaml$|.*/openapi/.*\.yaml$
+

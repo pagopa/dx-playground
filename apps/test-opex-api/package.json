@@ -1,0 +1,30 @@
+{
+  "name": "test-opex-api",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Test multiple OPEX API specs",
+  "license": "MIT",
+  "scripts": {
+    "clean": "shx rm -rf ./dist",
+    "build": "tsc",
+    "typecheck": "tsc --noemit",
+    "lint": "eslint src --fix",
+    "lint:check": "eslint src",
+    "opex:synth": "yarn dlx tsx src/opex.ts"
+  },
+  "dependencies": {
+    "cdktf": "^0.21.0",
+    "cdktf-monitoring-stack": "workspace:*",
+    "constructs": "^10.4.2",
+    "opex-common": "workspace:*"
+  },
+  "devDependencies": {
+    "@pagopa/eslint-config": "^4.0.5",
+    "@pagopa/typescript-config-node": "workspace:^",
+    "@types/node": "^22.15.14",
+    "eslint": "8.57.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  }
+}

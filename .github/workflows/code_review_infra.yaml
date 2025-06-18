@@ -20,11 +20,39 @@ permissions:
   id-token: write
 
 jobs:
-  code_review_dev:
+  detect_environments:
+    runs-on: ubuntu-latest
+    outputs:
+      environments: ${{ steps.detect.outputs.environments }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Detect environments
+        id: detect
+        run: |
+          # Find all directories containing .tf or .tf.json files, excluding those starting with underscore
+          environments=$(find infra/resources -type f \( -name "*.tf" -o -name "*.tf.json" \) -exec dirname {} \; | \
+            grep -v '/\._' | \
+            grep -v '/_' | \
+            sed 's|infra/resources/||g' | \
+            sort -u | \
+            jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))')
+          
+          echo "environments=$environments" >> $GITHUB_OUTPUT
+          echo "Found environments: $environments"
+
+  code_review:
+    needs: detect_environments
+    if: needs.detect_environments.outputs.environments != '[]'
+    strategy:
+      matrix:
+        environment: ${{ fromJson(needs.detect_environments.outputs.environments) }}
+      fail-fast: false
     uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
-    name: Code Review Infra Plan
+    name: Code Review Infra Plan (${{ matrix.environment }})
     secrets: inherit
     with:
-      environment: dev
+      environment: ${{ matrix.environment }}
       override_github_environment: infra-dev
       base_path: infra/resources

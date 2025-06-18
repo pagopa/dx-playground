@@ -18,7 +18,8 @@
     "start": "func start",
     "start:artifact": "func start out/index.js",
     "test": "vitest",
-    "test:coverage": "vitest --coverage"
+    "test:coverage": "vitest --coverage",
+    "opex:synth": "yarn dlx tsx src/opex.ts"
   },
   "dependencies": {
     "@azure/functions": "^4.7.2",
@@ -28,8 +29,12 @@
     "@pagopa/ts-commons": "^13.1.2",
     "@to-do/azure-adapters": "workspace:^",
     "@to-do/domain": "workspace:^",
+    "cdktf": "^0.21.0",
+    "cdktf-monitoring-stack": "workspace:*",
+    "constructs": "^10.4.2",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22",
+    "opex-common": "workspace:*",
     "ulid": "^3.0.0"
   },
   "devDependencies": {
