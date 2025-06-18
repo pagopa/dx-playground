@@ -49,7 +49,7 @@ jobs:
       matrix:
         environment: ${{ fromJson(needs.detect_environments.outputs.environments) }}
       fail-fast: false
-    uses: pagopa/dx/.github/workflows/infra_plan.yaml@package-pr-comments-action
+    uses: pagopa/dx/.github/workflows/infra_plan.yaml@add-static-analysis-action-resume
     name: Code Review Infra Plan (${{ matrix.environment }})
     secrets: inherit
     with:
