@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Detect environments
         id: detect
         run: |
@@ -38,7 +38,7 @@ jobs:
             sed 's|infra/resources/||g' | \
             sort -u | \
             jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))')
-          
+
           echo "environments=$environments" >> $GITHUB_OUTPUT
           echo "Found environments: $environments"
 
