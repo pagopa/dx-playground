@@ -21,7 +21,7 @@ paths:
         '500':
           description: Internal Server error
 
-  /tasks:
+  /tasksx:
     post:
       operationId: createTask
       summary: Create a new task
