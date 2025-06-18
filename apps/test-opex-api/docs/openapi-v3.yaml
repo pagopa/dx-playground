@@ -22,7 +22,7 @@ paths:
           description: Internal Server error
 
   /tasks:
-    post:
+    put:
       operationId: createTask
       summary: Create a new task
       requestBody:
