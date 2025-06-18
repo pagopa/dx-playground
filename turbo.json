@@ -70,7 +70,8 @@
     "opex:synth": {
       "inputs": [
         "src/**/opex.ts",
-        "**/openapi.yaml"
+        "**/openapi.yaml",
+        "infra/resources/opex/**"
       ],
       "env": [
         "ARM_SUBSCRIPTION_ID"
