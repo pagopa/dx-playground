@@ -3,6 +3,13 @@ name: Release Snapshot Version
 on:
   workflow_dispatch:
   workflow_call:
+    secrets:
+      gh_bot_pat:
+        description: "GitHub Bot PAT for repository access."
+        required: true
+      npm_token:
+        description: "npm token for package publishing."
+        required: true
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -38,4 +45,5 @@ jobs:
           publish: yarn dlx @changesets/cli publish --tag rc
           setupGitUser: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_BOT_PAT }}
+          GITHUB_TOKEN: ${{ secrets.gh_bot_pat }}
+          NPM_TOKEN: ${{ secrets.npm_token }}
