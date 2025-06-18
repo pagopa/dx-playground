@@ -1,4 +1,0 @@
-{
-  "language": "typescript",
-  "app": "yarn dlx tsx src/opex.ts"
-}
