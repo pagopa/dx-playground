@@ -9,7 +9,7 @@ security:
 paths:
 
   /info:
-    get:
+    post:
       operationId: info
       responses:
         '200':
