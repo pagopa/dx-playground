@@ -54,5 +54,5 @@ jobs:
     secrets: inherit
     with:
       environment: ${{ matrix.environment }}
-      override_github_environment: infra-${{ matrix.environment }}
+      override_github_environment: infra-dev
       base_path: infra/resources
