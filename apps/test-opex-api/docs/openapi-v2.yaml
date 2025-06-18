@@ -49,7 +49,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemJSON'
-    put:
+    get:
       operationId: listTasks
       summary: List tasks
       responses:
