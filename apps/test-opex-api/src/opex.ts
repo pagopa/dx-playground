@@ -3,7 +3,6 @@ import { MonitoringStack } from "cdktf-monitoring-stack";
 import { backendConfig, opexConfig } from "opex-common";
 
 const app = new App({
-  hclOutput: true,
   outdir: `${process.cwd()}/../../infra/resources/opex`,
 });
 
