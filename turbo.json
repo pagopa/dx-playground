@@ -72,9 +72,6 @@
         "src/**/opex.ts",
         "**/openapi*.yaml",
         "**/openapi/**/*.yaml"
-      ],
-      "outputs": [
-        "$TURBO_ROOT$/infra/resources/opex/**/cdk.tf.json"
       ]
     }
   }
