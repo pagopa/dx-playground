@@ -10,10 +10,13 @@
     "build": "tsc",
     "typecheck": "tsc --noemit",
     "lint": "eslint src --fix",
-    "lint:check": "eslint src"
+    "lint:check": "eslint src",
+    "opex:synth": "yarn dlx tsx src/opex.ts"
   },
   "dependencies": {
+    "cdktf": "^0.21.0",
     "cdktf-monitoring-stack": "workspace:*",
+    "constructs": "^10.4.2",
     "opex-common": "workspace:*"
   },
   "devDependencies": {
