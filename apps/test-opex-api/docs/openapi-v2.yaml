@@ -12,7 +12,7 @@ paths:
     get:
       operationId: info
       responses:
-        '200':
+        '201':
           description: Success
           content:
             application/json:
