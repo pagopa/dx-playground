@@ -1,6 +1,6 @@
 {
   "apim": {
-    "hash": "7c4ede49c7e6ebd45b656ab088b846d0e417d3e8e9b700464c7acaefbe5d04",
+    "hash": "7c4ede49c7e6ebd45b656abca088b846d0e417d3e8e9b700464c7acaefbe5d04",
     "version": "1.2.2",
     "name": "azure_api_management",
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-api-management/azurerm/1.2.2"
@@ -18,7 +18,7 @@
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-role-assignments/azurerm/1.1.0"
   },
   "cosmos": {
-    "hash": "398ffd2c1fb90f2228a5d47f90e6601162c2e90e23daeee726e1f1f02aa322",
+    "hash": "398ffd2c1fb90f2228a5d42e7f90e6601162c2e90e23daeee726e1f1f02aa322",
     "version": "0.1.0",
     "name": "azure_cosmos_account",
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-cosmos-account/azurerm/0.1.0"
@@ -30,7 +30,7 @@
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-role-assignments/azurerm/1.1.0"
   },
   "function_test_durable": {
-    "hash": "367548c5df2a42f5273583c0de4181c5bd419a4d0aca3cffa2ba19a90c210a",
+    "hash": "367548c5df2a42f5273583c0de4181c865bd419a4d0aca3cffa2ba19a90c210a",
     "version": "0.3.1",
     "name": "azure_function_app",
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-function-app/azurerm/0.3.1"
@@ -60,7 +60,7 @@
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-function-app/azurerm/1.0.1"
   },
   "function_v3_api_role": {
-    "hash": "07cdce758d809d16a5154b997dcb2b017b7b443c55a6de776b9f0de6b19c9e",
+    "hash": "07cdce758d809d16a5154b997dcb2b017b7b443c53f5a6de776b9f0de6b19c9e",
     "version": "1.1.0",
     "name": "azure_role_assignments",
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-role-assignments/azurerm/1.1.0"
