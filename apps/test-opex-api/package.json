@@ -15,7 +15,6 @@
     "opex:deploy": "cdktf deploy --auto-approve"
   },
   "dependencies": {
-    "@cdktf/provider-azurerm": "^14.2.0",
     "cdktf-monitoring-stack": "workspace:*",
     "opex-common": "workspace:*"
   },
@@ -23,7 +22,6 @@
     "@pagopa/eslint-config": "^4.0.5",
     "@pagopa/typescript-config-node": "workspace:^",
     "@types/node": "^22.15.14",
-    "cdktf-cli": "^0.21.0",
     "eslint": "8.57.1",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3"
