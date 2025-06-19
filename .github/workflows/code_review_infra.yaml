@@ -24,13 +24,34 @@ permissions:
   id-token: write
 
 jobs:
-  detect_environments:
+  setup_and_detect:
     runs-on: ubuntu-latest
     outputs:
       environments: ${{ steps.detect.outputs.environments }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Node Setup
+        uses: pagopa/dx/.github/actions/node-setup@main
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Generate Terraform code
+        run: yarn turbo run infra:generate
+
+      - name: Verify generated files
+        run: |
+          echo "Generated Terraform files:"
+          find infra/ -name "*.tf.json" -type f || echo "No .tf.json files found"
+
+      - name: Upload generated terraform files
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-files
+          path: infra/
+          retention-days: 1
       
       - name: Detect environments
         id: detect
@@ -68,41 +89,12 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-  generate_terraform:
-    needs: detect_environments
-    if: needs.detect_environments.outputs.environments != '[]'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Node Setup
-        uses: pagopa/dx/.github/actions/node-setup@main
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Generate Terraform code
-        run: yarn turbo run infra:generate
-
-      - name: Verify generated files
-        run: |
-          echo "Generated Terraform files:"
-          find infra/ -name "*.tf.json" -type f || echo "No .tf.json files found"
-
-      # Since the reusable workflow will checkout its own copy of the code,
-      # the generated files need to be available. Options:
-      # 1. Commit generated files to a temporary branch (not recommended for PR workflows)
-      # 2. Modify the external reusable workflow to include generation
-      # 3. Replace the reusable workflow with inline terraform plan logic
-      # 4. Use a pre-commit hook or bot to ensure files are always generated
-
   code_review:
-    needs: [detect_environments, generate_terraform] 
-    if: needs.detect_environments.outputs.environments != '[]'
+    needs: [setup_and_detect] 
+    if: needs.setup_and_detect.outputs.environments != '[]'
     strategy:
       matrix:
-        environment: ${{ fromJson(needs.detect_environments.outputs.environments) }}
+        environment: ${{ fromJson(needs.setup_and_detect.outputs.environments) }}
       fail-fast: false
     uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
     name: Code Review Infra Plan (${{ matrix.environment }})
