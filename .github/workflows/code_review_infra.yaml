@@ -96,10 +96,145 @@ jobs:
       matrix:
         environment: ${{ fromJson(needs.setup_and_detect.outputs.environments) }}
       fail-fast: false
-    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
     name: Code Review Infra Plan (${{ matrix.environment }})
-    secrets: inherit
-    with:
-      environment: ${{ matrix.environment }}
-      override_github_environment: infra-dev
-      base_path: infra/resources
+    runs-on: ubuntu-latest
+    environment: infra-dev-ci
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.environment }}-infra/resources-ci
+      cancel-in-progress: false
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_USE_OIDC: true
+      ARM_USE_AZUREAD: true
+      ARM_STORAGE_USE_AZUREAD: true
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Set directory
+        id: directory
+        env:
+          ENVIRONMENT: ${{ matrix.environment }}
+          BASE_PATH: infra/resources
+        run: |
+          set -euo pipefail
+          if [ -z "$ENVIRONMENT" ]; then
+            echo "Environment must be provided."
+            exit 1
+          else
+            printf "dir=%q/%q" "$BASE_PATH" "$ENVIRONMENT" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        name: Checkout
+
+      - name: Node Setup
+        uses: pagopa/dx/.github/actions/node-setup@main
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Generate Terraform code
+        run: yarn turbo run infra:generate
+
+      - name: Azure Login
+        uses: pagopa/dx/.github/actions/azure-login@main
+
+      - name: Terraform Setup
+        id: set-terraform-version
+        uses: pagopa/dx/.github/actions/terraform-setup@main
+
+      - name: Terraform Init
+        working-directory: ${{ steps.directory.outputs.dir }}
+        run: |
+          terraform init
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: ${{ steps.directory.outputs.dir }}
+        run: |
+          terraform plan -lock-timeout=3000s -no-color -out=plan.out 2>&1 | grep -v "hidden-link:" | tee tf_plan_stdout.txt
+          terraform show -no-color plan.out > full_plan.txt
+
+          # Extracts only the diff section from the Plan by skipping everything before the resource changes,
+          # and filters out non-essential log lines like state refreshes and reads.
+          if [ -s full_plan.txt ]; then
+            sed -n '/^  #/,$p' full_plan.txt | grep -Ev "Refreshing state|state lock|Reading|Read" > filtered_plan.txt || echo "No changes detected." > filtered_plan.txt
+          else
+            echo "No plan output available." > filtered_plan.txt
+          fi
+
+          # The summary with number of resources to be added, changed, or destroyed (will be used in case the plan output is too long)
+          SUMMARY_LINE=$(grep -E "^Plan: [0-9]+ to add" tf_plan_stdout.txt || echo "No changes.")
+
+          echo "$SUMMARY_LINE" > plan_summary.txt
+
+          # If the filtered plan is too long use the summary line, otherwise use the full filtered plan
+          if [ "$(wc -c < filtered_plan.txt)" -gt 60000 ]; then
+            echo "${SUMMARY_LINE}" > plan_output_multiline.txt
+            echo "" >> plan_output_multiline.txt
+            echo "Full plan output was too long and was omitted. Check the workflow logs for full details." >> plan_output_multiline.txt
+          else
+            cat filtered_plan.txt > plan_output_multiline.txt
+          fi
+
+          # Error detection based on tf_plan_stdout.txt content
+          if grep -q "::error::Terraform exited with code" tf_plan_stdout.txt; then
+            echo "failed"
+            exit 1
+          fi
+
+      - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        name: Post Plan on PR
+        id: comment
+        if: always() && github.event_name == 'pull_request'
+        env:
+          OUTPUT_DIR: ${{ steps.directory.outputs.dir }}
+          PLAN_STATUS: ${{ steps.plan.outcome }}
+        with:
+          script: |
+            const fs = require('fs');
+            const outputDir = process.env.OUTPUT_DIR;
+            const output = fs.readFileSync(`${outputDir}/plan_output_multiline.txt`, 'utf8');
+            const status = process.env.PLAN_STATUS;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            })
+            const botComment = comments.find(comment => {
+              return comment.user.type === 'Bot' && comment.body.includes(`Terraform Plan (${outputDir})`)
+            })
+            const commentBody = `#### 📖 Terraform Plan (${outputDir}) - ${status}
+            <details>
+            <summary>Terraform Plan</summary>
+
+            \`\`\`hcl
+            ${output}
+            \`\`\`
+
+            </details>
+            `;
+            if (botComment) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id
+              })
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody,
+              issue_number: context.issue.number
+            })
+
+      - name: Check Terraform Plan Result
+        if: always() && steps.plan.outcome != 'success'
+        run: |
+          exit 1
