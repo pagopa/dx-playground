@@ -40,20 +40,20 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Cache Generated Terraform Files
-        id: cache-generated-tf
-        uses: actions/cache@v4
-        with:
-          path: |
-            infra/**/cdk.tf.json
-          key: ${{ runner.os }}-generated-tf-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-generated-tf-
+      # - name: Cache Generated Terraform Files
+      #   id: cache-generated-tf
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: |
+      #       infra/**/cdk.tf.json
+      #     key: ${{ runner.os }}-generated-tf-${{ github.sha }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-generated-tf-
 
-      - name: Check for existing generated Terraform files
-        id: check-generated-tf
-        run: |
-          find infra/ -name "*.tf.json" -type f
+      # - name: Check for existing generated Terraform files
+      #   id: check-generated-tf
+      #   run: |
+      #     find infra/ -name "*.tf.json" -type f
 
       - name: Generate Terraform code
         run: |
