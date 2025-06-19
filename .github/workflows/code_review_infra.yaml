@@ -34,6 +34,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Download generated terraform files
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-files
+          path: infra/
+
       - name: Node Setup
         uses: pagopa/dx/.github/actions/node-setup@main
 
