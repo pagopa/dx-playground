@@ -68,6 +68,9 @@
       ]
     },
     "infra:generate": {
+      "dependsOn": [
+        "^build"
+      ],      
       "inputs": [
         "src/**/opex.ts",
         "**/openapi*.yaml",

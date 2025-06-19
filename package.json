@@ -11,7 +11,7 @@
     "test:coverage": "vitest --coverage",
     "version": "changeset version",
     "release": "changeset tag",
-    "opex:synth": "turbo run opex:synth --no-color --output-logs new-only --no-update-notifier"
+    "infra:generate": "turbo run infra:generate --no-color --output-logs new-only --no-update-notifier"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
