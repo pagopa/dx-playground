@@ -57,7 +57,7 @@ jobs:
 
       - name: Generate Terraform code
         run: |
-          yarn turbo run infra:generate --dry=json
+          yarn turbo run infra:generate --dry=json | tail -250
           yarn turbo run infra:generate
 
       - name: Verify generated files
