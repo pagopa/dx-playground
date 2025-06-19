@@ -49,7 +49,12 @@ jobs:
           key: ${{ runner.os }}-generated-tf-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-generated-tf-
-        
+
+      - name: Check for existing generated Terraform files
+        id: check-generated-tf
+        run: |
+          find infra/ -name "*.tf.json" -type f
+
       - name: Generate Terraform code
         run: yarn turbo run infra:generate
 
