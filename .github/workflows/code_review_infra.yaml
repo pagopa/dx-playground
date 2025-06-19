@@ -132,14 +132,11 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         name: Checkout
 
-      - name: Node Setup
-        uses: pagopa/dx/.github/actions/node-setup@main
-
-      - name: Install dependencies
-        run: yarn install --immutable
-
-      - name: Generate Terraform code
-        run: yarn turbo run infra:generate
+      - name: Download generated terraform files
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-files
+          path: infra/
 
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
