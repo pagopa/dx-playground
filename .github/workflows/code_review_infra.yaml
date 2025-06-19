@@ -56,7 +56,9 @@ jobs:
           find infra/ -name "*.tf.json" -type f
 
       - name: Generate Terraform code
-        run: yarn turbo run infra:generate
+        run: |
+          yarn turbo run infra:generate --dry=json
+          yarn turbo run infra:generate
 
       - name: Verify generated files
         run: |
