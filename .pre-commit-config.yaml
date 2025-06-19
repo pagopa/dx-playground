@@ -16,11 +16,3 @@ repos:
         exclude: ^.*/(_modules|modules|\.terraform)(/.*)?$ # directories to exclude
         files: infra/(github_runner|identity/dev|repository|resources/dev) # directories with terraform files to validate
 
-  - repo: local
-    hooks:
-      - id: opex-synth
-        name: Generate OPEX Terraform
-        entry: yarn run opex:synth
-        language: system
-        pass_filenames: false
-
