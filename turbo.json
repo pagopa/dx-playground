@@ -77,7 +77,7 @@
         "**/openapi/**/*.yaml"
       ],
       "outputs": [
-        "$TURBO_ROOT$/infra/**/opex/**/cdk.tf.json"
+        "$TURBO_ROOT$/infra/**/cdk.tf.json"
       ]
     }
   }
