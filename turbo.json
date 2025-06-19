@@ -67,7 +67,7 @@
         "^build"
       ]
     },
-    "opex:synth": {
+    "infra:generate": {
       "inputs": [
         "src/**/opex.ts",
         "**/openapi*.yaml",

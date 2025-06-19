@@ -19,7 +19,7 @@
     "start:artifact": "func start out/index.js",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "opex:synth": "yarn dlx tsx src/opex.ts"
+    "infra:generate": "yarn dlx tsx src/opex.ts"
   },
   "dependencies": {
     "@azure/functions": "^4.7.2",

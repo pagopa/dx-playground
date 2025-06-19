@@ -11,6 +11,10 @@ on:
     paths:
       # Trigger the workflow when resources are modified
       - "infra/resources/**"
+      # Trigger the workflow when source files that generate terraform are modified
+      - "**/opex.ts"
+      - "**/openapi*.yaml" 
+      - "**/openapi/**/*.yaml"
       # Trigger the workflow when the involved workflows are modified
       - ".github/workflows/code_review_infra.yaml"
 
@@ -64,8 +68,40 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
 
-  code_review:
+  generate_terraform:
     needs: detect_environments
+    if: needs.detect_environments.outputs.environments != '[]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Generate Terraform code
+        run: yarn turbo run infra:generate
+
+      - name: Verify generated files
+        run: |
+          echo "Generated Terraform files:"
+          find infra/ -name "*.tf.json" -type f || echo "No .tf.json files found"
+
+      # Since the reusable workflow will checkout its own copy of the code,
+      # the generated files need to be available. Options:
+      # 1. Commit generated files to a temporary branch (not recommended for PR workflows)
+      # 2. Modify the external reusable workflow to include generation
+      # 3. Replace the reusable workflow with inline terraform plan logic
+      # 4. Use a pre-commit hook or bot to ensure files are always generated
+
+  code_review:
+    needs: [detect_environments, generate_terraform] 
     if: needs.detect_environments.outputs.environments != '[]'
     strategy:
       matrix:
