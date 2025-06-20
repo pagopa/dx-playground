@@ -42,7 +42,7 @@ jobs:
         with:
           node-version-file: ".node-version"
           cache: yarn
-          cache-dependency-path: "./yarn.lock"
+          cache-dependency-path: "yarn.lock"
   
       - name: Setup turbo cache
         if: ${{ env.TURBO_CACHE_DIR != '' }}
