@@ -78,7 +78,7 @@ jobs:
           git fetch origin main 2>/dev/null || true
 
           # Get affected workspaces using turbo with explicit base comparison
-          turbo_output=$(yarn turbo ls --affected" 2>/dev/null || echo "")
+          turbo_output=$(yarn turbo ls --affected 2>/dev/null || echo "")
 
           echo "Affected output:"
           echo "$turbo_output"
