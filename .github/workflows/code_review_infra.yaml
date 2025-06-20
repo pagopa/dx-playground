@@ -63,7 +63,7 @@ jobs:
       - name: Verify generated files
         run: |
           echo "Generated Terraform files:"
-          git ls-files --others --exclude-standard | grep '\.tf\.json$' || echo "No .tf.json files found"
+          git ls-files --others '*.tf.json' || echo "No .tf.json files found"
 
       - name: Upload generated terraform files
         uses: actions/upload-artifact@v4
