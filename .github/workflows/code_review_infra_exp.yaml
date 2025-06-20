@@ -77,24 +77,45 @@ jobs:
           # Fetch main branch for comparison
           git fetch origin main 2>/dev/null || true
 
-          # Get affected workspaces using turbo with explicit base comparison
-          turbo_output=$(yarn turbo ls --affected 2>/dev/null || echo "")
+          # Get changed files using git diff
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # For pull requests, compare with the base branch
+            changed_files=$(git diff --name-only origin/${{ github.base_ref }}..HEAD 2>/dev/null || echo "")
+          else
+            # For workflow_dispatch or other events, compare with main
+            changed_files=$(git diff --name-only origin/main..HEAD 2>/dev/null || echo "")
+          fi
 
-          echo "Affected output:"
-          echo "$turbo_output"
+          echo "Changed files:"
+          echo "$changed_files"
           
-          # Extract workspace paths from turbo output (format: "  workspace-name path/to/workspace")
-          affected_workspace_paths=$(echo "$turbo_output" | grep -E "^  [a-zA-Z0-9_-]+ " | awk '{print $2}' || echo "")
-          
-          if [ -z "$affected_workspace_paths" ]; then
-            echo "No affected workspaces found"
+          if [ -z "$changed_files" ]; then
+            echo "No changed files found"
             environments="[]"
           else
-            echo "Affected workspace paths:"
-            echo "$affected_workspace_paths"
+            # Extract unique directory paths from changed files
+            changed_dirs=$(echo "$changed_files" | xargs -I {} dirname {} | sort -u)
+            
+            echo "Changed directories:"
+            echo "$changed_dirs"
+            
+            # Find workspace directories by looking for package.json files in parent directories
+            workspace_dirs=$(echo "$changed_dirs" | while read dir; do
+              current_dir="$dir"
+              while [ "$current_dir" != "." ] && [ "$current_dir" != "/" ]; do
+                if [ -f "$current_dir/package.json" ]; then
+                  echo "$current_dir"
+                  break
+                fi
+                current_dir=$(dirname "$current_dir")
+              done
+            done | sort -u)
+            
+            echo "Affected workspace directories:"
+            echo "$workspace_dirs"
             
             # Find all directories within affected workspaces that contain *.tf or *.tf.json files
-            environments=$(echo "$affected_workspace_paths" | while read workspace_path; do
+            environments=$(echo "$workspace_dirs" | while read workspace_path; do
               if [ -n "$workspace_path" ] && [ -d "$workspace_path" ]; then
                 # Find all directories containing .tf or .tf.json files within this workspace
                 find "$workspace_path" -type f \( -name "*.tf" -o -name "*.tf.json" \) -exec dirname {} \; 2>/dev/null | sort -u
