@@ -1,0 +1,266 @@
+name: Infra Code Review
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    paths:
+      # Trigger the workflow when resources are modified
+      - "infra/resources/**"
+      # Trigger the workflow when source files that generate terraform are modified
+      - "**/opex.ts"
+      - "**/openapi*.yaml" 
+      - "**/openapi/**/*.yaml"
+      # Trigger the workflow when the involved workflows are modified
+      - ".github/workflows/code_review_infra.yaml"
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+jobs:
+  setup_and_detect:
+    runs-on: ubuntu-latest
+    outputs:
+      environments: ${{ steps.detect.outputs.environments }}
+    env:
+      TURBO_CACHE_DIR: .turbo-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup yarn
+        shell: bash
+        run: corepack enable
+  
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version-file: ".node-version"
+          cache: yarn
+          cache-dependency-path: "yarn.lock"
+  
+      - name: Setup turbo cache
+        if: ${{ env.TURBO_CACHE_DIR != '' }}
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: ./${{ env.TURBO_CACHE_DIR }}
+          key: ${{ runner.os }}-turbo-${{ github.job }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-${{ github.job }}-
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Generate Terraform code
+        run: |
+          yarn turbo run infra:generate
+
+      - name: Verify generated files
+        run: |
+          echo "Generated Terraform files:"
+          git ls-files --others '*.tf.json' || echo "No .tf.json files found"
+
+      - name: Upload generated terraform files
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-files
+          path: |
+            **/*.tf.json
+          retention-days: 1
+      
+      - name: Detect environments
+        id: detect
+        run: |
+          # Fetch main branch for comparison
+          git fetch origin main:main 2>/dev/null || git fetch origin main 2>/dev/null || true
+          
+          # Get changed files compared to main branch (same logic for both PR and manual dispatch)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            changed_files=$(git diff --name-only main...HEAD 2>/dev/null || git diff --name-only HEAD^ 2>/dev/null || echo "")
+          else
+            changed_files=$(git diff --name-only main...HEAD 2>/dev/null || gh pr diff ${{ github.event.number }} --name-only 2>/dev/null || echo "")
+          fi
+          
+          if [ -z "$changed_files" ]; then
+            environments="[]"
+          else
+            # Find directories that meet the criteria
+            environments=$(echo "$changed_files" | while read file; do
+              if [ -n "$file" ]; then
+                dir=$(dirname "$file")
+                
+                # Check if the file is a .tf file that was modified
+                if [[ "$file" =~ \.tf$ ]]; then
+                  echo "$dir"
+                # Check if the directory contains cdk.tf.json and has any modified files
+                elif [ -f "$dir/cdk.tf.json" ]; then
+                  echo "$dir"
+                fi
+              fi
+            done | \
+            sort -u | \
+            while read dir; do
+              # Filter out directories that start with underscore or are contained in underscore directories
+              if [[ ! "$(basename "$dir")" =~ ^_ ]] && [[ ! "$dir" =~ /_[^/]*/ ]] && [[ ! "$dir" =~ /\._/ ]]; then
+                echo "$dir"
+              fi
+            done | \
+            sort -u | \
+            jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))')
+          fi
+          
+          echo "environments=$environments" >> $GITHUB_OUTPUT
+          echo "Found environments with changes: $environments"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+  code_review:
+    needs: [setup_and_detect] 
+    if: needs.setup_and_detect.outputs.environments != '[]'
+    strategy:
+      matrix:
+        environment: ${{ fromJson(needs.setup_and_detect.outputs.environments) }}
+      fail-fast: false
+    name: Code Review Infra Plan (${{ matrix.environment }})
+    runs-on: ubuntu-latest
+    environment: infra-dev-ci
+    concurrency:
+      group: ${{ github.workflow }}-${{ matrix.environment }}-infra/resources-ci
+      cancel-in-progress: false
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_USE_OIDC: true
+      ARM_USE_AZUREAD: true
+      ARM_STORAGE_USE_AZUREAD: true
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Set directory
+        id: directory
+        env:
+          ENVIRONMENT: ${{ matrix.environment }}
+        run: |
+          set -euo pipefail
+          if [ -z "$ENVIRONMENT" ]; then
+            echo "Environment must be provided."
+            exit 1
+          else
+            printf "dir=%q" "$ENVIRONMENT" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        name: Checkout
+
+      - name: Download generated terraform files
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-files
+          path: infra/
+
+      - name: Azure Login
+        uses: pagopa/dx/.github/actions/azure-login@main
+
+      - name: Terraform Setup
+        id: set-terraform-version
+        uses: pagopa/dx/.github/actions/terraform-setup@main
+
+      - name: Terraform Init
+        working-directory: ${{ steps.directory.outputs.dir }}
+        run: |
+          terraform init
+
+      - name: Terraform Plan
+        id: plan
+        working-directory: ${{ steps.directory.outputs.dir }}
+        run: |
+          terraform plan -lock-timeout=3000s -no-color -out=plan.out 2>&1 | grep -v "hidden-link:" | tee tf_plan_stdout.txt
+          terraform show -no-color plan.out > full_plan.txt
+
+          # Extracts only the diff section from the Plan by skipping everything before the resource changes,
+          # and filters out non-essential log lines like state refreshes and reads.
+          if [ -s full_plan.txt ]; then
+            sed -n '/^  #/,$p' full_plan.txt | grep -Ev "Refreshing state|state lock|Reading|Read" > filtered_plan.txt || echo "No changes detected." > filtered_plan.txt
+          else
+            echo "No plan output available." > filtered_plan.txt
+          fi
+
+          # The summary with number of resources to be added, changed, or destroyed (will be used in case the plan output is too long)
+          SUMMARY_LINE=$(grep -E "^Plan: [0-9]+ to add" tf_plan_stdout.txt || echo "No changes.")
+
+          echo "$SUMMARY_LINE" > plan_summary.txt
+
+          # If the filtered plan is too long use the summary line, otherwise use the full filtered plan
+          if [ "$(wc -c < filtered_plan.txt)" -gt 60000 ]; then
+            echo "${SUMMARY_LINE}" > plan_output_multiline.txt
+            echo "" >> plan_output_multiline.txt
+            echo "Full plan output was too long and was omitted. Check the workflow logs for full details." >> plan_output_multiline.txt
+          else
+            cat filtered_plan.txt > plan_output_multiline.txt
+          fi
+
+          # Error detection based on tf_plan_stdout.txt content
+          if grep -q "::error::Terraform exited with code" tf_plan_stdout.txt; then
+            echo "failed"
+            exit 1
+          fi
+
+      - uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
+        name: Post Plan on PR
+        id: comment
+        if: always() && github.event_name == 'pull_request'
+        env:
+          OUTPUT_DIR: ${{ steps.directory.outputs.dir }}
+          PLAN_STATUS: ${{ steps.plan.outcome }}
+        with:
+          script: |
+            const fs = require('fs');
+            const outputDir = process.env.OUTPUT_DIR;
+            const output = fs.readFileSync(`${outputDir}/plan_output_multiline.txt`, 'utf8');
+            const status = process.env.PLAN_STATUS;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            })
+            const botComment = comments.find(comment => {
+              return comment.user.type === 'Bot' && comment.body.includes(`Terraform Plan (${outputDir})`)
+            })
+            const commentBody = `#### 📖 Terraform Plan (${outputDir}) - ${status}
+            <details>
+            <summary>Terraform Plan</summary>
+
+            \`\`\`hcl
+            ${output}
+            \`\`\`
+
+            </details>
+            `;
+            if (botComment) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id
+              })
+            }
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: commentBody,
+              issue_number: context.issue.number
+            })
+
+      - name: Check Terraform Plan Result
+        if: always() && steps.plan.outcome != 'success'
+        run: |
+          exit 1
