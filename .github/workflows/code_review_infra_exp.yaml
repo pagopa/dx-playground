@@ -76,16 +76,9 @@ jobs:
         run: |
           # Fetch main branch for comparison
           git fetch origin main 2>/dev/null || true
-          
-          # Set the base for comparison
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE_REF="origin/main"
-          else
-            BASE_REF="HEAD^1"
-          fi
 
           # Get affected workspaces using turbo with explicit base comparison
-          turbo_output=$(yarn turbo ls --affected --filter="[$BASE_REF]" 2>/dev/null || echo "")
+          turbo_output=$(yarn turbo ls --affected" 2>/dev/null || echo "")
 
           echo "Affected output:"
           echo "$turbo_output"
