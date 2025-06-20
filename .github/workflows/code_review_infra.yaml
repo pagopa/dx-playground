@@ -75,32 +75,39 @@ jobs:
       - name: Detect environments
         id: detect
         run: |
-          # Get the list of changed files in the PR
+          # Get changed files compared to main branch (same logic for both PR and manual dispatch)
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            # For manual dispatch, run for all environments
-            environments=$(find infra/resources -type f \( -name "*.tf" -o -name "*.tf.json" \) -exec dirname {} \; | \
-              grep -v '/\._' | \
-              grep -v '/_' | \
-              sed 's|infra/resources/||g' | \
-              sort -u | \
-              jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))')
+            changed_files=$(git diff --name-only origin/main...HEAD || git diff --name-only main...HEAD)
           else
-            # For PRs, only run for environments with changed files
-            changed_files=$(gh pr diff ${{ github.event.number }} --name-only | grep '^infra/resources/' || true)
-            
-            if [ -z "$changed_files" ]; then
-              environments="[]"
-            else
-              # Extract environment directories from changed files
-              environments=$(echo "$changed_files" | \
-                grep -E '\.(tf|tf\.json)$' | \
-                xargs -I {} dirname {} | \
-                grep -v '/\._' | \
-                grep -v '/_' | \
-                sed 's|infra/resources/||g' | \
-                sort -u | \
-                jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))')
-            fi
+            changed_files=$(git diff --name-only origin/main...HEAD || git diff --name-only main...HEAD || gh pr diff ${{ github.event.number }} --name-only)
+          fi
+          
+          if [ -z "$changed_files" ]; then
+            environments="[]"
+          else
+            # Find directories that meet the criteria
+            environments=$(echo "$changed_files" | while read file; do
+              if [ -n "$file" ]; then
+                dir=$(dirname "$file")
+                
+                # Check if the file is a .tf file that was modified
+                if [[ "$file" =~ \.tf$ ]]; then
+                  echo "$dir"
+                # Check if the directory contains cdk.tf.json and has any modified files
+                elif [ -f "$dir/cdk.tf.json" ]; then
+                  echo "$dir"
+                fi
+              fi
+            done | \
+            sort -u | \
+            while read dir; do
+              # Filter out directories that start with underscore or are contained in underscore directories
+              if [[ ! "$(basename "$dir")" =~ ^_ ]] && [[ ! "$dir" =~ /_[^/]*/ ]] && [[ ! "$dir" =~ /\._/ ]]; then
+                echo "$dir"
+              fi
+            done | \
+            sort -u | \
+            jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))')
           fi
           
           echo "environments=$environments" >> $GITHUB_OUTPUT
@@ -138,14 +145,13 @@ jobs:
         id: directory
         env:
           ENVIRONMENT: ${{ matrix.environment }}
-          BASE_PATH: infra/resources
         run: |
           set -euo pipefail
           if [ -z "$ENVIRONMENT" ]; then
             echo "Environment must be provided."
             exit 1
           else
-            printf "dir=%q/%q" "$BASE_PATH" "$ENVIRONMENT" >> "$GITHUB_OUTPUT"
+            printf "dir=%q" "$ENVIRONMENT" >> "$GITHUB_OUTPUT"
           fi
 
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
