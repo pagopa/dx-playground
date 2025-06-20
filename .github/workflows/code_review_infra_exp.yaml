@@ -74,38 +74,34 @@ jobs:
       - name: Detect environments
         id: detect
         run: |
-          # Fetch main branch for comparison
-          git fetch origin main:main 2>/dev/null || git fetch origin main 2>/dev/null || true
+          # Get affected workspaces using turbo
+          turbo_output=$(yarn turbo ls --affected 2>/dev/null || echo "")
           
-          # Get changed files compared to main branch (same logic for both PR and manual dispatch)
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            changed_files=$(git diff --name-only main...HEAD 2>/dev/null || git diff --name-only HEAD^ 2>/dev/null || echo "")
-          else
-            changed_files=$(git diff --name-only main...HEAD 2>/dev/null || gh pr diff ${{ github.event.number }} --name-only 2>/dev/null || echo "")
-          fi
+          # Extract workspace paths from turbo output (format: "  workspace-name path/to/workspace")
+          affected_workspace_paths=$(echo "$turbo_output" | grep -E "^  [a-zA-Z0-9_-]+ " | awk '{print $2}' || echo "")
           
-          if [ -z "$changed_files" ]; then
+          if [ -z "$affected_workspace_paths" ]; then
+            echo "No affected workspaces found"
             environments="[]"
           else
-            # Find directories that meet the criteria
-            environments=$(echo "$changed_files" | while read file; do
-              if [ -n "$file" ]; then
-                dir=$(dirname "$file")
+            echo "Affected workspace paths:"
+            echo "$affected_workspace_paths"
+            
+            # Find all directories within affected workspaces that contain *.tf or *.tf.json files
+            environments=$(echo "$affected_workspace_paths" | while read workspace_path; do
+              if [ -n "$workspace_path" ] && [ -d "$workspace_path" ]; then
+                echo "Scanning workspace at: $workspace_path"
                 
-                # Check if the file is a .tf file that was modified
-                if [[ "$file" =~ \.tf$ ]]; then
-                  echo "$dir"
-                # Check if the directory contains cdk.tf.json and has any modified files
-                elif [ -f "$dir/cdk.tf.json" ]; then
-                  echo "$dir"
-                fi
+                # Find all directories containing .tf or .tf.json files within this workspace
+                find "$workspace_path" -type f \( -name "*.tf" -o -name "*.tf.json" \) -exec dirname {} \; 2>/dev/null | sort -u
               fi
             done | \
             sort -u | \
             while read dir; do
               # Filter out directories that start with underscore or are contained in underscore directories
-              if [[ ! "$(basename "$dir")" =~ ^_ ]] && [[ ! "$dir" =~ /_[^/]*/ ]] && [[ ! "$dir" =~ /\._/ ]]; then
-                echo "$dir"
+              if [ -n "$dir" ] && [[ ! "$(basename "$dir")" =~ ^_ ]] && [[ ! "$dir" =~ /_[^/]*/ ]] && [[ ! "$dir" =~ /\._/ ]]; then
+                # Convert to relative path from repo root
+                echo "${dir#./}"
               fi
             done | \
             sort -u | \
@@ -113,7 +109,7 @@ jobs:
           fi
           
           echo "environments=$environments" >> $GITHUB_OUTPUT
-          echo "Found environments with changes: $environments"
+          echo "Found environments: $environments"
         env:
           GH_TOKEN: ${{ github.token }}
 
