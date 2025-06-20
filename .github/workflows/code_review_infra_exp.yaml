@@ -163,7 +163,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: terraform-files
-          path: infra/
 
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
