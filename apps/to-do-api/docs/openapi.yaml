@@ -8,7 +8,7 @@ security:
 
 paths:
 
-  /info-mix:
+  /info:
     get:
       operationId: info
       responses:
