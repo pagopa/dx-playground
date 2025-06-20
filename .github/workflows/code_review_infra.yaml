@@ -75,11 +75,14 @@ jobs:
       - name: Detect environments
         id: detect
         run: |
+          # Fetch main branch for comparison
+          git fetch origin main:main 2>/dev/null || git fetch origin main 2>/dev/null || true
+          
           # Get changed files compared to main branch (same logic for both PR and manual dispatch)
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            changed_files=$(git diff --name-only origin/main...HEAD || git diff --name-only main...HEAD)
+            changed_files=$(git diff --name-only main...HEAD 2>/dev/null || git diff --name-only HEAD^ 2>/dev/null || echo "")
           else
-            changed_files=$(git diff --name-only origin/main...HEAD || git diff --name-only main...HEAD || gh pr diff ${{ github.event.number }} --name-only)
+            changed_files=$(git diff --name-only main...HEAD 2>/dev/null || gh pr diff ${{ github.event.number }} --name-only 2>/dev/null || echo "")
           fi
           
           if [ -z "$changed_files" ]; then
