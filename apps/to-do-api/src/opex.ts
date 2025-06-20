@@ -2,9 +2,7 @@ import { App, AzurermBackend } from "cdktf";
 import { MonitoringStack } from "cdktf-monitoring-stack";
 import { backendConfig, opexConfig } from "opex-common";
 
-const app = new App({
-  outdir: `${process.cwd()}/../../infra/resources/opex`,
-});
+const app = new App();
 
 // Use the following lines if you need to resolve paths dynamically
 //

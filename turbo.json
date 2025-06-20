@@ -67,15 +67,17 @@
         "^build"
       ]
     },
-    "opex:synth": {
+    "infra:generate": {
+      "dependsOn": [
+        "^build"
+      ],      
       "inputs": [
         "src/**/opex.ts",
-        "infra/resources/opex/**",
         "**/openapi*.yaml",
         "**/openapi/**/*.yaml"
       ],
-      "env": [
-        "ARM_SUBSCRIPTION_ID"
+      "outputs": [
+        "**/cdk.tf.json"
       ]
     }
   }
