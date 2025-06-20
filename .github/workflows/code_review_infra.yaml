@@ -63,13 +63,14 @@ jobs:
       - name: Verify generated files
         run: |
           echo "Generated Terraform files:"
-          find infra/ -name "*.tf.json" -type f || echo "No .tf.json files found"
+          git ls-files --others --exclude-standard | grep '\.tf\.json$' || echo "No .tf.json files found"
 
       - name: Upload generated terraform files
         uses: actions/upload-artifact@v4
         with:
           name: terraform-files
-          path: infra/
+          path: |
+            **/*.tf.json
           retention-days: 1
       
       - name: Detect environments
