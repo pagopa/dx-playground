@@ -74,8 +74,14 @@ jobs:
       - name: Detect environments
         id: detect
         run: |
-          # Get affected workspaces using turbo
-          turbo_output=$(yarn turbo ls --affected 2>/dev/null || echo "")
+          # Fetch main branch for comparison
+          git fetch origin main:main 2>/dev/null || git fetch origin main 2>/dev/null || true
+          
+          # Get affected workspaces using turbo with explicit base comparison
+          turbo_output=$(yarn turbo ls --affected" 2>/dev/null || echo "")
+
+          echo "Affected output:"
+          echo "$turbo_output"
           
           # Extract workspace paths from turbo output (format: "  workspace-name path/to/workspace")
           affected_workspace_paths=$(echo "$turbo_output" | grep -E "^  [a-zA-Z0-9_-]+ " | awk '{print $2}' || echo "")
@@ -90,8 +96,6 @@ jobs:
             # Find all directories within affected workspaces that contain *.tf or *.tf.json files
             environments=$(echo "$affected_workspace_paths" | while read workspace_path; do
               if [ -n "$workspace_path" ] && [ -d "$workspace_path" ]; then
-                echo "Scanning workspace at: $workspace_path"
-                
                 # Find all directories containing .tf or .tf.json files within this workspace
                 find "$workspace_path" -type f \( -name "*.tf" -o -name "*.tf.json" \) -exec dirname {} \; 2>/dev/null | sort -u
               fi
