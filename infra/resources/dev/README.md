@@ -1,5 +1,59 @@
 # DX Playground - Dev Environment
 
+## Terraform Graph
+
+![alt text](./graph.png)
+
+## Inference Graph
+
+```mermaid
+graph RL
+subgraph "Key Vault and Resources"
+  direction RL
+  "Key Vault"["Key Vault"]
+  "Common RG"["Resource Group - Common"]
+  "Key Vault Secret - APIM API Key"["Key Vault Secret - APIM API Key"]
+  "Key Vault Secret - To-Do API Key"["Key Vault Secret - To-Do API Key"]
+  "Key Vault Secret - To-Do API Key Func V3"["Key Vault Secret - To-Do API Key Func V3"]
+end
+
+subgraph "Virtual Network and Subnets"
+  direction RL
+  "Test VNET"["Virtual Network - Test"]
+  "Subnet - PEP"["Subnet - PEP"]
+  "Subnet - APIM"["Subnet - APIM"]
+end
+
+subgraph "API Management"
+  direction RL
+  "API Management Service"["API Management Service"]
+  "Key Vault Certificate"["Key Vault Certificate"]
+end
+
+subgraph "API Management Named Values"
+  direction RL
+  "API Management Named Value - To-Do API Key"["Named Value - To-Do API Key"]
+  "API Management Named Value - To-Do API Key V3"["Named Value - To-Do API Key V3"]
+end
+
+subgraph "APIM Private DNS Zones"
+  direction RL
+  "Private DNS Zone - *.azure-api.net"["Private DNS Zone - APIM azure-api.net"]
+end
+
+subgraph "APIM Backend Configuration"
+  direction RL
+  "To-Do Backend V2"["To-Do API Backend"]
+end
+
+subgraph "To-Do API V3"
+"To-DO-Backend URL"end
+```
+
+## Ollama Graph
+
+
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 

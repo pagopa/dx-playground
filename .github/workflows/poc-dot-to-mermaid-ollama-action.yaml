@@ -40,7 +40,7 @@ jobs:
 
           Here is the original DOT code:
           \`\`\`dot
-          $(cat ./graph.dot)
+          $(cat ./infra/resources/dev/graph.dot)
           \`\`\`
           EOF
 
