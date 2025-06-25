@@ -33,7 +33,7 @@ jobs:
           \`\`\`
           1. **Output only valid Mermaid syntax** (no prose).
           2. **Orientation**: Use \`graph LR\` (left-to-right).
-          3. **Subgraphs**: Group nodes into logical clusters with meaningful titles. Each subgraph block must be in the form:
+          3. **Subgraphs**: Group nodes into logical clusters with meaningful titles in camel case. Each subgraph block must be in the form:
             subgraph Group Title
               NodeA[“Label A”]
               NodeB[“Label B”]
@@ -41,6 +41,7 @@ jobs:
           4. **Naming**:  
             - Strip Terraform resource prefixes (\`azurerm_\`, \`data.\`) and use title-case labels (e.g. \`Key Vault Certificate\`, \`API Management Service\`).  
             - For DNS entries, include both zone and record type (\`A Record - apim.azure-api.net\`) if present.
+            - Wrap labels in double quotes NodeA[“Label A”].
           5. **Connections**:  
             - Draw arrows only once per relationship.  
             - Label edges only if it adds clarity (otherwise omit labels).
