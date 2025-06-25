@@ -22,48 +22,24 @@ jobs:
       - name: Generate Prompt
         run: |
           cat > prompt.txt <<EOF
-          You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams. Follow these rules exactly:
+          You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
 
-          1. **Global Layout**  
-            - Always start with `graph RL`.
+          —RULES—
+          1. Output **only** valid Mermaid code, nothing else.
+          2. Start with `graph RL`.
+          3. Use safe alphanumeric node IDs (CamelCase or snake_case) and assign human-readable labels in `["…"]`.
+          4. Automatically group nodes with shared prefixes into `subgraph` blocks. Each block must be:
+            subgraph Group Title
+            direction RL
+            NodeA[“Label A”]
+            NodeB[“Label B”]
+            end
+          5. After subgraphs, list every edge once:
+            NodeA –> NodeB
+          6. Strip technical prefixes (`azurerm_`, `data.`) and convert to Title Case for labels.
+          7. Exclude isolated nodes or merge single-node groups into their parent.
 
-          2. **Code Only**  
-            - Output **only** valid Mermaid code (no explanations or extra text).
-
-          3. **Subgraph Blocks**  
-            - For each logical group, emit:
-                subgraph Group Title
-                direction RL
-                NodeID1[“Label 1”]
-                NodeID2[“Label 2”]
-                …
-                end
-          - Leave a blank line before and after each `subgraph` block.
-
-          4. **Safe Node IDs**  
-          - **Do not** use raw quoted strings as node IDs.  
-          - Create a simple alphanumeric ID in CamelCase or snake_case (e.g. `KeyVault`, `APIMService`, `DNSZone_apim`) and then assign the human-readable label in `["…"]`.
-
-          5. **Automatic Grouping**  
-          - Detect clusters by shared prefixes or patterns.  
-          - Title each subgraph in Title Case (e.g. “Key Vault”, “API Management”, “Networking”, etc.).
-
-          6. **Renaming Labels**  
-          - Strip technical prefixes (`azurerm_`, `data.`) and convert to Title Case.  
-          - For DNS entries, include record type and zone (e.g. `A Record – apim.azure-api.net`).
-
-          7. **Edges**  
-          - After all subgraphs, list each connection once, with two spaces indent:
-            ```
-            NodeID1 --> NodeID2
-            ```
-          - Do not label edges unless strictly necessary for clarity.
-
-          8. **Cleanup**  
-          - Exclude isolated nodes (no edges).  
-          - Merge any single-node subgraph into its parent group if it exists.
-
-          Finally, append the DOT input verbatim:
+          —DOT INPUT START—
           \`\`\`dot
           $(cat ./infra/resources/dev/graph.dot)
           \`\`\`
@@ -71,23 +47,23 @@ jobs:
 
           cat prompt.txt
 
-      - name: Verify Models permission via a ping
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          STATUS=$(
-            curl -o /dev/null -s -w "%{http_code}" \
-              -X POST \
-              -H "Authorization: Bearer $GITHUB_TOKEN" \
-              -H "Content-Type: application/json" \
-              -d '{"model":"openai/gpt-4o","messages":[{"role":"user","content":"Ping"}]}' \
-              https://models.github.ai/inference/chat/completions
-          )
-          echo "Inference ping returned HTTP $STATUS"
-          if [ "$STATUS" -ne 200 ]; then
-            echo "🚨 models:read permission is missing or AI is not enabled"
-            exit 1
-          fi
+      # - name: Verify Models permission via a ping
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     STATUS=$(
+      #       curl -o /dev/null -s -w "%{http_code}" \
+      #         -X POST \
+      #         -H "Authorization: Bearer $GITHUB_TOKEN" \
+      #         -H "Content-Type: application/json" \
+      #         -d '{"model":"openai/gpt-4o","messages":[{"role":"user","content":"Ping"}]}' \
+      #         https://models.github.ai/inference/chat/completions
+      #     )
+      #     echo "Inference ping returned HTTP $STATUS"
+      #     if [ "$STATUS" -ne 200 ]; then
+      #       echo "🚨 models:read permission is missing or AI is not enabled"
+      #       exit 1
+      #     fi
 
       - name: Run AI Inference with Prompt File
         id: inference
