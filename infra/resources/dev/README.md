@@ -104,127 +104,92 @@ graph LR
 ## Ollama Graph
 
 ```mermaid
-graph LR;
-    subgraph Module 1 {
-        A[module_1] --> B(Azurerm Function App)
-        B --> D(Data Storage)
-        C(Azurerm Role Assignment) --> D
-        E(Data Storage Network Rules)
-        D --> F(Function App Configuration)
-        G(Api Management Named Value)
-        D --> H(Api Management Backend)
-    }
-    
-    subgraph Module 2 {
-        I(to_do_api) --> J(Azure API Management)
-        J --> K(Azurerm Function App)
-        L(Azurerm Role Assignment) --> K
-        M(Data Storage Network Rules)
-        N(Api Management Named Value)
-        N --> O(Api Management Backend)
-    }
-    
-    subgraph Module 3 {
-        P(to_do_api_application_insights) --> Q(Azure Application Insights)
-        Q --> R(Azurerm Log Analytics Workspace)
-        S(Azurerm Key Vault Secret) --> R
-        T(Azure Function App Configuration)
-    }
-    
-    subgraph Module 4 {
-        U(to_do_api_v3) --> V(Azure API Management)
-        V --> W(Azurerm Function App)
-        X(Azurerm Role Assignment) --> W
-        Y(Data Storage Network Rules)
-        Z(Api Management Named Value)
-        Z --> A(Api Management Backend)
-    }
-    
-    subgraph Module 5 {
-        T --> B
-        U --> B
-        V --> B
-        X --> B
-        Y --> B
-        Z --> B
-        F --> B
-        G --> H
-    }
-    
-    style A fill:#f9f,stroke:#000,stroke-width:2;
-    style C fill:#f9f,stroke:#000,stroke-width:2;
-    style I fill:#f9f,stroke:#000,stroke-width:2;
-    style S fill:#f9f,stroke:#000,stroke-width:2;
-    
-    style B filled:#f1f1f1,
-       shape=record,
-       width=6;
-    style D filled:#f1f1f1,
-       shape=rectangle,
-       width=8;
-    style E filled:#f1f1f1,
-       shape=rectangle,
-       width=5;
-    style F filled:#f1f1f1,
-       shape=record,
-       width=6;
-    style G filled:#f1f1f1,
-       shape=record,
-       width=7;
-    style H filled:#f1f1f1,
-       shape=rectangle,
-       width=8;
-    style J filled:#f1f1f1,
-       shape=record,
-       width=6;
-    style K filled:#f1f1f1,
-       shape=rectangle,
-       width=7;
-    style L filled:#f1f1f1,
-       shape=record,
-       width=6;
-    style M filled:#f1f1f1,
-       shape=rectangle,
-       width=5;
-    style N filled:#f1f1f1,
-       shape=record,
-       width=7;
-    style O filled:#f1f1f1,
-       shape=rectangle,
-       width=8;
-    style P filled:#f1f1f1,
-       shape=record,
-       width=6;
-    style Q filled:#f1f1f1,
-       shape=record,
-       width=7;
-    style R filled:#f1f1f1,
-       shape=rectangle,
-       width=8;
-    style S filled:#f1f1f1,
-       shape=record,
-       width=6;
-    style T filled:#f1f1f1,
-       shape=record,
-       width=7;
-    style U filled:#f1f1f1,
-       shape=record,
-       width=6;
-    style V filled:#f1f1f1,
-       shape=record,
-       width=7;
-    style W filled:#f1f1f1,
-       shape=rectangle,
-       width=8;
-    style X filled:#f1f1f1,
-       shape=record,
-       width=6;
-    style Y filled:#f1f1f1,
-       shape=rectangle,
-       width=5;
-    style Z filled:#f1f1f1,
-       shape=record,
-       width=7;
+graph LR
+    azurerm_function_app[Function App]
+    azurerm_linux_function_app_slot[Function App Slot]
+    module.function_app.azurerm_linux_function_app_slot.this[Function App Slot]
+    azurerm_api_management_api[API Management API]
+    azurerm_api_management_api_policy[API Policy]
+    azurerm_api_management_backend[Backend]
+    azurerm_key_vault[Key Vault]
+    data.azurerm_subscription.current[Subscription]
+    data.azurerm_resource_group.test_rg[Resource Group]
+
+    azurerm_function_app -->|uses backend|> azurerm_api_management_backend
+    azurerm_function_app -->|uses API|> azurerm_api_management_api
+    azurerm_api_management_api -->|policy|> azurerm_api_management_api_policy
+    azurerm_api_management_api -->|policy|> module.to_do_api_v3.azurerm_api_management_api_policy
+    azurerm_api_management_backend -->|backend|> module.to_do_api_v3.azurerm_api_management_backend
+    azurerm_key_vault -->|certificates|> data.azurerm_subscription.current
+    azurerm_key_vault -->|keys|> data.azurerm_subscription.current
+    azurerm_key_vault -->|secrets|> data.azurerm_subscription.current
+
+    subgraph API Management
+        azurerm_api_management_named_value[API Key]
+        azurerm_api_management_api_policy[Policy]
+        module.to_do_api.v3.azurerm_api_management_api_policy[Policy]
+        module.to_do_api_v3.azurerm_api_management_backend[Backend]
+        azurerm_api_management_named_value -->|to-do API Key|> azurerm_function_app
+    end
+
+    subgraph Azure Functions
+        azurerm_function_v3_api_role.module.apim.azurerm_role_assignment[Role Assignment]
+        azurerm_function_v3_api_role.module.cosmos.azurerm_cosmosdb_sql_role_assignment[Role Assignment]
+        azurerm_function_v3_api_role.module.event_hub.azurerm_role_assignment[Role Assignment]
+        azurerm_function_v3_api_role.module.key_vault.azurerm_key_vault_access_policy[Access Policy]
+        azurerm_function_v3_api_role.module.storage_account.azurerm_role_assignment[Role Assignment]
+
+    subgraph Service Bus
+        azurerm_service_bus_queue[Queue]
+        azurerm_service_bus_subscription[Subscription]
+        azurerm_service_bus_topic[Topic]
+        azurerm_service_bus_named_value[Named Value]
+        azurerm_api_management_api -->|queues|> azurerm_service_bus_queue
+    end
+
+    subgraph Cosmos DB
+        module.function_v3_api_role.module.cosmos.azurerm_cosmosdb_sql_role_assignment[Role Assignment]
+
+    subgraph Event Hub
+        module.function_v3_api_role.module.event_hub.azurerm_role_assignment[Role Assignment]
+    end
+
+    subgraph Log Analytics
+        azurerm_application_insights.azurerm_log_analytics_workspace[Workspace]
+        data.azurerm_resource_group.test_rg -->|uses workspace|> azurerm_application_insights.azurerm_log_analytics_workspace.main
+        module.to_do_api_application_insights.azurerm_key_vault_secret.ai_connection_string -->|connection string|> azurerm_application_insights.azurerm_log_analytics_workspace.main
+    end
+
+    subgraph Key Vault
+        data.azurerm_subscription.current[Subscription]
+        azurerm_function_app -->|uses backend|> module.to_do_api.v3.azurerm_api_management_backend
+        azurerm_key_vault -->|certificates|> data.azurerm_subscription.current
+        azurerm_key_vault -->|keys|> data.azurerm_subscription.current
+        azurerm_key_vault -->|secrets|> data.azurerm_subscription.current
+    end
+
+    subgraph API Management Named Values
+        azurerm_api_management_named_value.to_do_api_key[API Key]
+        azurerm_api_management_named_value.to_do_api_key_v3[API Key]
+    end
+
+    subgraph Terraform Resources
+        azurerm_function_app Slot[Function App Slot]
+        azurerm_api_management_api Policy[Policy]
+        azurerm_api_management_backend Backend[Backend]
+        azurerm_key_vault Access Policy[Access Policy]
+        data.azurerm_resource_group.Test RG[Resource Group]
+
+    subgraph Azure Functions V3
+        module.function_v3_api_role.module.apim.azurerm_role_assignment.This [Role Assignment]
+        module.function_v3_api_role.module.cosmos.azurerm_cosmosdb_sql_role_assignment.This [Role Assignment]
+        module.function_v3_api_role.module.event_hub.azurerm_role_assignment.this[Role Assignment]
+    end
+
+    subgraph Azure Functions v3
+        azurerm_function_app -->|uses backend|> azurerm_api_management_backend
+        azurerm_function_app -->|uses API|> azurerm_api_management_api
+        module.function_v3_api_role.module.apim.azurerm_role_assignment.This -->|policy|> azurerm_function_app
 ```
 
 <!-- BEGIN_TF_DOCS -->
