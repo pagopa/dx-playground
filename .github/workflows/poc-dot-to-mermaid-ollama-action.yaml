@@ -22,8 +22,7 @@ jobs:
       - name: Call AI model
         run: |
           ollama run llama3.2 '
-          Convert Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
-          Here is the DOT code to convert:
+          Convert this DOT diagrams into a Mermaid diagrams:
           \`\`\`dot
           $(cat ./infra/resources/dev/graph.dot)
           \`\`\`
