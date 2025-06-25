@@ -1,6 +1,7 @@
 name: Convert dot to Mermaid with Ollama
 
 # Ref. https://github.com/ai-action/setup-ollama
+# Ref. https://github.com/ollama/ollama?tab=readme-ov-file#model-library
 
 on:
   workflow_dispatch:
@@ -44,8 +45,8 @@ jobs:
           EOF
 
           cat prompt.txt
-          
-          cat prompt.txt | ollama run llama3.2 > mermaid_results.txt
+
+          cat prompt.txt | ollama run codellama > mermaid_results.txt
 
           cat mermaid_results.txt
 
