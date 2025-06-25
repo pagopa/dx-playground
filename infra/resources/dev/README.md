@@ -104,92 +104,58 @@ graph LR
 ## Ollama Graph
 
 ```mermaid
+ ```mermaid
 graph LR
-    azurerm_function_app[Function App]
-    azurerm_linux_function_app_slot[Function App Slot]
-    module.function_app.azurerm_linux_function_app_slot.this[Function App Slot]
-    azurerm_api_management_api[API Management API]
-    azurerm_api_management_api_policy[API Policy]
-    azurerm_api_management_backend[Backend]
-    azurerm_key_vault[Key Vault]
-    data.azurerm_subscription.current[Subscription]
-    data.azurerm_resource_group.test_rg[Resource Group]
 
-    azurerm_function_app -->|uses backend|> azurerm_api_management_backend
-    azurerm_function_app -->|uses API|> azurerm_api_management_api
-    azurerm_api_management_api -->|policy|> azurerm_api_management_api_policy
-    azurerm_api_management_api -->|policy|> module.to_do_api_v3.azurerm_api_management_api_policy
-    azurerm_api_management_backend -->|backend|> module.to_do_api_v3.azurerm_api_management_backend
-    azurerm_key_vault -->|certificates|> data.azurerm_subscription.current
-    azurerm_key_vault -->|keys|> data.azurerm_subscription.current
-    azurerm_key_vault -->|secrets|> data.azurerm_subscription.current
+subgraph API Management Services
+    To Do API[To Do API]
+    To Do API v3[To Do API v3]
+end
 
-    subgraph API Management
-        azurerm_api_management_named_value[API Key]
-        azurerm_api_management_api_policy[Policy]
-        module.to_do_api.v3.azurerm_api_management_api_policy[Policy]
-        module.to_do_api_v3.azurerm_api_management_backend[Backend]
-        azurerm_api_management_named_value -->|to-do API Key|> azurerm_function_app
-    end
+subgraph Key Vault Secrets
+    Certificate_KeyVault[Key Vault Certificate]
+    Secret_KeyVault[Secret Key Vault]
+end
 
-    subgraph Azure Functions
-        azurerm_function_v3_api_role.module.apim.azurerm_role_assignment[Role Assignment]
-        azurerm_function_v3_api_role.module.cosmos.azurerm_cosmosdb_sql_role_assignment[Role Assignment]
-        azurerm_function_v3_api_role.module.event_hub.azurerm_role_assignment[Role Assignment]
-        azurerm_function_v3_api_role.module.key_vault.azurerm_key_vault_access_policy[Access Policy]
-        azurerm_function_v3_api_role.module.storage_account.azurerm_role_assignment[Role Assignment]
+subgraph Function Apps
+    Function App[Function App]
+    Azure_Function_v3[Azure Function v3]
+end
 
-    subgraph Service Bus
-        azurerm_service_bus_queue[Queue]
-        azurerm_service_bus_subscription[Subscription]
-        azurerm_service_bus_topic[Topic]
-        azurerm_service_bus_named_value[Named Value]
-        azurerm_api_management_api -->|queues|> azurerm_service_bus_queue
-    end
+subgraph Other Resources
+    Service Bus[Service Bus]
+    Redis Cache[Redis Cache]
+    Storage Account[Storage Account]
+    Application Insights[Application Insights]
+    Log Analytics Workspace[Log Analytics Workspace]
+end
 
-    subgraph Cosmos DB
-        module.function_v3_api_role.module.cosmos.azurerm_cosmosdb_sql_role_assignment[Role Assignment]
+To Do API --> Certificate_KeyVault
+To Do API v3 --> Certificate_KeyVault
 
-    subgraph Event Hub
-        module.function_v3_api_role.module.event_hub.azurerm_role_assignment[Role Assignment]
-    end
+To Do API --> Service Bus
+To Do API v3 --> Service Bus
 
-    subgraph Log Analytics
-        azurerm_application_insights.azurerm_log_analytics_workspace[Workspace]
-        data.azurerm_resource_group.test_rg -->|uses workspace|> azurerm_application_insights.azurerm_log_analytics_workspace.main
-        module.to_do_api_application_insights.azurerm_key_vault_secret.ai_connection_string -->|connection string|> azurerm_application_insights.azurerm_log_analytics_workspace.main
-    end
+To Do API --> Redis Cache
+To Do API v3 --> Redis Cache
 
-    subgraph Key Vault
-        data.azurerm_subscription.current[Subscription]
-        azurerm_function_app -->|uses backend|> module.to_do_api.v3.azurerm_api_management_backend
-        azurerm_key_vault -->|certificates|> data.azurerm_subscription.current
-        azurerm_key_vault -->|keys|> data.azurerm_subscription.current
-        azurerm_key_vault -->|secrets|> data.azurerm_subscription.current
-    end
+To Do API --> Storage Account
+To Do API v3 --> Storage Account
 
-    subgraph API Management Named Values
-        azurerm_api_management_named_value.to_do_api_key[API Key]
-        azurerm_api_management_named_value.to_do_api_key_v3[API Key]
-    end
+Function App --> Certificate_KeyVault
+Azure_Function_v3 --> Certificate_KeyVault
 
-    subgraph Terraform Resources
-        azurerm_function_app Slot[Function App Slot]
-        azurerm_api_management_api Policy[Policy]
-        azurerm_api_management_backend Backend[Backend]
-        azurerm_key_vault Access Policy[Access Policy]
-        data.azurerm_resource_group.Test RG[Resource Group]
+Function App --> Service Bus
+Azure_Function_v3 --> Service Bus
 
-    subgraph Azure Functions V3
-        module.function_v3_api_role.module.apim.azurerm_role_assignment.This [Role Assignment]
-        module.function_v3_api_role.module.cosmos.azurerm_cosmosdb_sql_role_assignment.This [Role Assignment]
-        module.function_v3_api_role.module.event_hub.azurerm_role_assignment.this[Role Assignment]
-    end
+Function App --> Redis Cache
+Azure_Function_v3 --> Redis Cache
 
-    subgraph Azure Functions v3
-        azurerm_function_app -->|uses backend|> azurerm_api_management_backend
-        azurerm_function_app -->|uses API|> azurerm_api_management_api
-        module.function_v3_api_role.module.apim.azurerm_role_assignment.This -->|policy|> azurerm_function_app
+Function App --> Storage Account
+Azure_Function_v3 --> Storage Account
+
+Application Insights --> Certificate_KeyVault
+Log Analytics Workspace --> Application Insights
 ```
 
 <!-- BEGIN_TF_DOCS -->
