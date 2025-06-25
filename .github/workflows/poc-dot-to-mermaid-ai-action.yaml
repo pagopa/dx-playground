@@ -47,6 +47,16 @@ jobs:
 
           cat prompt.txt
 
+      - name: Test Models Permission
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          HTTP_STATUS=$(curl -o /dev/null -s -w "%{http_code}" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            https://models.github.ai/inference/models)
+          echo "Status code: $HTTP_STATUS"
+          # 200 = OK (You have permission models: read), 403 = forbidden
+
       - name: Run AI Inference with Prompt File
         id: inference
         uses: actions/ai-inference@v1.1.0
