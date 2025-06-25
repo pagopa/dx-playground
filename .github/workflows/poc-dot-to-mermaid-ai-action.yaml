@@ -30,7 +30,7 @@ jobs:
           …the entire diagram…
           \`\`\`
           1. **Output only valid Mermaid syntax** (no prose).
-          2. **Orientation**: Use \`graph LR\` (left-to-right) or \`graph TD\` (top-to-bottom) as appropriate to maximize readability—prefer \`graph TD\` for long chains.
+          2. **Orientation**: Use \`graph LR\` (left-to-right).
           3. **Subgraphs**: Group nodes into logical clusters with meaningful titles. Each subgraph block must be in the form:
             subgraph Group Title
               NodeA[“Label A”]
