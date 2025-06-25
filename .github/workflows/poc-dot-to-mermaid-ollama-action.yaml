@@ -52,7 +52,7 @@ jobs:
 
           cat prompt.txt
 
-          cat prompt.txt | ollama run llama3.2 > mermaid_results.txt
+          cat prompt.txt | ollama run mistral > mermaid_results.txt
 
           cat mermaid_results.txt
 
