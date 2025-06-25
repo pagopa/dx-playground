@@ -104,7 +104,6 @@ graph LR
 ## Ollama Graph
 
 ```mermaid
- ```mermaid
 graph LR
 
 subgraph API Management Services
@@ -157,6 +156,10 @@ Azure_Function_v3 --> Storage Account
 Application Insights --> Certificate_KeyVault
 Log Analytics Workspace --> Application Insights
 ```
+
+## Script
+
+
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
