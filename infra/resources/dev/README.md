@@ -103,7 +103,129 @@ graph LR
 
 ## Ollama Graph
 
-
+```mermaid
+graph LR;
+    subgraph Module 1 {
+        A[module_1] --> B(Azurerm Function App)
+        B --> D(Data Storage)
+        C(Azurerm Role Assignment) --> D
+        E(Data Storage Network Rules)
+        D --> F(Function App Configuration)
+        G(Api Management Named Value)
+        D --> H(Api Management Backend)
+    }
+    
+    subgraph Module 2 {
+        I(to_do_api) --> J(Azure API Management)
+        J --> K(Azurerm Function App)
+        L(Azurerm Role Assignment) --> K
+        M(Data Storage Network Rules)
+        N(Api Management Named Value)
+        N --> O(Api Management Backend)
+    }
+    
+    subgraph Module 3 {
+        P(to_do_api_application_insights) --> Q(Azure Application Insights)
+        Q --> R(Azurerm Log Analytics Workspace)
+        S(Azurerm Key Vault Secret) --> R
+        T(Azure Function App Configuration)
+    }
+    
+    subgraph Module 4 {
+        U(to_do_api_v3) --> V(Azure API Management)
+        V --> W(Azurerm Function App)
+        X(Azurerm Role Assignment) --> W
+        Y(Data Storage Network Rules)
+        Z(Api Management Named Value)
+        Z --> A(Api Management Backend)
+    }
+    
+    subgraph Module 5 {
+        T --> B
+        U --> B
+        V --> B
+        X --> B
+        Y --> B
+        Z --> B
+        F --> B
+        G --> H
+    }
+    
+    style A fill:#f9f,stroke:#000,stroke-width:2;
+    style C fill:#f9f,stroke:#000,stroke-width:2;
+    style I fill:#f9f,stroke:#000,stroke-width:2;
+    style S fill:#f9f,stroke:#000,stroke-width:2;
+    
+    style B filled:#f1f1f1,
+       shape=record,
+       width=6;
+    style D filled:#f1f1f1,
+       shape=rectangle,
+       width=8;
+    style E filled:#f1f1f1,
+       shape=rectangle,
+       width=5;
+    style F filled:#f1f1f1,
+       shape=record,
+       width=6;
+    style G filled:#f1f1f1,
+       shape=record,
+       width=7;
+    style H filled:#f1f1f1,
+       shape=rectangle,
+       width=8;
+    style J filled:#f1f1f1,
+       shape=record,
+       width=6;
+    style K filled:#f1f1f1,
+       shape=rectangle,
+       width=7;
+    style L filled:#f1f1f1,
+       shape=record,
+       width=6;
+    style M filled:#f1f1f1,
+       shape=rectangle,
+       width=5;
+    style N filled:#f1f1f1,
+       shape=record,
+       width=7;
+    style O filled:#f1f1f1,
+       shape=rectangle,
+       width=8;
+    style P filled:#f1f1f1,
+       shape=record,
+       width=6;
+    style Q filled:#f1f1f1,
+       shape=record,
+       width=7;
+    style R filled:#f1f1f1,
+       shape=rectangle,
+       width=8;
+    style S filled:#f1f1f1,
+       shape=record,
+       width=6;
+    style T filled:#f1f1f1,
+       shape=record,
+       width=7;
+    style U filled:#f1f1f1,
+       shape=record,
+       width=6;
+    style V filled:#f1f1f1,
+       shape=record,
+       width=7;
+    style W filled:#f1f1f1,
+       shape=rectangle,
+       width=8;
+    style X filled:#f1f1f1,
+       shape=record,
+       width=6;
+    style Y filled:#f1f1f1,
+       shape=rectangle,
+       width=5;
+    style Z filled:#f1f1f1,
+       shape=record,
+       width=7;
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
