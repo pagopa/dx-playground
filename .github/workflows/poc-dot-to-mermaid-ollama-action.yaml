@@ -20,7 +20,7 @@ jobs:
 
       - name: Call AI model
         run: |
-          PROMPT=$(cat <<'EOF'
+          cat > prompt.txt <<'EOF'
           You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
 
           Requirements:
@@ -34,20 +34,17 @@ jobs:
             - Draw arrows only once per relationship.  
             - Label edges only if it adds clarity (otherwise omit labels).
           6. **Clean Up**:  
-            - Remove any standalone “management lock” or “diagnostic” nodes that don’t have outgoing or incoming edges—unless they’re essential.
+            - Remove any standalone “management lock” or “diagnostic” nodes that don’t have outgoing or incoming edges—unless they’re essential.  
             - Collapse any trivial one-node subgraphs into their parent group.
 
           Here is the original DOT code:
           ```dot
+          $(<./infra/resources/dev/graph.dot)
+          ```
           EOF
-          )
 
-          DOT_CONTENT=$(<./infra/resources/dev/graph.dot)
-
-          echo "$PROMPT
-          $DOT_CONTENT" > prompt.txt
-
-
+          cat prompt.txt
+          
           cat prompt.txt | ollama run llama3.2 > mermaid_results.txt
 
           cat mermaid_results.txt
