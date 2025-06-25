@@ -1,10 +1,9 @@
 name: Convert dot to Mermaid with Ollama
 
+# Ref. https://github.com/ai-action/setup-ollama
+
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - feat-poc-ai-graph-generation
 
 jobs:
   dot-to-mermaid:
