@@ -54,7 +54,7 @@ jobs:
 
           cat prompt.txt
 
-          cat prompt.txt | ollama run codellama > mermaid_results.txt
+          cat prompt.txt | ollama run gemma3 > mermaid_results.txt
 
           cat mermaid_results.txt
 

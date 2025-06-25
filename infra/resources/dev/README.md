@@ -7,7 +7,7 @@
 ## Inference Graph
 
 ```mermaid
-graph TD
+graph LR
   subgraph KeyVault["Key Vault Resources"]
     KV_Common["Key Vault"]
     Secret_APIM["APIM API Key"]
