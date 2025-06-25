@@ -1,0 +1,68 @@
+name: Convert dot to Mermaid with Inference
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat-poc-ai-graph-generation
+
+jobs:
+  dot-to-mermaid:
+    runs-on: ubuntu-latest
+    permissions:
+      models: read
+      contents: read
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+
+      - name: Generate Prompt
+        run: |
+          PROMPT=$(cat <<'EOF'
+          You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
+
+          Requirements:
+          1. **Output only valid Mermaid syntax** (no prose).
+          2. **Orientation**: Use `graph RL` (right-to-left).
+          3. **Subgraphs**: Group nodes into logical clusters with meaningful titles.
+          4. **Naming**:  
+            - Strip Terraform resource prefixes (`azurerm_`, `data.`) and use title-case labels (e.g. `Key Vault Certificate`, `API Management Service`).  
+            - For DNS entries, include both zone and record type (`A Record - apim.azure-api.net`).
+          5. **Connections**:  
+            - Draw arrows only once per relationship.  
+            - Label edges only if it adds clarity (otherwise omit labels).
+          6. **Clean Up**:  
+            - Remove any standalone “management lock” or “diagnostic” nodes that don’t have outgoing or incoming edges—unless they’re essential.
+            - Collapse any trivial one-node subgraphs into their parent group.
+
+          Here is the original DOT code:
+          ```dot
+          EOF
+          )
+
+          DOT_CONTENT=$(<./infra/resources/dev/graph.dot)
+
+          echo "$PROMPT
+          $DOT_CONTENT" > prompt.txt
+
+          cat prompt.txt
+
+      - name: Run AI Inference with Prompt File
+        id: inference
+        uses: actions/ai-inference@d645f067d89ee1d5d736a5990e327e504d1c5a4a
+        with:
+          prompt-file: './prompt.txt'
+          max-tokens: 4096
+
+      - name: Use Response File
+        run: |
+          echo "Response saved to: ${{ steps.inference.outputs.response-file }}"
+          cat "${{ steps.inference.outputs.response-file }}"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        with:
+          name: "bundle-mermaid"
+          path: ${{ steps.inference.outputs.response-file }}
+          if-no-files-found: error
+          retention-days: 7
