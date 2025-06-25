@@ -21,32 +21,9 @@ jobs:
 
       - name: Call AI model
         run: |
-          ollama run codellama '
+          ollama run llama3.2 '
           Convert Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
-
-          Requirements:
-          0. **Wrap the entire output** inside a Markdown code fence with `mermaid`, exactly like this:
-          \`\`\`mermaid
-          …the entire diagram…
-          \`\`\`
-          1. **Output only valid Mermaid syntax** (no prose).
-          2. **Orientation**: Use \`graph LR\` (left-to-right).
-          3. **Subgraphs**: Group nodes into logical clusters with meaningful titles. Each subgraph block must be in the form:
-            subgraph Group Title
-              NodeA[“Label A”]
-              NodeB[“Label B”]
-            end
-          4. **Naming**:  
-            - Strip Terraform resource prefixes (\`azurerm_\`, \`data.\`) and use title-case labels (e.g. \`Key Vault Certificate\`, \`API Management Service\`).  
-            - For DNS entries, include both zone and record type (\`A Record - apim.azure-api.net\`) if present.
-          5. **Connections**:  
-            - Draw arrows only once per relationship (`NodeA --> NodeB`).  
-            - Label edges only if it adds clarity (otherwise omit labels).
-          6. **Clean Up**:  
-            - Remove any standalone “management lock” or “diagnostic” nodes that don’t have outgoing or incoming edges—unless they’re essential.  
-            - Collapse any trivial one-node subgraphs into their parent group.
-
-          Here is the original DOT code:
+          Here is the DOT code to convert:
           \`\`\`dot
           $(cat ./infra/resources/dev/graph.dot)
           \`\`\`
