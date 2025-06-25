@@ -5,6 +5,9 @@ name: Convert dot to Mermaid with Inference
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feat-poc-ai-graph-generation
 
 jobs:
   dot-to-mermaid:
