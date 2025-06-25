@@ -49,10 +49,13 @@ jobs:
 
       - name: Run AI Inference with Prompt File
         id: inference
-        uses: actions/ai-inference@d645f067d89ee1d5d736a5990e327e504d1c5a4a
+        uses: actions/ai-inference@v1.1.0
         with:
           prompt-file: './prompt.txt'
           max-tokens: 4096
+          model: openai/gpt-4o
+          token: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Use Response File
         run: |
