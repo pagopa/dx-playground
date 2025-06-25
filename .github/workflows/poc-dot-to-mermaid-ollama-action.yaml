@@ -22,23 +22,48 @@ jobs:
       - name: Call AI model
         run: |
           cat > prompt.txt <<EOF
-          You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
+          You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams. Follow these rules exactly:
 
-          Requirements:
-          1. **Output only valid Mermaid syntax** (no prose).
-          2. **Orientation**: Use \`graph LR\` (left-to-right) or \`graph TD\` (top-to-bottom) as appropriate to maximize readability—prefer \`graph TD\` for long chains.
-          3. **Subgraphs**: Group nodes into logical clusters with meaningful titles.
-          4. **Naming**:  
-            - Strip Terraform resource prefixes (\`azurerm_\`, \`data.\`) and use title-case labels (e.g. \`Key Vault Certificate\`, \`API Management Service\`).  
-            - For DNS entries, include both zone and record type (\`A Record - apim.azure-api.net\`) if present.
-          5. **Connections**:  
-            - Draw arrows only once per relationship.  
-            - Label edges only if it adds clarity (otherwise omit labels).
-          6. **Clean Up**:  
-            - Remove any standalone “management lock” or “diagnostic” nodes that don’t have outgoing or incoming edges—unless they’re essential.  
-            - Collapse any trivial one-node subgraphs into their parent group.
+          1. **Global Layout**  
+            - Always start with `graph RL`.
 
-          Here is the original DOT code:
+          2. **Code Only**  
+            - Output **only** valid Mermaid code (no explanations or extra text).
+
+          3. **Subgraph Blocks**  
+            - For each logical group, emit:
+                subgraph Group Title
+                direction RL
+                NodeID1[“Label 1”]
+                NodeID2[“Label 2”]
+                …
+                end
+          - Leave a blank line before and after each `subgraph` block.
+
+          4. **Safe Node IDs**  
+          - **Do not** use raw quoted strings as node IDs.  
+          - Create a simple alphanumeric ID in CamelCase or snake_case (e.g. `KeyVault`, `APIMService`, `DNSZone_apim`) and then assign the human-readable label in `["…"]`.
+
+          5. **Automatic Grouping**  
+          - Detect clusters by shared prefixes or patterns.  
+          - Title each subgraph in Title Case (e.g. “Key Vault”, “API Management”, “Networking”, etc.).
+
+          6. **Renaming Labels**  
+          - Strip technical prefixes (`azurerm_`, `data.`) and convert to Title Case.  
+          - For DNS entries, include record type and zone (e.g. `A Record – apim.azure-api.net`).
+
+          7. **Edges**  
+          - After all subgraphs, list each connection once, with two spaces indent:
+            ```
+            NodeID1 --> NodeID2
+            ```
+          - Do not label edges unless strictly necessary for clarity.
+
+          8. **Cleanup**  
+          - Exclude isolated nodes (no edges).  
+          - Merge any single-node subgraph into its parent group if it exists.
+
+          Finally, append the DOT input verbatim:
           \`\`\`dot
           $(cat ./infra/resources/dev/graph.dot)
           \`\`\`
