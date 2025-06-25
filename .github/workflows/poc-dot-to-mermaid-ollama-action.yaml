@@ -21,13 +21,17 @@ jobs:
 
       - name: Call AI model
         run: |
-          ollama run llama3.2 '
+          cat > prompt.txt <<EOF
           Convert this DOT diagrams into a Mermaid diagrams:
           \`\`\`dot
           $(cat ./infra/resources/dev/graph.dot)
           \`\`\`
           Don't tell me what to do or what you are doing, just output the Mermaid code.
-          ' > mermaid_results.txt
+          EOF
+
+          cat prompt.txt
+
+          cat prompt.txt | ollama run llama3.2 > mermaid_results.txt
 
           cat mermaid_results.txt
 
