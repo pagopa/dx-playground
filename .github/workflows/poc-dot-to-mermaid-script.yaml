@@ -1,0 +1,43 @@
+name: Convert dot to Mermaid with Script
+
+on:
+  workflow_dispatch:
+    inputs:
+      dot-path:
+        description: 'Percorso del file .dot'
+        required: true
+        default: 'infra/resources/dev/graph.dot'
+  push:
+    branches:
+      - feat-poc-dot-to-mermaid
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydot
+
+      - name: Convert .dot → .mmd
+        run: |
+          DOT_FILE="${{ inputs.dot-path }}"
+          OUTPUT="${DOT_FILE%.dot}.mmd"
+          python infra/resources/dev/dot_to_mermaid.py "$DOT_FILE" > "$OUTPUT"
+          echo "Generated $OUTPUT"
+
+      - name: Upload Mermaid artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: mermaid-diagram
+          path: |
+            **/*.mmd
