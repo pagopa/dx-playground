@@ -9,7 +9,7 @@ on:
         default: 'infra/resources/dev/graph.dot'
   push:
     branches:
-      - feat-poc-dot-to-mermaid
+      - feat-poc-ai-graph-generation
 
 jobs:
   convert:
