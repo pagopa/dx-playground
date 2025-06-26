@@ -22,7 +22,7 @@ permissions:
 jobs:
   code_review_dev:
     uses: pagopa/dx/.github/workflows/infra_plan.yaml@chores/pr-comment-refactor
-    name: Code Review Infra Plan
+    name: Code Review Infra Plan - Test
     secrets: inherit
     with:
       environment: dev
