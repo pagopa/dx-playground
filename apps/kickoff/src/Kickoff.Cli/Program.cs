@@ -1,5 +1,4 @@
 ﻿using Spectre.Console;
-using Kickoff.Cli;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -47,7 +46,6 @@ try
                     // })
                     .ConfigureServices((ctx, services) =>
                     {
-                        services.AddTransient<Wizard>();
                         services.AddTransient<IAzureService, AzureService>();
 
                         services.AddAzureClients(azureBuilder =>

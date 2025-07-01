@@ -27,10 +27,10 @@ public class AzureService(
 
     private readonly AzureLocation _defaultLocation = AzureLocation.ItalyNorth;
 
-    private SubscriptionResource _subscriptionId;
+    private SubscriptionResource? _subscriptionId;
 
     public async Task<string?> GetSubscriptionIdAsync(CancellationToken cancellationToken) =>
-        (await GetSubscriptionAsync(cancellationToken))?.Id;
+        (await GetSubscriptionAsync(cancellationToken))!.Id;
 
     public async Task<string> GetUserDisplayNameAsync(CancellationToken cancellationToken = default)
     {
@@ -40,7 +40,7 @@ public class AzureService(
 
             var currentUser = await _graphClient.Me.GetAsync(cancellationToken: cancellationToken);
 
-            _logger.LogDebug("Current User: {userId}", currentUser.Id);
+            _logger.LogDebug("Current User: {userId}", currentUser!.Id);
 
             return currentUser.DisplayName!;
         }
@@ -74,7 +74,7 @@ public class AzureService(
 
             var result = await _graphClient.Applications.PostAsync(requestBody, cancellationToken: cancellationToken);
 
-            _logger.LogDebug("Service principal created: {id}", result.AppId);
+            _logger.LogDebug("Service principal created: {id}", result!.AppId);
         }
         catch (Exception ex)
         {
@@ -235,6 +235,9 @@ public class AzureService(
     //     }
     // }
 
-    private async Task<SubscriptionResource> GetSubscriptionAsync(CancellationToken cancellationToken) =>
-        _subscriptionId ?? await _armClient.GetDefaultSubscriptionAsync(cancellationToken);
+    private async Task<SubscriptionResource> GetSubscriptionAsync(CancellationToken cancellationToken)
+    {
+        _subscriptionId ??= await _armClient.GetDefaultSubscriptionAsync(cancellationToken);
+        return _subscriptionId;
+    }
 }
