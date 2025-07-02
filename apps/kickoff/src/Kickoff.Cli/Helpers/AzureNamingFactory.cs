@@ -12,7 +12,8 @@ public class AzureNamingFactory(string resourceType)
     {
         { "service_principal", "sp" },
         { "resource_group", "rg" },
-        { "managed_identity", "id" }
+        { "managed_identity", "id" },
+        { "storage_account", "st" },
     };
 
     public Dictionary<string, string> RegionSet { get; } = new()

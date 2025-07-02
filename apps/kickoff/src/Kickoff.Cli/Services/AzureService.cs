@@ -1,10 +1,13 @@
-﻿using Azure;
+﻿using System.CommandLine.Help;
+using Azure;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Authorization;
 using Azure.ResourceManager.Authorization.Models;
 using Azure.ResourceManager.ManagedServiceIdentities;
 using Azure.ResourceManager.Resources;
+using Azure.ResourceManager.Storage;
+using Azure.ResourceManager.Storage.Models;
 using Kickoff.Cli.Constants;
 using Kickoff.Cli.Extensions;
 using Kickoff.Cli.Helpers;
@@ -29,10 +32,13 @@ public class AzureService(
 
     private SubscriptionResource? _subscriptionId;
 
-    public async Task<string?> GetSubscriptionIdAsync(CancellationToken cancellationToken) =>
-        (await GetSubscriptionAsync(cancellationToken))!.Id;
+    public async Task<string> GetSubscriptionIdAsync(CancellationToken cancellationToken = default) =>
+        (await GetSubscriptionAsync(cancellationToken))!.Id!;
 
-    public async Task<string> GetUserDisplayNameAsync(CancellationToken cancellationToken = default)
+    public async Task<string> GetSubscriptionNameAsync(CancellationToken cancellationToken = default) =>
+        (await GetSubscriptionAsync(cancellationToken))!.Data.DisplayName!;
+
+    public async Task<AzureAccount> GetUserDisplayNameAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -42,12 +48,14 @@ public class AzureService(
 
             _logger.LogDebug("Current User: {userId}", currentUser!.Id);
 
-            return currentUser.DisplayName!;
+            return new AzureAccount(
+                currentUser.Id!,
+                currentUser.DisplayName!);
         }
         catch (Exception ex)
         {
             _logger.LogCritical(ex, "No Azure user found");
-            return string.Empty;
+            throw;
         }
     }
 
@@ -119,7 +127,7 @@ public class AzureService(
         }
     }
 
-    public async Task<Guid> CreateManagedIdentityAsync(
+    public async Task<SubscriptionManagedIdentity> CreateManagedIdentityAsync(
         string project,
         string environment,
         string name,
@@ -136,7 +144,7 @@ public class AzureService(
                 .Build();
 
             var resourceGroup = _armClient.GetResourceGroupResource(new ResourceIdentifier(resourceGroupId));
-            var identityCollection = resourceGroup.GetUserAssignedIdentities();
+            var identityCollection = resourceGroup!.GetUserAssignedIdentities();
 
             var identityData = new UserAssignedIdentityData(_defaultLocation);
             identityData.AddDXTags(project, environment);
@@ -147,8 +155,10 @@ public class AzureService(
                 identityData,
                 cancellationToken);
 
-            var principal = operation.Value.Data.PrincipalId!;
-            return principal.Value;
+            return new SubscriptionManagedIdentity(
+                operation.Value.Data.Id!,
+                operation.Value.Data.Name,
+                operation.Value.Data.PrincipalId!.Value);
         }
         catch (Exception ex)
         {
@@ -161,6 +171,7 @@ public class AzureService(
         string roleId,
         Guid principalId,
         string scope,
+        AzureRoleAssignmentType type,
         CancellationToken cancellationToken = default)
     {
         try
@@ -182,11 +193,18 @@ public class AzureService(
 
             var definition = await sub.GetAuthorizationRoleDefinitionAsync(new(roleId), cancellationToken: cancellationToken);
 
+            var roleAssignmentType = type switch
+            {
+                AzureRoleAssignmentType.User => RoleManagementPrincipalType.User,
+                AzureRoleAssignmentType.ServicePrincipal => RoleManagementPrincipalType.ServicePrincipal,
+                _ => throw new NotImplementedException($"Unknown option '{type}'")
+            };
+
             var content = new RoleAssignmentCreateOrUpdateContent(
                 definition.Value.Id,
                 principalId)
             {
-                PrincipalType = RoleManagementPrincipalType.ServicePrincipal,
+                PrincipalType = roleAssignmentType,
             };
 
             await roleAssignments.CreateOrUpdateAsync(
@@ -198,6 +216,101 @@ public class AzureService(
         catch (Exception ex)
         {
             _logger.LogCritical(ex, "Cannot create the role assignment");
+            throw;
+        }
+    }
+
+    public async Task<StorageAccount> CreateStorageAccountAsync(
+        string project,
+        string environment,
+        string name,
+        string resourceGroupId,
+        CancellationToken cancellationToken = default)
+    {
+        string storageAccountName = new AzureNamingFactory("storage_account")
+            .AddProject(project)
+            .AddEnvironment(environment)
+            .AddRegion()
+            .AddName(name)
+            .Build()
+            .Replace("-", string.Empty);
+
+        try
+        {
+
+            var resourceGroup = _armClient.GetResourceGroupResource(new ResourceIdentifier(resourceGroupId));
+            var storageCollection = resourceGroup!.GetStorageAccounts();
+
+            var storageData = new StorageAccountCreateOrUpdateContent(
+                new StorageSku(StorageSkuName.StandardZrs),
+                new StorageKind("StorageV2"),
+                _defaultLocation)
+            {
+                AllowBlobPublicAccess = false,
+                AllowCrossTenantReplication = false,
+                AllowSharedKeyAccess = false,
+                AccessTier = StorageAccountAccessTier.Hot,
+                EnableHttpsTrafficOnly = true,
+                IsDefaultToOAuthAuthentication = false,
+                PublicNetworkAccess = StoragePublicNetworkAccess.Enabled,
+                MinimumTlsVersion = StorageMinimumTlsVersion.Tls1_2,
+                IsLocalUserEnabled = false,
+            };
+
+            storageData.AddDXTags(project, environment);
+
+            var operation = await storageCollection.CreateOrUpdateAsync(
+                WaitUntil.Completed,
+                storageAccountName,
+                storageData,
+                cancellationToken);
+
+            _logger.LogDebug("Create Storage Account '{storageAccount}'", storageAccountName);
+
+            return new StorageAccount(
+                operation.Value.Data.Id!,
+                operation.Value.Data.Name);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex, "Cannot create the storage account");
+            throw;
+        }
+    }
+
+    public async Task CreateStorageAccountContainerAsync(
+        string project,
+        string environment,
+        string name,
+        string storageAccountName,
+        string resourceGroupId,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var containerData = new BlobContainerData
+            {
+                PublicAccess = StoragePublicAccessType.None,
+            };
+
+            containerData.AddDXTags(project, environment);
+
+            var resourceGroup = _armClient.GetResourceGroupResource(new ResourceIdentifier(resourceGroupId));
+            var storageAccount = await resourceGroup.GetStorageAccountAsync(storageAccountName);
+            var blobService = storageAccount.Value.GetBlobService();
+            var containers = blobService.GetBlobContainers();
+
+            await containers.CreateOrUpdateAsync(
+                WaitUntil.Completed,
+                name,
+                containerData,
+                cancellationToken);
+
+            _logger.LogDebug("Create Storage Account container '{container}'", name);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogCritical(ex, "Cannot create the storage account container");
             throw;
         }
     }

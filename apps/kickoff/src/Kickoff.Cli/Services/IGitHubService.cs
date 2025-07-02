@@ -10,13 +10,6 @@ public interface IGitHubService
     Task<bool> IsAuthenticatedAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Get the current authenticated user
-    /// </summary>
-    /// <param name="cancellationToken">(Optional) Cancellation token</param>
-    /// <returns>GitHub username</returns>
-    Task<string> GetCurrentUserAsync(CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Get the default branch of a repository
     /// </summary>
     /// <param name="owner">Repository owner</param>

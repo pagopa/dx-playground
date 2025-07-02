@@ -1,27 +1,24 @@
-﻿using Spectre.Console;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Serilog;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Hosting;
 using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
-using Kickoff.Cli.Commands;
-using Microsoft.Extensions.Azure;
-using Microsoft.Graph;
 using Azure.Identity;
+using Azure.ResourceManager;
+using Kickoff.Cli.Commands;
 using Kickoff.Cli.Constants;
 using Kickoff.Cli.Services;
-using Azure.ResourceManager;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Azure;
+using Microsoft.Graph;
+using Serilog;
 
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
     .CreateLogger();
 
-AnsiConsole.Write(
-    new FigletText("DX Kickoff PoC")
-        .Color(Color.Blue));
+Log.Information("Welcome to DX Demo CLI!");
 
 try
 {
@@ -40,13 +37,14 @@ try
             builder =>
             {
                 builder
-                    // .UseSerilog((hostContext, loggerConfiguration) =>
-                    // {
-                    //     loggerConfiguration.ReadFrom.Configuration(hostContext.Configuration);
-                    // })
+                    .UseSerilog((hostContext, loggerConfiguration) =>
+                    {
+                        loggerConfiguration.ReadFrom.Configuration(hostContext.Configuration);
+                    })
                     .ConfigureServices((ctx, services) =>
                     {
                         services.AddTransient<IAzureService, AzureService>();
+                        services.AddTransient<IGitHubService, GitHubService>();
 
                         services.AddAzureClients(azureBuilder =>
                         {
