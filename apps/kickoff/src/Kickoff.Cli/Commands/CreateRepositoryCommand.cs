@@ -125,17 +125,17 @@ internal class CreateRepositoryCommandHandler(
 
         _logger.LogInformation("Creating a new repository...");
 
-        // await _githubService.CreatePublicRepositoryAsync(
-        //     Organization,
-        //     RepoName,
-        //     Description,
-        //     cancellationToken);
+        await _githubService.CreatePublicRepositoryAsync(
+            Organization,
+            RepoName,
+            Description,
+            cancellationToken);
 
-        // await _githubService.CreateGitHubEnvironmentAsync(
-        //     Organization,
-        //     RepoName,
-        //     GITHUB_ENVIRONMENT,
-        //     cancellationToken);
+        await _githubService.CreateGitHubEnvironmentAsync(
+            Organization,
+            RepoName,
+            GITHUB_ENVIRONMENT,
+            cancellationToken);
 
         _logger.LogInformation("Federating subscription identity with new repository...");
 
@@ -148,6 +148,8 @@ internal class CreateRepositoryCommandHandler(
             RepoName,
             GITHUB_ENVIRONMENT,
             cancellationToken);
+
+        _logger.LogInformation("Configuring the repository...");
 
         await _githubService.CreateGitHubVariableAsync(
             Organization,
@@ -173,6 +175,8 @@ internal class CreateRepositoryCommandHandler(
             tenantId.ToString(),
             isSecret: true,
             cancellationToken: cancellationToken);
+
+        _logger.LogInformation("Done!");
 
         return 0;
     }

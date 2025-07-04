@@ -18,8 +18,6 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
-Log.Information("Welcome to DX Demo CLI!");
-
 try
 {
     var rootCommand = new RootCommand("DX Demo Application")!;

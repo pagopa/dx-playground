@@ -88,11 +88,13 @@ internal class CreateSubscriptionCommandHandler(
 
         _logger.LogInformation("Hello, {fullname}!", user.Name);
 
-        _logger.LogInformation("Creating identity of the subscription...");
+        _logger.LogInformation("Creating the managed identity of the subscription...");
 
         AzureManagedIdentityDetails id = await CreateIdentityAsync(APP_NAME, subscriptionId, cancellationToken);
 
         _logger.LogInformation("Identity '{idName}' created!", id.Name);
+
+        _logger.LogInformation("Creating the Storage Account for Terraform state...");
 
         string rgId = await _azureService.CreateResourceGroupAsync(
             ProjectName,
@@ -154,6 +156,8 @@ internal class CreateSubscriptionCommandHandler(
             appName,
             rgId,
             cancellationToken);
+
+        _logger.LogInformation("Assigning roles to the identity");
 
         await _azureService.AddRoleAssignment(
             AzureRolesHelper.RoleIds["Contributor"],

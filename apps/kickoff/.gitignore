@@ -346,3 +346,5 @@ healthchecksdb
 
 # MacOs specific
 .DS_Store
+
+**/_publish/**

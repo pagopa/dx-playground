@@ -85,7 +85,7 @@ public class AzureService(
 
             var result = await _graphClient.Applications.PostAsync(requestBody, cancellationToken: cancellationToken);
 
-            _logger.LogDebug("Service principal created: {id}", result!.AppId);
+            _logger.LogInformation("Service principal {id} created", result!.AppId);
         }
         catch (Exception ex)
         {
@@ -326,7 +326,7 @@ public class AzureService(
                 storageData,
                 cancellationToken);
 
-            _logger.LogDebug("Create Storage Account '{storageAccount}'", storageAccountName);
+            _logger.LogInformation("Storage Account '{storageAccount}' created", storageAccountName);
 
             return new AzureStorageAccount(
                 operation.Value.Data.Id!,
@@ -367,7 +367,7 @@ public class AzureService(
                 containerData,
                 cancellationToken);
 
-            _logger.LogDebug("Create Storage Account container '{container}'", name);
+            _logger.LogInformation("Storage Account container '{container}' created", name);
         }
         catch (Exception ex)
         {
