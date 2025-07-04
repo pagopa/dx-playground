@@ -1,16 +1,6 @@
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 
-/**
- * OpenAPI specification types and related data structures
- */
-export interface OpenApiSpec {
-  basePath?: string; // OpenAPI 2.0 base path field
-  host?: string; // OpenAPI 2.0 legacy field
-  paths: Record<string, Record<string, unknown>>;
-  servers?: { description?: string; url: string }[]; // OpenAPI 3.x field
-}
-
 export interface EndpointDetails {
   host?: string;
   method: string;
@@ -30,31 +20,13 @@ export interface EndpointWithProperties {
 }
 
 /**
- * Extract server URLs from OpenAPI spec.
- * Handles both OpenAPI 3.x servers field and OpenAPI 2.0 host + basePath fields.
- * Returns an array of host URLs (without path components for consistency).
+ * OpenAPI specification types and related data structures
  */
-export function extractServerUrls(openApiSpec: OpenApiSpec): string[] {
-  const serverUrls: string[] = [];
-
-  // Handle OpenAPI 3.x servers field
-  if (openApiSpec.servers && openApiSpec.servers.length > 0) {
-    openApiSpec.servers.forEach((server) => {
-      try {
-        const url = new URL(server.url);
-        serverUrls.push(url.host);
-      } catch {
-        // If URL is relative or invalid, skip it silently
-      }
-    });
-  }
-
-  // Fallback to OpenAPI 2.0 host field if no servers found
-  if (serverUrls.length === 0 && openApiSpec.host) {
-    serverUrls.push(openApiSpec.host);
-  }
-
-  return serverUrls;
+export interface OpenApiSpec {
+  basePath?: string; // OpenAPI 2.0 base path field
+  host?: string; // OpenAPI 2.0 legacy field
+  paths: Record<string, Record<string, unknown>>;
+  servers?: { description?: string; url: string }[]; // OpenAPI 3.x field
 }
 
 /**
@@ -94,6 +66,34 @@ export function extractServerBasePaths(openApiSpec: OpenApiSpec): string[] {
   return basePaths;
 }
 
+/**
+ * Extract server URLs from OpenAPI spec.
+ * Handles both OpenAPI 3.x servers field and OpenAPI 2.0 host + basePath fields.
+ * Returns an array of host URLs (without path components for consistency).
+ */
+export function extractServerUrls(openApiSpec: OpenApiSpec): string[] {
+  const serverUrls: string[] = [];
+
+  // Handle OpenAPI 3.x servers field
+  if (openApiSpec.servers && openApiSpec.servers.length > 0) {
+    openApiSpec.servers.forEach((server) => {
+      try {
+        const url = new URL(server.url);
+        serverUrls.push(url.host);
+      } catch {
+        // If URL is relative or invalid, skip it silently
+      }
+    });
+  }
+
+  // Fallback to OpenAPI 2.0 host field if no servers found
+  if (serverUrls.length === 0 && openApiSpec.host) {
+    serverUrls.push(openApiSpec.host);
+  }
+
+  return serverUrls;
+}
+
 const HTTP_METHODS = [
   "delete",
   "get",
@@ -104,6 +104,25 @@ const HTTP_METHODS = [
   "put",
   "trace",
 ];
+
+/**
+ * Convert endpoint details to endpoints with monitoring properties
+ */
+export function endpointsWithDefaultProperties(
+  endpoints: EndpointDetails[],
+): EndpointWithProperties[] {
+  return endpoints.map((endpoint) => ({
+    availabilityThreshold: 99.0,
+    availabilityTimeSpan: "5m",
+    host: endpoint.host,
+    method: endpoint.method,
+    path: endpoint.path,
+    responseCodeThreshold: 1000,
+    responseCodeTimeSpan: "5m",
+    responseTimeThreshold: 1000,
+    responseTimeTimeSpan: "5m",
+  }));
+}
 
 /**
  * Process all OpenAPI specs and collect all endpoints with their hosts and methods
@@ -123,25 +142,6 @@ export function processOpenApiFiles(
   });
 
   return removeDuplicateEndpoints(allEndpointsWithDetails);
-}
-
-/**
- * Convert endpoint details to endpoints with monitoring properties
- */
-export function endpointsWithDefaultProperties(
-  endpoints: EndpointDetails[],
-): EndpointWithProperties[] {
-  return endpoints.map((endpoint) => ({
-    availabilityThreshold: 99.0,
-    availabilityTimeSpan: "5m",
-    host: endpoint.host,
-    method: endpoint.method,
-    path: endpoint.path,
-    responseCodeThreshold: 1000,
-    responseCodeTimeSpan: "5m",
-    responseTimeThreshold: 1000,
-    responseTimeTimeSpan: "5m",
-  }));
 }
 
 /**

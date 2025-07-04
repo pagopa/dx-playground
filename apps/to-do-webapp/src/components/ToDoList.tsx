@@ -1,8 +1,9 @@
+import { List } from "@mui/material";
+import React from "react";
+
 import ToDoItem from "@/components/ToDoItem";
 import { TaskId } from "@/lib/client/TaskId";
 import { TaskItemList } from "@/lib/client/TaskItemList";
-import { List } from "@mui/material";
-import React from "react";
 
 interface TaskListProps {
   // Function to execute when a task is completed

@@ -1,7 +1,8 @@
-import { completeTask } from "@/lib/api";
-import { TaskId } from "@/lib/client/TaskId";
 import { Checkbox, ListItem, ListItemText } from "@mui/material";
 import React from "react";
+
+import { completeTask } from "@/lib/api";
+import { TaskId } from "@/lib/client/TaskId";
 
 interface TodoItemProps {
   id: TaskId;

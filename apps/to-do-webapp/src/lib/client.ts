@@ -1,4 +1,4 @@
-import { WithDefaultsT, createClient } from "@/lib/client/client";
+import { createClient, WithDefaultsT } from "@/lib/client/client";
 
 const withApiKey: WithDefaultsT<"ApiKeyAuth"> =
   (wrappedOperation) => (params) =>

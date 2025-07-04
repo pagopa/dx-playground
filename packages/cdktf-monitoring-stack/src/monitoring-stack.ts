@@ -20,18 +20,6 @@ import { uriToRegex } from "./uri-utils.js";
  * Core configuration types for the monitoring stack
  */
 
-export interface Tags {
-  // Allow additional unknown properties
-  [key: string]: string;
-  BusinessUnit: string;
-  CostCenter: string;
-  CreatedBy: string;
-  Environment: string;
-  ManagementTeam: string;
-  Scope: string;
-  Source: string;
-}
-
 export interface MonitoringConfig {
   actionGroupId: string;
   apimServiceName: string;
@@ -44,6 +32,18 @@ export interface MonitoringConfig {
 export interface MonitoringStackProps {
   config: MonitoringConfig;
   openApiFilePaths: string[];
+}
+
+export interface Tags {
+  // Allow additional unknown properties
+  [key: string]: string;
+  BusinessUnit: string;
+  CostCenter: string;
+  CreatedBy: string;
+  Environment: string;
+  ManagementTeam: string;
+  Scope: string;
+  Source: string;
 }
 
 /**
