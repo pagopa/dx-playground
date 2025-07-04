@@ -2,9 +2,9 @@ import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
 import { createCosmosClient } from "@to-do/azure-adapters/cosmosdb";
 import * as E from "fp-ts/lib/Either.js";
+import { pipe } from "fp-ts/lib/function.js";
 import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 import * as TE from "fp-ts/lib/TaskEither.js";
-import { pipe } from "fp-ts/lib/function.js";
 
 import { ApplicationInfo } from "../../../generated/definitions/internal/ApplicationInfo.js";
 

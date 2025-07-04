@@ -1,5 +1,5 @@
-import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 import { pipe } from "fp-ts/lib/function.js";
+import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 
 import { Capabilities } from "./Capabilities.js";
 import { Task } from "./Task.js";
