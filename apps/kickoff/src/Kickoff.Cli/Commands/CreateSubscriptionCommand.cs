@@ -2,6 +2,7 @@
 using System.CommandLine.Invocation;
 using Kickoff.Cli.Exceptions;
 using Kickoff.Cli.Helpers;
+using Kickoff.Cli.Models;
 using Kickoff.Cli.Services;
 using Microsoft.Extensions.Logging;
 
@@ -89,7 +90,7 @@ internal class CreateSubscriptionCommandHandler(
 
         _logger.LogInformation("Creating identity of the subscription...");
 
-        SubscriptionManagedIdentity id = await CreateIdentityAsync(APP_NAME, subscriptionId, cancellationToken);
+        AzureManagedIdentityDetails id = await CreateIdentityAsync(APP_NAME, subscriptionId, cancellationToken);
 
         _logger.LogInformation("Identity '{idName}' created!", id.Name);
 
@@ -136,7 +137,7 @@ internal class CreateSubscriptionCommandHandler(
         return success ? 0 : 1;
     }
 
-    private async Task<SubscriptionManagedIdentity> CreateIdentityAsync(
+    private async Task<AzureManagedIdentityDetails> CreateIdentityAsync(
         string appName,
         string subscriptionId,
         CancellationToken cancellationToken)
@@ -157,14 +158,14 @@ internal class CreateSubscriptionCommandHandler(
         await _azureService.AddRoleAssignment(
             AzureRolesHelper.RoleIds["Contributor"],
             identity.PrincipalId,
-            subscriptionId,
+            $"/subscriptions/{subscriptionId}",
             AzureRoleAssignmentType.ServicePrincipal,
             cancellationToken);
 
         await _azureService.AddRoleAssignment(
             AzureRolesHelper.RoleIds["Role Based Access Control Administrator"],
             identity.PrincipalId,
-            subscriptionId,
+            $"/subscriptions/{subscriptionId}",
             AzureRoleAssignmentType.ServicePrincipal,
             cancellationToken);
 

@@ -184,4 +184,88 @@ internal class GitHubService(ILogger<GitHubService> logger) : IGitHubService
             throw;
         }
     }
+
+    public async Task<bool> CreatePublicRepositoryAsync(
+        string organization,
+        string name,
+        string description,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var result = await ProcessHelper.RunGitHubCliAsync(
+                $"repo create {organization}/{name} --add-readme -d \"{description}\" --disable-wiki --disable-issues --public",
+                cancellationToken);
+
+            if (result.Success)
+                _logger.LogInformation("Successfully created a new public repository: '{link}'", result.Output);
+            else
+                _logger.LogError("Failed to create a new public repository '{org}/{name}'", organization, name);
+
+            return result.Success;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to create a new public repository '{org}/{name}'", organization, name);
+            throw;
+        }
+    }
+
+    public async Task CreateGitHubEnvironmentAsync(
+        string owner,
+        string name,
+        string environment,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var result = await ProcessHelper.RunGitHubCliAsync(
+                $"api --method PUT repos/{owner}/{name}/environments/{environment}",
+                cancellationToken);
+
+            if (result.Success)
+                _logger.LogInformation("Successfully created a new environment in repository '{org}/{name}:{env}'", owner, name, result.Output);
+            else
+                _logger.LogError("Failed to create a new environment in repository '{org}/{name}:{env}'", owner, name, environment);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to create a new GitHub environment in repository '{org}/{name}:{env}'", owner, name, environment);
+            throw;
+        }
+    }
+
+    public async Task CreateGitHubVariableAsync(
+        string owner,
+        string repo,
+        string name,
+        string value,
+        string? environment = null,
+        bool isSecret = false,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var command = new StringBuilder(isSecret ? "secret set" : "variable set");
+            command.Append(' ');
+            command.Append($"{name} --repo {owner}/{repo} --body \"{value}\"");
+
+            if (!string.IsNullOrWhiteSpace(environment))
+            {
+                command.Append(' ');
+                command.Append($"--env {environment}");
+                command.Append(' ');
+                command.Append($"--app actions");
+            }
+
+            var result = await ProcessHelper.RunGitHubCliAsync(
+                command.ToString(),
+                cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to create variable public repository '{org}/{name}'", owner, name);
+            throw;
+        }
+    }
 }

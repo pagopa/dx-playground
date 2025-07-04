@@ -1,4 +1,6 @@
-﻿namespace Kickoff.Cli.Services;
+﻿using Kickoff.Cli.Models;
+
+namespace Kickoff.Cli.Services;
 
 public interface IAzureService
 {
@@ -15,6 +17,13 @@ public interface IAzureService
     /// <param name="cancellationToken">(Optional) Cancellation token</param>
     /// <returns></returns>
     Task<string> GetSubscriptionNameAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get the Id of the subscription's tenant
+    /// </summary>
+    /// <param name="cancellationToken">(Optional) Cancellation token</param>
+    /// <returns></returns>
+    Task<Guid> GetTenantIdAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get display name of the current user
@@ -60,7 +69,7 @@ public interface IAzureService
     /// <param name="resourceGroupId">The resource group id where create the managed identity</param>
     /// <param name="cancellationToken">(Optional) Cancellation token</param>
     /// <returns></returns>
-    Task<SubscriptionManagedIdentity> CreateManagedIdentityAsync(
+    Task<AzureManagedIdentityDetails> CreateManagedIdentityAsync(
         string project,
         string environment,
         string name,
@@ -92,7 +101,7 @@ public interface IAzureService
     /// <param name="resourceGroupId">The resource group id where create the storage account</param>
     /// <param name="cancellationToken">(Optional) Cancellation token</param>
     /// <returns></returns>
-    Task<StorageAccount> CreateStorageAccountAsync(
+    Task<AzureStorageAccount> CreateStorageAccountAsync(
         string project,
         string environment,
         string name,
@@ -100,52 +109,42 @@ public interface IAzureService
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Create a Storage Account container
+    /// Create a Container in the target Storage Account
     /// </summary>
     /// <param name="project">The project name</param>
     /// <param name="environment">The environment name</param>
-    /// <param name="name">The Storage Account container name</param>
-    /// <param name="storageAccountName">The Storage Account name</param>
-    /// <param name="resourceGroupId">The resource group id of the storage account</param>
+    /// <param name="name">Container name</param>
+    /// <param name="storageAccountName">Storage Account name</param>
+    /// <param name="resourceGroupId">Id of the Storage Account resource group</param>
     /// <param name="cancellationToken">(Optional) Cancellation token</param>
     /// <returns></returns>
     Task CreateStorageAccountContainerAsync(
-            string project,
-            string environment,
-            string name,
-            string storageAccountName,
-            string resourceGroupId,
-            CancellationToken cancellationToken = default);
-}
+        string project,
+        string environment,
+        string name,
+        string storageAccountName,
+        string resourceGroupId,
+        CancellationToken cancellationToken = default);
 
-public class SubscriptionManagedIdentity(
-    string id,
-    string name,
-    Guid principalId)
-{
-    public string Id { get; } = id;
-    public string Name { get; } = name;
-    public Guid PrincipalId { get; } = principalId;
-}
-
-public class StorageAccount(
-    string id,
-    string name)
-{
-    public string Id { get; } = id;
-    public string Name { get; } = name;
-}
-
-public class AzureAccount(
-    string id,
-    string name)
-{
-    public Guid Id { get; } = Guid.Parse(id);
-    public string Name { get; } = name;
-}
-
-public enum AzureRoleAssignmentType
-{
-    User,
-    ServicePrincipal,
+    /// <summary>
+    /// Federate an Azure Managed Identity with a GitHub repository
+    /// </summary>
+    /// <param name="project">The project name</param>
+    /// <param name="environment">The environment name</param>
+    /// <param name="resourceGroupName">Resource group of the managed identity</param>
+    /// <param name="managedIdentityName">Name of the managed identity</param>
+    /// <param name="organization">GitHub repository organization</param>
+    /// <param name="repository">GitHub repository name</param>
+    /// <param name="githubEnvironment">GitHub repository environment to federate</param>
+    /// <param name="cancellationToken">(Optional) Cancellation token</param>
+    /// <returns></returns>
+    Task<AzureManagedIdentityDetails> FederateIdWithGitHubAsync(
+        string project,
+        string environment,
+        string resourceGroupName,
+        string managedIdentityName,
+        string organization,
+        string repository,
+        string githubEnvironment,
+        CancellationToken cancellationToken = default);
 }

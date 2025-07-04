@@ -1,5 +1,4 @@
-﻿using System.CommandLine.Help;
-using Azure;
+﻿using Azure;
 using Azure.Core;
 using Azure.ResourceManager;
 using Azure.ResourceManager.Authorization;
@@ -11,6 +10,7 @@ using Azure.ResourceManager.Storage.Models;
 using Kickoff.Cli.Constants;
 using Kickoff.Cli.Extensions;
 using Kickoff.Cli.Helpers;
+using Kickoff.Cli.Models;
 using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graph;
@@ -33,10 +33,13 @@ public class AzureService(
     private SubscriptionResource? _subscriptionId;
 
     public async Task<string> GetSubscriptionIdAsync(CancellationToken cancellationToken = default) =>
-        (await GetSubscriptionAsync(cancellationToken))!.Id!;
+        (await GetSubscriptionAsync(cancellationToken))!.Data.SubscriptionId!;
 
     public async Task<string> GetSubscriptionNameAsync(CancellationToken cancellationToken = default) =>
         (await GetSubscriptionAsync(cancellationToken))!.Data.DisplayName!;
+
+    public async Task<Guid> GetTenantIdAsync(CancellationToken cancellationToken = default) =>
+        (await GetSubscriptionAsync(cancellationToken))!.Data.TenantId!.Value;
 
     public async Task<AzureAccount> GetUserDisplayNameAsync(CancellationToken cancellationToken = default)
     {
@@ -127,7 +130,7 @@ public class AzureService(
         }
     }
 
-    public async Task<SubscriptionManagedIdentity> CreateManagedIdentityAsync(
+    public async Task<AzureManagedIdentityDetails> CreateManagedIdentityAsync(
         string project,
         string environment,
         string name,
@@ -155,7 +158,7 @@ public class AzureService(
                 identityData,
                 cancellationToken);
 
-            return new SubscriptionManagedIdentity(
+            return new AzureManagedIdentityDetails(
                 operation.Value.Data.Id!,
                 operation.Value.Data.Name,
                 operation.Value.Data.PrincipalId!.Value);
@@ -163,6 +166,64 @@ public class AzureService(
         catch (Exception ex)
         {
             _logger.LogCritical(ex, "Cannot create the managed identity");
+            throw;
+        }
+    }
+
+    public async Task<AzureManagedIdentityDetails> FederateIdWithGitHubAsync(
+        string project,
+        string environment,
+        string resourceGroupName,
+        string managedIdentityName,
+        string organization,
+        string repository,
+        string githubEnvironment,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var federatedCredentialData = new FederatedIdentityCredentialData
+            {
+                Issuer = "https://token.actions.githubusercontent.com/",
+                Subject = $"repo:{organization}/{repository}:environment:{githubEnvironment}",
+                Audiences = { "api://AzureADTokenExchange" }
+            };
+
+            var credentialName = $"github-{repository}-{githubEnvironment}".Replace("_", "-").ToLower();
+
+            string identityName = new AzureNamingFactory("managed_identity")
+                .AddProject(project)
+                .AddEnvironment(environment)
+                .AddRegion()
+                .AddName(managedIdentityName)
+                .Build();
+
+            string resourceGroupFullName = new AzureNamingFactory("resource_group")
+                .AddProject(project)
+                .AddEnvironment(environment)
+                .AddRegion()
+                .AddName(resourceGroupName)
+                .Build();
+
+            var subscription = await GetSubscriptionAsync(cancellationToken);
+            var resourceGroup = await subscription.GetResourceGroupAsync(resourceGroupFullName, cancellationToken);
+            var managedIdentity = await resourceGroup.Value.GetUserAssignedIdentityAsync(identityName, cancellationToken);
+
+            UserAssignedIdentityResource id = managedIdentity.Value!;
+
+            var credentials = id.GetFederatedIdentityCredentials();
+
+            await credentials.CreateOrUpdateAsync(
+                WaitUntil.Completed,
+                credentialName,
+                federatedCredentialData,
+                cancellationToken);
+
+            return new AzureManagedIdentityDetails(id.Id!, id.Data.Name, id.Data.ClientId!.Value);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failure while federating the managed identity '{id}'", managedIdentityName);
             throw;
         }
     }
@@ -220,7 +281,7 @@ public class AzureService(
         }
     }
 
-    public async Task<StorageAccount> CreateStorageAccountAsync(
+    public async Task<AzureStorageAccount> CreateStorageAccountAsync(
         string project,
         string environment,
         string name,
@@ -267,7 +328,7 @@ public class AzureService(
 
             _logger.LogDebug("Create Storage Account '{storageAccount}'", storageAccountName);
 
-            return new StorageAccount(
+            return new AzureStorageAccount(
                 operation.Value.Data.Id!,
                 operation.Value.Data.Name);
         }

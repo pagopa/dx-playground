@@ -96,6 +96,54 @@ public interface IGitHubService
         string headBranch,
         string baseBranch,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Create a new public repository
+    /// </summary>
+    /// <param name="owner">Repository owner</param>
+    /// <param name="name">Repository name</param>
+    /// <param name="description">Repository description</param>
+    /// <param name="cancellationToken">(Optional) Cancellation token</param>
+    /// <returns></returns>
+    Task<bool> CreatePublicRepositoryAsync(
+        string owner,
+        string name,
+        string description,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Create a GitHub Environment
+    /// </summary>
+    /// <param name="owner">Repository owner</param>
+    /// <param name="name">Repository name</param>
+    /// <param name="environment">Name of the environment</param>
+    /// <param name="cancellationToken">(Optional) Cancellation token</param>
+    /// <returns></returns>
+    Task CreateGitHubEnvironmentAsync(
+        string owner,
+        string name,
+        string environment,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Create a variable in GitHub repository
+    /// </summary>
+    /// <param name="owner">Repository owner</param>
+    /// <param name="repo">Repository name</param>
+    /// <param name="name">Variable name</param>
+    /// <param name="value">Variable value</param>
+    /// <param name="environment">(Optional) Bind the variable with an environment. Default is null</param>
+    /// <param name="isSecret">(Optional) Set the variable as secret. Default is false</param>
+    /// <param name="cancellationToken">(Optional) Cancellation token</param>
+    /// <returns></returns>
+    Task CreateGitHubVariableAsync(
+        string owner,
+        string repo,
+        string name,
+        string value,
+        string? environment = null,
+        bool isSecret = false,
+        CancellationToken cancellationToken = default);
 }
 
 /// <summary>
