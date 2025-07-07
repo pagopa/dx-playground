@@ -23,7 +23,7 @@
     "durable-functions": "^3.1.0",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22",
-    "ulid": "^3.0.0"
+    "ulid": "^3.0.1"
   },
   "devDependencies": {
     "@pagopa/eslint-config": "^5.0.0",
