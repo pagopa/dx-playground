@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Test PR Comment Action
-        uses: pagopa/dx/actions/pr-comment@chores/pr-comment-refactor
+        uses: pagopa/dx/actions/pr-comment@main
         with:
           comment-body: "hello world!"
           search-pattern: "hello"
