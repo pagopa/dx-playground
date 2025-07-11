@@ -28,7 +28,6 @@ jobs:
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           files: '**/graph.dot'
-          base_sha: '723cea259e247be5da4f576fa923744096337a17'
 
   dot-to-mermaid:
     needs: find-changed-dots
