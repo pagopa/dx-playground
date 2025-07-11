@@ -1,13 +1,16 @@
 name: Convert Dot to Mermaid with Inference - PR
 
 on:
-  pull_request_target:
+  pull_request:
     types:
       - opened
       - synchronize
     # paths:
     #   - '**/graph.dot'
   workflow_dispatch:
+  push:
+    branches:
+      - feat-poc-ai-graph-generation
 
 jobs:
   find-changed-dots:
