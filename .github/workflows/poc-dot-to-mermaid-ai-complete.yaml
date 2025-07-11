@@ -1,27 +1,57 @@
-name: Convert dot to Mermaid with Inference
-
-# Ref. https://github.com/actions/ai-inference
-# Ref. https://docs.github.com/en/github-models/use-github-models/integrating-ai-models-into-your-development-workflow
+name: Convert Dot to Mermaid with Inference - PR
 
 on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - '**/graph.dot'
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - feat-poc-ai-graph-generation
 
 jobs:
+  find-changed-dots:
+    runs-on: ubuntu-latest
+    outputs:
+      changed_files: ${{ steps.changed-files.outputs.all_changed_files }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Find changed .dot files
+        id: changed-files
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
+        with:
+          files: '**/graph.dot'
+
   dot-to-mermaid:
+    needs: find-changed-dots
+    if: ${{ needs.find-changed-dots.outputs.changed_files != '[]' && needs.find-changed-dots.outputs.changed_files != '' }}
+    
     runs-on: ubuntu-latest
     permissions:
       models: read
-      contents: read
-    steps:
-      - name: Checkout PR
-        uses: actions/checkout@v4
+      contents: write
+      pull-requests: write
 
-      - name: Generate Prompt
+    strategy:
+      matrix:
+        dot_file: ${{ fromJson(needs.find-changed-dots.outputs.changed_files) }}
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Generate Prompt for ${{ matrix.dot_file }}
+        id: generate_prompt
         run: |
-          cat > prompt.txt <<EOF
+          PROMPT_FILE="prompt-$(echo "${{ matrix.dot_file }}" | tr '/' '-').txt"
+          
+          cat > "$PROMPT_FILE" <<EOF
           You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
 
           Requirements:
@@ -48,11 +78,12 @@ jobs:
 
           Here is the original DOT code:
           \`\`\`dot
-          $(cat ./infra/resources/dev/graph.dot)
+          $(cat ./${{ matrix.dot_file }})
           \`\`\`
           EOF
 
-          cat prompt.txt
+          echo "Prompt file created at $PROMPT_FILE"
+          echo "prompt_path=$PROMPT_FILE" >> $GITHUB_OUTPUT
 
       - name: Verify Models permission via a ping
         env:
@@ -72,17 +103,33 @@ jobs:
             exit 1
           fi
 
-      - name: Run AI Inference with Prompt File
+      - name: Run AI Inference
         id: inference
         uses: actions/ai-inference@v1.1.0
         with:
-          prompt-file: './prompt.txt'
+          prompt-file: ${{ steps.generate_prompt.outputs.prompt_path }}
           max-tokens: 4096
           model: openai/gpt-4o
           token: ${{ secrets.GITHUB_TOKEN }}
 
-
-      - name: Use Response File
+      - name: Create Mermaid file from response
+        id: create_md
         run: |
-          echo "Response saved to: ${{ steps.inference.outputs.response-file }}"
-          cat "${{ steps.inference.outputs.response-file }}"
+          DOT_DIR=$(dirname "${{ matrix.dot_file }}")
+          MD_FILE_PATH="$DOT_DIR/graph.md"
+          
+          echo "AI Response saved to: ${{ steps.inference.outputs.response-file }}"
+          
+          mv "${{ steps.inference.outputs.response-file }}" "$MD_FILE_PATH"
+          
+          echo "Mermaid file created at: $MD_FILE_PATH"
+          echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
+
+      # - name: Commit and push graph.md
+      #   uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
+      #   with:
+      #     commit_message: "docs: ✨ Generate Mermaid diagram for ${{ matrix.dot_file }}"
+      #     file_pattern: "${{ steps.create_md.outputs.md_file_path }}"
+      #     commit_user_name: "dx-pagopa-bot"
+      #     commit_user_email: "dx-pagopa-github-bot@pagopa.it"
+      #     commit_author: "dx-pagopa-bo <dx-pagopa-github-bot@pagopa.it>"

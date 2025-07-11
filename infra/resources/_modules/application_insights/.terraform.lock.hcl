@@ -24,6 +24,7 @@ provider "registry.terraform.io/pagopa-dx/azure" {
   version     = "0.2.0"
   constraints = "~> 0.0"
   hashes = [
+    "h1:5teYJ0PPPjWbGHoXTDKeh0QZrxJR1xOh02wIcFxODHc=",
     "h1:I/tTgCuaapwwzUuoaxIg+x8/HNr8pYdYSGeiNpobKOw=",
     "zh:2301715691aabde18a23834654b236f972aecf4448df62750c5235e4c219b9ff",
     "zh:42c235c4bd422fdf97c84dd91cb5b8db00293b9f8785c86377358f9d72d66f92",

@@ -1,18 +1,26 @@
 repos:
-  - repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.96.2
-    hooks:
-      - id: terraform_fmt
-      - id: terraform_docs
-      - id: terraform_validate
-        args:
-          - --args=-json
-          - --args=-no-color
+  # - repo: https://github.com/antonbabenko/pre-commit-terraform
+  #   rev: v1.96.2
+  #   hooks:
+  #     - id: terraform_fmt
+  #     - id: terraform_docs
+  #     - id: terraform_validate
+  #       args:
+  #         - --args=-json
+  #         - --args=-no-color
 
-  - repo: https://github.com/pagopa/dx
-    rev: pre_commit_scripts@0.1.0
-    hooks:
-      - id: lock_modules
-        exclude: ^.*/(_modules|modules|\.terraform)(/.*)?$ # directories to exclude
-        files: infra/(github_runner|identity/dev|repository|resources/dev) # directories with terraform files to validate
+  # - repo: https://github.com/pagopa/dx
+  #   rev: pre_commit_scripts@0.1.0
+  #   hooks:
+  #     - id: lock_modules
+  #       exclude: ^.*/(_modules|modules|\.terraform)(/.*)?$ # directories to exclude
+  #       files: infra/(github_runner|identity/dev|repository|resources/dev) # directories with terraform files to validate
 
+  - repo: local
+    hooks:
+      - id: terraform-graph-generator
+        name: Generate Terraform Graph
+        entry: scripts/generate-terraform-graphs.sh
+        language: script
+        files: ^infra/(resources/_modules)/.*\.tf$
+        stages: [commit]
