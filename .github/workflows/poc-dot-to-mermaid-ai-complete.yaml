@@ -5,12 +5,9 @@ on:
     types:
       - opened
       - synchronize
-    paths:
-      - '**/graph.dot'
+    # paths:
+    #   - '**/graph.dot'
   workflow_dispatch:
-  push:
-    branches:
-      - feat-poc-ai-graph-generation
 
 jobs:
   find-changed-dots:
