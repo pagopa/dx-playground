@@ -94,23 +94,23 @@ jobs:
           echo "Prompt file created at $PROMPT_FILE"
           echo "prompt_path=$PROMPT_FILE" >> $GITHUB_OUTPUT
 
-      # - name: Verify Models permission via a ping
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     STATUS=$(
-      #       curl -o /dev/null -s -w "%{http_code}" \
-      #         -X POST \
-      #         -H "Authorization: Bearer $GITHUB_TOKEN" \
-      #         -H "Content-Type: application/json" \
-      #         -d '{"model":"openai/gpt-4o","messages":[{"role":"user","content":"Ping"}]}' \
-      #         https://models.github.ai/inference/chat/completions
-      #     )
-      #     echo "Inference ping returned HTTP $STATUS"
-      #     if [ "$STATUS" -ne 200 ]; then
-      #       echo "🚨 models:read permission is missing or AI is not enabled"
-      #       exit 1
-      #     fi
+      - name: Verify Models permission via a ping
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          STATUS=$(
+            curl -o /dev/null -s -w "%{http_code}" \
+              -X POST \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{"model":"openai/gpt-4o","messages":[{"role":"user","content":"Ping"}]}' \
+              https://models.github.ai/inference/chat/completions
+          )
+          echo "Inference ping returned HTTP $STATUS"
+          if [ "$STATUS" -ne 200 ]; then
+            echo "🚨 models:read permission is missing or AI is not enabled"
+            exit 1
+          fi
 
       - name: Run AI Inference
         id: inference
