@@ -8,6 +8,9 @@ on:
     paths:
       - '**/graph.dot'
   workflow_dispatch:
+  push:
+    branches:
+      - feat-poc-ai-graph-generation
 
 jobs:
   find-changed-dots:
