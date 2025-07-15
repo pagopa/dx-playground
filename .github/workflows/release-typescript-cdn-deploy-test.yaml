@@ -100,16 +100,19 @@ jobs:
         run: ${{ steps.node-setup.outputs.package-manager }} run build
         working-directory: ./out
 
-      - name: See folders
-        run: |
-          echo "List of files in the current directory:"
-          ls -la .
-          echo "List of files in the 'out' directory:"
-          ls -la ./out
+      # - name: See folders
+      #   run: |
+      #     echo "List of files in the current directory:"
+      #     ls -la .
+      #     echo "List of files in the 'out' directory:"
+      #     ls -la ./out
 
       - name: Find dist directory path
         id: find_dist
-        run: echo "dist_path=$(find ./out -type d -name dist)" >> $GITHUB_OUTPUT
+        run: |
+          dist_path=$(find ./out -type d -name dist)
+          echo "Found dist directory at: $dist_path"
+          echo "dist_path=$dist_path" >> $GITHUB_OUTPUT
 
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
