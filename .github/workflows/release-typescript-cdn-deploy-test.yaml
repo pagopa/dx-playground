@@ -70,11 +70,9 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         name: Checkout
 
-      # Il comando prune ora viene eseguito sempre dalla root del repository.
       - name: Prune
         run: npx turbo@2 prune --scope=${{ env.WORKSPACE }}
 
-      # Tutti gli step successivi operano dentro la cartella 'out' creata da 'prune'
       - name: Node Setup
         id: node-setup
         uses: pagopa/dx/.github/actions/node-setup@main
@@ -100,13 +98,6 @@ jobs:
         run: ${{ steps.node-setup.outputs.package-manager }} run build
         working-directory: ./out
 
-      # - name: See folders
-      #   run: |
-      #     echo "List of files in the current directory:"
-      #     ls -la .
-      #     echo "List of files in the 'out' directory:"
-      #     ls -la ./out
-
       - name: Find dist directory path
         id: find_dist
         run: |
@@ -130,12 +121,14 @@ jobs:
       contents: read
 
     steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        name: Checkout
+        
       - name: Download Artifact
         uses: pagopa/dx/.github/actions/download-artifact@main
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
 
-      # DEBUG: List the content of the downloaded artifact
       - name: List Artifact Content
         run: ls -R
 
@@ -148,7 +141,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       - name: Deploy Assets and Purge CDN
-        uses: ./actions/cdn-code-deploy-test
+        uses: ./.github/actions/cdn-code-deploy-test
         with:
           storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
           blob_container_name: ${{ env.BLOB_CONTAINER_NAME }}
