@@ -148,7 +148,7 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       - name: Deploy Assets and Purge CDN
-        uses: ./.github/actions/cdn-code-deploy-test
+        uses: ./actions/cdn-code-deploy-test
         with:
           storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
           blob_container_name: ${{ env.BLOB_CONTAINER_NAME }}
