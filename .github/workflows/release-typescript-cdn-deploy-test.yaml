@@ -18,7 +18,6 @@ on:
         description: Blob container name within the Azure Storage account.
         type: string
         required: false
-        default: '$web'
       resource_group_name:
         description: CDN resource group name.
         type: string
@@ -123,14 +122,14 @@ jobs:
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         name: Checkout
-        
+
       - name: Download Artifact
         uses: pagopa/dx/.github/actions/download-artifact@main
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
 
       - name: List Artifact Content
-        run: ls -R
+        run: ls -la
 
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
@@ -153,4 +152,4 @@ jobs:
           RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
           CDN_PROFILE_NAME: ${{ inputs.profile_name }}
           CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
-          BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
+          BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name || '$web' }}
