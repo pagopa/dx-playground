@@ -40,7 +40,7 @@ on:
         description: Use a private agent to deploy the built artifact.
         type: boolean
         required: false
-        default: true
+        default: false
       use_labels:
         description: Use labels to start the right environment's GitHub runner. If use_labels is true, also use_private_agent must be set to true
         type: boolean
