@@ -110,7 +110,7 @@ jobs:
       - name: Find dist directory path
         id: find_dist
         run: |
-          dist_path=$(find ./out -type d -name dist)
+          dist_path=$(find ./out -path '*/node_modules' -prune -o -type d -name dist -print | head -n 1)
           echo "Found dist directory at: $dist_path"
           echo "dist_path=$dist_path" >> $GITHUB_OUTPUT
 
