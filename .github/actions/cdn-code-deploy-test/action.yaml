@@ -62,7 +62,7 @@ runs:
           --container "${{ inputs.blob_container_name }}" \
           --account-name ${{ inputs.storage_account_name }} \
           --source "${{ env.FOLDER_NAME }}" \
-          --dry-run
+          --dryrun
       working-directory: ${{ env.WORKING_DIRECTORY }}
       env:
         FOLDER_NAME: ${{ inputs.sync_dir_name || 'dist' }}
