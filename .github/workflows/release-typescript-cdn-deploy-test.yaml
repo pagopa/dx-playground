@@ -1,9 +1,9 @@
 name: Deploy Static Site to Azure CDN - TEST
 
 on:
-  push:
-    branches:
-      - test-workflow-deploy-cdn-ts
+  # push:
+  #   branches:
+  #     - test-workflow-deploy-cdn-ts
   workflow_dispatch:
     inputs:
       workspace_name:
@@ -99,6 +99,13 @@ jobs:
       - name: Build project
         run: ${{ steps.node-setup.outputs.package-manager }} run build
         working-directory: ./out
+
+      - name: See folders
+        run: |
+          echo "List of files in the current directory:"
+          ls -la .
+          echo "List of files in the 'out' directory:"
+          ls -la ./out
 
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
