@@ -107,11 +107,15 @@ jobs:
           echo "List of files in the 'out' directory:"
           ls -la ./out
 
+      - name: Find dist directory path
+        id: find_dist
+        run: echo "dist_path=$(find ./out -type d -name dist)" >> $GITHUB_OUTPUT
+
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
-          file_path: ./out/dist/
+          file_path: ${{ steps.find_dist.outputs.dist_path }}
 
   deploy:
     name: Deploy
