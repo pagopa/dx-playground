@@ -127,6 +127,7 @@ jobs:
         uses: pagopa/dx/.github/actions/download-artifact@main
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
+          file_path: "./dist"
 
       - name: List Artifact Content
         run: ls -la
