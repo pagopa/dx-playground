@@ -130,7 +130,7 @@ jobs:
           file_path: "./dist"
 
       - name: List Artifact Content
-        run: ls -la
+        run: ls -la ./dist
 
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
@@ -144,7 +144,7 @@ jobs:
         uses: ./.github/actions/cdn-code-deploy-test
         with:
           storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
-          blob_container_name: ${{ env.BLOB_CONTAINER_NAME }}
+          blob_container_name: "${{ env.BLOB_CONTAINER_NAME }}"
           resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
           profile_name: ${{ env.CDN_PROFILE_NAME }}
           endpoint_name: ${{ env.CDN_ENDPOINT_NAME }}
