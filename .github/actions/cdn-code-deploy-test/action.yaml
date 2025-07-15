@@ -59,7 +59,7 @@ runs:
       shell: bash
       run: |
         az storage blob sync \
-          --container ${{ inputs.blob_container_name }} \
+          --container "${{ inputs.blob_container_name }}" \
           --account-name ${{ inputs.storage_account_name }} \
           --source "${{ env.FOLDER_NAME }}" \
           --dry-run
