@@ -148,9 +148,14 @@ jobs:
         shell: bash
         run: |
           echo "--- This is a simulation. The following command would be executed in a real deploy ---"
-          echo "az storage blob sync --container '${{ inputs.blob_container_name }}' --account-name '${{ inputs.storage_account_name }}' --source './dist'"
+          echo "az storage blob sync --container \"${{ env.BLOB_CONTAINER_NAME }}\" --account-name ${{ env.STORAGE_ACCOUNT_NAME }} --source 'dist'"
           echo "--------------------------------------------------------------------------------------"
-
+        env:
+          STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
+          RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
+          CDN_PROFILE_NAME: ${{ inputs.profile_name }}
+          CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
+          BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
 
       - name: Deploy Assets and Purge CDN
         uses: ./.github/actions/cdn-code-deploy-test
