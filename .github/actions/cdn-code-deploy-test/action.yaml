@@ -55,14 +55,13 @@ runs:
 
     ## Sync Storage
     # will be synced the to the working_directory/sync_dir_name defined (Default will be './dist')
-    - name: Dry Run Sync Storage
+    - name: Sync Storage
       shell: bash
       run: |
-        az storage blob upload-batch \
-          --destination "${{ inputs.blob_container_name }}" \
+        az storage blob sync \
+          --container "${{ inputs.blob_container_name }}" \
           --account-name ${{ inputs.storage_account_name }} \
-          --source ${{ env.FOLDER_NAME }} \
-          --dryrun
+          --source "${{ env.FOLDER_NAME }}"
       working-directory: ${{ env.WORKING_DIRECTORY }}
       env:
         FOLDER_NAME: ${{ inputs.sync_dir_name || 'dist' }}

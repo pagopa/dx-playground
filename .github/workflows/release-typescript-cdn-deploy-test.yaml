@@ -148,7 +148,7 @@ jobs:
         shell: bash
         run: |
           echo "--- This is a simulation. The following command would be executed in a real deploy ---"
-          echo "az storage blob sync --container '${{ inputs.blob_container_name || 'web' }}' --account-name '${{ inputs.storage_account_name }}' --source './dist'"
+          echo "az storage blob sync --container '${{ inputs.blob_container_name }}' --account-name '${{ inputs.storage_account_name }}' --source './dist'"
           echo "--------------------------------------------------------------------------------------"
 
 
@@ -160,13 +160,13 @@ jobs:
           resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
           profile_name: ${{ env.CDN_PROFILE_NAME }}
           endpoint_name: ${{ env.CDN_ENDPOINT_NAME }}
-          # sync_dir_name: ${{ github.workspace }}/dist
+          # sync_dir_name: dis
         env:
           STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
           RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
           CDN_PROFILE_NAME: ${{ inputs.profile_name }}
           CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
-          BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name || 'web' }}
+          BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
 
       # - name: "[DRY-RUN] Sync assets to Azure Storage"
       #   shell: bash
