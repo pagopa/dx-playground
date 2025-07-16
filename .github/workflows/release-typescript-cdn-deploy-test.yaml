@@ -130,7 +130,10 @@ jobs:
           file_path: "./dist"
 
       - name: List Artifact Content
-        run: ls -la ./dist
+        run: |
+          ls -la .
+          echo "Listing contents of the dist directory:"
+          ls -la ./dist
 
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
@@ -140,27 +143,36 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
-      # - name: Deploy Assets and Purge CDN
-      #   uses: ./.github/actions/cdn-code-deploy-test
-      #   with:
-      #     storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
-      #     blob_container_name: "${{ env.BLOB_CONTAINER_NAME }}"
-      #     resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
-      #     profile_name: ${{ env.CDN_PROFILE_NAME }}
-      #     endpoint_name: ${{ env.CDN_ENDPOINT_NAME }}
-      #     sync_dir_name: "${{ github.workspace }}/dist"
-      #   env:
-      #     STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
-      #     RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
-      #     CDN_PROFILE_NAME: ${{ inputs.profile_name }}
-      #     CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
-      #     BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name || '$web' }}
-      - name: "[DRY-RUN] Sync assets to Azure Storage"
+      - name: "[TEST-MODE] Simulate asset sync"
         shell: bash
         run: |
-          echo "Attempting to sync from absolute path: ${{ github.workspace }}/dist"
-          az storage blob upload-batch \
-            --destination "${{ inputs.blob_container_name || '$web' }}" \
-            --account-name ${{ inputs.storage_account_name }} \
-            --source "${{ github.workspace }}/dist" \
-            --dryrun
+          echo "--- This is a simulation. The following command would be executed in a real deploy ---"
+          echo "az storage blob sync --container '${{ inputs.blob_container_name || '$web' }}' --account-name '${{ inputs.storage_account_name }}' --source './dist'"
+          echo "--------------------------------------------------------------------------------------"
+
+
+      - name: Deploy Assets and Purge CDN
+        uses: ./.github/actions/cdn-code-deploy-test
+        with:
+          storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
+          blob_container_name: "${{ env.BLOB_CONTAINER_NAME }}"
+          resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
+          profile_name: ${{ env.CDN_PROFILE_NAME }}
+          endpoint_name: ${{ env.CDN_ENDPOINT_NAME }}
+          sync_dir_name: "${{ github.workspace }}/dist"
+        env:
+          STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
+          RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
+          CDN_PROFILE_NAME: ${{ inputs.profile_name }}
+          CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
+          BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name || 'web' }}
+
+      # - name: "[DRY-RUN] Sync assets to Azure Storage"
+      #   shell: bash
+      #   run: |
+      #     echo "Attempting to sync from absolute path: ${{ github.workspace }}/dist"
+      #     az storage blob upload-batch \
+      #       --destination "${{ inputs.blob_container_name || '$web' }}" \
+      #       --account-name ${{ inputs.storage_account_name }} \
+      #       --source "${{ github.workspace }}/dist" \
+      #       --dryrun
