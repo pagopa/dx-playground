@@ -58,6 +58,11 @@ runs:
     - name: Sync Storage
       shell: bash
       run: |
+        echo "az storage blob sync \"
+        echo "  --container ${{ inputs.blob_container_name }} \"
+        echo "  --account-name ${{ inputs.storage_account_name }} \"
+        echo "  --source \"${{ env.FOLDER_NAME }}\""
+        
         az storage blob sync \
           --container ${{ inputs.blob_container_name }} \
           --account-name ${{ inputs.storage_account_name }} \

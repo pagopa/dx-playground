@@ -165,20 +165,9 @@ jobs:
           resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
           profile_name: ${{ env.CDN_PROFILE_NAME }}
           endpoint_name: ${{ env.CDN_ENDPOINT_NAME }}
-          # sync_dir_name: dis
         env:
           STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
           RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
           CDN_PROFILE_NAME: ${{ inputs.profile_name }}
           CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
           BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
-
-      # - name: "[DRY-RUN] Sync assets to Azure Storage"
-      #   shell: bash
-      #   run: |
-      #     echo "Attempting to sync from absolute path: ${{ github.workspace }}/dist"
-      #     az storage blob upload-batch \
-      #       --destination "${{ inputs.blob_container_name || '$web' }}" \
-      #       --account-name ${{ inputs.storage_account_name }} \
-      #       --source "${{ github.workspace }}/dist" \
-      #       --dryrun
