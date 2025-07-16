@@ -58,10 +58,12 @@ runs:
     - name: Sync Storage
       shell: bash
       run: |
-        echo "az storage blob sync \"
-        echo "  --container ${{ inputs.blob_container_name }} \"
-        echo "  --account-name ${{ inputs.storage_account_name }} \"
-        echo "  --source \"${{ env.FOLDER_NAME }}\""
+        cat <<EOF
+        az storage blob sync \
+          --container ${{ inputs.blob_container_name }} \
+          --account-name ${{ inputs.storage_account_name }} \
+          --source ${{ env.FOLDER_NAME }}
+        EOF
         
         az storage blob sync \
           --container ${{ inputs.blob_container_name }} \
@@ -78,11 +80,14 @@ runs:
       if: ${{ inputs.selective_purge_paths != '' }}
       shell: bash
       run: |
-        echo "az cdn endpoint purge \"
-        echo "  --resource-group ${{ inputs.resource_group_name }} \"
-        echo "  --endpoint-name ${{ inputs.endpoint_name }} \"
-        echo "  --profile-name ${{ inputs.profile_name }} \"
-        echo "  --content-paths $(echo "${{ inputs.selective_purge_paths }}" | sed -e \"s/\([^ ]*\)/'\1'/g\")"
+        cat <<EOF
+        az cdn endpoint purge \
+          --resource-group ${{ inputs.resource_group_name }} \
+          --endpoint-name ${{ inputs.endpoint_name }} \
+          --profile-name ${{ inputs.profile_name }} \
+          --content-paths \
+        $(for path in ${{ inputs.selective_purge_paths }}; do echo "    '$path' \\"; done)
+        EOF
 
     # If selective_purge_paths is not defined, purge all files '/*'
     - name: Dry Run Purge CDN
