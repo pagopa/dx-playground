@@ -130,6 +130,9 @@ jobs:
           bundle_name: ${{ env.BUNDLE_NAME }}
           file_path: "./dist"
 
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        name: Checkout
+        
       - name: List Artifact Content
         run: |
           ls -la .
@@ -156,12 +159,6 @@ jobs:
           CDN_PROFILE_NAME: ${{ inputs.profile_name }}
           CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
           BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
-
-      - name: List Artifact Content
-        run: |
-          ls -la .
-          echo "Listing contents of the dist directory:"
-          ls -la ./dist
 
       - name: Deploy Assets and Purge CDN
         uses: ./.github/actions/cdn-code-deploy-test
