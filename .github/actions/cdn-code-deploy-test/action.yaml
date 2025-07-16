@@ -61,7 +61,7 @@ runs:
         az storage blob upload-batch \
           --destination "${{ inputs.blob_container_name }}" \
           --account-name ${{ inputs.storage_account_name }} \
-          --source "${{ env.FOLDER_NAME }}" \
+          --source ${{ env.FOLDER_NAME }} \
           --dryrun
       working-directory: ${{ env.WORKING_DIRECTORY }}
       env:
