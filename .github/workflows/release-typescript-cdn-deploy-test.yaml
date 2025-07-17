@@ -104,16 +104,11 @@ jobs:
         working-directory: ./out
 
       - name: Find build output directory path
-        id: find_dist
+        id: find_package
         run: |
-          info=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --format json)
-          echo "Found packages: $info"
-          packages_path=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --format json --scope=${{ env.WORKSPACE }} --output=out)
-          echo "Found packages path: $packages_path"
-
-          dist_path=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --output json | jq -sr --arg WORKSPACE "$WORKSPACE" '.[].packages.items[] | select(.name==$WORKSPACE).path')
-          echo "Found dist directory at: $dist_path/$OUTPUT_DIR"
-          echo "dist_path=$dist_path/$OUTPUT_DIR" >> $GITHUB_OUTPUT
+          packages_path=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --output json | jq -sr --arg WORKSPACE "$WORKSPACE" '.[].packages.items[] | select(.name==$WORKSPACE).path')
+          echo "Found dist directory at: $packages_path/$OUTPUT_DIR"
+          echo "packages_path=$packages_path/$OUTPUT_DIR" >> $GITHUB_OUTPUT
         env:
           WORKSPACE: ${{ inputs.workspace_name }}
           OUTPUT_DIR: ${{ inputs.output_dir }}
@@ -122,7 +117,7 @@ jobs:
         uses: pagopa/dx/.github/actions/upload-artifact@main
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
-          file_path: ${{ steps.find_dist.outputs.dist_path }}
+          file_path: ${{ steps.find_package.outputs.packages_path }}
 
   deploy:
     name: Deploy
