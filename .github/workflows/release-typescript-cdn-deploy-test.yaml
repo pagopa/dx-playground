@@ -95,7 +95,7 @@ jobs:
         working-directory: ./out
 
       - name: Build project
-        run: ${{ steps.node-setup.outputs.package-manager }} run build
+        run: npx turbo build
         working-directory: ./out
 
       - name: Find dist directory path
