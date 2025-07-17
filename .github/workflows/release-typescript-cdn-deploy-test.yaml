@@ -134,12 +134,6 @@ jobs:
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
           file_path: "./${{ env.OUTPUT_DIR }}"
-        
-      - name: List Artifact Content
-        run: |
-          ls -la .
-          echo "Listing contents of the $OUTPUT_DIR directory:"
-          ls -la ./$OUTPUT_DIR
 
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
@@ -149,21 +143,8 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
-      - name: "[TEST-MODE] Simulate asset sync"
-        shell: bash
-        run: |
-          echo "--- This is a simulation. The following command would be executed in a real deploy ---"
-          echo "az storage blob sync --container \"${{ env.BLOB_CONTAINER_NAME }}\" --account-name ${{ env.STORAGE_ACCOUNT_NAME }} --source ${{ inputs.output_dir}}"
-          echo "--------------------------------------------------------------------------------------"
-        env:
-          STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
-          RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
-          CDN_PROFILE_NAME: ${{ inputs.profile_name }}
-          CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
-          BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
-
       - name: Deploy Assets and Purge CDN
-        uses: ./.github/actions/cdn-code-deploy-test
+        uses: pagopa/dx/.github/actions/cdn-code-deploy@main
         with:
           storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
           blob_container_name: "${{ env.BLOB_CONTAINER_NAME }}"
