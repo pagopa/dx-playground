@@ -108,7 +108,7 @@ jobs:
         run: |
           packages_path=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --output json | jq -sr --arg WORKSPACE "$WORKSPACE" '.[].packages.items[] | select(.name==$WORKSPACE).path')
           echo "Found dist directory at: $packages_path/$OUTPUT_DIR"
-          echo "packages_path=$packages_path/$OUTPUT_DIR" >> $GITHUB_OUTPUT
+          echo "packages_path=./out/$packages_path/$OUTPUT_DIR" >> $GITHUB_OUTPUT
         env:
           WORKSPACE: ${{ inputs.workspace_name }}
           OUTPUT_DIR: ${{ inputs.output_dir }}
