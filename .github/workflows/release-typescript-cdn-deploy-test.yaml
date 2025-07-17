@@ -10,6 +10,11 @@ on:
         description: The name of the workspace to create the artifact for.
         type: string
         required: true
+      output_dir:
+        description: The name of the build output directory.
+        type: string
+        required: false
+        default: 'dist'
       storage_account_name:
         description: Azure Storage account name where the assets will be uploaded.
         type: string
@@ -98,12 +103,20 @@ jobs:
         run: npx turbo build
         working-directory: ./out
 
-      - name: Find dist directory path
+      - name: Find build output directory path
         id: find_dist
         run: |
-          dist_path=$(find ./out -path '*/node_modules' -prune -o -type d -name dist -print | head -n 1)
-          echo "Found dist directory at: $dist_path"
-          echo "dist_path=$dist_path" >> $GITHUB_OUTPUT
+          info=$(TURBO_PRINT_VERSION_DISABLED=1  turbo ls --format json)
+          echo "Found packages: $info"
+          packages_path=$(TURBO_PRINT_VERSION_DISABLED=1  turbo ls --format json --scope=${{ env.WORKSPACE }} --output=out)
+          echo "Found packages path: $packages_path"
+
+          dist_path=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --output json | jq -sr --arg WORKSPACE "$WORKSPACE" '.[].packages.items[] | select(.name==$WORKSPACE).path')
+          echo "Found dist directory at: $dist_path/$OUTPUT_DIR"
+          echo "dist_path=$dist_path/$OUTPUT_DIR" >> $GITHUB_OUTPUT
+        env:
+          WORKSPACE: ${{ inputs.workspace_name }}
+          OUTPUT_DIR: ${{ inputs.output_dir }}
 
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
@@ -128,13 +141,17 @@ jobs:
         uses: pagopa/dx/.github/actions/download-artifact@main
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
-          file_path: "./dist"
+          file_path: "./${{ env.OUTPUT_DIR }}"
+        env:
+          OUTPUT_DIR: ${{ inputs.output_dir }}
         
       - name: List Artifact Content
         run: |
           ls -la .
-          echo "Listing contents of the dist directory:"
-          ls -la ./dist
+          echo "Listing contents of the $OUTPUT_DIR directory:"
+          ls -la ./$OUTPUT_DIR
+        env:
+          OUTPUT_DIR: ${{ inputs.output_dir }}
 
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
@@ -148,7 +165,7 @@ jobs:
         shell: bash
         run: |
           echo "--- This is a simulation. The following command would be executed in a real deploy ---"
-          echo "az storage blob sync --container \"${{ env.BLOB_CONTAINER_NAME }}\" --account-name ${{ env.STORAGE_ACCOUNT_NAME }} --source 'dist'"
+          echo "az storage blob sync --container \"${{ env.BLOB_CONTAINER_NAME }}\" --account-name ${{ env.STORAGE_ACCOUNT_NAME }} --source ${{ inputs.output_dir}}"
           echo "--------------------------------------------------------------------------------------"
         env:
           STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
@@ -165,9 +182,11 @@ jobs:
           resource_group_name: ${{ env.RESOURCE_GROUP_NAME }}
           profile_name: ${{ env.CDN_PROFILE_NAME }}
           endpoint_name: ${{ env.CDN_ENDPOINT_NAME }}
+          sync_dir_name: ${{ env.OUTPUT_DIR }}
         env:
           STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
           RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
           CDN_PROFILE_NAME: ${{ inputs.profile_name }}
           CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
           BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
+          OUTPUT_DIR: ${{ inputs.output_dir }}
