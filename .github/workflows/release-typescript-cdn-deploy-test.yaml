@@ -106,9 +106,9 @@ jobs:
       - name: Find build output directory path
         id: find_dist
         run: |
-          info=$(TURBO_PRINT_VERSION_DISABLED=1  turbo ls --format json)
+          info=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --format json)
           echo "Found packages: $info"
-          packages_path=$(TURBO_PRINT_VERSION_DISABLED=1  turbo ls --format json --scope=${{ env.WORKSPACE }} --output=out)
+          packages_path=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --format json --scope=${{ env.WORKSPACE }} --output=out)
           echo "Found packages path: $packages_path"
 
           dist_path=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --output json | jq -sr --arg WORKSPACE "$WORKSPACE" '.[].packages.items[] | select(.name==$WORKSPACE).path')
