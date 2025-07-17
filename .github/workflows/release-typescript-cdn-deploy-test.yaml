@@ -1,9 +1,6 @@
 name: Deploy Static Site to Azure CDN - TEST
 
 on:
-  # push:
-  #   branches:
-  #     - test-workflow-deploy-cdn-ts
   workflow_call:
     inputs:
       workspace_name:
@@ -40,7 +37,6 @@ on:
         description: Environment where the artifact will be deployed.
         type: string
         required: true
-        default: 'dev' # Default environment for testing
       use_private_agent:
         description: Use a private agent to deploy the built artifact.
         type: boolean
@@ -63,20 +59,21 @@ concurrency:
 
 env:
   BUNDLE_NAME: bundle
-  
+  OUTPUT_DIR: ${{ inputs.output_dir }}
+
 jobs:
   build:
     name: Build Artifact
     runs-on: ubuntu-latest
-    env:
-      WORKSPACE: ${{ inputs.workspace_name }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Prune
-        run: npx turbo@2 prune --scope=${{ env.WORKSPACE }}
+        run: npx turbo prune --scope=$WORKSPACE
+        env:
+          WORKSPACE: ${{ inputs.workspace_name }}
 
       - name: Node Setup
         id: node-setup
@@ -96,7 +93,7 @@ jobs:
 
       - name: Install dependencies (pnpm)
         if: steps.node-setup.outputs.package-manager == 'pnpm'
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
         working-directory: ./out
 
       - name: Build project
@@ -107,11 +104,10 @@ jobs:
         id: find_package
         run: |
           packages_path=$(TURBO_PRINT_VERSION_DISABLED=1 npx turbo ls --output json | jq -sr --arg WORKSPACE "$WORKSPACE" '.[].packages.items[] | select(.name==$WORKSPACE).path')
-          echo "Found dist directory at: $packages_path/$OUTPUT_DIR"
+          echo "Found $OUTPUT_DIR directory at: ./out/$packages_path/$OUTPUT_DIR"
           echo "packages_path=./out/$packages_path/$OUTPUT_DIR" >> $GITHUB_OUTPUT
         env:
           WORKSPACE: ${{ inputs.workspace_name }}
-          OUTPUT_DIR: ${{ inputs.output_dir }}
 
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
@@ -123,7 +119,8 @@ jobs:
     name: Deploy
     runs-on: ${{ inputs.use_labels && inputs.use_private_agent && (inputs.override_labels != '' && inputs.override_labels || inputs.environment) || inputs.use_private_agent && 'self-hosted' || 'ubuntu-latest' }}
     needs: [build]
-    environment: ${{ inputs.environment }}-ci
+    if: ${{ !github.event.act }}
+    environment: ${{ inputs.environment }}-cd
     permissions:
       id-token: write
       contents: read
@@ -136,17 +133,7 @@ jobs:
         uses: pagopa/dx/.github/actions/download-artifact@main
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
-          file_path: "./${{ env.OUTPUT_DIR }}"
-        env:
-          OUTPUT_DIR: ${{ inputs.output_dir }}
-        
-      - name: List Artifact Content
-        run: |
-          ls -la .
-          echo "Listing contents of the $OUTPUT_DIR directory:"
-          ls -la ./$OUTPUT_DIR
-        env:
-          OUTPUT_DIR: ${{ inputs.output_dir }}
+          file_path: "./dist"
 
       - name: Azure Login
         uses: pagopa/dx/.github/actions/azure-login@main
@@ -156,21 +143,8 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
-      - name: "[TEST-MODE] Simulate asset sync"
-        shell: bash
-        run: |
-          echo "--- This is a simulation. The following command would be executed in a real deploy ---"
-          echo "az storage blob sync --container \"${{ env.BLOB_CONTAINER_NAME }}\" --account-name ${{ env.STORAGE_ACCOUNT_NAME }} --source ${{ inputs.output_dir}}"
-          echo "--------------------------------------------------------------------------------------"
-        env:
-          STORAGE_ACCOUNT_NAME: ${{ inputs.storage_account_name }}
-          RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
-          CDN_PROFILE_NAME: ${{ inputs.profile_name }}
-          CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
-          BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
-
       - name: Deploy Assets and Purge CDN
-        uses: ./.github/actions/cdn-code-deploy-test
+        uses: pagopa/dx/.github/actions/cdn-code-deploy@main
         with:
           storage_account_name: ${{ env.STORAGE_ACCOUNT_NAME }}
           blob_container_name: "${{ env.BLOB_CONTAINER_NAME }}"
@@ -184,4 +158,3 @@ jobs:
           CDN_PROFILE_NAME: ${{ inputs.profile_name }}
           CDN_ENDPOINT_NAME: ${{ inputs.endpoint_name }}
           BLOB_CONTAINER_NAME: ${{ inputs.blob_container_name }}
-          OUTPUT_DIR: ${{ inputs.output_dir }}
