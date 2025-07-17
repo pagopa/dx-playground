@@ -4,7 +4,7 @@ on:
   # push:
   #   branches:
   #     - test-workflow-deploy-cdn-ts
-  workflow_dispatch:
+  workflow_call:
     inputs:
       workspace_name:
         description: The name of the workspace to create the artifact for.
