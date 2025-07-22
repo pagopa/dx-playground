@@ -22,13 +22,12 @@ resource storageExtender 'Applications.Core/extenders@2023-10-01-preview' = {
 }
 
 resource storage2Extender 'Applications.Core/extenders@2023-10-01-preview' = {
-  name: 'storageresource'
+  name: 'storageresource2'
   properties: {
     application: application
     environment: environment
     recipe: {
-      name: 'terraformStorage'
-      // Possible terraform parameters
+      name: 'terraformStorage2'
       parameters: {
         resource_group_name: 'dx-d-itn-test-rg-01'
       }

@@ -79,6 +79,10 @@ resource env 'Applications.Core/environments@2023-10-01-preview' = {
           templateKind: 'terraform'
           templatePath: 'git::https://github.com/pagopa/dx-playground.git//infra/radius-demo/recipes/test?ref=demo-radius'
         }
+        terraformStorage2: {
+          templateKind: 'terraform'
+          templatePath: 'git::https://github.com/pagopa/dx-playground.git//infra/radius-demo/recipes/test2?ref=demo-radius'
+        }
       }
     }
   }
