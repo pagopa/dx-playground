@@ -573,6 +573,69 @@ graph LR
   ModuleTo_do_api_v3Azurerm_api_management_backendBackend --> ModuleAzure_function_v3_function_appAzurerm_linux_function_app_slotThis
 ```
 
+## Bedrock
+
+```mermaid
+graph LR
+  subgraph Key Vault
+    KeyVault["Key Vault"]
+    KeyVaultSecretAPIM["Key Vault Secret - APIM API Key"]
+    KeyVaultSecretToDo["Key Vault Secret - To Do API Key"]
+    KeyVaultSecretToDoFuncV3["Key Vault Secret - To Do API Key Func V3"]
+  end
+
+  subgraph Resource Groups
+    CommonRG["Resource Group - Common"]
+    NetRG["Resource Group - Net"]
+    TestRG["Resource Group - Test"]
+  end
+
+  subgraph Networks
+    PEPSubnet["Subnet - PEP"]
+    TestVNet["Virtual Network - Test"]
+  end
+
+  subgraph Subscription
+    CurrentSubscription["Subscription - Current"]
+  end
+
+  subgraph Cosmos DB
+    CosmosDBContainerTasks["Cosmos DB Container - Tasks"]
+    CosmosDBDatabase["Cosmos DB Database"]
+  end
+
+  subgraph Subnets
+    APIMSubnet["Subnet - APIM"]
+  end
+
+  subgraph Available Subnet CIDR
+    FunctionV3CIDR["Available Subnet CIDR - Function V3"]
+  end
+
+  subgraph API Management
+    APIMCertificate["API Management Certificate"]
+    APIMDiagnostic["API Management Diagnostic"]
+    APIMLogger["API Management Logger"]
+    APIMPolicy["API Management Policy"]
+    APIM["API Management"]
+    ManagementLock["Management Lock"]
+    MonitorAutoscaleSetting["Monitor Autoscale Setting"]
+    MonitorDiagnosticSetting["Monitor Diagnostic Setting"]
+    MonitorMetricAlert["Monitor Metric Alert"]
+    NetworkSecurityGroup["Network Security Group"]
+    PrivateDNSARecordAPIMAzureAPINet["A Record - apim.azure-api.net"]
+    PrivateDNSARecordAPIMManagementAzureAPINet["A Record - management.apim.azure-api.net"]
+    PrivateDNSARecordAPIMSCMAzureAPINet["A Record - scm.apim.azure-api.net"]
+    SubnetNetworkSecurityGroupAssociation["Subnet Network Security Group Association"]
+  end
+
+  subgraph Role Assignments
+    RoleAssignmentAPIM["Role Assignment - APIM"]
+    RoleAssignmentCosmosDB["Role Assignment - Cosmos DB"]
+    RoleAssignmentEventHub["Role Assignment - Event Hub"]
+    RoleAssignmentKeyVault["Role Assignment - Key Vault"]
+    RoleAssignmentRedis["Role Assignment - Redis"]
+```
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
