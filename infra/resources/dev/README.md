@@ -576,65 +576,238 @@ graph LR
 ## Bedrock
 
 ```mermaid
+```mermaid
 graph LR
   subgraph Key Vault
-    KeyVault["Key Vault"]
-    KeyVaultSecretAPIM["Key Vault Secret - APIM API Key"]
-    KeyVaultSecretToDo["Key Vault Secret - To Do API Key"]
-    KeyVaultSecretToDoFuncV3["Key Vault Secret - To Do API Key Func V3"]
+    CommonKV["Common Key Vault"]
+    ApimApiKeySecret["APIM API Key Secret"]
+    ToDoApiKeySecret["To Do API Key Secret"]
+    ToDoApiKeyFuncV3Secret["To Do API Key Func V3 Secret"]
   end
 
   subgraph Resource Groups
-    CommonRG["Resource Group - Common"]
-    NetRG["Resource Group - Net"]
-    TestRG["Resource Group - Test"]
-  end
-
-  subgraph Networks
-    PEPSubnet["Subnet - PEP"]
-    TestVNet["Virtual Network - Test"]
-  end
-
-  subgraph Subscription
-    CurrentSubscription["Subscription - Current"]
-  end
-
-  subgraph Cosmos DB
-    CosmosDBContainerTasks["Cosmos DB Container - Tasks"]
-    CosmosDBDatabase["Cosmos DB Database"]
+    CommonRG["Common Resource Group"]
+    NetRG["Net Resource Group"]
+    TestRG["Test Resource Group"]
   end
 
   subgraph Subnets
-    APIMSubnet["Subnet - APIM"]
+    PepSnet["PEP Subnet"]
   end
 
-  subgraph Available Subnet CIDR
-    FunctionV3CIDR["Available Subnet CIDR - Function V3"]
+  subgraph VNets
+    TestVNet["Test VNet"]
+  end
+
+  subgraph Subnets
+    ApimSubnet["APIM Subnet"]
+  end
+
+  subgraph CosmosDB
+    TasksContainer["Tasks Container"]
+    Db["Database"]
+  end
+
+  subgraph Application Insights
+    MainApplicationInsights["Main Application Insights"]
+    AiConnectionStringSecret["AI Connection String Secret"]
+    LogAnalyticsWorkspace["Log Analytics Workspace"]
   end
 
   subgraph API Management
-    APIMCertificate["API Management Certificate"]
-    APIMDiagnostic["API Management Diagnostic"]
-    APIMLogger["API Management Logger"]
-    APIMPolicy["API Management Policy"]
-    APIM["API Management"]
+    ToDoApiKeyNamedValue["To Do API Key Named Value"]
+    ToDoApiKeyV3NamedValue["To Do API Key V3 Named Value"]
+    ApiManagement["API Management"]
+    ApiManagementCertificate["API Management Certificate"]
+    ApiManagementDiagnostic["API Management Diagnostic"]
+    ApiManagementLogger["API Management Logger"]
+    ApiManagementPolicy["API Management Policy"]
     ManagementLock["Management Lock"]
     MonitorAutoscaleSetting["Monitor Autoscale Setting"]
     MonitorDiagnosticSetting["Monitor Diagnostic Setting"]
     MonitorMetricAlert["Monitor Metric Alert"]
     NetworkSecurityGroup["Network Security Group"]
-    PrivateDNSARecordAPIMAzureAPINet["A Record - apim.azure-api.net"]
-    PrivateDNSARecordAPIMManagementAzureAPINet["A Record - management.apim.azure-api.net"]
-    PrivateDNSARecordAPIMSCMAzureAPINet["A Record - scm.apim.azure-api.net"]
+    PrivateDnsARecordApimAzureApiNet["A Record - apim.azure-api.net"]
+    PrivateDnsARecordApimManagementAzureApiNet["A Record - management.apim.azure-api.net"]
+    PrivateDnsARecordApimScmAzureApiNet["A Record - scm.apim.azure-api.net"]
     SubnetNetworkSecurityGroupAssociation["Subnet Network Security Group Association"]
   end
 
-  subgraph Role Assignments
-    RoleAssignmentAPIM["Role Assignment - APIM"]
-    RoleAssignmentCosmosDB["Role Assignment - Cosmos DB"]
-    RoleAssignmentEventHub["Role Assignment - Event Hub"]
-    RoleAssignmentKeyVault["Role Assignment - Key Vault"]
-    RoleAssignmentRedis["Role Assignment - Redis"]
+  subgraph API Management Roles
+    ApimRoleAssignment["APIM Role Assignment"]
+    CosmosRoleAssignment["Cosmos Role Assignment"]
+    EventHubRoleAssignment["Event Hub Role Assignment"]
+    KeyVaultAccessPolicy["Key Vault Access Policy"]
+    KeyVaultRoleAssignmentCertificates["Key Vault Role Assignment - Certificates"]
+    KeyVaultRoleAssignmentKeys["Key Vault Role Assignment - Keys"]
+    KeyVaultRoleAssignmentSecrets["Key Vault Role Assignment - Secrets"]
+    RedisCacheAccessPolicyAssignment["Redis Cache Access Policy Assignment"]
+    ServiceBusRoleAssignmentQueues["Service Bus Role Assignment - Queues"]
+    ServiceBusRoleAssignmentSubscriptions["Service Bus Role Assignment - Subscriptions"]
+    ServiceBusRoleAssignmentTopics["Service Bus Role Assignment - Topics"]
+    StorageAccountRoleAssignmentBlob["Storage Account Role Assignment - Blob"]
+    StorageAccountRoleAssignmentQueue["Storage Account Role Assignment - Queue"]
+    StorageAccountRoleAssignmentTable["Storage Account Role Assignment - Table"]
+  end
+
+  subgraph App Service
+    PrivateDnsZoneAppService["Private DNS Zone - App Service"]
+    VirtualNetwork["Virtual Network"]
+    LinuxWebApp["Linux Web App"]
+    LinuxWebAppSlot["Linux Web App Slot"]
+    PrivateEndpointAppServiceSites["Private Endpoint - App Service Sites"]
+    PrivateEndpointStagingAppServiceSites["Private Endpoint - Staging App Service Sites"]
+    ServicePlan["Service Plan"]
+    Subnet["Subnet"]
+  end
+
+  subgraph App Service Roles
+    AppServiceRoleAssignment["App Service Role Assignment"]
+    CosmosRoleAssignment["Cosmos Role Assignment"]
+    EventHubRoleAssignment["Event Hub Role Assignment"]
+    KeyVaultAccessPolicy["Key Vault Access Policy"]
+    KeyVaultRoleAssignmentCertificates["Key Vault Role Assignment - Certificates"]
+    KeyVaultRoleAssignmentKeys["Key Vault Role Assignment - Keys"]
+    KeyVaultRoleAssignmentSecrets["Key Vault Role Assignment - Secrets"]
+    RedisCacheAccessPolicyAssignment["Redis Cache Access Policy Assignment"]
+    ServiceBusRoleAssignmentQueues["Service Bus Role Assignment - Queues"]
+    ServiceBusRoleAssignmentSubscriptions["Service Bus Role Assignment - Subscriptions"]
+    ServiceBusRoleAssignmentTopics["Service Bus Role Assignment - Topics"]
+    StorageAccountRoleAssignmentBlob["Storage Account Role Assignment - Blob"]
+    StorageAccountRoleAssignmentQueue["Storage Account Role Assignment - Queue"]
+    StorageAccountRoleAssignmentTable["Storage Account Role Assignment - Table"]
+  end
+
+  subgraph Azure Function V3 Application Insights
+    ApplicationInsights["Application Insights"]
+    AiConnectionStringSecret["AI Connection String Secret"]
+    LogAnalyticsWorkspace["Log Analytics Workspace"]
+  end
+
+  subgraph Azure Function V3 Function App
+    PrivateDnsZoneFunctionApp["Private DNS Zone - Function App"]
+    PrivateDnsZoneStorageAccountBlob["Private DNS Zone - Storage Account Blob"]
+    PrivateDnsZoneStorageAccountFile["Private DNS Zone - Storage Account File"]
+    PrivateDnsZoneStorageAccountQueue["Private DNS Zone - Storage Account Queue"]
+    PrivateDnsZoneStorageAccountTable["Private DNS Zone - Storage Account Table"]
+    VirtualNetwork["Virtual Network"]
+    LinuxFunctionApp["Linux Function App"]
+    LinuxFunctionAppSlot["Linux Function App Slot"]
+    MonitorMetricAlertFunctionAppHealthCheck["Monitor Metric Alert - Function App Health Check"]
+    MonitorMetricAlertStorageAccountHealthCheck["Monitor Metric Alert - Storage Account Health Check"]
+    PrivateEndpointFunctionSites["Private Endpoint - Function Sites"]
+    PrivateEndpointStBlob["Private Endpoint - ST Blob"]
+    PrivateEndpointStFile["Private Endpoint - ST File"]
+    PrivateEndpointStQueue["Private Endpoint - ST Queue"]
+    PrivateEndpointStagingFunctionSites["Private Endpoint - Staging Function Sites"]
+    PrivateEndpointStdBlob["Private Endpoint - STD Blob"]
+    PrivateEndpointStdFile["Private Endpoint - STD File"]
+    PrivateEndpointStdQueue["Private Endpoint - STD Queue"]
+    PrivateEndpointStdTable["Private Endpoint - STD Table"]
+    RoleAssignmentDurableFunctionStorageBlobDataContributor["Role Assignment - Durable Function Storage Blob Data Contributor"]
+    RoleAssignmentDurableFunctionStorageQueueDataContributor["Role Assignment - Durable Function Storage Queue Data Contributor"]
+    RoleAssignmentDurableFunctionStorageTableDataContributor["Role Assignment - Durable Function Storage Table Data Contributor"]
+    RoleAssignmentFunctionStorageAccountContributor["Role Assignment - Function Storage Account Contributor"]
+    RoleAssignmentFunctionStorageBlobDataOwner["Role Assignment - Function Storage Blob Data Owner"]
+    RoleAssignmentFunctionStorageQueueDataContributor["Role Assignment - Function Storage Queue Data Contributor"]
+    RoleAssignmentStagingDurableFunctionStorageBlobDataContributor["Role Assignment - Staging Durable Function Storage Blob Data Contributor"]
+    RoleAssignmentStagingDurableFunctionStorageQueueDataContributor["Role Assignment - Staging Durable Function Storage Queue Data Contributor"]
+    RoleAssignmentStagingDurableFunctionStorageTableDataContributor["Role Assignment - Staging Durable Function Storage Table Data Contributor"]
+    RoleAssignmentStagingFunctionStorageAccountContributor["Role Assignment - Staging Function Storage Account Contributor"]
+    RoleAssignmentStagingFunctionStorageBlobDataOwner["Role Assignment - Staging Function Storage Blob Data Owner"]
+    RoleAssignmentStagingFunctionStorageQueueDataContributor["Role Assignment - Staging Function Storage Queue Data Contributor"]
+    ServicePlan["Service Plan"]
+    StorageAccountDurableFunction["Storage Account - Durable Function"]
+    StorageAccount["Storage Account"]
+    StorageAccountNetworkRulesSt["Storage Account Network Rules - ST"]
+    StorageAccountNetworkRulesStd["Storage Account Network Rules - STD"]
+    Subnet["Subnet"]
+  end
+
+  subgraph Cosmos
+    PrivateDnsZoneCosmos["Private DNS Zone - Cosmos"]
+    CosmosDbAccount["CosmosDB Account"]
+    CosmosDbSqlRoleAssignmentPrincipalRoleAssignments["CosmosDB SQL Role Assignment - Principal Role Assignments"]
+    MonitorMetricAlertCosmosDbProvisionedThroughputExceeded["Monitor Metric Alert - Cosmos DB Provisioned Throughput Exceeded"]
+    PrivateEndpointSql["Private Endpoint - SQL"]
+  end
+
+  subgraph FuncApiRole
+    ApimRoleAssignment["APIM Role Assignment"]
+    CosmosRoleAssignment["Cosmos Role Assignment"]
+    EventHubRoleAssignment["Event Hub Role Assignment"]
+    KeyVaultAccessPolicy["Key Vault Access Policy"]
+    KeyVaultRoleAssignmentCertificates["Key Vault Role Assignment - Certificates"]
+    KeyVaultRoleAssignmentKeys["Key Vault Role Assignment - Keys"]
+    KeyVaultRoleAssignmentSecrets["Key Vault Role Assignment - Secrets"]
+    RedisCacheAccessPolicyAssignment["Redis Cache Access Policy Assignment"]
+    ServiceBusRoleAssignmentQueues["Service Bus Role Assignment - Queues"]
+    ServiceBusRoleAssignmentSubscriptions["Service Bus Role Assignment - Subscriptions"]
+    ServiceBusRoleAssignmentTopics["Service Bus Role Assignment - Topics"]
+    StorageAccountRoleAssignmentBlob["Storage Account Role Assignment - Blob"]
+    StorageAccountRoleAssignmentQueue["Storage Account Role Assignment - Queue"]
+    StorageAccountRoleAssignmentTable["Storage Account Role Assignment - Table"]
+  end
+
+  subgraph FunctionApp
+    PrivateDnsZoneFunctionApp["Private DNS Zone - Function App"]
+    PrivateDnsZoneStorageAccountBlob["Private DNS Zone - Storage Account Blob"]
+    PrivateDnsZoneStorageAccountFile["Private DNS Zone - Storage Account File"]
+    PrivateDnsZoneStorageAccountQueue["Private DNS Zone - Storage Account Queue"]
+    PrivateDnsZoneStorageAccountTable["Private DNS Zone - Storage Account Table"]
+    VirtualNetwork["Virtual Network"]
+    LinuxFunctionApp["Linux Function App"]
+    LinuxFunctionAppSlot["Linux Function App Slot"]
+    MonitorMetricAlertFunctionAppHealthCheck["Monitor Metric Alert - Function App Health Check"]
+    MonitorMetricAlertStorageAccountHealthCheck["Monitor Metric Alert - Storage Account Health Check"]
+    PrivateEndpointFunctionSites["Private Endpoint - Function Sites"]
+    PrivateEndpointStBlob["Private Endpoint - ST Blob"]
+    PrivateEndpointStFile["Private Endpoint - ST File"]
+    PrivateEndpointStQueue["Private Endpoint - ST Queue"]
+    PrivateEndpointStagingFunctionSites["Private Endpoint - Staging Function Sites"]
+    PrivateEndpointStdBlob["Private Endpoint - STD Blob"]
+    PrivateEndpointStdFile["Private Endpoint - STD File"]
+    PrivateEndpointStdQueue["Private Endpoint - STD Queue"]
+    PrivateEndpointStdTable["Private Endpoint - STD Table"]
+    RoleAssignmentDurableFunctionStorageBlobDataContributor["Role Assignment - Durable Function Storage Blob Data Contributor"]
+    RoleAssignmentDurableFunctionStorageQueueDataContributor["Role Assignment - Durable Function Storage Queue Data Contributor"]
+    RoleAssignmentDurableFunctionStorageTableDataContributor["Role Assignment - Durable Function Storage Table Data Contributor"]
+    RoleAssignmentFunctionStorageAccountContributor["Role Assignment - Function Storage Account Contributor"]
+    RoleAssignmentFunctionStorageBlobDataOwner["Role Assignment - Function Storage Blob Data Owner"]
+    RoleAssignmentFunctionStorageQueueDataContributor["Role Assignment - Function Storage Queue Data Contributor"]
+    RoleAssignmentStagingDurableFunctionStorageBlobDataContributor["Role Assignment - Staging Durable Function Storage Blob Data Contributor"]
+    RoleAssignmentStagingDurableFunctionStorageQueueDataContributor["Role Assignment - Staging Durable Function Storage Queue Data Contributor"]
+    RoleAssignmentStagingDurableFunctionStorageTableDataContributor["Role Assignment - Staging Durable Function Storage Table Data Contributor"]
+    RoleAssignmentStagingFunctionStorageAccountContributor["Role Assignment - Staging Function Storage Account Contributor"]
+    RoleAssignmentStagingFunctionStorageBlobDataOwner["Role Assignment - Staging Function Storage Blob Data Owner"]
+    RoleAssignmentStagingFunctionStorageQueueDataContributor["Role Assignment - Staging Function Storage Queue Data Contributor"]
+    ServicePlan["Service Plan"]
+    StorageAccountDurableFunction["Storage Account - Durable Function"]
+    StorageAccount["Storage Account"]
+    StorageAccountNetworkRulesSt["Storage Account Network Rules - ST"]
+    StorageAccountNetworkRulesStd["Storage Account Network Rules - STD"]
+    Subnet["Subnet"]
+  end
+
+  subgraph FunctionTestDurable
+    PrivateDnsZoneFunctionApp["Private DNS Zone - Function App"]
+    PrivateDnsZoneStorageAccountBlob["Private DNS Zone - Storage Account Blob"]
+    PrivateDnsZoneStorageAccountFile["Private DNS Zone - Storage Account File"]
+    PrivateDnsZoneStorageAccountQueue["Private DNS Zone - Storage Account Queue"]
+    PrivateDnsZoneStorageAccountTable["Private DNS Zone - Storage Account Table"]
+    VirtualNetwork["Virtual Network"]
+    LinuxFunctionApp["Linux Function App"]
+    LinuxFunctionAppSlot["Linux Function App Slot"]
+    MonitorMetricAlertFunctionAppHealthCheck["Monitor Metric Alert - Function App Health Check"]
+    MonitorMetricAlertStorageAccountHealthCheck["Monitor Metric Alert - Storage Account Health Check"]
+    PrivateEndpointFunctionSites["Private Endpoint - Function Sites"]
+    PrivateEndpointStBlob["Private Endpoint - ST Blob"]
+    PrivateEndpointStFile["Private Endpoint - ST File"]
+    PrivateEndpointStQueue["Private Endpoint - ST Queue"]
+    PrivateEndpointStagingFunctionSites["Private Endpoint - Staging Function Sites"]
+    PrivateEndpointStdBlob["Private Endpoint - STD Blob"]
+    PrivateEndpointStdFile["Private Endpoint - STD File"]
+  end
 ```
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
