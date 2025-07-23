@@ -577,8 +577,8 @@ graph LR
 
 ```mermaid
 graph LR
-  subgraph KeyVault["Key Vault Resources"]
-    KV_Common["Key Vault"]
+  subgraph KeyVault["Key Vault"]
+    KV["Key Vault"]
     Secret_APIM["APIM API Key"]
     Secret_ToDo["To-Do API Key"]
     Secret_ToDoV3["To-Do API Key v3"]
@@ -591,83 +591,75 @@ graph LR
   end
 
   subgraph VirtualNetwork["Virtual Network"]
-    Test_VNet["Test VNet"]
+    VNet["Test VNet"]
     Subnet_APIM["APIM Subnet"]
     Subnet_PEP["Private Endpoint Subnet"]
   end
 
-  subgraph APIM["API Management Resources"]
-    APIM_Core["API Management Service"]
-    Cert_APIM["Certificate"]
-    SubnetAssoc_APIM["APIM Subnet-NSG Association"]
-    Logger_APIM["Logger"]
-    Policy_APIM["Policy"]
+  subgraph APIM["API Management"]
+    APIM_Service["API Management Service"]
+    APIM_Cert["Certificate"]
+    APIM_Policy["Policy"]
+    APIM_Logger["Logger"]
   end
 
   subgraph AzureFunctionV3["Azure Function V3"]
-    AFV3_Core["Function App"]
+    AFV3_App["Function App"]
     AFV3_Insights["Application Insights"]
-    AFV3_PvtEP["Private Endpoint"]
-    AFV3_ServicePlan["Service Plan"]
     AFV3_Storage["Storage Account"]
   end
 
-  subgraph StorageAccount["Storage Resources"]
-    SA_Core["Main Storage Account"]
-    SA_PvtEP_Blob["Blob Endpoint"]
-    SA_Durable["Durable Function Storage"]
+  subgraph CosmosDB["CosmosDB"]
+    CosmosDB_Account["CosmosDB Account"]
+    CosmosDB_Container["Tasks Container"]
   end
 
-  subgraph CosmosDB["CosmosDB Resources"]
-    Cosmos_Core["CosmosDB Account"]
-    Cosmos_Container["Tasks Container"]
-    Cosmos_DB["Database"]
+  subgraph AppService["App Service"]
+    WebApp["Linux Web App"]
+    ServicePlan["Service Plan"]
   end
-  
-  %% Key Vault Connections
-  Secret_APIM --> KV_Common
-  Secret_ToDo --> KV_Common
-  Secret_ToDoV3 --> KV_Common
 
-  %% Resource Group Connections
-  KV_Common --> RG_Common
-  Test_VNet --> RG_Network
-  
-  %% Virtual Network Connections
-  Subnet_PEP --> Test_VNet
-  Subnet_APIM --> Test_VNet
-  
-  %% APIM Connections
-  APIM_Core --> RG_Test
-  APIM_Core --> Subnet_APIM
-  Cert_APIM --> APIM_Core
-  Cert_APIM --> KV_Common
-  SubnetAssoc_APIM --> Subnet_APIM
-  Logger_APIM --> APIM_Core
-  Policy_APIM --> APIM_Core
+  subgraph FunctionApp["Function App"]
+    FA_App["Function App"]
+    FA_Storage["Storage Account"]
+  end
 
-  %% Azure Function V3 Connections
-  AFV3_Core --> Test_VNet
-  AFV3_Core --> AFV3_PvtEP
-  AFV3_Core --> AFV3_ServicePlan
-  AFV3_Core --> AFV3_Insights
-  AFV3_Core --> AFV3_Storage
+  subgraph FunctionTestDurable["Function Test Durable"]
+    TestDurable_App["Function App"]
+    TestDurable_Storage["Storage Account"]
+  end
 
-  %% Storage Account Connections
-  SA_Durable --> RG_Test
-  SA_Core --> RG_Test
-  SA_PvtEP_Blob --> SA_Core
+  subgraph ToDoAPI["To-Do API"]
+    ToDoAPI_V1["To-Do API v1"]
+    ToDoAPI_V3["To-Do API v3"]
+  end
 
-  %% CosmosDB Connections
-  Cosmos_Core --> RG_Test
-  Cosmos_DB --> Cosmos_Core
-  Cosmos_Container --> Cosmos_DB
-  
-  %% Misc Connections
-  Secret_ToDo --> APIM_Core
-  Secret_ToDoV3 --> APIM_Core
-  KV_Common --> AFV3_Insights
-  SA_Core --> AFV3_Core
+  KV --> RG_Common
+  VNet --> RG_Network
+  Subnet_APIM --> VNet
+  Subnet_PEP --> VNet
+  Secret_APIM --> KV
+  Secret_ToDo --> KV
+  Secret_ToDoV3 --> KV
+  APIM_Service --> RG_Test
+  APIM_Service --> Subnet_APIM
+  APIM_Cert --> KV
+  APIM_Cert --> APIM_Service
+  APIM_Policy --> APIM_Service
+  APIM_Logger --> APIM_Service
+  AFV3_App --> VNet
+  AFV3_App --> AFV3_Storage
+  AFV3_Insights --> RG_Test
+  CosmosDB_Account --> RG_Test
+  CosmosDB_Container --> CosmosDB_Account
+  WebApp --> RG_Test
+  WebApp --> ServicePlan
+  FA_App --> RG_Test
+  FA_App --> FA_Storage
+  TestDurable_App --> RG_Test
+  TestDurable_App --> TestDurable_Storage
+  ToDoAPI_V1 --> APIM_Service
+  ToDoAPI_V3 --> APIM_Service
 ```
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
