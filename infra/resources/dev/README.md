@@ -577,236 +577,178 @@ graph LR
 
 ```mermaid
 graph LR
-  subgraph Key Vault
-    CommonKV["Common Key Vault"]
-    ApimApiKeySecret["APIM API Key Secret"]
-    ToDoApiKeySecret["To Do API Key Secret"]
-    ToDoApiKeyFuncV3Secret["To Do API Key Func V3 Secret"]
+  subgraph KeyVault["Key Vault Resources"]
+    KV_Common["Common Key Vault"]
+    Secret_APIM["APIM API Key Secret"]
+    Secret_ToDo["To-Do API Key Secret"]
+    Secret_ToDoV3["To-Do API Key v3 Secret"]
   end
 
-  subgraph Resource Groups
-    CommonRG["Common Resource Group"]
-    NetRG["Net Resource Group"]
-    TestRG["Test Resource Group"]
+  subgraph ResourceGroups["Resource Groups"]
+    RG_Common["Common RG"]
+    RG_Network["Network RG"]
+    RG_Test["Test RG"]
   end
 
-  subgraph Subnets
-    PepSnet["PEP Subnet"]
+  subgraph VirtualNetwork["Virtual Network"]
+    Test_VNet["Test VNet"]
+    Subnet_APIM["APIM Subnet"]
+    Subnet_PEP["Private Endpoint Subnet"]
   end
 
-  subgraph VNets
-    TestVNet["Test VNet"]
+  subgraph APIM["API Management Resources"]
+    APIM_Core["API Management Service"]
   end
 
-  subgraph Subnets
-    ApimSubnet["APIM Subnet"]
+  subgraph CosmosDB["CosmosDB Resources"]
+    Cosmos_Container["Tasks Container"]
+    Cosmos_DB["Database"]
   end
 
-  subgraph CosmosDB
-    TasksContainer["Tasks Container"]
-    Db["Database"]
-  end
+  %% Key Vault Connections
+  Secret_APIM --> KV_Common
+  Secret_ToDo --> KV_Common
+  Secret_ToDoV3 --> KV_Common
 
-  subgraph Application Insights
-    MainApplicationInsights["Main Application Insights"]
-    AiConnectionStringSecret["AI Connection String Secret"]
-    LogAnalyticsWorkspace["Log Analytics Workspace"]
-  end
+  %% Resource Group Connections
+  KV_Common --> RG_Common
+  Test_VNet --> RG_Network
 
-  subgraph API Management
-    ToDoApiKeyNamedValue["To Do API Key Named Value"]
-    ToDoApiKeyV3NamedValue["To Do API Key V3 Named Value"]
-    ApiManagement["API Management"]
-    ApiManagementCertificate["API Management Certificate"]
-    ApiManagementDiagnostic["API Management Diagnostic"]
-    ApiManagementLogger["API Management Logger"]
-    ApiManagementPolicy["API Management Policy"]
-    ManagementLock["Management Lock"]
-    MonitorAutoscaleSetting["Monitor Autoscale Setting"]
-    MonitorDiagnosticSetting["Monitor Diagnostic Setting"]
-    MonitorMetricAlert["Monitor Metric Alert"]
-    NetworkSecurityGroup["Network Security Group"]
-    PrivateDnsARecordApimAzureApiNet["A Record - apim.azure-api.net"]
-    PrivateDnsARecordApimManagementAzureApiNet["A Record - management.apim.azure-api.net"]
-    PrivateDnsARecordApimScmAzureApiNet["A Record - scm.apim.azure-api.net"]
-    SubnetNetworkSecurityGroupAssociation["Subnet Network Security Group Association"]
-  end
+  %% Virtual Network Connections
+  Subnet_PEP --> Test_VNet
+  Subnet_APIM --> Test_VNet
+  
+  %% APIM Connections
+  APIM_Core --> RG_Test
+  APIM_Core --> Subnet_APIM
+  Secret_ToDo --> APIM_Core
+  Secret_ToDoV3 --> APIM_Core
 
-  subgraph API Management Roles
-    ApimRoleAssignment["APIM Role Assignment"]
-    CosmosRoleAssignment["Cosmos Role Assignment"]
-    EventHubRoleAssignment["Event Hub Role Assignment"]
-    KeyVaultAccessPolicy["Key Vault Access Policy"]
-    KeyVaultRoleAssignmentCertificates["Key Vault Role Assignment - Certificates"]
-    KeyVaultRoleAssignmentKeys["Key Vault Role Assignment - Keys"]
-    KeyVaultRoleAssignmentSecrets["Key Vault Role Assignment - Secrets"]
-    RedisCacheAccessPolicyAssignment["Redis Cache Access Policy Assignment"]
-    ServiceBusRoleAssignmentQueues["Service Bus Role Assignment - Queues"]
-    ServiceBusRoleAssignmentSubscriptions["Service Bus Role Assignment - Subscriptions"]
-    ServiceBusRoleAssignmentTopics["Service Bus Role Assignment - Topics"]
-    StorageAccountRoleAssignmentBlob["Storage Account Role Assignment - Blob"]
-    StorageAccountRoleAssignmentQueue["Storage Account Role Assignment - Queue"]
-    StorageAccountRoleAssignmentTable["Storage Account Role Assignment - Table"]
-  end
+  %% CosmosDB Connections
+  Cosmos_Container --> Cosmos_DB
+  Cosmos_DB --> APIM_Core
 
-  subgraph App Service
-    PrivateDnsZoneAppService["Private DNS Zone - App Service"]
-    VirtualNetwork["Virtual Network"]
-    LinuxWebApp["Linux Web App"]
-    LinuxWebAppSlot["Linux Web App Slot"]
-    PrivateEndpointAppServiceSites["Private Endpoint - App Service Sites"]
-    PrivateEndpointStagingAppServiceSites["Private Endpoint - Staging App Service Sites"]
+  %% Additional Resources and Connections
+  subgraph AppService["App Service Resources"]
+    WebApp["Linux Web App"]
+    WebAppSlot["Linux Web App Slot"]
     ServicePlan["Service Plan"]
-    Subnet["Subnet"]
   end
 
-  subgraph App Service Roles
-    AppServiceRoleAssignment["App Service Role Assignment"]
-    CosmosRoleAssignment["Cosmos Role Assignment"]
-    EventHubRoleAssignment["Event Hub Role Assignment"]
-    KeyVaultAccessPolicy["Key Vault Access Policy"]
-    KeyVaultRoleAssignmentCertificates["Key Vault Role Assignment - Certificates"]
-    KeyVaultRoleAssignmentKeys["Key Vault Role Assignment - Keys"]
-    KeyVaultRoleAssignmentSecrets["Key Vault Role Assignment - Secrets"]
-    RedisCacheAccessPolicyAssignment["Redis Cache Access Policy Assignment"]
-    ServiceBusRoleAssignmentQueues["Service Bus Role Assignment - Queues"]
-    ServiceBusRoleAssignmentSubscriptions["Service Bus Role Assignment - Subscriptions"]
-    ServiceBusRoleAssignmentTopics["Service Bus Role Assignment - Topics"]
-    StorageAccountRoleAssignmentBlob["Storage Account Role Assignment - Blob"]
-    StorageAccountRoleAssignmentQueue["Storage Account Role Assignment - Queue"]
-    StorageAccountRoleAssignmentTable["Storage Account Role Assignment - Table"]
-  end
-
-  subgraph Azure Function V3 Application Insights
-    ApplicationInsights["Application Insights"]
-    AiConnectionStringSecret["AI Connection String Secret"]
-    LogAnalyticsWorkspace["Log Analytics Workspace"]
-  end
-
-  subgraph Azure Function V3 Function App
-    PrivateDnsZoneFunctionApp["Private DNS Zone - Function App"]
-    PrivateDnsZoneStorageAccountBlob["Private DNS Zone - Storage Account Blob"]
-    PrivateDnsZoneStorageAccountFile["Private DNS Zone - Storage Account File"]
-    PrivateDnsZoneStorageAccountQueue["Private DNS Zone - Storage Account Queue"]
-    PrivateDnsZoneStorageAccountTable["Private DNS Zone - Storage Account Table"]
-    VirtualNetwork["Virtual Network"]
-    LinuxFunctionApp["Linux Function App"]
-    LinuxFunctionAppSlot["Linux Function App Slot"]
-    MonitorMetricAlertFunctionAppHealthCheck["Monitor Metric Alert - Function App Health Check"]
-    MonitorMetricAlertStorageAccountHealthCheck["Monitor Metric Alert - Storage Account Health Check"]
-    PrivateEndpointFunctionSites["Private Endpoint - Function Sites"]
-    PrivateEndpointStBlob["Private Endpoint - ST Blob"]
-    PrivateEndpointStFile["Private Endpoint - ST File"]
-    PrivateEndpointStQueue["Private Endpoint - ST Queue"]
-    PrivateEndpointStagingFunctionSites["Private Endpoint - Staging Function Sites"]
-    PrivateEndpointStdBlob["Private Endpoint - STD Blob"]
-    PrivateEndpointStdFile["Private Endpoint - STD File"]
-    PrivateEndpointStdQueue["Private Endpoint - STD Queue"]
-    PrivateEndpointStdTable["Private Endpoint - STD Table"]
-    RoleAssignmentDurableFunctionStorageBlobDataContributor["Role Assignment - Durable Function Storage Blob Data Contributor"]
-    RoleAssignmentDurableFunctionStorageQueueDataContributor["Role Assignment - Durable Function Storage Queue Data Contributor"]
-    RoleAssignmentDurableFunctionStorageTableDataContributor["Role Assignment - Durable Function Storage Table Data Contributor"]
-    RoleAssignmentFunctionStorageAccountContributor["Role Assignment - Function Storage Account Contributor"]
-    RoleAssignmentFunctionStorageBlobDataOwner["Role Assignment - Function Storage Blob Data Owner"]
-    RoleAssignmentFunctionStorageQueueDataContributor["Role Assignment - Function Storage Queue Data Contributor"]
-    RoleAssignmentStagingDurableFunctionStorageBlobDataContributor["Role Assignment - Staging Durable Function Storage Blob Data Contributor"]
-    RoleAssignmentStagingDurableFunctionStorageQueueDataContributor["Role Assignment - Staging Durable Function Storage Queue Data Contributor"]
-    RoleAssignmentStagingDurableFunctionStorageTableDataContributor["Role Assignment - Staging Durable Function Storage Table Data Contributor"]
-    RoleAssignmentStagingFunctionStorageAccountContributor["Role Assignment - Staging Function Storage Account Contributor"]
-    RoleAssignmentStagingFunctionStorageBlobDataOwner["Role Assignment - Staging Function Storage Blob Data Owner"]
-    RoleAssignmentStagingFunctionStorageQueueDataContributor["Role Assignment - Staging Function Storage Queue Data Contributor"]
-    ServicePlan["Service Plan"]
-    StorageAccountDurableFunction["Storage Account - Durable Function"]
+  subgraph FunctionApp["Function App Resources"]
+    FunctionApp["Linux Function App"]
+    FunctionAppSlot["Linux Function App Slot"]
     StorageAccount["Storage Account"]
-    StorageAccountNetworkRulesSt["Storage Account Network Rules - ST"]
-    StorageAccountNetworkRulesStd["Storage Account Network Rules - STD"]
-    Subnet["Subnet"]
+    StorageBlob["Storage Blob"]
+    StorageFile["Storage File"]
+    StorageQueue["Storage Queue"]
+    StorageTable["Storage Table"]
   end
 
-  subgraph Cosmos
-    PrivateDnsZoneCosmos["Private DNS Zone - Cosmos"]
-    CosmosDbAccount["CosmosDB Account"]
-    CosmosDbSqlRoleAssignmentPrincipalRoleAssignments["CosmosDB SQL Role Assignment - Principal Role Assignments"]
-    MonitorMetricAlertCosmosDbProvisionedThroughputExceeded["Monitor Metric Alert - Cosmos DB Provisioned Throughput Exceeded"]
-    PrivateEndpointSql["Private Endpoint - SQL"]
+  subgraph ApplicationInsights["Application Insights"]
+    AI_Main["Application Insights"]
+    AI_LogAnalytics["Log Analytics Workspace"]
   end
 
-  subgraph FuncApiRole
-    ApimRoleAssignment["APIM Role Assignment"]
-    CosmosRoleAssignment["Cosmos Role Assignment"]
-    EventHubRoleAssignment["Event Hub Role Assignment"]
-    KeyVaultAccessPolicy["Key Vault Access Policy"]
-    KeyVaultRoleAssignmentCertificates["Key Vault Role Assignment - Certificates"]
-    KeyVaultRoleAssignmentKeys["Key Vault Role Assignment - Keys"]
-    KeyVaultRoleAssignmentSecrets["Key Vault Role Assignment - Secrets"]
-    RedisCacheAccessPolicyAssignment["Redis Cache Access Policy Assignment"]
-    ServiceBusRoleAssignmentQueues["Service Bus Role Assignment - Queues"]
-    ServiceBusRoleAssignmentSubscriptions["Service Bus Role Assignment - Subscriptions"]
-    ServiceBusRoleAssignmentTopics["Service Bus Role Assignment - Topics"]
-    StorageAccountRoleAssignmentBlob["Storage Account Role Assignment - Blob"]
-    StorageAccountRoleAssignmentQueue["Storage Account Role Assignment - Queue"]
-    StorageAccountRoleAssignmentTable["Storage Account Role Assignment - Table"]
+  subgraph KeyVaultRoles["Key Vault Roles"]
+    KV_AccessPolicy["Key Vault Access Policy"]
+    KV_RoleAssignment_Certificates["Role Assignment - Certificates"]
+    KV_RoleAssignment_Keys["Role Assignment - Keys"]
+    KV_RoleAssignment_Secrets["Role Assignment - Secrets"]
   end
 
-  subgraph FunctionApp
-    PrivateDnsZoneFunctionApp["Private DNS Zone - Function App"]
-    PrivateDnsZoneStorageAccountBlob["Private DNS Zone - Storage Account Blob"]
-    PrivateDnsZoneStorageAccountFile["Private DNS Zone - Storage Account File"]
-    PrivateDnsZoneStorageAccountQueue["Private DNS Zone - Storage Account Queue"]
-    PrivateDnsZoneStorageAccountTable["Private DNS Zone - Storage Account Table"]
-    VirtualNetwork["Virtual Network"]
-    LinuxFunctionApp["Linux Function App"]
-    LinuxFunctionAppSlot["Linux Function App Slot"]
-    MonitorMetricAlertFunctionAppHealthCheck["Monitor Metric Alert - Function App Health Check"]
-    MonitorMetricAlertStorageAccountHealthCheck["Monitor Metric Alert - Storage Account Health Check"]
-    PrivateEndpointFunctionSites["Private Endpoint - Function Sites"]
-    PrivateEndpointStBlob["Private Endpoint - ST Blob"]
-    PrivateEndpointStFile["Private Endpoint - ST File"]
-    PrivateEndpointStQueue["Private Endpoint - ST Queue"]
-    PrivateEndpointStagingFunctionSites["Private Endpoint - Staging Function Sites"]
-    PrivateEndpointStdBlob["Private Endpoint - STD Blob"]
-    PrivateEndpointStdFile["Private Endpoint - STD File"]
-    PrivateEndpointStdQueue["Private Endpoint - STD Queue"]
-    PrivateEndpointStdTable["Private Endpoint - STD Table"]
-    RoleAssignmentDurableFunctionStorageBlobDataContributor["Role Assignment - Durable Function Storage Blob Data Contributor"]
-    RoleAssignmentDurableFunctionStorageQueueDataContributor["Role Assignment - Durable Function Storage Queue Data Contributor"]
-    RoleAssignmentDurableFunctionStorageTableDataContributor["Role Assignment - Durable Function Storage Table Data Contributor"]
-    RoleAssignmentFunctionStorageAccountContributor["Role Assignment - Function Storage Account Contributor"]
-    RoleAssignmentFunctionStorageBlobDataOwner["Role Assignment - Function Storage Blob Data Owner"]
-    RoleAssignmentFunctionStorageQueueDataContributor["Role Assignment - Function Storage Queue Data Contributor"]
-    RoleAssignmentStagingDurableFunctionStorageBlobDataContributor["Role Assignment - Staging Durable Function Storage Blob Data Contributor"]
-    RoleAssignmentStagingDurableFunctionStorageQueueDataContributor["Role Assignment - Staging Durable Function Storage Queue Data Contributor"]
-    RoleAssignmentStagingDurableFunctionStorageTableDataContributor["Role Assignment - Staging Durable Function Storage Table Data Contributor"]
-    RoleAssignmentStagingFunctionStorageAccountContributor["Role Assignment - Staging Function Storage Account Contributor"]
-    RoleAssignmentStagingFunctionStorageBlobDataOwner["Role Assignment - Staging Function Storage Blob Data Owner"]
-    RoleAssignmentStagingFunctionStorageQueueDataContributor["Role Assignment - Staging Function Storage Queue Data Contributor"]
-    ServicePlan["Service Plan"]
-    StorageAccountDurableFunction["Storage Account - Durable Function"]
-    StorageAccount["Storage Account"]
-    StorageAccountNetworkRulesSt["Storage Account Network Rules - ST"]
-    StorageAccountNetworkRulesStd["Storage Account Network Rules - STD"]
-    Subnet["Subnet"]
+  subgraph CosmosDBRoles["CosmosDB Roles"]
+    CosmosDB_RoleAssignment["CosmosDB SQL Role Assignment"]
   end
 
-  subgraph FunctionTestDurable
-    PrivateDnsZoneFunctionApp["Private DNS Zone - Function App"]
-    PrivateDnsZoneStorageAccountBlob["Private DNS Zone - Storage Account Blob"]
-    PrivateDnsZoneStorageAccountFile["Private DNS Zone - Storage Account File"]
-    PrivateDnsZoneStorageAccountQueue["Private DNS Zone - Storage Account Queue"]
-    PrivateDnsZoneStorageAccountTable["Private DNS Zone - Storage Account Table"]
-    VirtualNetwork["Virtual Network"]
-    LinuxFunctionApp["Linux Function App"]
-    LinuxFunctionAppSlot["Linux Function App Slot"]
-    MonitorMetricAlertFunctionAppHealthCheck["Monitor Metric Alert - Function App Health Check"]
-    MonitorMetricAlertStorageAccountHealthCheck["Monitor Metric Alert - Storage Account Health Check"]
-    PrivateEndpointFunctionSites["Private Endpoint - Function Sites"]
-    PrivateEndpointStBlob["Private Endpoint - ST Blob"]
-    PrivateEndpointStFile["Private Endpoint - ST File"]
-    PrivateEndpointStQueue["Private Endpoint - ST Queue"]
-    PrivateEndpointStagingFunctionSites["Private Endpoint - Staging Function Sites"]
-    PrivateEndpointStdBlob["Private Endpoint - STD Blob"]
-    PrivateEndpointStdFile["Private Endpoint - STD File"]
+  subgraph EventHubRoles["Event Hub Roles"]
+    EventHub_RoleAssignment["Role Assignment"]
   end
+
+  subgraph RedisRoles["Redis Roles"]
+    Redis_AccessPolicyAssignment["Redis Cache Access Policy Assignment"]
+  end
+
+  subgraph ServiceBusRoles["Service Bus Roles"]
+    ServiceBus_RoleAssignment_Queues["Role Assignment - Queues"]
+    ServiceBus_RoleAssignment_Subscriptions["Role Assignment - Subscriptions"]
+    ServiceBus_RoleAssignment_Topics["Role Assignment - Topics"]
+  end
+
+  subgraph StorageAccountRoles["Storage Account Roles"]
+    StorageAccount_RoleAssignment_Blob["Role Assignment - Blob"]
+    StorageAccount_RoleAssignment_Queue["Role Assignment - Queue"]
+    StorageAccount_RoleAssignment_Table["Role Assignment - Table"]
+  end
+
+  subgraph ToDoAPI["To-Do API Resources"]
+    ToDoAPI_API["To-Do API"]
+    ToDoAPI_Policy["To-Do API Policy"]
+    ToDoAPI_Backend["To-Do API Backend"]
+  end
+
+  subgraph ToDoAPIV3["To-Do API v3 Resources"]
+    ToDoAPIV3_API["To-Do API v3"]
+    ToDoAPIV3_Policy["To-Do API v3 Policy"]
+    ToDoAPIV3_Backend["To-Do API v3 Backend"]
+  end
+
+  %% Additional Connections
+  WebApp --> Secret_APIM
+  WebApp --> APIM_Core
+  WebApp --> ServicePlan
+  WebAppSlot --> WebApp
+  ServicePlan --> RG_Test
+  FunctionApp --> Cosmos_Container
+  FunctionApp --> Secret_ToDo
+  FunctionApp --> StorageBlob
+  FunctionApp --> StorageFile
+  FunctionApp --> StorageQueue
+  FunctionApp --> ServicePlan
+  FunctionApp --> StorageAccount
+  FunctionApp --> Subnet_PEP
+  FunctionAppSlot --> FunctionApp
+  AI_Main --> AI_LogAnalytics
+  KV_AccessPolicy --> KV_Common
+  KV_AccessPolicy --> RG_Test
+  KV_AccessPolicy --> APIM_Core
+  KV_RoleAssignment_Certificates --> KV_Common
+  KV_RoleAssignment_Certificates --> RG_Test
+  KV_RoleAssignment_Certificates --> APIM_Core
+  KV_RoleAssignment_Keys --> KV_Common
+  KV_RoleAssignment_Keys --> RG_Test
+  KV_RoleAssignment_Keys --> APIM_Core
+  KV_RoleAssignment_Secrets --> KV_Common
+  KV_RoleAssignment_Secrets --> RG_Test
+  KV_RoleAssignment_Secrets --> APIM_Core
+  CosmosDB_RoleAssignment --> RG_Test
+  CosmosDB_RoleAssignment --> APIM_Core
+  EventHub_RoleAssignment --> RG_Test
+  EventHub_RoleAssignment --> APIM_Core
+  Redis_AccessPolicyAssignment --> RG_Test
+  Redis_AccessPolicyAssignment --> APIM_Core
+  ServiceBus_RoleAssignment_Queues --> RG_Test
+  ServiceBus_RoleAssignment_Queues --> APIM_Core
+  ServiceBus_RoleAssignment_Subscriptions --> RG_Test
+  ServiceBus_RoleAssignment_Subscriptions --> APIM_Core
+  ServiceBus_RoleAssignment_Topics --> RG_Test
+  ServiceBus_RoleAssignment_Topics --> APIM_Core
+  StorageAccount_RoleAssignment_Blob --> RG_Test
+  StorageAccount_RoleAssignment_Blob --> APIM_Core
+  StorageAccount_RoleAssignment_Queue --> RG_Test
+  StorageAccount_RoleAssignment_Queue --> APIM_Core
+  StorageAccount_RoleAssignment_Table --> RG_Test
+  StorageAccount_RoleAssignment_Table --> APIM_Core
+  ToDoAPI_API --> Secret_ToDo
+  ToDoAPI_Policy --> ToDoAPI_API
+  ToDoAPI_Policy --> ToDoAPI_Backend
+  ToDoAPI_Backend --> Secret_ToDo
+  ToDoAPI_Backend --> FunctionAppSlot
+  ToDoAPIV3_API --> Secret_ToDoV3
+  ToDoAPIV3_Policy --> ToDoAPIV3_API
+  ToDoAPIV3_Policy --> ToDoAPIV3_Backend
+  ToDoAPIV3_Backend --> Secret_ToDoV3
+  ToDoAPIV3_Backend --> FunctionAppSlot
 ```
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
