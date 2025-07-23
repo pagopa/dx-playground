@@ -578,10 +578,10 @@ graph LR
 ```mermaid
 graph LR
   subgraph KeyVault["Key Vault Resources"]
-    KV_Common["Common Key Vault"]
-    Secret_APIM["APIM API Key Secret"]
-    Secret_ToDo["To-Do API Key Secret"]
-    Secret_ToDoV3["To-Do API Key v3 Secret"]
+    KV_Common["Key Vault"]
+    Secret_APIM["APIM API Key"]
+    Secret_ToDo["To-Do API Key"]
+    Secret_ToDoV3["To-Do API Key v3"]
   end
 
   subgraph ResourceGroups["Resource Groups"]
@@ -598,13 +598,32 @@ graph LR
 
   subgraph APIM["API Management Resources"]
     APIM_Core["API Management Service"]
+    Cert_APIM["Certificate"]
+    SubnetAssoc_APIM["APIM Subnet-NSG Association"]
+    Logger_APIM["Logger"]
+    Policy_APIM["Policy"]
+  end
+
+  subgraph AzureFunctionV3["Azure Function V3"]
+    AFV3_Core["Function App"]
+    AFV3_Insights["Application Insights"]
+    AFV3_PvtEP["Private Endpoint"]
+    AFV3_ServicePlan["Service Plan"]
+    AFV3_Storage["Storage Account"]
+  end
+
+  subgraph StorageAccount["Storage Resources"]
+    SA_Core["Main Storage Account"]
+    SA_PvtEP_Blob["Blob Endpoint"]
+    SA_Durable["Durable Function Storage"]
   end
 
   subgraph CosmosDB["CosmosDB Resources"]
+    Cosmos_Core["CosmosDB Account"]
     Cosmos_Container["Tasks Container"]
     Cosmos_DB["Database"]
   end
-
+  
   %% Key Vault Connections
   Secret_APIM --> KV_Common
   Secret_ToDo --> KV_Common
@@ -613,7 +632,7 @@ graph LR
   %% Resource Group Connections
   KV_Common --> RG_Common
   Test_VNet --> RG_Network
-
+  
   %% Virtual Network Connections
   Subnet_PEP --> Test_VNet
   Subnet_APIM --> Test_VNet
@@ -621,134 +640,34 @@ graph LR
   %% APIM Connections
   APIM_Core --> RG_Test
   APIM_Core --> Subnet_APIM
-  Secret_ToDo --> APIM_Core
-  Secret_ToDoV3 --> APIM_Core
+  Cert_APIM --> APIM_Core
+  Cert_APIM --> KV_Common
+  SubnetAssoc_APIM --> Subnet_APIM
+  Logger_APIM --> APIM_Core
+  Policy_APIM --> APIM_Core
+
+  %% Azure Function V3 Connections
+  AFV3_Core --> Test_VNet
+  AFV3_Core --> AFV3_PvtEP
+  AFV3_Core --> AFV3_ServicePlan
+  AFV3_Core --> AFV3_Insights
+  AFV3_Core --> AFV3_Storage
+
+  %% Storage Account Connections
+  SA_Durable --> RG_Test
+  SA_Core --> RG_Test
+  SA_PvtEP_Blob --> SA_Core
 
   %% CosmosDB Connections
+  Cosmos_Core --> RG_Test
+  Cosmos_DB --> Cosmos_Core
   Cosmos_Container --> Cosmos_DB
-  Cosmos_DB --> APIM_Core
-
-  %% Additional Resources and Connections
-  subgraph AppService["App Service Resources"]
-    WebApp["Linux Web App"]
-    WebAppSlot["Linux Web App Slot"]
-    ServicePlan["Service Plan"]
-  end
-
-  subgraph FunctionApp["Function App Resources"]
-    FunctionApp["Linux Function App"]
-    FunctionAppSlot["Linux Function App Slot"]
-    StorageAccount["Storage Account"]
-    StorageBlob["Storage Blob"]
-    StorageFile["Storage File"]
-    StorageQueue["Storage Queue"]
-    StorageTable["Storage Table"]
-  end
-
-  subgraph ApplicationInsights["Application Insights"]
-    AI_Main["Application Insights"]
-    AI_LogAnalytics["Log Analytics Workspace"]
-  end
-
-  subgraph KeyVaultRoles["Key Vault Roles"]
-    KV_AccessPolicy["Key Vault Access Policy"]
-    KV_RoleAssignment_Certificates["Role Assignment - Certificates"]
-    KV_RoleAssignment_Keys["Role Assignment - Keys"]
-    KV_RoleAssignment_Secrets["Role Assignment - Secrets"]
-  end
-
-  subgraph CosmosDBRoles["CosmosDB Roles"]
-    CosmosDB_RoleAssignment["CosmosDB SQL Role Assignment"]
-  end
-
-  subgraph EventHubRoles["Event Hub Roles"]
-    EventHub_RoleAssignment["Role Assignment"]
-  end
-
-  subgraph RedisRoles["Redis Roles"]
-    Redis_AccessPolicyAssignment["Redis Cache Access Policy Assignment"]
-  end
-
-  subgraph ServiceBusRoles["Service Bus Roles"]
-    ServiceBus_RoleAssignment_Queues["Role Assignment - Queues"]
-    ServiceBus_RoleAssignment_Subscriptions["Role Assignment - Subscriptions"]
-    ServiceBus_RoleAssignment_Topics["Role Assignment - Topics"]
-  end
-
-  subgraph StorageAccountRoles["Storage Account Roles"]
-    StorageAccount_RoleAssignment_Blob["Role Assignment - Blob"]
-    StorageAccount_RoleAssignment_Queue["Role Assignment - Queue"]
-    StorageAccount_RoleAssignment_Table["Role Assignment - Table"]
-  end
-
-  subgraph ToDoAPI["To-Do API Resources"]
-    ToDoAPI_API["To-Do API"]
-    ToDoAPI_Policy["To-Do API Policy"]
-    ToDoAPI_Backend["To-Do API Backend"]
-  end
-
-  subgraph ToDoAPIV3["To-Do API v3 Resources"]
-    ToDoAPIV3_API["To-Do API v3"]
-    ToDoAPIV3_Policy["To-Do API v3 Policy"]
-    ToDoAPIV3_Backend["To-Do API v3 Backend"]
-  end
-
-  %% Additional Connections
-  WebApp --> Secret_APIM
-  WebApp --> APIM_Core
-  WebApp --> ServicePlan
-  WebAppSlot --> WebApp
-  ServicePlan --> RG_Test
-  FunctionApp --> Cosmos_Container
-  FunctionApp --> Secret_ToDo
-  FunctionApp --> StorageBlob
-  FunctionApp --> StorageFile
-  FunctionApp --> StorageQueue
-  FunctionApp --> ServicePlan
-  FunctionApp --> StorageAccount
-  FunctionApp --> Subnet_PEP
-  FunctionAppSlot --> FunctionApp
-  AI_Main --> AI_LogAnalytics
-  KV_AccessPolicy --> KV_Common
-  KV_AccessPolicy --> RG_Test
-  KV_AccessPolicy --> APIM_Core
-  KV_RoleAssignment_Certificates --> KV_Common
-  KV_RoleAssignment_Certificates --> RG_Test
-  KV_RoleAssignment_Certificates --> APIM_Core
-  KV_RoleAssignment_Keys --> KV_Common
-  KV_RoleAssignment_Keys --> RG_Test
-  KV_RoleAssignment_Keys --> APIM_Core
-  KV_RoleAssignment_Secrets --> KV_Common
-  KV_RoleAssignment_Secrets --> RG_Test
-  KV_RoleAssignment_Secrets --> APIM_Core
-  CosmosDB_RoleAssignment --> RG_Test
-  CosmosDB_RoleAssignment --> APIM_Core
-  EventHub_RoleAssignment --> RG_Test
-  EventHub_RoleAssignment --> APIM_Core
-  Redis_AccessPolicyAssignment --> RG_Test
-  Redis_AccessPolicyAssignment --> APIM_Core
-  ServiceBus_RoleAssignment_Queues --> RG_Test
-  ServiceBus_RoleAssignment_Queues --> APIM_Core
-  ServiceBus_RoleAssignment_Subscriptions --> RG_Test
-  ServiceBus_RoleAssignment_Subscriptions --> APIM_Core
-  ServiceBus_RoleAssignment_Topics --> RG_Test
-  ServiceBus_RoleAssignment_Topics --> APIM_Core
-  StorageAccount_RoleAssignment_Blob --> RG_Test
-  StorageAccount_RoleAssignment_Blob --> APIM_Core
-  StorageAccount_RoleAssignment_Queue --> RG_Test
-  StorageAccount_RoleAssignment_Queue --> APIM_Core
-  StorageAccount_RoleAssignment_Table --> RG_Test
-  StorageAccount_RoleAssignment_Table --> APIM_Core
-  ToDoAPI_API --> Secret_ToDo
-  ToDoAPI_Policy --> ToDoAPI_API
-  ToDoAPI_Policy --> ToDoAPI_Backend
-  ToDoAPI_Backend --> Secret_ToDo
-  ToDoAPI_Backend --> FunctionAppSlot
-  ToDoAPIV3_API --> Secret_ToDoV3
-  ToDoAPIV3_Policy --> ToDoAPIV3_API
-  ToDoAPIV3_Policy --> ToDoAPIV3_Backend
-  ToDoAPIV3_Backend --> Secret_ToDoV3
-  ToDoAPIV3_Backend --> FunctionAppSlot
+  
+  %% Misc Connections
+  Secret_ToDo --> APIM_Core
+  Secret_ToDoV3 --> APIM_Core
+  KV_Common --> AFV3_Insights
+  SA_Core --> AFV3_Core
 ```
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
