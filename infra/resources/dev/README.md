@@ -576,7 +576,6 @@ graph LR
 ## Bedrock
 
 ```mermaid
-```mermaid
 graph LR
   subgraph Key Vault
     CommonKV["Common Key Vault"]
