@@ -4,7 +4,6 @@ on:
   pull_request:
     types:
       - opened
-      - synchronize
     # paths:
     #   - '**/graph.dot' # Uncomment to trigger only on changes to graph.dot files
   workflow_dispatch:
@@ -176,11 +175,24 @@ jobs:
           done
           echo "Files organized."
 
+      - name: Delete original .dot files
+        run: |
+          echo "Deleting original .dot files..."
+
+          for md_file in $(git ls-files --others --exclude-standard -- '**/graph.md'); do
+            dot_file="$(dirname "$md_file")/graph.dot"
+            if [ -f "$dot_file" ]; then
+              echo "Deleting $dot_file"
+              rm "$dot_file"
+            fi
+          done
+          echo "Original .dot files deleted."
+
       - name: Commit and push all graph.md files
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "docs: ✨ Generate Mermaid diagrams from all .dot files"
-          file_pattern: '**/graph.md'
+          commit_message: "docs: ✨ Generate Mermaid diagrams from all .dot files and remove original .dot files ✨"
+          file_pattern: '**/graph.*'
           commit_user_name: "dx-pagopa-bot"
           commit_user_email: "dx-pagopa-github-bot@pagopa.it"
           commit_author: "dx-pagopa-bot <dx-pagopa-github-bot@pagopa.it>"
