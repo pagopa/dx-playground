@@ -22,15 +22,6 @@ jobs:
       - name: Generate Prompt File
         id: generate_prompt
         run: |
-          # Legge il contenuto del file .dot in una variabile d'ambiente
-          # per renderlo disponibile al prossimo step.
-          # Usare 'EOF' previene problemi con caratteri speciali.
-          DOT_CONTENT=$(cat ./infra/resources/dev/old_graph.dot)
-          echo "dot_content<<EOF" >> $GITHUB_ENV
-          echo "$DOT_CONTENT" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-
-          # Crea il file di prompt separatamente.
           cat > prompt.txt <<'EOF'
           You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
 
@@ -58,7 +49,7 @@ jobs:
 
           Here is the original DOT code:
           \`\`\`dot
-          ${{ env.dot_content }}
+          $(cat ./infra/resources/dev/old_graph.dot)
           \`\`\`
           EOF
 
@@ -69,16 +60,8 @@ jobs:
       - name: Prepare JSON Payload
         id: prepare_json
         run: |
-          # Legge il contenuto del prompt da prompt.txt
-          PROMPT_CONTENT=$(cat prompt.txt)
-
-          # Usa jq per creare un file payload.json valido.
-          # -n: input nullo
-          # --arg: passa una stringa (il nostro prompt) a jq in modo sicuro
-          # Il modello (o4-mini) è già specificato nell'URL, quindi non è necessario nel corpo.
-          # Il parametro corretto per i token è 'max_tokens'.
           jq -n \
-            --arg content "$PROMPT_CONTENT" \
+            --arg content "$(cat prompt.txt)" \
             '{
               "messages": [
                 {
@@ -99,9 +82,6 @@ jobs:
         env:
           AZURE_API_KEY: ${{ inputs.api_key }}
         run: |
-          # Ora il comando curl è più pulito e sicuro.
-          # -d @payload.json legge i dati dal file che abbiamo appena creato.
-          # Ho formattato il comando su più righe per leggibilità.
           curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2024-02-01" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $AZURE_API_KEY" \
@@ -113,12 +93,10 @@ jobs:
           echo "--- Full API Response ---"
           cat response.json
           echo "-------------------------"
-          
 
           MERMAID_CONTENT=$(jq -r '.choices[0].message.content' response.json | sed 's/^`*mermaid//;s/`*$//')
           
-          echo "graph TD" > mermaid-diagram.md
-          echo "$MERMAID_CONTENT" >> mermaid-diagram.md
+          echo "$MERMAID_CONTENT" > mermaid-diagram.md
 
           echo "--- Final Mermaid Diagram ---"
           cat mermaid-diagram.md
