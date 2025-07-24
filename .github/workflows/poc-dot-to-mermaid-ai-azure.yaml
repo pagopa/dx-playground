@@ -81,7 +81,7 @@ jobs:
         env:
           AZURE_API_KEY: ${{ inputs.api_key }}
         run: |
-          curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2024-02-01" \
+          curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2025-01-01-preview" \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $AZURE_API_KEY" \
             -d @payload.json \
