@@ -134,19 +134,22 @@ jobs:
           echo "Mermaid file created at: $MD_FILE_PATH"
           echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
 
+          BLOB_NAME="mermaid-diagram-$(echo "${{ matrix.dot_file }}" | tr '/' '-')"
+          echo "blob_name=$BLOB_NAME" >> $GITHUB_OUTPUT
+
 
       - name: Upload generated diagrams
         uses: actions/upload-artifact@v4
         with:
-          name: mermaid-diagrams
-          path: '**/graph.md'
+          name: ${{ steps.ai_call.outputs.blob_name }}
+          path: ${{ steps.ai_call.outputs.md_file_path }}
           if-no-files-found: error
 
       # - name: Commit and push graph.md
       #   uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
       #   with:
       #     commit_message: "docs: ✨ Generate Mermaid diagram for ${{ matrix.dot_file }}"
-      #     file_pattern: "${{ steps.create_md.outputs.md_file_path }}"
+      #     file_pattern: "${{ steps.ai_call.outputs.md_file_path }}"
       #     commit_user_name: "dx-pagopa-bot"
       #     commit_user_email: "dx-pagopa-github-bot@pagopa.it"
       #     commit_author: "dx-pagopa-bo <dx-pagopa-github-bot@pagopa.it>"
@@ -167,7 +170,6 @@ jobs:
       - name: Download generated diagrams
         uses: actions/download-artifact@v4
         with:
-          name: mermaid-diagrams
           path: . 
 
       - name: Commit and push all graph.md files
