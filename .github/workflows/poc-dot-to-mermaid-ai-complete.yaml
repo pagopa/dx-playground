@@ -42,7 +42,6 @@ jobs:
     
     runs-on: ubuntu-latest
     permissions:
-      models: read
       contents: write
       pull-requests: write
 
@@ -121,6 +120,8 @@ jobs:
           AZURE_API_KEY: ${{ secrets.AZURE_AI_API_KEY }}
         run: |
           RESPONSE_FILE="response-$(echo "${{ matrix.dot_file }}" | tr '/' '-').json"
+          DOT_DIR=$(dirname "${{ matrix.dot_file }}")
+          MD_FILE_PATH="$DOT_DIR/graph.md"
 
           curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2025-01-01-preview" \
             -H "Content-Type: application/json" \
@@ -128,43 +129,52 @@ jobs:
             -d @${{ steps.prepare_json.outputs.json_payload_path }} \
             -o "$RESPONSE_FILE"
 
-          MERMAID_CONTENT=$(jq -r '.choices[0].message.content' "$RESPONSE_FILE")
-          MERMAID_FILE="mermaid-diagram-$(echo "${{ matrix.dot_file }}" | tr '/' '-').md"
-          echo "$MERMAID_CONTENT" > "$MERMAID_FILE"
+          jq -r '.choices[0].message.content' "$RESPONSE_FILE" > "$MD_FILE_PATH"
 
-          echo "AI response saved to: $MERMAID_FILE"
-          echo "response_file=$MERMAID_FILE" >> $GITHUB_OUTPUT
-
-      - name: Create Mermaid file from response
-        id: create_md
-        run: |
-          DOT_DIR=$(dirname "${{ matrix.dot_file }}")
-          MD_FILE_PATH="$DOT_DIR/graph.md"
-          
-          echo "AI Response saved to: ${{ steps.ai_call.outputs.response_file }}"
-          
-          mv "${{ steps.ai_call.outputs.response_file }}" "$MD_FILE_PATH"
-          
           echo "Mermaid file created at: $MD_FILE_PATH"
           echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
 
-          # echo "For Testing Purposes:"
-          # BUNDLE_NAME="mermaid-diagram-$(echo "${{ matrix.dot_file }}" | tr '/' '-')"
-          # echo "bundle_name=$BUNDLE_NAME" >> $GITHUB_OUTPUT
 
-      - name: Commit and push graph.md
-        uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
+      - name: Upload generated diagrams
+        uses: actions/upload-artifact@v4
         with:
-          commit_message: "docs: ✨ Generate Mermaid diagram for ${{ matrix.dot_file }}"
-          file_pattern: "${{ steps.create_md.outputs.md_file_path }}"
+          name: mermaid-diagrams
+          path: '**/graph.md'
+          if-no-files-found: error
+
+      # - name: Commit and push graph.md
+      #   uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
+      #   with:
+      #     commit_message: "docs: ✨ Generate Mermaid diagram for ${{ matrix.dot_file }}"
+      #     file_pattern: "${{ steps.create_md.outputs.md_file_path }}"
+      #     commit_user_name: "dx-pagopa-bot"
+      #     commit_user_email: "dx-pagopa-github-bot@pagopa.it"
+      #     commit_author: "dx-pagopa-bo <dx-pagopa-github-bot@pagopa.it>"
+    
+  commit-changes:
+    runs-on: ubuntu-latest
+    needs: dot-to-mermaid
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Download generated diagrams
+        uses: actions/download-artifact@v4
+        with:
+          name: mermaid-diagrams
+          path: . 
+
+      - name: Commit and push all graph.md files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: ✨ Generate Mermaid diagrams from all .dot files"
+          file_pattern: '**/graph.md'
           commit_user_name: "dx-pagopa-bot"
           commit_user_email: "dx-pagopa-github-bot@pagopa.it"
-          commit_author: "dx-pagopa-bo <dx-pagopa-github-bot@pagopa.it>"
-
-      # - name: Upload Mermaid Artifact - TEST
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ steps.create_md.outputs.bundle_name }}
-      #     path: ${{ steps.create_md.outputs.md_file_path }}
-      #     if-no-files-found: error
-      #     retention-days: 7
+          commit_author: "dx-pagopa-bot <dx-pagopa-github-bot@pagopa.it>"
