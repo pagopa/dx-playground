@@ -25,7 +25,7 @@ jobs:
           # Legge il contenuto del file .dot in una variabile d'ambiente
           # per renderlo disponibile al prossimo step.
           # Usare 'EOF' previene problemi con caratteri speciali.
-          DOT_CONTENT=$(cat ./infra/resources/dev/graph.dot)
+          DOT_CONTENT=$(cat ./infra/resources/dev/old_graph.dot)
           echo "dot_content<<EOF" >> $GITHUB_ENV
           echo "$DOT_CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
