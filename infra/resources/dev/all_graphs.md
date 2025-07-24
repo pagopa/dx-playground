@@ -1,3 +1,5 @@
+# All modules graphs, result of Azure AI complete workload
+
 ```mermaid
 graph LR
   subgraph Compute
