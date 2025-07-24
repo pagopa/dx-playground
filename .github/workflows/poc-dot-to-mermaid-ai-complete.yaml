@@ -8,6 +8,10 @@ on:
     # paths:
     #   - '**/graph.dot'
   workflow_dispatch:
+    inputs:
+      api_key:
+        description: 'Azure OpenAI API Key'
+        required: true
   # push:
   #   branches:
   #     - feat-poc-ai-graph-generation
@@ -94,32 +98,45 @@ jobs:
           echo "Prompt file created at $PROMPT_FILE"
           echo "prompt_path=$PROMPT_FILE" >> $GITHUB_OUTPUT
 
-      - name: Verify Models permission via a ping
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Prepare JSON Payload
+        id: prepare_json
         run: |
-          STATUS=$(
-            curl -o /dev/null -s -w "%{http_code}" \
-              -X POST \
-              -H "Authorization: Bearer $GITHUB_TOKEN" \
-              -H "Content-Type: application/json" \
-              -d '{"model":"openai/gpt-4o","messages":[{"role":"user","content":"Ping"}]}' \
-              https://models.github.ai/inference/chat/completions
-          )
-          echo "Inference ping returned HTTP $STATUS"
-          if [ "$STATUS" -ne 200 ]; then
-            echo "🚨 models:read permission is missing or AI is not enabled"
-            exit 1
-          fi
+          JSON_FILE="payload-$(echo "${{ matrix.dot_file }}" | tr '/' '-').json"
+          jq -n \
+            --arg content "$(cat ${{ steps.generate_prompt.outputs.prompt_path }})" \
+            '{
+              "messages": [
+                {
+                  "role": "user",
+                  "content": $content
+                }
+              ],
+              "max_completion_tokens": 100000,
+              "model": "o4-mini"
+            }' > "$JSON_FILE"
 
-      - name: Run AI Inference
-        id: inference
-        uses: actions/ai-inference@v1.1.0
-        with:
-          prompt-file: ${{ steps.generate_prompt.outputs.prompt_path }}
-          max-tokens: 4096
-          model: openai/gpt-4o
-          token: ${{ secrets.GITHUB_TOKEN }}
+          echo "JSON payload created at $JSON_FILE"
+          echo "json_payload_path=$JSON_FILE" >> $GITHUB_OUTPUT
+
+      - name: Run AI call API for ${{ matrix.dot_file }}
+        id: ai_call
+        env:
+          AZURE_API_KEY: ${{ inputs.api_key }}
+        run: |
+          RESPONSE_FILE="response-$(echo "${{ matrix.dot_file }}" | tr '/' '-').json"
+
+          curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2025-01-01-preview" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $AZURE_API_KEY" \
+            -d @p${{ steps.prepare_json.outputs.json_payload_path }} \
+            -o "$RESPONSE_FILE"
+
+          MERMAID_CONTENT=$(jq -r '.choices[0].message.content' "$RESPONSE_FILE")
+          MERMAID_FILE="mermaid-diagram-$(echo "${{ matrix.dot_file }}" | tr '/' '-').md"
+          echo "$MERMAID_CONTENT" > "$MERMAID_FILE"
+
+          echo "AI response saved to: $MERMAID_FILE"
+          echo "response_file=$MERMAID_FILE" >> $GITHUB_OUTPUT
 
       - name: Create Mermaid file from response
         id: create_md
@@ -127,9 +144,9 @@ jobs:
           DOT_DIR=$(dirname "${{ matrix.dot_file }}")
           MD_FILE_PATH="$DOT_DIR/graph.md"
           
-          echo "AI Response saved to: ${{ steps.inference.outputs.response-file }}"
+          echo "AI Response saved to: ${{ steps.ai_call.outputs.response_file }}"
           
-          mv "${{ steps.inference.outputs.response-file }}" "$MD_FILE_PATH"
+          mv "${{ steps.ai_call.outputs.response_file }}" "$MD_FILE_PATH"
           
           echo "Mermaid file created at: $MD_FILE_PATH"
           echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
@@ -142,3 +159,11 @@ jobs:
       #     commit_user_name: "dx-pagopa-bot"
       #     commit_user_email: "dx-pagopa-github-bot@pagopa.it"
       #     commit_author: "dx-pagopa-bo <dx-pagopa-github-bot@pagopa.it>"
+
+      - name: Upload Mermaid Artifact - TEST
+        uses: actions/upload-artifact@v4
+        with:
+          name: "mermaid-diagram-${{ matrix.dot_file }}"
+          path: ${{ steps.create_md.outputs.md_file_path }}
+          if-no-files-found: error
+          retention-days: 7
