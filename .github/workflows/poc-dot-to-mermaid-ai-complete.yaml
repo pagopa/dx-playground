@@ -121,7 +121,8 @@ jobs:
         run: |
           RESPONSE_FILE="response-$(echo "${{ matrix.dot_file }}" | tr '/' '-').json"
           DOT_DIR=$(dirname "${{ matrix.dot_file }}")
-          MD_FILE_PATH="$DOT_DIR/graph.md"
+          ENCODED_NAME=$(echo "$DOT_DIR" | tr '/' '-')
+          MD_FILE_PATH="${ENCODED_NAME}.md"
 
           curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2025-01-01-preview" \
             -H "Content-Type: application/json" \
@@ -134,25 +135,12 @@ jobs:
           echo "Mermaid file created at: $MD_FILE_PATH"
           echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
 
-          BLOB_NAME="mermaid-diagram-$(echo "${{ matrix.dot_file }}" | tr '/' '-')"
-          echo "blob_name=$BLOB_NAME" >> $GITHUB_OUTPUT
-
-
       - name: Upload generated diagrams
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.ai_call.outputs.blob_name }}
+          name: diagram-${{ strategy.job-index }}
           path: ${{ steps.ai_call.outputs.md_file_path }}
           if-no-files-found: error
-
-      # - name: Commit and push graph.md
-      #   uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
-      #   with:
-      #     commit_message: "docs: ✨ Generate Mermaid diagram for ${{ matrix.dot_file }}"
-      #     file_pattern: "${{ steps.ai_call.outputs.md_file_path }}"
-      #     commit_user_name: "dx-pagopa-bot"
-      #     commit_user_email: "dx-pagopa-github-bot@pagopa.it"
-      #     commit_author: "dx-pagopa-bo <dx-pagopa-github-bot@pagopa.it>"
     
   commit-changes:
     runs-on: ubuntu-latest
@@ -170,7 +158,23 @@ jobs:
       - name: Download generated diagrams
         uses: actions/download-artifact@v4
         with:
-          path: . 
+          path: downloaded-artifacts
+
+      - name: Organize downloaded files
+        run: |
+          echo "Organizing downloaded files..."
+          for filepath in downloaded-artifacts/*/*.md; do
+            if [ -f "$filepath" ]; then
+              filename=$(basename "$filepath")
+              dir_encoded_name="${filename%.md}"
+              dest_dir=$(echo "$dir_encoded_name" | tr '-' '/')
+              
+              mv "$filepath" "$dest_dir/graph.md"
+              
+              echo "Moved $filename to $dest_dir/graph.md"
+            fi
+          done
+          echo "Files organized."
 
       - name: Commit and push all graph.md files
         uses: stefanzweifel/git-auto-commit-action@v5
