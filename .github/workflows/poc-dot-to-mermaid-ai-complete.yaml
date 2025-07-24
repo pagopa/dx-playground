@@ -6,15 +6,15 @@ on:
       - opened
       - synchronize
     # paths:
-    #   - '**/graph.dot'
+    #   - '**/graph.dot' # Uncomment to trigger only on changes to graph.dot files
   workflow_dispatch:
     inputs:
       api_key:
         description: 'Azure OpenAI API Key'
         required: true
-  # push:
-  #   branches:
-  #     - feat-poc-ai-graph-generation
+  push:
+    branches:
+      - feat-poc-ai-graph-generation
 
 jobs:
   find-changed-dots:
@@ -152,23 +152,23 @@ jobs:
           echo "Mermaid file created at: $MD_FILE_PATH"
           echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
 
-          echo "For Testing Purposes:"
-          BUNDLE_NAME="mermaid-diagram-$(echo "${{ matrix.dot_file }}" | tr '/' '-')"
-          echo "bundle_name=$BUNDLE_NAME" >> $GITHUB_OUTPUT
+          # echo "For Testing Purposes:"
+          # BUNDLE_NAME="mermaid-diagram-$(echo "${{ matrix.dot_file }}" | tr '/' '-')"
+          # echo "bundle_name=$BUNDLE_NAME" >> $GITHUB_OUTPUT
 
-      # - name: Commit and push graph.md
-      #   uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
-      #   with:
-      #     commit_message: "docs: ✨ Generate Mermaid diagram for ${{ matrix.dot_file }}"
-      #     file_pattern: "${{ steps.create_md.outputs.md_file_path }}"
-      #     commit_user_name: "dx-pagopa-bot"
-      #     commit_user_email: "dx-pagopa-github-bot@pagopa.it"
-      #     commit_author: "dx-pagopa-bo <dx-pagopa-github-bot@pagopa.it>"
-
-      - name: Upload Mermaid Artifact - TEST
-        uses: actions/upload-artifact@v4
+      - name: Commit and push graph.md
+        uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
         with:
-          name: ${{ steps.create_md.outputs.bundle_name }}
-          path: ${{ steps.create_md.outputs.md_file_path }}
-          if-no-files-found: error
-          retention-days: 7
+          commit_message: "docs: ✨ Generate Mermaid diagram for ${{ matrix.dot_file }}"
+          file_pattern: "${{ steps.create_md.outputs.md_file_path }}"
+          commit_user_name: "dx-pagopa-bot"
+          commit_user_email: "dx-pagopa-github-bot@pagopa.it"
+          commit_author: "dx-pagopa-bo <dx-pagopa-github-bot@pagopa.it>"
+
+      # - name: Upload Mermaid Artifact - TEST
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ steps.create_md.outputs.bundle_name }}
+      #     path: ${{ steps.create_md.outputs.md_file_path }}
+      #     if-no-files-found: error
+      #     retention-days: 7
