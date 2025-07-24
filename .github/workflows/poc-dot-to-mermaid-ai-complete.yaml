@@ -152,6 +152,10 @@ jobs:
           echo "Mermaid file created at: $MD_FILE_PATH"
           echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
 
+          echo "For Testing Purposes:"
+          BUNDLE_NAME="mermaid-diagram-$(echo "${{ matrix.dot_file }}" | tr '/' '-')"
+          echo "bundle_name=$BUNDLE_NAME" >> $GITHUB_OUTPUT
+
       # - name: Commit and push graph.md
       #   uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 #v6
       #   with:
@@ -164,7 +168,7 @@ jobs:
       - name: Upload Mermaid Artifact - TEST
         uses: actions/upload-artifact@v4
         with:
-          name: "mermaid-diagram-${{ matrix.dot_file }}"
+          name: ${{ steps.create_md.outputs.bundle_name }}
           path: ${{ steps.create_md.outputs.md_file_path }}
           if-no-files-found: error
           retention-days: 7
