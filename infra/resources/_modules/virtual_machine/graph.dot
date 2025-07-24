@@ -1,7 +1,0 @@
-digraph G {
-  rankdir = "RL";
-  node [shape = rect, fontname = "sans-serif"];
-  "azurerm_linux_virtual_machine.vm" [label="azurerm_linux_virtual_machine.vm"];
-  "azurerm_network_interface.nic" [label="azurerm_network_interface.nic"];
-  "azurerm_linux_virtual_machine.vm" -> "azurerm_network_interface.nic";
-}

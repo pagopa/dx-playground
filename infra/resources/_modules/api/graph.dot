@@ -1,9 +1,0 @@
-digraph G {
-  rankdir = "RL";
-  node [shape = rect, fontname = "sans-serif"];
-  "azurerm_api_management_api.api" [label="azurerm_api_management_api.api"];
-  "azurerm_api_management_api_policy.policy" [label="azurerm_api_management_api_policy.policy"];
-  "azurerm_api_management_backend.backend" [label="azurerm_api_management_backend.backend"];
-  "azurerm_api_management_api_policy.policy" -> "azurerm_api_management_api.api";
-  "azurerm_api_management_api_policy.policy" -> "azurerm_api_management_backend.backend";
-}
