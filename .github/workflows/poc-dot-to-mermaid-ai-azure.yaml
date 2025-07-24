@@ -6,23 +6,32 @@ on:
       api_key:
         description: 'Azure OpenAI API Key'
         required: true
-  push:
-    branches:
-      - feat-poc-ai-graph-generation
+  # push:
+  #   branches:
+  #     - feat-poc-ai-graph-generation
 
 jobs:
   dot-to-mermaid:
     runs-on: ubuntu-latest
     permissions:
-      models: read
       contents: read
     steps:
       - name: Checkout PR
         uses: actions/checkout@v4
 
-      - name: Generate Prompt
+      - name: Generate Prompt File
+        id: generate_prompt
         run: |
-          cat > prompt.txt <<EOF
+          # Legge il contenuto del file .dot in una variabile d'ambiente
+          # per renderlo disponibile al prossimo step.
+          # Usare 'EOF' previene problemi con caratteri speciali.
+          DOT_CONTENT=$(cat ./infra/resources/dev/graph.dot)
+          echo "dot_content<<EOF" >> $GITHUB_ENV
+          echo "$DOT_CONTENT" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+          # Crea il file di prompt separatamente.
+          cat > prompt.txt <<'EOF'
           You are an expert in converting Terraform-generated Graphviz DOT diagrams into clear, human-friendly Mermaid diagrams.
 
           Requirements:
@@ -31,15 +40,15 @@ jobs:
           …the entire diagram…
           \`\`\`
           1. **Output only valid Mermaid syntax** (no prose).
-          2. **Orientation**: Use \`graph LR\` (left-to-right).
+          2. **Orientation**: Use `graph LR` (left-to-right).
           3. **Subgraphs**: Group nodes into logical clusters with meaningful titles. Each subgraph block must be in the form:
             subgraph Group Title
               NodeA[“Label A”]
               NodeB[“Label B”]
             end
           4. **Naming**:  
-            - Strip Terraform resource prefixes (\`azurerm_\`, \`data.\`) and use title-case labels (e.g. \`Key Vault Certificate\`, \`API Management Service\`).  
-            - For DNS entries, include both zone and record type (\`A Record - apim.azure-api.net\`) if present.
+            - Strip Terraform resource prefixes (`azurerm_`, `data.`) and use title-case labels (e.g. `Key Vault Certificate`, `API Management Service`).  
+            - For DNS entries, include both zone and record type (`A Record - apim.azure-api.net`) if present.
           5. **Connections**:  
             - Draw arrows only once per relationship.  
             - Label edges only if it adds clarity (otherwise omit labels).
@@ -49,41 +58,77 @@ jobs:
 
           Here is the original DOT code:
           \`\`\`dot
-          $(cat ./infra/resources/dev/graph.dot)
+          ${{ env.dot_content }}
           \`\`\`
           EOF
 
+          echo "--- Prompt File Content ---"
           cat prompt.txt
+          echo "--------------------------"
+
+      - name: Prepare JSON Payload
+        id: prepare_json
+        run: |
+          # Legge il contenuto del prompt da prompt.txt
+          PROMPT_CONTENT=$(cat prompt.txt)
+
+          # Usa jq per creare un file payload.json valido.
+          # -n: input nullo
+          # --arg: passa una stringa (il nostro prompt) a jq in modo sicuro
+          # Il modello (o4-mini) è già specificato nell'URL, quindi non è necessario nel corpo.
+          # Il parametro corretto per i token è 'max_tokens'.
+          jq -n \
+            --arg content "$PROMPT_CONTENT" \
+            '{
+              "messages": [
+                {
+                  "role": "user",
+                  "content": $content
+                }
+              ],
+              "max_completion_tokens": 100000,
+              "model": "o4-mini"
+            }' > payload.json
+
+          echo "--- JSON Payload Content ---"
+          cat payload.json
+          echo "----------------------------"
 
       - name: Run AI call API
         id: inference
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AZURE_API_KEY: ${{ inputs.api_key }}
         run: |
-          curl -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2025-01-01-preview \
-              -H "Content-Type: application/json" \
-              -H "Authorization: Bearer $AZURE_API_KEY" \
-              -d '{
-                  "messages": [
-                      {
-                          "role": "user",
-                          "content": "${cat prompt.txt}"
-                      }
-                  ],
-                  "max_completion_tokens": 100000,
-                  "model": "o4-mini"
-              }' > response.txt
+          # Ora il comando curl è più pulito e sicuro.
+          # -d @payload.json legge i dati dal file che abbiamo appena creato.
+          # Ho formattato il comando su più righe per leggibilità.
+          curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2024-02-01" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $AZURE_API_KEY" \
+            -d @payload.json \
+            -o response.json
 
-      - name: Use Response File
+      - name: Extract and Save Mermaid Content
         run: |
-          echo "Response saved to: response.txt"
-          cat "response.txt"
+          echo "--- Full API Response ---"
+          cat response.json
+          echo "-------------------------"
+          
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+          MERMAID_CONTENT=$(jq -r '.choices[0].message.content' response.json | sed 's/^`*mermaid//;s/`*$//')
+          
+          echo "graph TD" > mermaid-diagram.md
+          echo "$MERMAID_CONTENT" >> mermaid-diagram.md
+
+          echo "--- Final Mermaid Diagram ---"
+          cat mermaid-diagram.md
+          echo "-----------------------------"
+
+      - name: Upload Mermaid Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: "bundle-mermaid"
-          path: response.txt
+          name: "mermaid-diagram"
+          # Carica il file .md finale invece della risposta JSON grezza.
+          path: mermaid-diagram.md
           if-no-files-found: error
           retention-days: 7
