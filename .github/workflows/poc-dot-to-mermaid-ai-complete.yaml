@@ -8,10 +8,6 @@ on:
     # paths:
     #   - '**/graph.dot' # Uncomment to trigger only on changes to graph.dot files
   workflow_dispatch:
-    inputs:
-      api_key:
-        description: 'Azure OpenAI API Key'
-        required: true
   push:
     branches:
       - feat-poc-ai-graph-generation
@@ -122,7 +118,7 @@ jobs:
       - name: Run AI call API for ${{ matrix.dot_file }}
         id: ai_call
         env:
-          AZURE_API_KEY: ${{ inputs.api_key }}
+          AZURE_API_KEY: ${{ secrets.AZURE_AI_API_KEY }}
         run: |
           RESPONSE_FILE="response-$(echo "${{ matrix.dot_file }}" | tr '/' '-').json"
 
