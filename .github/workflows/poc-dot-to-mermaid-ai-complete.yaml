@@ -32,7 +32,8 @@ jobs:
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           files: '**/graph.dot'
-          base_sha: 'main' # REMOVE
+          base_sha: 'main' # REMOVE (normally compare PR branch latest two commits)
+          sha: feat-poc-ai-graph-generation # REMOVE (this is the branch where the PR is opened, now specified ti permit workflow_dispatch)
           matrix: true
       
       - name: Test print
