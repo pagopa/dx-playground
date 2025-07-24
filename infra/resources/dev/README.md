@@ -573,93 +573,161 @@ graph LR
   ModuleTo_do_api_v3Azurerm_api_management_backendBackend --> ModuleAzure_function_v3_function_appAzurerm_linux_function_app_slotThis
 ```
 
-## Bedrock
+## AI Foundry o4-mini
 
 ```mermaid
-graph LR
-  subgraph KeyVault["Key Vault"]
-    KV["Key Vault"]
-    Secret_APIM["APIM API Key"]
-    Secret_ToDo["To-Do API Key"]
-    Secret_ToDoV3["To-Do API Key v3"]
-  end
-
-  subgraph ResourceGroups["Resource Groups"]
-    RG_Common["Common RG"]
-    RG_Network["Network RG"]
-    RG_Test["Test RG"]
-  end
-
-  subgraph VirtualNetwork["Virtual Network"]
-    VNet["Test VNet"]
-    Subnet_APIM["APIM Subnet"]
-    Subnet_PEP["Private Endpoint Subnet"]
-  end
-
-  subgraph APIM["API Management"]
-    APIM_Service["API Management Service"]
-    APIM_Cert["Certificate"]
-    APIM_Policy["Policy"]
-    APIM_Logger["Logger"]
-  end
-
-  subgraph AzureFunctionV3["Azure Function V3"]
-    AFV3_App["Function App"]
-    AFV3_Insights["Application Insights"]
-    AFV3_Storage["Storage Account"]
-  end
-
-  subgraph CosmosDB["CosmosDB"]
-    CosmosDB_Account["CosmosDB Account"]
-    CosmosDB_Container["Tasks Container"]
-  end
-
-  subgraph AppService["App Service"]
-    WebApp["Linux Web App"]
-    ServicePlan["Service Plan"]
-  end
-
-  subgraph FunctionApp["Function App"]
-    FA_App["Function App"]
-    FA_Storage["Storage Account"]
-  end
-
-  subgraph FunctionTestDurable["Function Test Durable"]
-    TestDurable_App["Function App"]
-    TestDurable_Storage["Storage Account"]
-  end
-
-  subgraph ToDoAPI["To-Do API"]
-    ToDoAPI_V1["To-Do API v1"]
-    ToDoAPI_V3["To-Do API v3"]
-  end
-
-  KV --> RG_Common
-  VNet --> RG_Network
-  Subnet_APIM --> VNet
-  Subnet_PEP --> VNet
-  Secret_APIM --> KV
-  Secret_ToDo --> KV
-  Secret_ToDoV3 --> KV
-  APIM_Service --> RG_Test
-  APIM_Service --> Subnet_APIM
-  APIM_Cert --> KV
-  APIM_Cert --> APIM_Service
-  APIM_Policy --> APIM_Service
-  APIM_Logger --> APIM_Service
-  AFV3_App --> VNet
-  AFV3_App --> AFV3_Storage
-  AFV3_Insights --> RG_Test
-  CosmosDB_Account --> RG_Test
-  CosmosDB_Container --> CosmosDB_Account
-  WebApp --> RG_Test
-  WebApp --> ServicePlan
-  FA_App --> RG_Test
-  FA_App --> FA_Storage
-  TestDurable_App --> RG_Test
-  TestDurable_App --> TestDurable_Storage
-  ToDoAPI_V1 --> APIM_Service
-  ToDoAPI_V3 --> APIM_Service
+graph LR  
+  
+  subgraph Data_Sources  
+    RG_Net["Resource Group: net_rg"]  
+    RG_Test["Resource Group: test_rg"]  
+    VNet_Test["Virtual Network: test_vnet"]  
+    Subnet_PEP["Subnet: pep_snet"]  
+    Subnet_APIM["Subnet: apim"]  
+    RG_Net --> VNet_Test  
+    RG_Test --> VNet_Test  
+    VNet_Test --> Subnet_PEP  
+    VNet_Test --> Subnet_APIM  
+  end  
+  
+  subgraph Key_Vault  
+    KV_Common["Key Vault: common_kv"]  
+    Secret_APIMKey["Secret: apim_api_key"]  
+    Secret_ToDo["Secret: to_do_api_key"]  
+    Secret_ToDoV3["Secret: to_do_api_key_func_v3"]  
+    Cert_KV["Certificate: key_vault_certificate"]  
+    KV_Common --> Secret_APIMKey  
+    KV_Common --> Secret_ToDo  
+    KV_Common --> Secret_ToDoV3  
+  end  
+  
+  subgraph API_Management  
+    APIM_Service["API Management Service"]  
+    APIM_Cert["Certificate"]  
+    APIM_Policy["Policy"]  
+    NamedValue_ToDo["Named Value: to_do_api_key"]  
+    NamedValue_ToDoV3["Named Value: to_do_api_key_v3"]  
+    APIM_Service --> RG_Test  
+    APIM_Service --> Subnet_APIM  
+    APIM_Cert --> Cert_KV  
+    APIM_Cert --> APIM_Service  
+    APIM_Policy --> APIM_Service  
+    NamedValue_ToDo --> Secret_ToDo  
+    NamedValue_ToDo --> APIM_Service  
+    NamedValue_ToDoV3 --> Secret_ToDoV3  
+    NamedValue_ToDoV3 --> APIM_Service  
+  end  
+  
+  subgraph DNS  
+    Zone_API["DNS Zone: azure-api.net"]  
+    Zone_API_Mgmt["DNS Zone: management.azure-api.net"]  
+    Zone_API_SCM["DNS Zone: scm.azure-api.net"]  
+    Record_API["A Record: apim.azure-api.net"]  
+    Record_API_Mgmt["A Record: management.azure-api.net"]  
+    Record_API_SCM["A Record: scm.azure-api.net"]  
+    Zone_API --> Record_API  
+    Zone_API_Mgmt --> Record_API_Mgmt  
+    Zone_API_SCM --> Record_API_SCM  
+    Record_API --> APIM_Service  
+    Record_API_Mgmt --> APIM_Service  
+    Record_API_SCM --> APIM_Service  
+  end  
+  
+  subgraph Cosmos_DB  
+    Cosmos_Account["Cosmos DB Account"]  
+    Cosmos_DB["SQL Database: db"]  
+    Cosmos_Container["SQL Container: tasks"]  
+    Cosmos_PE["Private Endpoint: sql"]  
+    Cosmos_Account --> RG_Test  
+    Cosmos_Account --> Cosmos_DB  
+    Cosmos_DB --> Cosmos_Container  
+    Cosmos_PE --> Cosmos_Account  
+    Cosmos_PE --> Subnet_PEP  
+  end  
+  
+  subgraph App_Service  
+    WebApp["Linux Web App"]  
+    WebApp_Slot["Web App Slot"]  
+    App_Plan["Service Plan"]  
+    App_DNS["DNS Zone: app_service"]  
+    App_EP_Prod["Private Endpoint: prod"]  
+    App_EP_Stg["Private Endpoint: staging"]  
+    WebApp_Slot --> WebApp  
+    WebApp --> App_Plan  
+    App_EP_Prod --> WebApp  
+    App_EP_Stg --> WebApp_Slot  
+    App_DNS --> App_EP_Prod  
+    App_DNS --> App_EP_Stg  
+    WebApp --> Secret_APIMKey  
+    WebApp --> APIM_Service  
+  end  
+  
+  subgraph Functions  
+    subgraph Function_App_V3  
+      V3_App["Linux Function App V3"]  
+      V3_Slot["Function App V3 Slot"]  
+      V3_Plan["Service Plan"]  
+      V3_Storage["Storage Account"]  
+      V3_Durable["Durable Function Storage"]  
+      V3_AI["Application Insights"]  
+      V3_LAW["Log Analytics"]  
+      V3_App --> V3_Slot  
+      V3_App --> V3_Plan  
+      V3_App --> V3_Storage  
+      V3_App --> V3_Durable  
+      V3_App --> V3_AI  
+      V3_AI --> V3_LAW  
+      V3_App --> Cosmos_Container  
+    end  
+    subgraph Function_App_Classic  
+      Func_App["Linux Function App"]  
+      Func_Slot["Function App Slot"]  
+      Func_Plan["Service Plan"]  
+      Func_Storage["Storage Account"]  
+      Func_Durable["Durable Function Storage"]  
+      Func_AI["Application Insights"]  
+      Func_LAW["Log Analytics"]  
+      Func_App --> Func_Slot  
+      Func_App --> Func_Plan  
+      Func_App --> Func_Storage  
+      Func_App --> Func_Durable  
+      Func_App --> Func_AI  
+      Func_AI --> Func_LAW  
+    end  
+    subgraph Function_Test_Durable  
+      Test_App["Linux Function App Test"]  
+      Test_Slot["Function App Test Slot"]  
+      Test_Plan["Service Plan"]  
+      Test_Storage["Storage Account"]  
+      Test_Durable["Durable Function Storage"]  
+      Test_App --> Test_Slot  
+      Test_App --> Test_Plan  
+      Test_App --> Test_Storage  
+      Test_App --> Test_Durable  
+    end  
+  end  
+  
+  subgraph ToDo_API  
+    Todo_API["API"]  
+    Todo_Policy["Policy"]  
+    Todo_Backend["Backend"]  
+    Todo_API --> NamedValue_ToDo  
+    Todo_API --> Todo_Policy  
+    Todo_Policy --> Todo_Backend  
+    Todo_Backend --> NamedValue_ToDo  
+    Todo_Backend --> Func_Slot  
+  end  
+  
+  subgraph ToDo_API_V3  
+    Todo_v3_API["API"]  
+    Todo_v3_Policy["Policy"]  
+    Todo_v3_Backend["Backend"]  
+    Todo_v3_API --> NamedValue_ToDoV3  
+    Todo_v3_API --> Todo_v3_Policy  
+    Todo_v3_Policy --> Todo_v3_Backend  
+    Todo_v3_Backend --> NamedValue_ToDoV3  
+    Todo_v3_Backend --> V3_Slot  
+  end  
 ```
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
