@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Mio Portfolio di Prova</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        header h1 {
+            color: #0056b3;
+            margin-bottom: 0.25rem;
+        }
+        header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+        main {
+            padding: 2rem 0;
+        }
+        .project {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .project h3 {
+            margin-top: 0;
+            color: #004085;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        .preview-banner {
+            display: none;
+            padding: 1rem;
+            background-color: #ffc107;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <!-- MAIN TITLE -->
+            <h1>Il Mio Fantastico Portfolio</h1>
+            <p>Sviluppatore Web & Amante del Cloud</p>
+        </header>
+
+        <main>
+            <div id="preview-banner" class="preview-banner">
+                ⚠️ Attenzione: Stai visualizzando un'anteprima di una Pull Request. ⚠️
+            </div>
+
+            <h2>I Miei Progetti</h2>
+
+            <div class="project">
+                <h3>Progetto Alpha</h3>
+                <p>Una web app innovativa costruita con le più moderne tecnologie per risolvere un problema complesso.</p>
+            </div>
+
+            <div class="project">
+                <h3>Progetto Beta</h3>
+                <p>Un sito di e-commerce performante e facile da usare, ottimizzato per la conversione.</p>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Il Mio Portfolio. Tutti i diritti riservati.</p>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            const hostname = window.location.hostname;
+            if (hostname.includes('-') && /\d/.test(hostname.split('-')[1])) {
+                const banner = document.getElementById('preview-banner');
+                if (banner) {
+                    banner.style.display = 'block';
+                }
+            }
+        })();
+    </script>
+
+</body>
+</html>
