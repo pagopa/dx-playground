@@ -28,6 +28,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           
-          app_location: "/app/static-test-app/"
+          app_location: "/apps/static-test-app/"
           api_location: ""
           output_location: "dist"
