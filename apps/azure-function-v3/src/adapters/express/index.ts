@@ -9,6 +9,7 @@ export const makeExpressApp = (env: Capabilities) => {
   const app = express();
 
   app.use(express.json());
+
   app.get("/api/tasks", async (req, res) => {
     const tasks = await listTasks()(env)();
     if (E.isLeft(tasks)) {
@@ -16,6 +17,10 @@ export const makeExpressApp = (env: Capabilities) => {
     } else {
       res.json(tasks.right);
     }
+  });
+
+  app.get("/api/health", (req, res) => {
+    res.status(200).json({ status: "ok" });
   });
 
   return app;
