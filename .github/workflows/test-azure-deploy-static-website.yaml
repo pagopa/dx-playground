@@ -39,6 +39,6 @@ jobs:
     with:
       workspace_name: "static-test-app"
       output_dir: "dist"
-      static_web_app_name: "ydx-d-itn-test-preview-sapp-01"
+      static_web_app_name: "dx-d-itn-test-preview-sapp-01"
       resource_group_name: "dx-d-itn-test-rg-01"
       environment: "infra-dev"
