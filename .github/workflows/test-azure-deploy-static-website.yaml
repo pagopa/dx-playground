@@ -10,24 +10,35 @@ on:
       - feat-verify-static-web-app-preview # main
   workflow_dispatch:
 
-jobs:
-  build_and_deploy:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
-    runs-on: ubuntu-latest
-    name: Build and Deploy Job
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
+# jobs:
+#   build_and_deploy:
+#     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+#     runs-on: ubuntu-latest
+#     name: Build and Deploy Job
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#           submodules: true
 
-      - name: Build and Deploy
-        id: builddeploy
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
+#       - name: Build and Deploy
+#         id: builddeploy
+#         uses: Azure/static-web-apps-deploy@v1
+#         with:
+#           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+#           repo_token: ${{ secrets.GITHUB_TOKEN }}
+#           action: "upload"
           
-          app_location: "/apps/static-test-app/"
-          api_location: ""
-          output_location: "dist"
+#           app_location: "/apps/static-test-app/"
+#           api_location: ""
+#           output_location: "dist"
+
+jobs:
+  deploy_to_static_web_app:
+    uses: ./.github/workflows/release-typescript-static-website-deploy-v1.yaml
+    secrets: inherit
+    with:
+      workspace_name: "static-test-app"
+      output_dir: "dist"
+      static_web_app_name: "dx-d-itn-test-preview-sapp-01"
+      resource_group_name: "dx-d-itn-test-rg-01"
+      environment: "infra-dev"
