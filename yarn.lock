@@ -1723,24 +1723,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@infra/github-runner@workspace:infra/github-runner":
-  version: 0.0.0-use.local
-  resolution: "@infra/github-runner@workspace:infra/github-runner"
-  languageName: unknown
-  linkType: soft
-
-"@infra/identity@workspace:infra/identity":
-  version: 0.0.0-use.local
-  resolution: "@infra/identity@workspace:infra/identity"
-  languageName: unknown
-  linkType: soft
-
-"@infra/repository@workspace:infra/repository":
-  version: 0.0.0-use.local
-  resolution: "@infra/repository@workspace:infra/repository"
-  languageName: unknown
-  linkType: soft
-
 "@infra/resources@workspace:infra/resources":
   version: 0.0.0-use.local
   resolution: "@infra/resources@workspace:infra/resources"
@@ -11067,6 +11049,14 @@ __metadata:
   checksum: 10c0/89a1416668f950236dd5ac9f9a6b2588e1b9b62b1b6ad8dff1bfc5d1a15dbf0aafc9b52d2226d00c28dffff212da464eaeebfc6b7578b9d180cef3e3782c5983
   languageName: node
   linkType: hard
+
+"static-test-app@workspace:apps/static-test-app":
+  version: 0.0.0-use.local
+  resolution: "static-test-app@workspace:apps/static-test-app"
+  dependencies:
+    shx: "npm:^0.4.0"
+  languageName: unknown
+  linkType: soft
 
 "statuses@npm:2.0.1":
   version: 2.0.1
