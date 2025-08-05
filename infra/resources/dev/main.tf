@@ -15,6 +15,7 @@ terraform {
     storage_account_name = "dxditntfstatest01"
     container_name       = "terraform-state"
     key                  = "dx-playground.resources.dev.tfstate"
+    use_azuread_auth     = true
   }
 }
 
