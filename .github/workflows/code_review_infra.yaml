@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   code_review_dev:
-    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+    uses: pagopa/dx/.github/workflows/infra_plan.yaml@CES-1175-ridurre-i-frequenti-refresh-dello-stato-terraform
     name: Code Review Infra Plan
     secrets: inherit
     with:
