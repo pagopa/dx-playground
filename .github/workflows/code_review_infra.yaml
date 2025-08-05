@@ -8,6 +8,7 @@ on:
       - synchronize
       - reopened
       - ready_for_review
+      - edited
     paths:
       # Trigger the workflow when resources are modified
       - "infra/resources/**"
