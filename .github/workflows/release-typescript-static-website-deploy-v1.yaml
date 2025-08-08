@@ -78,7 +78,7 @@ jobs:
 
       - name: Build and Package
         id: build-package
-        uses: pagopa/dx/.github/actions/build-monorepo-workspace@feat-verify-static-web-app-preview-2
+        uses: pagopa/dx-playground/.github/actions/build-monorepo-workspace@feat-verify-static-web-app-preview-2
         with:
           workspace_name: ${{ env.WORKSPACE_NAME }}
           packaging_method: 'static'
