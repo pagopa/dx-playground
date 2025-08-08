@@ -19,9 +19,6 @@ outputs:
     description: 'The path to the created artifact.'
     value: ${{ steps.make-artifact.outputs.artifact-path }}
 
-env:
-  WORKSPACE_NAME: ${{ inputs.workspace_name }}
-
 runs:
   using: "composite"
   steps:
@@ -33,6 +30,8 @@ runs:
       if: ${{ steps.node-setup.outputs.package-manager == 'pnpm' }}
       shell: bash
       run: pnpm --filter $WORKSPACE_NAME install
+      env:
+        WORKSPACE_NAME: ${{ inputs.workspace_name }}
 
     - name: Install dependencies (yarn)
       if: ${{ steps.node-setup.outputs.package-manager == 'yarn' }}
@@ -47,6 +46,8 @@ runs:
     - name: Build
       shell: bash
       run: npx turbo build --filter $WORKSPACE_NAME
+      env:
+        WORKSPACE_NAME: ${{ inputs.workspace_name }}
 
     - name: Create Artifact
       id: make-artifact
@@ -54,6 +55,7 @@ runs:
       env:
         PACKAGE_MANAGER: ${{ steps.node-setup.outputs.package-manager }}
         PACKAGING_METHOD: ${{ inputs.packaging_method }}
+        WORKSPACE_NAME: ${{ inputs.workspace_name }}
         OUTPUT_DIR: ${{ inputs.output_dir }}
       run: |
         # Get the workspace path relative to the root of the repository
