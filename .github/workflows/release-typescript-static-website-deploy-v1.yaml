@@ -83,7 +83,12 @@ jobs:
           workspace_name: ${{ env.WORKSPACE_NAME }}
         env:
           WORKSPACE_NAME: ${{ inputs.workspace_name }}
-      
+
+      - name: Test print artifact path 1
+        run: |
+          pwd
+          ls -la
+
       - name: Get Artifact path
         id: get-artifact-path
         run: |
@@ -92,7 +97,7 @@ jobs:
         env:
           OUTPUT_DIR: ${{ env.OUTPUT_DIR }}
 
-      - name: Test print artifact path
+      - name: Test print artifact path 2
         run: |
           echo "Artifact path is: ${{ steps.get-artifact-path.outputs.artifact-path }}"
           pwd

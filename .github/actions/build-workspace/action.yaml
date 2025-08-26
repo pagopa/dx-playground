@@ -40,3 +40,11 @@ runs:
       run: npx turbo build --filter $WORKSPACE_NAME
       env:
         WORKSPACE_NAME: ${{ inputs.workspace_name }}
+    
+    - name: Print working directory
+      shell: bash
+      run: |
+        echo "Current working directory:"
+        pwd
+        echo "Contents of the current directory:"
+        ls -la
