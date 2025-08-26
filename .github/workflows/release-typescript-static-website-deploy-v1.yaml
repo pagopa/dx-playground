@@ -92,6 +92,14 @@ jobs:
         env:
           OUTPUT_DIR: ${{ env.OUTPUT_DIR }}
 
+      - name: Test print artifact path
+        run: |
+          echo "Artifact path is: ${{ steps.get-artifact-path.outputs.artifact-path }}"
+          pwd
+          ls -la
+          echo "Contents of the artifact path:"
+          ls -la ${{ steps.get-artifact-path.outputs.artifact-path }}
+
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
         with:
