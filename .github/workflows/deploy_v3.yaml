@@ -17,7 +17,7 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@feat-define-aciton-for-workspace-build
+    uses: pagopa/dx-playground/.github/workflows/release-azure-appsvc-v1.yaml@test-release-workflow-v2
     secrets: inherit
     with:
       workspace_name: azure-function-v3
