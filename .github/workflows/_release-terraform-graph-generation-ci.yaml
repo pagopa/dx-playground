@@ -6,9 +6,9 @@ name: Generate Mermaid Diagrams for Terraform modules - CI - TEST
 
 on:
   pull_request:
-    types:
-      - opened
-      - synchronize
+    # types:
+    #   - opened
+    #   - synchronize
     # paths:
     #   - '**/graph.dot'
   workflow_dispatch:
