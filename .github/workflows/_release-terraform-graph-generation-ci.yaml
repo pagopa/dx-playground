@@ -9,17 +9,17 @@ on:
     types:
       - opened
       - synchronize
-    # paths:
-    #   - '**/graph.dot'
+    paths:
+      - '**/graph.dot'
   workflow_dispatch:
     inputs:
       dot_path:
         description: "Path to the .dot file to convert"
         default: ""
         required: false
-  # push:
-  #   branches:
-  #     - feat-poc-ai-graph-generation
+  push:
+    branches:
+      - feat-poc-ai-graph-generation
 
 jobs:
   find-changed-dots:
