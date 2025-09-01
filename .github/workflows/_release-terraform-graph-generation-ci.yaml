@@ -180,8 +180,20 @@ jobs:
         with:
           file_path: downloaded-artifacts
 
+      - name: Organize downloaded files
+        run: |
+          mkdir -p ./artifacts
+          
+          echo "Organizing downloaded files..."
+          for filepath in downloaded-artifacts/*/*.md; do
+            if [ -f "$filepath" ]; then
+              mv "$filepath" "$./artifact"
+            fi
+          done
+          echo "Files organized."
+
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
         with:
           bundle_name: mermaid-diagrams-${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.head.sha }}
-          file_path: ./downloaded-artifacts/
+          file_path: artifacts

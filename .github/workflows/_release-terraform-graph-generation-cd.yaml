@@ -46,7 +46,7 @@ jobs:
       - name: Organize downloaded files
         run: |
           echo "Organizing downloaded files..."
-          for filepath in downloaded-artifacts/*/*.md; do
+          for filepath in downloaded-artifacts/*.md; do
             if [ -f "$filepath" ]; then
               filename=$(basename "$filepath")
               dir_encoded_name="${filename%.md}"
