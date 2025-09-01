@@ -9,8 +9,8 @@ on:
     types:
       - opened
       - synchronize
-    paths:
-      - '**/graph.dot'
+    # paths:
+    #   - '**/graph.dot'
   workflow_dispatch:
     inputs:
       dot_path:
