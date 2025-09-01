@@ -47,13 +47,6 @@ jobs:
       - name: List changed files
         run: |
           echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
-      #     echo "${{ steps.changed-files.outputs.changed_files }}" > changed-files.json
-
-      # - name: Upload Artifact
-      #   uses: pagopa/dx/.github/actions/upload-artifact@main
-      #   with:
-      #     bundle_name: changed-files-${{ github.event.pull_request.head.sha }}
-      #     file_path: changed-files.json
 
   dot-to-mermaid:
     needs: find-changed-dots
@@ -170,19 +163,6 @@ jobs:
         with:
           comment-body-file: ${{ env.COMMENT_BODY_FILE }}
           search-pattern: "Diagram for ${{ matrix.dot_file }}"
-
-  upload-artifacts:
-    runs-on: ubuntu-latest
-    needs: dot-to-mermaid
-    name: Upload All Diagrams
-    permissions:
-      contents: write
-      pull-requests: write
-
-    steps:
-      - name: List
-        run: |
-          ls -la
 
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
