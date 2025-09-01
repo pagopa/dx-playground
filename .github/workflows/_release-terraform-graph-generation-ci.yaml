@@ -47,6 +47,7 @@ jobs:
       - name: List changed files
         run: |
           echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
+          mkdir -p artifacts
       #     echo "${{ steps.changed-files.outputs.changed_files }}" > changed-files.json
 
       # - name: Upload Artifact
