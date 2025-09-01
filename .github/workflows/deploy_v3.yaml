@@ -11,12 +11,8 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
-    name: Deploy Azure Function V3
-    concurrency:
-      group: ${{ github.workflow }}-cd
-      # Override this configuration to prevent cancelling a running deploy.
-      cancel-in-progress: false
+  deploy_01:
+    name: Deploy dx-d-itn-playground-v3-func-01
     uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@feats/release-appsvc-multiple-instances
     secrets: inherit
     with:
@@ -24,3 +20,13 @@ jobs:
       environment: app-dev
       resource_group_name: dx-d-itn-test-rg-01
       web_app_name: dx-d-itn-playground-v3-func-01
+
+  deploy_02:
+    name: Deploy dx-d-itn-playground-v3-func-02
+    uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@feats/release-appsvc-multiple-instances
+    secrets: inherit
+    with:
+      workspace_name: azure-function-v3
+      environment: app-dev
+      resource_group_name: dx-d-itn-test-rg-01
+      web_app_name: dx-d-itn-playground-v3-func-02
