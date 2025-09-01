@@ -10,8 +10,8 @@ on:
       - opened
       - synchronize
       - edited
-    paths:
-      - '**/graph.dot'
+    # paths:
+    #   - '**/graph.dot'
   workflow_dispatch:
     inputs:
       dot_path:
