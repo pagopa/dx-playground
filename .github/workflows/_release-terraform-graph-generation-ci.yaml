@@ -17,9 +17,9 @@ on:
         description: "Path to the .dot file to convert"
         default: ""
         required: false
-  push:
-    branches:
-      - feat-poc-ai-graph-generation
+  # push:
+  #   branches:
+  #     - feat-poc-ai-graph-generation
 
 jobs:
   find-changed-dots:
@@ -38,10 +38,8 @@ jobs:
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           files: '**/graph.dot'
-          base_sha: 'main' # REMOVE (normally compare PR branch latest two commits)
-          sha: feat-poc-ai-graph-generation # REMOVE (this is the branch where the PR is opened, now specified ti permit workflow_dispatch)
-          # base_sha: ${{ github.event_name == 'workflow_dispatch' && 'main' || '' }}
-          # sha: ${{ github.event_name == 'workflow_dispatch' && github.ref_name || '' }}
+          base_sha: ${{ github.event_name == 'workflow_dispatch' && 'main' || '' }}
+          sha: ${{ github.event_name == 'workflow_dispatch' && github.ref_name || '' }}
           matrix: true
       
       - name: List changed files

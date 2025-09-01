@@ -5,9 +5,9 @@ name: Add generated Mermaid Diagrams on Terraform modules - CD - TEST
 # The generated diagrams will be committed back to the PR branch
 
 on:
-  push:
-    branches:
-      - feat-poc-ai-graph-generation #main
+  # push:
+  #   branches:
+  #     - feat-poc-ai-graph-generation #main
   workflow_dispatch:
 
 jobs:
