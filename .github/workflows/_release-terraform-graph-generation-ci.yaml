@@ -38,8 +38,10 @@ jobs:
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46
         with:
           files: '**/graph.dot'
-          base_sha: ${{ github.event_name == 'workflow_dispatch' && 'main' || '' }}
-          sha: ${{ github.event_name == 'workflow_dispatch' && github.ref_name || '' }}
+          base_sha: 'main' # REMOVE (normally compare PR branch latest two commits)
+          sha: feat-poc-ai-graph-generation # REMOVE (this is the branch where the PR is opened, now specified ti permit workflow_dispatch)
+          # base_sha: ${{ github.event_name == 'workflow_dispatch' && 'main' || '' }}
+          # sha: ${{ github.event_name == 'workflow_dispatch' && github.ref_name || '' }}
           matrix: true
       
       - name: List changed files
@@ -148,11 +150,23 @@ jobs:
           #   -o "$RESPONSE_FILE"
 
           # jq -r '.choices[0].message.content' "$RESPONSE_FILE" > "$MD_FILE_PATH"
-          echo "TEST VALUE" > "$MD_FILE_PATH"
+          echo $DOT_DIR
+          echo $ENCODED_NAME
+          cat $DOT_DIR/graph.md > "$MD_FILE_PATH"
 
           echo "Mermaid file created at: $MD_FILE_PATH"
           mv "$MD_FILE_PATH" "artifacts/$MD_FILE_PATH"
           # echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
+
+      - name: Post Diagranm as PR Comment
+        id: comment
+        if: always() && github.event_name == 'pull_request'
+        uses: pagopa/dx/actions/pr-comment@main
+        env:
+          COMMENT_BODY_FILE: ${{ steps.ai_call.outputs.md_file_path }}
+        with:
+          comment-body-file: ${{ env.COMMENT_BODY_FILE }}
+          search-pattern: "Diagram for ${{ matrix.dot_file }}"
 
   upload-artifacts:
     runs-on: ubuntu-latest
