@@ -183,5 +183,5 @@ jobs:
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
         with:
-          bundle_name: mermaid-diagrams-${{ github.event.pull_request.head.sha }}
+          bundle_name: mermaid-diagrams-${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.head.sha }}
           file_path: ./downloaded-artifacts/
