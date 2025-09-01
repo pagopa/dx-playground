@@ -1,0 +1,98 @@
+name: Add generated Mermaid Diagrams on Terraform modules - CD - TEST
+
+# Trigger the workflow on push to main branch
+# The workflow will create or update corresponding Mermaid diagrams in README.md files within the same directories
+# The generated diagrams will be committed back to the PR branch
+
+on:
+  # push:
+  #   branches:
+  #     - feat-poc-ai-graph-generation #main
+  workflow_dispatch:
+
+jobs:
+  commit-changes:
+    runs-on: ubuntu-latest
+    name: Commit Mermaid Diagrams
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Node Setup
+        id: node-setup
+        uses: pagopa/dx/.github/actions/node-setup@main
+      
+      - name: Install mermaid-cli
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      # - name: Download changed files list
+      #   uses: pagopa/dx/.github/actions/download-artifact@feat-add-graph-generation # main
+      #   with:
+      #     bundle_name: changed-files-${{ github.event.head_commit.id }}
+      #     file_path: downloaded-artifacts
+
+      - name: Download generated diagrams
+        uses: pagopa/dx/.github/actions/download-artifact@feat-add-graph-generation # main
+        with:
+          bundle_name: mermaid-diagrams-${{ github.event.head_commit.id }}
+          file_path: downloaded-artifacts
+
+      - name: Organize downloaded files
+        run: |
+          echo "Organizing downloaded files..."
+          for filepath in downloaded-artifacts/*.md; do
+            if [ -f "$filepath" ]; then
+              filename=$(basename "$filepath")
+              dir_encoded_name="${filename%.md}"
+              dest_dir=$(echo "$dir_encoded_name" | tr '-' '/')
+              readme_file="$dest_dir/README.md"
+              graph_file="$dest_dir/graph.md"
+              
+              # Move the .md file to the correct directory
+              mv "$filepath" "$graph_file"
+              echo "Moved $filename to $graph_file"
+
+              # Check if README.md exists in the destination directory
+              echo "Processing $filename for $readme_file"
+              if [ ! -f "$readme_file" ]; then
+                echo "Skipping: README.md not found at $readme_file"
+                continue
+              fi
+              if ! grep -q "<!-- BEGIN_TF_GRAPH -->" "$readme_file"; then
+                echo "Skipping: Start tag not found in $readme_file"
+                continue
+              fi
+              if ! grep -q "<!-- END_TF_GRAPH -->" "$readme_file"; then
+                echo "Skipping: End tag not found in $readme_file"
+                continue
+              fi
+
+              # Inject Mermaid in README.md (replace existing block)
+              awk -v f="$graph_file" '
+                BEGIN {
+                  while ((getline line < f) > 0) graph = graph line "\n"
+                }
+                /<!-- BEGIN_TF_GRAPH -->/ { print; print graph; skip=1; next }
+                /<!-- END_TF_GRAPH -->/ { skip=0 }
+                !skip
+              ' "$readme_file" > "$readme_file.tmp" && mv "$readme_file.tmp" "$readme_file"
+
+              echo "✅ Successfully updated $readme_file"
+            fi
+          done
+          echo "Files organized."
+
+      # - name: Commit and push all graph files
+      #   uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6.0.1
+      #   with:
+      #     commit_message: "docs: ✨ Generate Mermaid diagrams for ${{ github.event.inputs.dot_path == '' && 'all' || github.event.inputs.dot_path }} .dot ✨"
+      #     file_pattern: '**/README.md'
+      #     commit_user_name: "dx-pagopa-bot"
+      #     commit_user_email: "dx-pagopa-github-bot@pagopa.it"
+      #     commit_author: "dx-pagopa-bot <dx-pagopa-github-bot@pagopa.it>"
