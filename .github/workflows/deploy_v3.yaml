@@ -17,7 +17,7 @@ jobs:
     secrets: inherit
     with:
       workspace_name: azure-function-v3
-      environment: app-dev
+      environment: infra-dev
       resource_group_name: dx-d-itn-test-rg-01
       web_app_name: dx-d-itn-playground-v3-func-01
 
@@ -27,6 +27,6 @@ jobs:
     secrets: inherit
     with:
       workspace_name: azure-function-v3
-      environment: app-dev
+      environment: infra-dev
       resource_group_name: dx-d-itn-test-rg-01
       web_app_name: dx-d-itn-playground-v3-func-02
