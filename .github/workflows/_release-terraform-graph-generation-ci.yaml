@@ -10,8 +10,8 @@ on:
       - opened
       - synchronize
       - edited
-    # paths:
-    #   - '**/graph.dot'
+    paths:
+      - '**/graph.dot'
   workflow_dispatch:
     inputs:
       dot_path:
@@ -152,7 +152,7 @@ jobs:
 
       - name: Post Diagranm as PR Comment
         id: comment
-        if: always() && github.event_name == 'pull_request'
+        # if: always() && github.event_name == 'pull_request'
         uses: pagopa/dx/actions/pr-comment@main
         env:
           COMMENT_BODY_FILE: ${{ steps.ai_call.outputs.md_file_path }}
@@ -196,5 +196,5 @@ jobs:
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
         with:
-          bundle_name: mermaid-diagrams-${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.head.sha }}
+          bundle_name: mermaid-diagrams-${{ github.sha }} # ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.head.sha }}
           file_path: artifacts
