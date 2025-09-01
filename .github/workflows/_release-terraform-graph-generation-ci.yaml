@@ -9,7 +9,6 @@ on:
     types:
       - opened
       - synchronize
-      - edited
     # paths:
     #   - '**/graph.dot'
   workflow_dispatch:
