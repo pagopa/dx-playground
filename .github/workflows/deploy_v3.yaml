@@ -23,6 +23,4 @@ jobs:
       workspace_name: azure-function-v3
       environment: app-dev
       resource_group_name: dx-d-itn-test-rg-01
-      web_app_name: |
-        dx-d-itn-playground-v3-func-01
-        dx-d-itn-playground-v3-func-02
+      web_app_name: dx-d-itn-playground-v3-func-01
