@@ -180,6 +180,10 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: List
+        run: |
+          ls -la
+
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
         with:
