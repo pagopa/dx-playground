@@ -17,9 +17,9 @@ on:
         description: "Path to the .dot file to convert"
         default: ""
         required: false
-  push:
-    branches:
-      - feat-poc-ai-graph-generation
+  # push:
+  #   branches:
+  #     - feat-poc-ai-graph-generation
 
 jobs:
   find-changed-dots:
