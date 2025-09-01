@@ -47,7 +47,6 @@ jobs:
       - name: List changed files
         run: |
           echo "Changed files: ${{ steps.changed-files.outputs.all_changed_files }}"
-          mkdir -p artifacts
       #     echo "${{ steps.changed-files.outputs.changed_files }}" > changed-files.json
 
       # - name: Upload Artifact
@@ -154,9 +153,12 @@ jobs:
           echo $DOT_DIR
           echo $ENCODED_NAME
           cat $DOT_DIR/graph.md > "$MD_FILE_PATH"
+          cat "$MD_FILE_PATH"
 
           echo "Mermaid file created at: $MD_FILE_PATH"
-          mv "$MD_FILE_PATH" "artifacts/$MD_FILE_PATH"
+          mkdir -p artifacts && mv "$MD_FILE_PATH" "artifacts"
+          ls -la
+          ls -la artifacts
           # echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
 
       - name: Post Diagranm as PR Comment
