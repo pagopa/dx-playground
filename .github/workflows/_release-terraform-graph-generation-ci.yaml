@@ -147,8 +147,6 @@ jobs:
           cat $DOT_DIR/graph.md > "$MD_FILE_PATH"
 
           echo "Mermaid file created at: $MD_FILE_PATH"
-          mkdir -p artifacts && mv "$MD_FILE_PATH" "artifacts"
-
           echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
 
       - name: Post Diagranm as PR Comment
