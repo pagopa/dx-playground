@@ -143,16 +143,13 @@ jobs:
           #   -o "$RESPONSE_FILE"
 
           # jq -r '.choices[0].message.content' "$RESPONSE_FILE" > "$MD_FILE_PATH"
-          echo $DOT_DIR
-          echo $ENCODED_NAME
+
           cat $DOT_DIR/graph.md > "$MD_FILE_PATH"
-          cat "$MD_FILE_PATH"
 
           echo "Mermaid file created at: $MD_FILE_PATH"
           mkdir -p artifacts && mv "$MD_FILE_PATH" "artifacts"
-          ls -la
-          ls -la artifacts
-          # echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
+
+          echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
 
       - name: Post Diagranm as PR Comment
         id: comment
@@ -163,9 +160,30 @@ jobs:
         with:
           comment-body-file: ${{ env.COMMENT_BODY_FILE }}
           search-pattern: "Diagram for ${{ matrix.dot_file }}"
+      
+      - name: Upload Artifact
+        uses: pagopa/dx/.github/actions/upload-artifact@main
+        with:
+          bundle_name: diagram-${{ strategy.job-index }}
+          file_path: ${{ steps.ai_call.outputs.md_file_path }}
+
+  upload-artifacts:
+    name: Upload all generated diagrams into artifact
+    runs-on: ubuntu-latest
+    needs: dot-to-mermaid
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          fetch-depth: 0
+
+      - name: Download generated diagrams
+        uses: pagopa/dx/.github/actions/download-artifact@feat-add-graph-generation # main
+        with:
+          file_path: downloaded-artifacts
 
       - name: Upload Artifact
         uses: pagopa/dx/.github/actions/upload-artifact@main
         with:
           bundle_name: mermaid-diagrams-${{ github.event.pull_request.head.sha }}
-          file_path: ./artifacts/
+          file_path: ./downloaded-artifacts/
