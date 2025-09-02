@@ -34,8 +34,13 @@ module "bootstrap" {
     key_vault = {
       name                = module.core_values.common_key_vault.name
       resource_group_name = module.core_values.common_key_vault.resource_group_name
+      use_rbac            = true
     }
   }
+
+  additional_resource_group_ids = [
+    data.azurerm_resource_group.test.id
+  ]
 
   pep_vnet_id                        = module.core_values.common_vnet.id
   private_dns_zone_resource_group_id = module.core_values.network_resource_group_id
