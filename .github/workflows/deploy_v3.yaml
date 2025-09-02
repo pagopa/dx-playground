@@ -22,6 +22,7 @@ jobs:
       web_app_name: dx-d-itn-playground-v3-func-01
 
   deploy_02:
+    needs: [deploy_01]
     name: Deploy dx-d-itn-playground-v3-func-02
     uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@feats/release-appsvc-multiple-instances
     secrets: inherit
