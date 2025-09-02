@@ -45,5 +45,6 @@ module "bootstrap" {
   private_dns_zone_resource_group_id = module.core_values.network_resource_group_id
   opex_resource_group_id             = module.core_values.opex_resource_group_id
 
-  tags = local.tags
+  additional_resource_group_ids = [data.azurerm_resource_group.test_workflow.id]
+  tags                          = local.tags
 }
