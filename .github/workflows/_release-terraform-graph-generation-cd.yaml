@@ -14,13 +14,21 @@ on:
   #   branches:
   #     - feat-poc-ai-graph-generation #main
   workflow_dispatch:
+    inputs:
+      from_pr:
+        description: "Search artifacts from PR number"
+        default: ""
+        required: false
+
+env:
+  PR_NUMBER: ${{ (github.event_name == 'workflow_dispatch' && inputs.from_pr == '') && github.sha || (inputs.from_pr != '') && inputs.from_pr || github.event.pull_request.number }}
 
 jobs:
   commit-changes:
     runs-on: ubuntu-latest
     name: Commit Mermaid Diagrams
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
       actions: read
 
@@ -34,8 +42,10 @@ jobs:
         uses: dawidd6/action-download-artifact@ac66b43f0e6a346234dd65d4d0c8fbb31cb316e5 # v11
         with:
           workflow: _release-terraform-graph-generation-ci.yaml
-          name: mermaid-diagrams-${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.number }}
+          name: mermaid-diagrams-${{ env.PR_NUMBER }}
           path: downloaded-artifacts
+          check_artifacts: true
+          workflow_conclusion: success
 
       - name: Node Setup
         id: node-setup
@@ -45,7 +55,14 @@ jobs:
         run: npm install -g @mermaid-js/mermaid-cli
 
       - name: Organize downloaded files
+        id: organize_files
         run: |
+          if [ -z "$(ls -A ./downloaded-artifacts)" ]; then
+            echo "No artifacts found or directory is empty. Nothing to commit."
+            echo "changes_made=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
           echo "Organizing downloaded files..."
           for filepath in downloaded-artifacts/*.md; do
             if [ -f "$filepath" ]; then
@@ -85,15 +102,30 @@ jobs:
               ' "$readme_file" > "$readme_file.tmp" && mv "$readme_file.tmp" "$readme_file"
 
               echo "✅ Successfully updated $readme_file"
+              changes_made=true
             fi
           done
           echo "Files organized."
+          echo "changes_made=$changes_made" >> $GITHUB_OUTPUT
 
-      # - name: Commit and push all graph files
-      #   uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6.0.1
-      #   with:
-      #     commit_message: "docs: ✨ Generate Mermaid diagrams for ${{ github.event.inputs.dot_path == '' && 'all' || github.event.inputs.dot_path }} .dot ✨"
-      #     file_pattern: '**/README.md'
-      #     commit_user_name: "dx-pagopa-bot"
-      #     commit_user_email: "dx-pagopa-github-bot@pagopa.it"
-      #     commit_author: "dx-pagopa-bot <dx-pagopa-github-bot@pagopa.it>"
+      - name: Discard unwanted changes
+        if: steps.organize_files.outputs.changes_made == 'true'
+        run: |
+          git restore --worktree package.json || true
+
+      - name: Create Pull Request for updated diagrams
+        if: steps.organize_files.outputs.changes_made == 'true'
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs(autodocs): ✨ Update Mermaid diagrams from PR #${{ env.PR_NUMBER }}"
+          branch: "docs/update-diagrams-pr-${{ env.PR_NUMBER }}"
+          delete-branch: true
+          title: "Docs: ✨ Update Mermaid diagrams from PR #${{ env.PR_NUMBER }}"
+          body: |
+            This is an auto-generated PR to update the Mermaid diagrams in the README files.
+
+            This was triggered by the merge of PR #${{ env.PR_NUMBER }}.
+          labels: "documentation, automated"
+          committer: "dx-pagopa-bot <dx-pagopa-github-bot@pagopa.it>"
+          author: "dx-pagopa-bot <dx-pagopa-github-bot@pagopa.it>"
