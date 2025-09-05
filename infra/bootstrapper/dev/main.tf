@@ -7,7 +7,7 @@ module "core_values" {
 
 module "bootstrap" {
   source  = "pagopa-dx/azure-github-environment-bootstrap/azurerm"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   environment = local.environment
 
@@ -25,7 +25,10 @@ module "bootstrap" {
     resource_group_name = local.tf_storage_account.resource_group_name
   }
 
-  repository = local.repository
+  repository = {
+    owner = "pagopa"
+    name  = "dx-playground"
+  }
 
   github_private_runner = {
     container_app_environment_id       = module.core_values.github_runner.environment_id
@@ -34,6 +37,7 @@ module "bootstrap" {
     key_vault = {
       name                = module.core_values.common_key_vault.name
       resource_group_name = module.core_values.common_key_vault.resource_group_name
+      use_rbac            = true
     }
   }
 
@@ -41,5 +45,6 @@ module "bootstrap" {
   private_dns_zone_resource_group_id = module.core_values.network_resource_group_id
   opex_resource_group_id             = module.core_values.opex_resource_group_id
 
-  tags = local.tags
+  additional_resource_group_ids = [data.azurerm_resource_group.test_workflow.id]
+  tags                          = local.tags
 }

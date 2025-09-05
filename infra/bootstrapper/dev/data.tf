@@ -17,3 +17,7 @@ data "azuread_group" "externals" {
 data "azurerm_resource_group" "tfstate" {
   name = "dx-d-itn-tfstate-rg-01"
 }
+
+data "azurerm_resource_group" "test_workflow" {
+  name = "dx-d-itn-workflow-test-rg-01"
+}
