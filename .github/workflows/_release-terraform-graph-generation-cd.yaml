@@ -5,6 +5,11 @@ name: Add generated Mermaid Diagrams on Terraform modules - CD - TEST
 # The generated diagrams will be committed back to the PR branch
 
 on:
+  pull_request:
+    types:
+      - closed
+    paths:
+      - '**/graph.dot'
   # push:
   #   branches:
   #     - feat-poc-ai-graph-generation #main
@@ -17,6 +22,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
+      actions: read
 
     steps:
       - name: Checkout PR branch
@@ -24,24 +30,19 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - name: Download generated diagrams
+        uses: dawidd6/action-download-artifact@ac66b43f0e6a346234dd65d4d0c8fbb31cb316e5 # v11
+        with:
+          workflow: _release-terraform-graph-generation-ci.yaml
+          name: mermaid-diagrams-${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.number }}
+          path: downloaded-artifacts
+
       - name: Node Setup
         id: node-setup
         uses: pagopa/dx/.github/actions/node-setup@main
-      
+
       - name: Install mermaid-cli
         run: npm install -g @mermaid-js/mermaid-cli
-
-      # - name: Download changed files list
-      #   uses: pagopa/dx/.github/actions/download-artifact@feat-add-graph-generation # main
-      #   with:
-      #     bundle_name: changed-files-${{ github.event.head_commit.id }}
-      #     file_path: downloaded-artifacts
-
-      - name: Download generated diagrams
-        uses: pagopa/dx/.github/actions/download-artifact@feat-add-graph-generation # main
-        with:
-          bundle_name: mermaid-diagrams-${{ github.event.head_commit.id }}
-          file_path: downloaded-artifacts
 
       - name: Organize downloaded files
         run: |
@@ -50,10 +51,10 @@ jobs:
             if [ -f "$filepath" ]; then
               filename=$(basename "$filepath")
               dir_encoded_name="${filename%.md}"
-              dest_dir=$(echo "$dir_encoded_name" | tr '-' '/')
+              dest_dir=$(echo "$dir_encoded_name" | base64 -d)
               readme_file="$dest_dir/README.md"
               graph_file="$dest_dir/graph.md"
-              
+
               # Move the .md file to the correct directory
               mv "$filepath" "$graph_file"
               echo "Moved $filename to $graph_file"
