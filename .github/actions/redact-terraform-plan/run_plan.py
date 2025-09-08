@@ -39,28 +39,29 @@ def redact(line):
     return redacted_line
 
 def run_terraform_plan():
-    """Executes `terraform plan` and redacts the output in real-time."""
-    # The command to be executed
+    """
+    Executes `terraform plan` in the current working directory
+    and redacts the output in real-time.
+    """
     command = ["terraform", "plan", "-no-color", "-input=false"]
 
-    # Start the subprocess
-    # stdout and stderr are redirected to the same pipe
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, encoding='utf-8')
+    # The subprocess now runs in the current directory, which is set
+    # by the 'cd' command in the action.yml's run step.
+    # The `cwd` parameter is no longer needed.
+    process = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        encoding='utf-8'
+    )
 
-    # Read the output line by line as it comes
     if process.stdout:
         for line in process.stdout:
-            # Redact the line and print it to the standard output
             sys.stdout.write(redact(line))
 
-    # Wait for the process to terminate
     process.wait()
-
-    # Return the exit code from the terraform command
     return process.returncode
 
 if __name__ == "__main__":
-    # The action.yml will handle the exit code.
-    # This script's only job is to print the redacted output.
     run_terraform_plan()
-

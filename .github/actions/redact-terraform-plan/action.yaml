@@ -16,41 +16,22 @@ outputs:
 runs:
   using: "composite"
   steps:
-
-    - name: (debug) show action path
-      shell: bash
-      run: |
-        echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
-        ls -la "$GITHUB_ACTION_PATH"
-
-    - name: (debug) show action path 2
-      shell: bash
-      run: |
-        echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
-        ls -la "$GITHUB_ACTION_PATH"
-      env:
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
-
-    - name: (debug) Only exec
-      shell: bash
-      run: |
-        cd $WORKING_DIRECTORY
-        python3 --version
-        pwd
-        ls -la
-        python3 $GITHUB_ACTION_PATH/scripts/run_plan.py
-      env:
-        WORKING_DIRECTORY: ${{ inputs.working-directory }}
-        GITHUB_ACTION_PATH: ${{ github.action_path }}
-
     - name: Run Terraform Plan and Redact Output
       id: plan
       shell: bash
       run: |
+        set -eo pipefail
+
+        echo "--- Executing Plan in: $WORKING_DIRECTORY ---"
         cd $WORKING_DIRECTORY
-        REDACTED_OUTPUT=$(python3 $GITHUB_ACTION_PATH/scripts/run_plan.py)
+
+        REDACTED_OUTPUT=$(python3 $GITHUB_ACTION_PATH/run_plan.py)
+
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
 
+        echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
+
+        # Set Outputs
         echo "exit_code=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
 
         EOF_MARKER=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
