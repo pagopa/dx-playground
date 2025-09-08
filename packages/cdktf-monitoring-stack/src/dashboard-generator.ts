@@ -40,6 +40,11 @@ export function createChartPart(
         { name: "TimeRange", value: "PT4H" },
         { name: "PartTitle", value: options.title },
         { name: "PartSubTitle", value: options.subtitle },
+        // Add DraftRequestParameters for scope hierarchy support
+        { 
+          name: "DraftRequestParameters", 
+          value: { "scope": "hierarchy" }
+        }
       ],
       settings: {
         content: {
@@ -91,6 +96,8 @@ export function generateDashboardProperties(
         isAlarm: false,
         threshold: endpoint.availabilityThreshold,
         timeSpan: endpoint.availabilityTimeSpan,
+        hostFilter: config.apiHosts,
+        useLegacyFields: config.useLegacyFields,
       }),
       specificChart: "Line",
       subtitle,
@@ -101,7 +108,7 @@ export function generateDashboardProperties(
       ],
     });
 
-    // Response Codes Chart
+    // Response Codes Chart - Changed to Pie chart as per requirements
     parts[index * 3 + 1] = createChartPart({
       logAnalyticsWorkspaceId: config.logAnalyticsWorkspaceId,
       position: { colSpan: 6, rowSpan: 4, x: 6, y: yPos },
@@ -110,8 +117,10 @@ export function generateDashboardProperties(
         isAlarm: false,
         threshold: endpoint.responseCodeThreshold,
         timeSpan: endpoint.responseCodeTimeSpan,
+        hostFilter: config.apiHosts,
+        useLegacyFields: config.useLegacyFields,
       }),
-      specificChart: "StackedArea",
+      specificChart: "Pie", // Changed from "StackedArea" to "Pie"
       splitBy: [{ name: "HTTPStatus", type: "string" }],
       subtitle,
       title: "Response Codes (PT5M)",
@@ -127,6 +136,8 @@ export function generateDashboardProperties(
         isAlarm: false,
         threshold: endpoint.responseTimeThreshold,
         timeSpan: endpoint.responseTimeTimeSpan,
+        hostFilter: config.apiHosts,
+        useLegacyFields: config.useLegacyFields,
       }),
       specificChart: "Line",
       subtitle,
@@ -145,9 +156,21 @@ export function generateDashboardProperties(
         model: {
           timeRange: {
             type: "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange",
-            value: { relative: { duration: 4, timeUnit: 2 } },
+            value: { relative: { duration: 48, timeUnit: 1 } }, // Changed to "Past 48 hours"
           },
+          filterLocale: "en-us", // Added filterLocale as per requirements
+          filters: {
+            MsPortalFx_TimeRange: {
+              model: {
+                format: "utc",
+                granularity: "auto",
+                relative: "48h"
+              }
+            }
+          }
         },
+        // Add filteredPartIds for time range filtering support
+        filteredPartIds: Object.keys(parts)
       },
     },
   };
