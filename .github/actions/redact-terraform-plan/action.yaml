@@ -15,6 +15,7 @@ outputs:
 
 runs:
   using: "composite"
+  working_directory: ${{ inputs.working-directory }}
   steps:
 
     - name: (debug) show action path
@@ -39,7 +40,6 @@ runs:
         ls -la
         python3 $GITHUB_ACTION_PATH/scripts/run_plan.py
       env:
-        WORKING_DIRECTORY: ${{ inputs.working-directory }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
     - name: Run Terraform Plan and Redact Output
@@ -56,5 +56,4 @@ runs:
         echo "$REDACTED_OUTPUT" >> $GITHUB_OUTPUT
         echo "$EOF_MARKER" >> $GITHUB_OUTPUT
       env:
-        WORKING_DIRECTORY: ${{ inputs.working-directory }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
