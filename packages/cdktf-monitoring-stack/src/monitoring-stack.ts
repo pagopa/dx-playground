@@ -27,6 +27,10 @@ export interface MonitoringConfig {
   logAnalyticsWorkspaceId: string;
   resourceGroupName: string;
   tags?: Tags;
+  // New optional features for legacy compatibility and enhanced monitoring
+  apiHosts?: string[];
+  useLegacyFields?: boolean;
+  alertSeverity?: number;
 }
 
 export interface MonitoringStackProps {
@@ -49,6 +53,14 @@ export interface Tags {
 /**
  * Azure monitoring stack for API Management services
  * Creates alerts and dashboards based on OpenAPI specifications
+ * 
+ * Enhanced features:
+ * - Host API filtering with KQL datatable support
+ * - Legacy KQL fields compatibility (originalHost_s, requestUri_s, httpStatus_d, timeTaken_d)
+ * - Configurable alert severity (defaults to Error instead of Warning)
+ * - Conservative alert triggers (GreaterThanOrEqual with threshold 2)
+ * - Dashboard enhancements: pie charts, scope hierarchy, visible watermarks
+ * - Detailed dashboard metadata with filterLocale and time range filtering
  */
 export class MonitoringStack extends TerraformStack {
   constructor(scope: Construct, id: string, props: MonitoringStackProps) {
@@ -93,6 +105,9 @@ export class MonitoringStack extends TerraformStack {
     config: MonitoringStackProps["config"],
     resourceGroup: ResourceGroup,
   ): void {
+    // Use configurable alert severity, defaulting to Error (1) instead of Warning (2)
+    const alertSeverity = config.alertSeverity ?? 1;
+    
     endpoints.forEach((endpoint) => {
       const sanitizedName = this.createSanitizedEndpointName(endpoint);
       const baseAlertName = `${id}-${sanitizedName}`;
@@ -113,12 +128,15 @@ export class MonitoringStack extends TerraformStack {
             isAlarm: true,
             threshold: endpoint.availabilityThreshold,
             timeSpan: endpoint.availabilityTimeSpan,
+            hostFilter: config.apiHosts,
+            useLegacyFields: config.useLegacyFields,
           }),
           resourceGroupName: resourceGroup.name,
-          severity: 2,
+          severity: alertSeverity,
           tags: config.tags,
           timeWindow: 10,
-          trigger: { operator: "GreaterThan", threshold: 0 },
+          // Changed to more conservative trigger: GreaterThanOrEqual with threshold 2
+          trigger: { operator: "GreaterThanOrEqual", threshold: 2 },
         },
       );
 
@@ -137,12 +155,15 @@ export class MonitoringStack extends TerraformStack {
             isAlarm: true,
             threshold: endpoint.responseTimeThreshold,
             timeSpan: endpoint.responseTimeTimeSpan,
+            hostFilter: config.apiHosts,
+            useLegacyFields: config.useLegacyFields,
           }),
           resourceGroupName: resourceGroup.name,
-          severity: 2,
+          severity: alertSeverity,
           tags: config.tags,
           timeWindow: 10,
-          trigger: { operator: "GreaterThan", threshold: 0 },
+          // Changed to more conservative trigger: GreaterThanOrEqual with threshold 2
+          trigger: { operator: "GreaterThanOrEqual", threshold: 2 },
         },
       );
     });
