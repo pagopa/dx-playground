@@ -1,4 +1,4 @@
-name: Infra Code Review
+name: Infra Code Review - TEST
 
 on:
   workflow_dispatch:
