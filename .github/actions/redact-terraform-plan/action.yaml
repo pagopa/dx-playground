@@ -16,6 +16,19 @@ outputs:
 runs:
   using: "composite"
   steps:
+
+    - name: (debug) show action path
+      run: |
+        echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
+        ls -la "$GITHUB_ACTION_PATH"
+
+    - name: (debug) show action path 2
+      run: |
+        echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
+        ls -la "$GITHUB_ACTION_PATH"
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+
     - name: Run Terraform Plan and Redact Output
       id: plan
       shell: bash
