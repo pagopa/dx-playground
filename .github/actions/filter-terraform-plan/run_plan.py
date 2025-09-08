@@ -4,7 +4,7 @@ import subprocess
 
 
 # ==============================================================================
-#  REDACTION RULES LIST
+#  FILTER RULES LIST
 # ==============================================================================
 # To add a new rule, add a tuple to this list.
 # The format is: (compiled_regex, replacement_string)
@@ -12,38 +12,35 @@ import subprocess
 # - 'compiled_regex': The regex pattern to find the sensitive data.
 # - 'replacement_string': The string to replace the found data with.
 #
-REDACTION_RULES = [
+FILTER_RULES = [
     # --- Azure Rules ---
-    # Finds "hidden-link" attributes and redacts their value.
+    # Finds "hidden-link" attributes and filter their value.
     (re.compile(r'("?hidden-link"?\s*[:=]\s*)".*?"', re.IGNORECASE), r'\1"[SENSITIVE_VALUE]"'),
 
-    # Finds all possible Instrumentation Key attributes and redacts their value.
+    # Finds all possible Instrumentation Key attributes and filter their value.
     (re.compile(r'("?APPINSIGHTS_INSTRUMENTATIONKEY"?\s*[:=]\s*)".*?"', re.IGNORECASE), r'\1"[SENSITIVE_VALUE]"'),
-    (re.compile(r'("?instrumentation_key"?\s*[:=]\s*)".*?"', re.IGNORECASE), r'\1"[SENSITIVE_VALUE]"'),
 
     # --- ADD YOUR AZURE RULES HERE ---
 
+    # --- AWS Rules ---
+    # --- ADD YOUR AWS RULES HERE ---
 
     # --- Generic Rules ---
     # Example: (re.compile(r'("|_|-)password("|_|-) = ".*"', re.IGNORECASE), r'\1password\2 = "[SENSITIVE]"'),
     # --- ADD YOUR GENERIC RULES HERE ---
-
-
-    # --- AWS Rules ---
-    # --- ADD YOUR AWS RULES HERE ---
 ]
 
-def redact(line):
-    """Applies all redaction rules to a single line of text."""
-    redacted_line = line
-    for pattern, replacement in REDACTION_RULES:
-        redacted_line = pattern.sub(replacement, redacted_line)
-    return redacted_line
+def filter(line):
+    """Applies all filter rules to a single line of text."""
+    filtered_line = line
+    for pattern, replacement in FILTER_RULES:
+        filtered_line = pattern.sub(replacement, filtered_line)
+    return filtered_line
 
 def run_terraform_plan(output_filename):
     """
-    Executes `terraform plan`, prints redacted output to stdout in real-time,
-    and saves the same redacted output to the specified file.
+    Executes `terraform plan`, prints filtered output to stdout in real-time,
+    and saves the same filtered output to the specified file.
     Returns the exit code of the terraform process.
     """
     command = ["terraform", "plan", "-no-color", "-input=false"]
@@ -61,11 +58,11 @@ def run_terraform_plan(output_filename):
         with open(output_filename, 'w', encoding='utf-8') as f_out:
             if process.stdout:
                 for line in process.stdout:
-                    redacted_line = redact(line)
+                    filtered_line = filter(line)
                     # 1. Print to stdout for real-time logging in the action UI
-                    sys.stdout.write(redacted_line)
+                    sys.stdout.write(filtered_line)
                     # 2. Write the same line to the output file
-                    f_out.write(redacted_line)
+                    f_out.write(filtered_line)
     except IOError as e:
         sys.stderr.write(f"Error: Could not write to file {output_filename}. {e}\n")
         # Still need to wait for the process to finish
