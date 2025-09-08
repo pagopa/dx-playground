@@ -1,10 +1,9 @@
 {
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "azureFunctions.projectSubpath": "apps/test-durable-function",
-  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
   "editor.formatOnType": false,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
-  "files.autoSave": "onFocusChange",
-  "vs-code-prettier-eslint.prettierLast": false
+  "files.autoSave": "onFocusChange"
 }

@@ -2,7 +2,11 @@ import { App, AzurermBackend } from "cdktf";
 import { MonitoringStack } from "cdktf-monitoring-stack";
 import { backendConfig, opexConfig } from "opex-common";
 
-const app = new App();
+process.env.SYNTH_HCL_OUTPUT = "true";
+
+const app = new App({
+  hclOutput: true,
+});
 
 const stack1 = new MonitoringStack(app, "test-opex-api-v1", {
   config: opexConfig,
@@ -24,6 +28,18 @@ const stack2 = new MonitoringStack(app, "test-opex-api-v2", {
 new AzurermBackend(stack2, {
   ...backendConfig,
   key: "dx.test-opex-api2.tfstate",
+});
+
+///////
+
+const stack3 = new MonitoringStack(app, "test-opex-api-v3", {
+  config: opexConfig,
+  openApiFilePaths: ["docs/io_backend_light.yaml"],
+});
+
+new AzurermBackend(stack3, {
+  ...backendConfig,
+  key: "dx.test-opex-api3.tfstate",
 });
 
 ///////
