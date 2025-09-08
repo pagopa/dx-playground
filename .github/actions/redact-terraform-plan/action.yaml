@@ -32,15 +32,16 @@ runs:
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
 
         REDACTED_OUTPUT=$(cat "$PLAN_FILE")
+        echo "CAAAAAT FILE"
+        cat "$PLAN_FILE"
         rm "$PLAN_FILE"
-        
+
         # Set Outputs
         echo "exit_code=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
 
-        EOF_MARKER=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
-        echo "redacted_plan<<$EOF_MARKER" >> $GITHUB_OUTPUT
-        echo "$REDACTED_OUTPUT" >> $GITHUB_OUTPUT
-        echo "$EOF_MARKER" >> $GITHUB_OUTPUT
+        echo 'redacted_plan<<EOF' >> $GITHUB_OUTPUT
+        echo $REDACTED_OUTPUT >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
       env:
         WORKING_DIRECTORY: ${{ inputs.working-directory }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
