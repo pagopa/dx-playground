@@ -35,8 +35,11 @@ runs:
       shell: bash
       run: |
         python3 --version
+        pwd
+        ls -la
         python3 $GITHUB_ACTION_PATH/scripts/run_plan.py
       env:
+        WORKING_DIRECTORY: ${{ inputs.working-directory }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
     - name: Run Terraform Plan and Redact Output
