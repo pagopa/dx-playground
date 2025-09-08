@@ -19,14 +19,12 @@ runs:
 
     - name: (debug) show action path
       shell: bash
-      working_directory: ${{ inputs.working-directory }}
       run: |
         echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
         ls -la "$GITHUB_ACTION_PATH"
 
     - name: (debug) show action path 2
       shell: bash
-      working_directory: ${{ inputs.working-directory }}
       run: |
         echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
         ls -la "$GITHUB_ACTION_PATH"
@@ -35,20 +33,21 @@ runs:
 
     - name: (debug) Only exec
       shell: bash
-      working_directory: ${{ inputs.working-directory }}
       run: |
+        cd $WORKING_DIRECTORY
         python3 --version
         pwd
         ls -la
         python3 $GITHUB_ACTION_PATH/scripts/run_plan.py
       env:
+        WORKING_DIRECTORY: ${{ inputs.working-directory }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
     - name: Run Terraform Plan and Redact Output
       id: plan
       shell: bash
-      working_directory: ${{ inputs.working-directory }}
       run: |
+        cd $WORKING_DIRECTORY
         REDACTED_OUTPUT=$(python3 $GITHUB_ACTION_PATH/scripts/run_plan.py)
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
 
@@ -59,4 +58,5 @@ runs:
         echo "$REDACTED_OUTPUT" >> $GITHUB_OUTPUT
         echo "$EOF_MARKER" >> $GITHUB_OUTPUT
       env:
+        WORKING_DIRECTORY: ${{ inputs.working-directory }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
