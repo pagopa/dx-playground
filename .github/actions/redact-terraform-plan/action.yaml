@@ -31,6 +31,13 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
 
+    - name: (debug) Only exec
+      shell: bash
+      run: |
+        python3 $GITHUB_ACTION_PATH/scripts/run_plan.py)
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+
     - name: Run Terraform Plan and Redact Output
       id: plan
       shell: bash
