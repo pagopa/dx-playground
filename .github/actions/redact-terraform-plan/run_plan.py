@@ -39,16 +39,14 @@ def redact(line):
         redacted_line = pattern.sub(replacement, redacted_line)
     return redacted_line
 
-def run_terraform_plan():
+def run_terraform_plan(output_filename):
     """
-    Executes `terraform plan` in the current working directory
-    and redacts the output in real-time.
+    Executes `terraform plan`, prints redacted output to stdout in real-time,
+    and saves the same redacted output to the specified file.
+    Returns the exit code of the terraform process.
     """
     command = ["terraform", "plan", "-no-color", "-input=false"]
 
-    # The subprocess now runs in the current directory, which is set
-    # by the 'cd' command in the action.yml's run step.
-    # The `cwd` parameter is no longer needed.
     process = subprocess.Popen(
         command,
         stdout=subprocess.PIPE,
@@ -57,12 +55,34 @@ def run_terraform_plan():
         encoding='utf-8'
     )
 
-    if process.stdout:
-        for line in process.stdout:
-            sys.stdout.write(redact(line))
+    try:
+        # Open the specified output file for writing
+        with open(output_filename, 'w', encoding='utf-8') as f_out:
+            if process.stdout:
+                for line in process.stdout:
+                    redacted_line = redact(line)
+                    # 1. Print to stdout for real-time logging in the action UI
+                    sys.stdout.write(redacted_line)
+                    # 2. Write the same line to the output file
+                    f_out.write(redacted_line)
+    except IOError as e:
+        sys.stderr.write(f"Error: Could not write to file {output_filename}. {e}\n")
+        # Still need to wait for the process to finish
+        process.wait()
+        return 1 # Return a generic error code if file I/O fails
 
-    process.wait()
-    return process.returncode
+    # Wait for the subprocess to complete and return its exit code
+    return process.wait()
 
 if __name__ == "__main__":
-    run_terraform_plan()
+    # The script now expects one argument: the name of the file to write to.
+    if len(sys.argv) < 2:
+        sys.stderr.write("Error: Missing output filename argument.\n")
+        sys.stderr.write("Usage: python run_plan.py <output_filename>\n")
+        sys.exit(1)
+
+    output_file_path = sys.argv[1]
+
+    # Run the main function and exit with the return code from terraform
+    final_exit_code = run_terraform_plan(output_file_path)
+    sys.exit(final_exit_code)

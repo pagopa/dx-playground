@@ -25,12 +25,15 @@ runs:
         echo "--- Executing Plan in: $WORKING_DIRECTORY ---"
         cd $WORKING_DIRECTORY
 
-        REDACTED_OUTPUT=$(python3 $GITHUB_ACTION_PATH/run_plan.py)
-        cat $REDACTED_OUTPUT
-        PLAN_EXIT_CODE=${PIPESTATUS[0]}
+        PLAN_FILE="redacted_plan.txt"
+        python3 $GITHUB_ACTION_PATH/run_plan.py "$PLAN_FILE"
+        PLAN_EXIT_CODE=$?
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
 
+        REDACTED_OUTPUT=$(cat "$PLAN_FILE")
+        rm "$PLAN_FILE"
+        
         # Set Outputs
         echo "exit_code=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
 
