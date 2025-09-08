@@ -84,7 +84,7 @@ jobs:
         id: plan
         uses: pagopa/dx-playground/.github/actions/redact-terraform-plan@feat-action-terraform-plan # ./.github/actions/redact-terraform-plan
         with:
-          working-directory: ${{ steps.directory.outputs.dir }}
+          base-path: ${{ steps.directory.outputs.dir }}
 
       - name: Output Plan
         if: ${{ always() }}

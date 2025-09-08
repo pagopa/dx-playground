@@ -2,7 +2,7 @@ name: 'Run and Redact Terraform Plan'
 description: 'Execute `terraform plan` and redact sensitive information from the output.'
 
 inputs:
-  working-directory:
+  base-path:
     description: 'The directory where terraform plan will be executed. (Defaults to the root of the repository)'
     required: false
     default: '.'
@@ -11,7 +11,7 @@ outputs:
   redacted_plan:
     description: "The redacted output of the `terraform plan` command."
   exit_code:
-    description: "The exit code of the `terraform plan` command. 0 indicates success."
+    description: "The exit code from the `terraform plan` command. 0 = Success/No Changes, 1 = Error, 2 = Success/With Changes."
 
 runs:
   using: "composite"
@@ -31,17 +31,16 @@ runs:
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
 
-        REDACTED_OUTPUT=$(cat "$PLAN_FILE")
-        echo "CAAAAAT FILE"
-        cat "$PLAN_FILE"
-        rm "$PLAN_FILE"
-
-        # Set Outputs
         echo "exit_code=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
 
-        echo 'redacted_plan<<EOF' >> $GITHUB_OUTPUT
-        echo $REDACTED_OUTPUT >> $GITHUB_OUTPUT
-        echo 'EOF' >> $GITHUB_OUTPUT
+        EOF_MARKER=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
+        echo "redacted_plan<<$EOF_MARKER" >> $GITHUB_OUTPUT
+        cat "$PLAN_FILE" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT # Ensure a trailing newline before the marker
+        echo "$EOF_MARKER" >> $GITHUB_OUTPUT
+
+        echo "--- Cleaning up temporary file ---"
+        rm "$PLAN_FILE"
       env:
-        WORKING_DIRECTORY: ${{ inputs.working-directory }}
+        WORKING_DIRECTORY: ${{ inputs.base-path }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
