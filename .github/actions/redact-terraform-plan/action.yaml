@@ -18,11 +18,13 @@ runs:
   steps:
 
     - name: (debug) show action path
+      shell: bash
       run: |
         echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
         ls -la "$GITHUB_ACTION_PATH"
 
     - name: (debug) show action path 2
+      shell: bash
       run: |
         echo "GITHUB_ACTION_PATH=$GITHUB_ACTION_PATH"
         ls -la "$GITHUB_ACTION_PATH"
