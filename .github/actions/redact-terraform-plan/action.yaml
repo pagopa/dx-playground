@@ -10,8 +10,10 @@ inputs:
 outputs:
   redacted_plan:
     description: "The redacted output of the `terraform plan` command."
+    value: ${{ steps.plan.outputs.redacted_plan }}
   exit_code:
     description: "The exit code from the `terraform plan` command. 0 = Success/No Changes, 1 = Error, 2 = Success/With Changes."
+    value: ${{ steps.plan.outputs.exit_code }}
 
 runs:
   using: "composite"
@@ -20,6 +22,8 @@ runs:
       id: plan
       shell: bash
       run: |
+        set -eo pipefail
+
         echo "--- Executing Plan in: $WORKING_DIRECTORY ---"
         cd $WORKING_DIRECTORY
 
@@ -31,11 +35,11 @@ runs:
 
         echo "exit_code=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
 
-        # EOF_MARKER=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
-        # echo "redacted_plan<<$EOF_MARKER" >> $GITHUB_OUTPUT
-        # cat "$PLAN_FILE" >> $GITHUB_OUTPUT
-        # echo "" >> $GITHUB_OUTPUT # Ensure a trailing newline before the marker
-        # echo "$EOF_MARKER" >> $GITHUB_OUTPUT
+        EOF_MARKER=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
+        echo "redacted_plan<<$EOF_MARKER" >> $GITHUB_OUTPUT
+        cat "$PLAN_FILE" >> $GITHUB_OUTPUT
+        echo "" >> $GITHUB_OUTPUT # Ensure a trailing newline before the marker
+        echo "$EOF_MARKER" >> $GITHUB_OUTPUT
 
         echo "--- Cleaning up temporary file ---"
         rm "$PLAN_FILE"
