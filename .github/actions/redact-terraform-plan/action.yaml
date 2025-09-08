@@ -20,7 +20,7 @@ runs:
       id: plan
       shell: bash
       run: |
-        REDACTED_OUTPUT=$(python3 ./run_plan.py)
+        REDACTED_OUTPUT=$(python3 ./scripts/run_plan.py)
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
 
         echo "exit_code=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
