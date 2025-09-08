@@ -82,7 +82,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        uses: ./.github/actions/redact-terraform-plan
+        uses: pagopa/dx-playground/.github/actions/redact-terraform-plan@feat-action-terraform-plan # ./.github/actions/redact-terraform-plan
         with:
           working-directory: ${{ steps.directory.outputs.dir }}
 
