@@ -15,10 +15,11 @@ import subprocess
 REDACTION_RULES = [
     # --- Azure Rules ---
     # Finds "hidden-link" attributes and redacts their value.
-    (re.compile(r'("?hidden-link"?\s*[:=]\s*)".*?"', re.IGNORECASE), r'\1"[REDACTED_HIDDEN_LINK]"'),
+    (re.compile(r'("?hidden-link"?\s*[:=]\s*)".*?"', re.IGNORECASE), r'\1"[SENSITIVE_VALUE]"'),
 
-    # Finds "APPINSIGHTS_INSTRUMENTATIONKEY" attributes and redacts their value.
-    (re.compile(r'("?APPINSIGHTS_INSTRUMENTATIONKEY"?\s*[:=]\s*)".*?"', re.IGNORECASE), r'\1"[REDACTED_INSTRUMENTATION_KEY]"'),
+    # Finds all possible Instrumentation Key attributes and redacts their value.
+    (re.compile(r'("?APPINSIGHTS_INSTRUMENTATIONKEY"?\s*[:=]\s*)".*?"', re.IGNORECASE), r'\1"[SENSITIVE_VALUE]"'),
+    (re.compile(r'("?instrumentation_key"?\s*[:=]\s*)".*?"', re.IGNORECASE), r'\1"[SENSITIVE_VALUE]"'),
 
     # --- ADD YOUR AZURE RULES HERE ---
 

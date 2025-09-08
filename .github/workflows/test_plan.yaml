@@ -82,7 +82,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        uses: pagopa/dx-playground/.github/actions/redact-terraform-plan@feat-action-terraform-plan # ./.github/actions/redact-terraform-plan
+        uses: pagopa/dx-playground/.github/actions/filter-terraform-plan@feat-action-terraform-plan
         with:
           base-path: ${{ steps.directory.outputs.dir }}
 
@@ -91,7 +91,7 @@ jobs:
         run: |
           echo "Terraform Plan Output:"
           echo "----------------------"
-          echo "${{ steps.plan.outputs.redacted_plan }}"
+          echo "${{ steps.plan.outputs.filtered_plan }}"
           echo "----------------------"
           echo "Exit Code: ${{ steps.plan.outputs.exit_code }}"
 

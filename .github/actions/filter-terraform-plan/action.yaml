@@ -1,5 +1,5 @@
-name: 'Run and Redact Terraform Plan'
-description: 'Execute `terraform plan` and redact sensitive information from the output.'
+name: 'Run and Filter Terraform Plan'
+description: 'Execute `terraform plan` and filter sensitive information from the output.'
 
 inputs:
   base-path:
@@ -8,9 +8,9 @@ inputs:
     default: '.'
 
 outputs:
-  redacted_plan:
-    description: "The redacted output of the `terraform plan` command."
-    value: ${{ steps.plan.outputs.redacted_plan }}
+  filtered_plan:
+    description: "The filtered output of the `terraform plan` command."
+    value: ${{ steps.plan.outputs.filtered_plan }}
   exit_code:
     description: "The exit code from the `terraform plan` command. 0 = Success/No Changes, 1 = Error, 2 = Success/With Changes."
     value: ${{ steps.plan.outputs.exit_code }}
@@ -18,7 +18,7 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Run Terraform Plan and Redact Output
+    - name: Run Terraform Plan and Filter Output
       id: plan
       shell: bash
       run: |
@@ -27,7 +27,7 @@ runs:
         echo "--- Executing Plan in: $WORKING_DIRECTORY ---"
         cd $WORKING_DIRECTORY
 
-        PLAN_FILE="redacted_plan.txt"
+        PLAN_FILE="filtered_plan.txt"
         python3 $GITHUB_ACTION_PATH/run_plan.py "$PLAN_FILE"
         PLAN_EXIT_CODE=$?
 
@@ -36,7 +36,7 @@ runs:
         echo "exit_code=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
 
         EOF_MARKER=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
-        echo "redacted_plan<<$EOF_MARKER" >> $GITHUB_OUTPUT
+        echo "filtered_plan<<$EOF_MARKER" >> $GITHUB_OUTPUT
         cat "$PLAN_FILE" >> $GITHUB_OUTPUT
         echo "" >> $GITHUB_OUTPUT # Ensure a trailing newline before the marker
         echo "$EOF_MARKER" >> $GITHUB_OUTPUT
