@@ -26,7 +26,7 @@ runs:
         cd $WORKING_DIRECTORY
 
         REDACTED_OUTPUT=$(python3 $GITHUB_ACTION_PATH/run_plan.py)
-
+        cat $REDACTED_OUTPUT
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
