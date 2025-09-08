@@ -1,0 +1,111 @@
+name: Infra Code Review
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat-action-terraform-plan
+
+env:
+  ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  ARM_USE_OIDC: true
+  ARM_USE_AZUREAD: true
+
+jobs:
+  get-terraform-version:
+    name: Get Terraform Version
+    runs-on: ubuntu-latest
+    outputs:
+      terraform_version: ${{ steps.get-version.outputs.terraform_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.7
+
+      - name: Get terraform version from .terraform-version file
+        id: get-version
+        uses: pagopa/dx/.github/actions/get-terraform-version@main
+        with:
+          default_version: "1.10.4"
+
+  tf_plan:
+    name: "Terraform Plan"
+    needs: [get-terraform-version]
+    # Use inputs.override_labels if set; otherwise, fall back to inputs.environment.
+    # When inputs.use_labels and inputs.use_private_agent are true, apply the selected labels.
+    # Default to 'self-hosted' if inputs.use_private_agent is true, or 'ubuntu-latest' otherwise.
+    runs-on: 'ubuntu-latest'
+    environment: infra-dev-ci
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Set directory
+        id: directory
+        env:
+          ENVIRONMENT: "test"
+          BASE_PATH: "infra/resources"
+        run: |
+          set -euo pipefail
+
+          if [ -z "$ENVIRONMENT" ]; then
+            echo "Environment must be provided."
+            exit 1
+          else
+            # The directory is expected to be in the format
+            #  infra/resources/$ENVIRONMENT
+            # Example: infra/resources/prod
+            printf "dir=%q/%q" "$BASE_PATH" "$ENVIRONMENT" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        name: Checkout
+
+      - name: Azure Login
+        uses: pagopa/dx/.github/actions/azure-login@main
+
+      - name: Terraform Setup
+        id: set-terraform-version
+        uses: pagopa/dx/.github/actions/terraform-setup@main
+        with:
+          terraform_version: ${{ needs.get-terraform-version.outputs.terraform_version }}
+
+      - name: Terraform Init
+        working-directory: ${{ steps.directory.outputs.dir }}
+        run: |
+          terraform init -input=false
+
+      - name: Terraform Plan
+        id: plan
+        uses: ./.github/actions/redact-terraform-plan
+        with:
+          working-directory: ${{ steps.directory.outputs.dir }}
+
+      - name: Output Plan
+        if: ${{ always() }}
+        run: |
+          echo "Terraform Plan Output:"
+          echo "----------------------"
+          echo "${{ steps.plan.outputs.redacted_plan }}"
+          echo "----------------------"
+          echo "Exit Code: ${{ steps.plan.outputs.exit_code }}"
+
+      - name: Terraform Plan Classic
+        id: plan-classic
+        working-directory: ${{ steps.directory.outputs.dir }}
+        run: |
+          terraform plan \
+            -lock-timeout=120s \
+            -input=false \
+            -no-color \
+            $TF_PLAN_REFRESH_FLAG \
+            -out=plan.out 2>&1
+
+          terraform show -no-color plan.out > full_plan.txt
+
+          cat full_plan.txt

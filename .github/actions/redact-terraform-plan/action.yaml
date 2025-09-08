@@ -1,0 +1,33 @@
+name: 'Run and Redact Terraform Plan'
+description: 'Execute `terraform plan` and redact sensitive information from the output.'
+
+inputs:
+  working-directory:
+    description: 'The directory where terraform plan will be executed. (Defaults to the root of the repository)'
+    required: false
+    default: '.'
+
+outputs:
+  redacted_plan:
+    description: "The redacted output of the `terraform plan` command."
+  exit_code:
+    description: "The exit code of the `terraform plan` command. 0 indicates success."
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Terraform Plan and Redact Output
+      id: plan
+      shell: bash
+      run: |
+        REDACTED_OUTPUT=$(python3 ./run_plan.py)
+        PLAN_EXIT_CODE=${PIPESTATUS[0]}
+
+        echo "exit_code=$PLAN_EXIT_CODE" >> $GITHUB_OUTPUT
+
+        EOF_MARKER=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
+        echo "redacted_plan<<$EOF_MARKER" >> $GITHUB_OUTPUT
+        echo "$REDACTED_OUTPUT" >> $GITHUB_OUTPUT
+        echo "$EOF_MARKER" >> $GITHUB_OUTPUT
+      env:
+        WORKING_DIRECTORY: ${{ inputs.working-directory }}
