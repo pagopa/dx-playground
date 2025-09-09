@@ -82,7 +82,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        uses: pagopa/dx-playground/.github/actions/filter-terraform-plan@feat-action-terraform-plan
+        uses: pagopa/dx/.github/actions/filter-terraform-plan@feat-terraform-plan-action #pagopa/dx-playground/.github/actions/filter-terraform-plan@feat-action-terraform-plan
         with:
           base-path: ${{ steps.directory.outputs.dir }}
 
