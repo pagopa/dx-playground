@@ -14,7 +14,9 @@ import { parseEndpoints } from "../utils/endpoint-parser.js";
  * @param config - The configuration object (already parsed, not from YAML).
  * @returns The result of the dashboard build.
  */
-export async function generateDashboard(config: DashboardConfig): Promise<App> {
+export async function generateDashboard(
+  config: DashboardConfig,
+): Promise<{ app: App; opexStack: AzureOpexStack }> {
   try {
     // See https://github.com/hashicorp/terraform-cdk/pull/3876
     process.env.SYNTH_HCL_OUTPUT = "true";
@@ -35,9 +37,13 @@ export async function generateDashboard(config: DashboardConfig): Promise<App> {
 
     // Create and run builder
     // Create the main stack with dashboard and alerts
-    new AzureOpexStack(app, "opex-dashboard", validatedConfig);
+    const opexStack = new AzureOpexStack(
+      app,
+      "opex-dashboard",
+      validatedConfig,
+    );
 
-    return app;
+    return { app, opexStack };
   } catch (error: unknown) {
     throw new Error(
       `Error generating dashboard: ${error instanceof Error ? error.message : "Unknown error"}`,
@@ -59,9 +65,9 @@ export const generateCommand = new Command()
 
       // Use the programmatic function
       // Cast here is safe since validateConfig will check the structure
-      const app = await generateDashboard(rawConfig as DashboardConfig);
+      const { app } = await generateDashboard(rawConfig as DashboardConfig);
 
-      // Generate the Terraform code
+      // Generate the Terraform code using local backend
       app.synth();
 
       // Output result

@@ -12,7 +12,8 @@ export class AzureOpexConstruct extends TerraformStack {
 
     // Configure Azure provider
     new provider.AzurermProvider(this, "azure", {
-      features: {},
+      features: [{}],
+      storageUseAzuread: true,
     });
 
     // Create the dashboard using CDKTF PortalDashboard

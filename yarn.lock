@@ -551,13 +551,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cdktf/provider-azurerm@npm:^12.0.0":
-  version: 12.27.0
-  resolution: "@cdktf/provider-azurerm@npm:12.27.0"
+"@cdktf/provider-azurerm@npm:^14.12.0":
+  version: 14.12.0
+  resolution: "@cdktf/provider-azurerm@npm:14.12.0"
   peerDependencies:
-    cdktf: ^0.20.0
-    constructs: ^10.3.0
-  checksum: 10c0/b0a6ad4363d70eee73d747d0c7acda6cff1238f4d95b2ef7337fe4d0b4d8ccc1f995b53456cd98bc94514d5ab278dd974b67ded42c3a822f58cbba54de071091
+    cdktf: ^0.21.0
+    constructs: ^10.4.2
+  checksum: 10c0/c1fe62fa6bc846b6e07bd5a5ed5f540b11ac276b2d0da59b36176bda8cc4c777074a4e9ab49df17992ab859e12bd653970efd9618c55135253859b40b2117601
   languageName: node
   linkType: hard
 
@@ -3089,12 +3089,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pagopa/opex-dashboard-ts@workspace:packages/opex-dashboard-ts":
+"@pagopa/opex-dashboard-ts@workspace:^, @pagopa/opex-dashboard-ts@workspace:packages/opex-dashboard-ts":
   version: 0.0.0-use.local
   resolution: "@pagopa/opex-dashboard-ts@workspace:packages/opex-dashboard-ts"
   dependencies:
     "@apidevtools/swagger-parser": "npm:^10.1.0"
-    "@cdktf/provider-azurerm": "npm:^12.0.0"
+    "@cdktf/provider-azurerm": "npm:^14.12.0"
     "@pagopa/eslint-config": "npm:^5.0.0"
     "@tsconfig/node22": "npm:^22.0.2"
     "@types/js-yaml": "npm:^4.0.5"
@@ -3113,7 +3113,7 @@ __metadata:
     vitest: "npm:^3.2.4"
     zod: "npm:^4.1.5"
   bin:
-    opex-dashboard-ts: dist/cli/index.js
+    opex-dashboard-ts: dist/cli.js
   languageName: unknown
   linkType: soft
 
@@ -12088,6 +12088,7 @@ __metadata:
   resolution: "test-opex-api@workspace:apps/test-opex-api"
   dependencies:
     "@pagopa/eslint-config": "npm:^5.0.0"
+    "@pagopa/opex-dashboard-ts": "workspace:^"
     "@pagopa/typescript-config-node": "workspace:^"
     "@types/node": "npm:^22.15.14"
     cdktf: "npm:^0.21.0"

@@ -1,31 +1,36 @@
-import { App, AzurermBackend } from "cdktf";
-import { MonitoringStack } from "cdktf-monitoring-stack";
-import { backendConfig, opexConfig } from "opex-common";
+/* eslint-disable no-console */
+import { DashboardConfig, generateDashboard } from "@pagopa/opex-dashboard-ts";
+import { AzurermBackend } from "cdktf";
+import { backendConfig } from "opex-common";
 
-const app = new App();
+export const opexConfig: DashboardConfig = {
+  action_groups: [
+    "/subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-email",
+    "/subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-slack",
+  ],
+  data_source:
+    "/subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw",
+  location: "West Europe",
+  name: "My Dashboard",
+  oa3_spec:
+    "https://raw.githubusercontent.com/pagopa/opex-dashboard/main/test/data/io_backend.yaml",
+  resource_type: "app-gateway",
+  timespan: "5m",
+} as const;
 
-const stack1 = new MonitoringStack(app, "test-opex-api-v1", {
-  config: opexConfig,
-  openApiFilePaths: ["docs/openapi-v2.yaml"],
-});
+generateDashboard(opexConfig)
+  .then(({ app, opexStack }) => {
+    // TODO questo deve esser applicato allo stack
+    new AzurermBackend(opexStack, {
+      ...backendConfig,
+      key: "dx.test-opex-api1.tfstate",
+    });
 
-new AzurermBackend(stack1, {
-  ...backendConfig,
-  key: "dx.test-opex-api1.tfstate",
-});
-
-///////
-
-const stack2 = new MonitoringStack(app, "test-opex-api-v2", {
-  config: opexConfig,
-  openApiFilePaths: ["docs/openapi-v3.yaml"],
-});
-
-new AzurermBackend(stack2, {
-  ...backendConfig,
-  key: "dx.test-opex-api2.tfstate",
-});
-
-///////
-
-app.synth();
+    // Synthesize the Terraform code
+    app.synth();
+    console.log("Terraform CDKTF code generated successfully");
+  })
+  .catch((error: unknown) => {
+    console.error("Error generating dashboard:", error);
+    process.exit(1);
+  });
