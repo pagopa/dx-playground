@@ -1,5 +1,5 @@
 import { parseEndpoints } from '../../src/utils/endpoint-parser';
-import { OpenAPISpec } from '../../src/types/openapi';
+import { OpenAPISpec } from '../../src/utils/openapi';
 import { DashboardConfig } from '../../src/utils/config-validation';
 
 describe('parseEndpoints', () => {
@@ -11,17 +11,17 @@ describe('parseEndpoints', () => {
     endpoints: []
   };
 
-  describe('with simple OpenAPI spec', () => {
+  describe('with simple OpenAPI 3.0 spec', () => {
     const mockSpec: OpenAPISpec = {
-      swagger: '2.0',
+      openapi: '3.0.0',
       info: { title: 'Test API', version: '1.0.0' },
       servers: [{ url: 'https://api.example.com' }],
       paths: {
-        '/users': { get: {} },
-        '/users/{id}': { get: {}, put: {}, delete: {} },
-        '/posts/{postId}/comments': { get: {}, post: {} }
+        '/users': { get: {} } as any,
+        '/users/{id}': { get: {}, put: {}, delete: {} } as any,
+        '/posts/{postId}/comments': { get: {}, post: {} } as any
       }
-    };
+    } as OpenAPISpec;
 
     it('should parse endpoints with server URL', () => {
       const endpoints = parseEndpoints(mockSpec, mockConfig);
@@ -45,16 +45,16 @@ describe('parseEndpoints', () => {
     });
   });
 
-  describe('with spec without servers', () => {
+  describe('with OpenAPI 2.0 spec without servers', () => {
     const mockSpec: OpenAPISpec = {
       swagger: '2.0',
       info: { title: 'Test API', version: '1.0.0' },
       host: 'api.example.com',
       basePath: '/v1',
       paths: {
-        '/users': { get: {} }
+        '/users': { get: {} } as any
       }
-    };
+    } as OpenAPISpec;
 
     it('should use host and basePath', () => {
       const endpoints = parseEndpoints(mockSpec, mockConfig);
@@ -66,11 +66,11 @@ describe('parseEndpoints', () => {
 
   describe('with empty paths', () => {
     const mockSpec: OpenAPISpec = {
-      swagger: '2.0',
+      openapi: '3.0.0',
       info: { title: 'Test API', version: '1.0.0' },
       servers: [{ url: 'https://api.example.com' }],
       paths: {}
-    };
+    } as OpenAPISpec;
 
     it('should return empty array', () => {
       const endpoints = parseEndpoints(mockSpec, mockConfig);

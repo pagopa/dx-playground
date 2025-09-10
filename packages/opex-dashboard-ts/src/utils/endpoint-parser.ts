@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { OpenAPISpec } from '../types/openapi';
+import { OpenAPISpec, isOpenAPIV2, isOpenAPIV3 } from './openapi';
 import { DashboardConfig } from './config-validation';
 
 export const DEFAULT_ENDPOINT: Partial<Endpoint> = {
@@ -56,12 +56,18 @@ export function parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endp
 }
 
 function extractHosts(spec: OpenAPISpec): string[] {
-  if (spec.servers) {
-    return spec.servers.map(server => server.url);
-  } else if (spec.host && spec.basePath) {
-    return [`${spec.host}${spec.basePath}`];
-  } else if (spec.host) {
-    return [spec.host];
+  if (isOpenAPIV3(spec)) {
+    // OpenAPI 3.x uses servers array
+    if (spec.servers && spec.servers.length > 0) {
+      return spec.servers.map(server => server.url);
+    }
+  } else if (isOpenAPIV2(spec)) {
+    // OpenAPI 2.x uses host and basePath
+    if (spec.host && spec.basePath) {
+      return [`${spec.host}${spec.basePath}`];
+    } else if (spec.host) {
+      return [spec.host];
+    }
   }
   return [];
 }
@@ -71,7 +77,8 @@ function buildEndpointPath(host: string, path: string, spec: OpenAPISpec): strin
     const url = new URL(host);
     return `${url.pathname}${path}`.replace(/\/+/g, '/');
   } else {
-    const basePath = spec.basePath || '';
+    // For OpenAPI 2.x, use basePath if available
+    const basePath = isOpenAPIV2(spec) ? (spec.basePath || '') : '';
     return `${basePath}${path}`.replace(/\/+/g, '/');
   }
 }
