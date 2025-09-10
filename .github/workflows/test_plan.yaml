@@ -116,6 +116,8 @@ jobs:
         with:
           base-path: ${{ steps.directory.outputs.dir }}
           sensitive-keys: hidden-link,APPINSIGHTS_INSTRUMENTATIONKEY,APPINSIGHTS_SAMPLING_PERCENTAGE
+          no-refresh: true
+          upload-artifact: true
 
       - name: Output Plan Bash
         if: ${{ always() }}

@@ -6,13 +6,17 @@ inputs:
     description: 'The directory where terraform plan will be executed. (Defaults to the root of the repository)'
     required: false
     default: '.'
-  plan-refresh:
-    description: 'If true, runs `terraform refresh` before `terraform plan` to update the state with real infrastructure.'
+  no-refresh:
+    description: 'If true, the terraform plan will be executed with the -refresh=false and -lock=false flags.'
     required: false
     default: 'false'
   sensitive-keys:
     description: 'A comma-separated list of sensitive keys to filter from the plan output.'
     required: true
+  upload-artifact:
+    description: 'If true, the filtered plan will be uploaded as an artifact.'
+    required: false
+    default: 'false'
 
 outputs:
   summary_line:
@@ -28,7 +32,7 @@ runs:
     - name: Set Terraform Refresh
       shell: bash
       run: |
-        if [ "$ENABLE_REFRESH" == "true" ]; then
+        if [ "$NO_REFRESH" == "true" ]; then
           echo "TF_PLAN_REFRESH_FLAG=-refresh=false -lock=false" >> $GITHUB_ENV
           echo "::notice::State will NOT be refreshed"
         else
@@ -36,7 +40,7 @@ runs:
           echo "::notice::State will be refreshed"
         fi
       env:
-        ENABLE_REFRESH: ${{ inputs.plan-refresh }}
+        NO_REFRESH: ${{ inputs.no-refresh }}
 
     - name: Run Terraform Plan and Filter Output
       id: plan
@@ -76,21 +80,6 @@ runs:
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
 
-        # Extracts only the diff section from the Plan by skipping everything before the resource changes,
-        # and filters out non-essential log lines like state refreshes and reads.
-        if [ -s $PLAN_FILE ]; then
-          sed -n '/^  #/,$p' $PLAN_FILE | grep -Ev "Refreshing state|state lock|Reading|Read" > ${PLAN_FILE}.tmp || echo "No changes detected." > ${PLAN_FILE}.tmp
-        else
-          echo "No plan output available." > ${PLAN_FILE}.tmp
-        fi
-
-        mv ${PLAN_FILE}.tmp $PLAN_FILE
-        echo "filtered_plan_path=$WORKING_DIRECTORY/$PLAN_FILE" >> $GITHUB_OUTPUT
-
-        # The summary with number of resources to be added, changed, or destroyed (will be used in case the plan output is too long)
-        SUMMARY_LINE=$(grep -E "^Plan: [0-9]+ to (add|change|destroy|import)" $PLAN_FILE || echo "No changes.")
-        echo "summary_line=$SUMMARY_LINE" >> $GITHUB_OUTPUT
-
         # --- Handle Exit Code ---
         # The step should FAIL ONLY on a true error (exit code 1)
         # It should SUCCEED for no changes (0) and changes detected (2)
@@ -98,16 +87,35 @@ runs:
           echo "::error::Terraform plan failed with a critical error."
           exit 1
         fi
+
+        # --- Reduce file size ---
+        # Extracts only the diff section from the Plan by skipping everything before the resource changes,
+        # and filters out non-essential log lines like state refreshes and reads.
+        if [ -s $PLAN_FILE ]; then
+          sed -n '/^  #/,$p' $PLAN_FILE | grep -Ev "Refreshing state|state lock|Reading|Read" > ${PLAN_FILE}.tmp || echo "No changes detected." > ${PLAN_FILE}.tmp
+        else
+          echo "No plan output available." > ${PLAN_FILE}.tmp
+        fi
+        mv ${PLAN_FILE}.tmp $PLAN_FILE
+
+        # --- Extract Summary Line ---
+        # The summary with number of resources to be added, changed, or destroyed (will be used in case the plan output is too long)
+        SUMMARY_LINE=$(grep -E "^Plan: [0-9]+ to (add|change|destroy|import)" $PLAN_FILE || echo "No changes.")
+
+        # --- Define outputs ---
+        echo "filtered_plan_path=$WORKING_DIRECTORY/$PLAN_FILE" >> $GITHUB_OUTPUT
+        echo "summary_line=$SUMMARY_LINE" >> $GITHUB_OUTPUT
       env:
         WORKING_DIRECTORY: ${{ inputs.base-path }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         SENSITIVE_KEYS: ${{ inputs.sensitive-keys }}
         PLAN_FILE: filtered_plan.txt
 
-    # - name: Upload Artifact
-    #   uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-    #   with:
-    #     name: filtered-terraform-plan
-    #     path: ${{ inputs.base-path }}/filtered_plan.txt
-    #     if-no-files-found: error
-    #     retention-days: 7
+    - name: Upload Artifact
+      if: ${{ inputs.upload-artifact == 'true' }}
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: filtered-terraform-plan
+        path: ${{ steps.plan.outputs.filtered_plan_path }}
+        if-no-files-found: error
+        retention-days: 7
