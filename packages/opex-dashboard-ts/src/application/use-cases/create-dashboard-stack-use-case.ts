@@ -1,28 +1,26 @@
+import { App } from "cdktf";
+
 import {
   Endpoint,
   IConfigValidator,
   IEndpointParser,
-  IFileReader,
   IOpenAPISpecResolver,
-  ITerraformFileGenerator,
+  ITerraformStackGenerator,
   OpenAPISpec,
 } from "../../domain/index.js";
+import { AzureOpexStack } from "../../infrastructure/terraform/azure-dashboard.js";
 
-export class GenerateDashboardUseCase {
+export class CreateDashboardStackUseCase {
   constructor(
-    private readonly fileReader: IFileReader,
     private readonly configValidator: IConfigValidator,
     private readonly openAPISpecResolver: IOpenAPISpecResolver,
     private readonly endpointParser: IEndpointParser,
-    private readonly terraformGenerator: ITerraformFileGenerator,
+    private readonly terraformGenerator: ITerraformStackGenerator,
   ) {}
 
-  async execute(configFilePath: string): Promise<void> {
-    // Load and parse configuration
-    const rawConfig = await this.fileReader.readYamlFile(configFilePath);
-
+  async execute(config: unknown, app: App): Promise<AzureOpexStack> {
     // Validate configuration
-    const validatedConfig = this.configValidator.validateConfig(rawConfig);
+    const validatedConfig = this.configValidator.validateConfig(config);
 
     // Resolve OpenAPI spec
     const spec: OpenAPISpec = await this.openAPISpecResolver.resolve(
@@ -40,7 +38,7 @@ export class GenerateDashboardUseCase {
     validatedConfig.hosts = validatedConfig.overrides?.hosts || [];
     validatedConfig.resourceIds = [validatedConfig.data_source];
 
-    // Generate Terraform code
-    await this.terraformGenerator.generate(validatedConfig);
+    // Generate and return the stack
+    return await this.terraformGenerator.generate(validatedConfig, app);
   }
 }

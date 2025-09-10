@@ -1,9 +1,12 @@
 import { App } from "cdktf";
 
-import { DashboardConfig, ITerraformGenerator } from "../../domain/index.js";
+import {
+  DashboardConfig,
+  ITerraformFileGenerator,
+} from "../../domain/index.js";
 import { AzureOpexStack } from "./azure-dashboard.js";
 
-export class TerraformGeneratorAdapter implements ITerraformGenerator {
+export class TerraformFileGeneratorAdapter implements ITerraformFileGenerator {
   async generate(config: DashboardConfig): Promise<void> {
     // Create CDKTF app
     const app = new App({ hclOutput: true, outdir: "opex" });

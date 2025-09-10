@@ -2,12 +2,11 @@
 import { Command } from "commander";
 
 import { GenerateDashboardUseCase } from "../../application/index.js";
+import { EndpointParserService } from "../../domain/services/endpoint-parser-service.js";
 import { ConfigValidatorAdapter } from "../config/config-validator-adapter.js";
 import { FileReaderAdapter } from "../file/file-reader-adapter.js";
 import { OpenAPISpecResolverAdapter } from "../openapi/openapi-spec-resolver-adapter.js";
-import { EndpointParserService } from "../../domain/services/endpoint-parser-service.js";
-import { KustoQueryService } from "../../domain/services/kusto-query-service.js";
-import { TerraformGeneratorAdapter } from "../terraform/terraform-generator-adapter.js";
+import { TerraformFileGeneratorAdapter } from "../terraform/terraform-generator-adapter.js";
 
 export const generateCommand = new Command()
   .name("generate")
@@ -21,8 +20,7 @@ export const generateCommand = new Command()
       const configValidator = new ConfigValidatorAdapter();
       const openAPISpecResolver = new OpenAPISpecResolverAdapter();
       const endpointParser = new EndpointParserService();
-      const kustoQueryGenerator = new KustoQueryService();
-      const terraformGenerator = new TerraformGeneratorAdapter();
+      const terraformGenerator = new TerraformFileGeneratorAdapter();
 
       // Create use case
       const generateDashboardUseCase = new GenerateDashboardUseCase(
@@ -30,7 +28,6 @@ export const generateCommand = new Command()
         configValidator,
         openAPISpecResolver,
         endpointParser,
-        kustoQueryGenerator,
         terraformGenerator,
       );
 

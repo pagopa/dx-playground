@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { isOpenAPIV2, isOpenAPIV3, OpenAPISpec } from "../shared/openapi.js";
 import { DashboardConfig } from "../domain/index.js";
+import { isOpenAPIV2, isOpenAPIV3, OpenAPISpec } from "../shared/openapi.js";
 
 export const DEFAULT_ENDPOINT: Partial<Endpoint> = {
   availabilityEvaluationFrequency: 10,
