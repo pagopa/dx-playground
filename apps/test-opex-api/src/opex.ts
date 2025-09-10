@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { addAzureDashboard, DashboardConfig } from "@pagopa/opex-dashboard-ts";
+import { addOpexStack, DashboardConfig } from "@pagopa/opex-dashboard-ts";
 import { App, AzurermBackend, AzurermBackendConfig } from "cdktf";
 
 const opexConfig: DashboardConfig = {
@@ -28,7 +28,7 @@ const app = new App({ hclOutput: true, outdir: "." });
 
 (async function () {
   try {
-    const { opexStack: s1 } = await addAzureDashboard({
+    const { opexStack: s1 } = await addOpexStack({
       app,
       config: opexConfig,
     });
