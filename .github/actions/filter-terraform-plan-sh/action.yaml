@@ -10,10 +10,8 @@ inputs:
     description: 'A comma-separated list of sensitive keys to filter from the plan output.'
     required: true
 
-outputs:
-  filtered_plan:
-    description: "The filtered output of the `terraform plan` command."
-    value: ${{ steps.plan.outputs.filtered_plan }}
+env:
+  PLAN_FILE: filtered_plan.txt
 
 runs:
   using: "composite"
@@ -22,14 +20,13 @@ runs:
       id: plan
       shell: bash
       run: |
-        # Fail fast if no keys are provided
         if [[ -z "$SENSITIVE_KEYS" ]]; then
           echo "Error: The 'sensitive-keys' input is required."
           exit 1
         fi
 
         # --- Dynamically build the sed filter expressions ---
-        SED_EXPRESSIONS=(sed -E)
+        SED_EXPRESSIONS=()
 
         for key in $(echo "$SENSITIVE_KEYS" | tr ',' '\n'); do
           trimmed_key=$(echo "$key" | xargs)
@@ -49,16 +46,6 @@ runs:
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
 
-        # --- Set the action output ---
-        EOF_MARKER=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
-        echo "filtered_plan<<$EOF_MARKER" >> $GITHUB_OUTPUT
-        cat "$PLAN_FILE" >> $GITHUB_OUTPUT
-        echo "" >> $GITHUB_OUTPUT
-        echo "$EOF_MARKER" >> $GITHUB_OUTPUT
-
-        # Cleanup
-        rm "$PLAN_FILE"
-
         # --- Handle Exit Code ---
         # The step should FAIL ONLY on a true error (exit code 1)
         # It should SUCCEED for no changes (0) and changes detected (2)
@@ -70,4 +57,9 @@ runs:
         WORKING_DIRECTORY: ${{ inputs.base-path }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         SENSITIVE_KEYS: ${{ inputs.sensitive-keys }}
-        PLAN_FILE: filtered_plan.txt
+
+    - name: Upload filtered plan
+      uses: actions/upload-artifact@v4
+      with:
+        name: filtered-plan
+        path: ${{ env.PLAN_FILE }}
