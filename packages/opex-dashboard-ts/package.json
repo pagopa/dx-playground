@@ -3,8 +3,21 @@
   "version": "0.0.1",
   "description": "Generate standardized Operational Excellence dashboards from OpenAPI specs using TypeScript and CDKTF",
   "main": "dist/index.js",
-  "bin": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": "dist/cli.js",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.ts",
+      "import": "./dist/cli.js",
+      "require": "./dist/cli.cjs"
+    }
+  },
   "scripts": {
     "build": "tsup",
     "lint": "eslint --fix src",
