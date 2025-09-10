@@ -40,3 +40,8 @@ data "azurerm_key_vault_secret" "apim_api_key" {
   key_vault_id = data.azurerm_key_vault.common_kv.id
   name         = "playground-apim-test-key"
 }
+
+data "azurerm_key_vault_secret" "apim_api_key" {
+  key_vault_id = data.azurerm_key_vault.common_kv.id
+  name         = "playground-apim-test-key"
+}
