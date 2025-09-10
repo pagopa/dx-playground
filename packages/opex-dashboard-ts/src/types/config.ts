@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import { DashboardConfig, Endpoint } from './openapi';
 
 export const DEFAULT_CONFIG: Partial<DashboardConfig> = {
@@ -18,6 +19,55 @@ export const DEFAULT_ENDPOINT: Partial<Endpoint> = {
   responseTimeEvaluationTimeWindow: 20,
   responseTimeEventOccurrences: 1,
 };
+
+// Zod schema for Endpoint
+const EndpointSchema = z.object({
+  path: z.string(),
+  availabilityThreshold: z.number().optional(),
+  availabilityEvaluationFrequency: z.number().optional(),
+  availabilityEvaluationTimeWindow: z.number().optional(),
+  availabilityEventOccurrences: z.number().optional(),
+  responseTimeThreshold: z.number().optional(),
+  responseTimeEvaluationFrequency: z.number().optional(),
+  responseTimeEvaluationTimeWindow: z.number().optional(),
+  responseTimeEventOccurrences: z.number().optional(),
+});
+
+// Zod schema for Overrides
+const OverridesSchema = z.object({
+  hosts: z.array(z.string()).optional(),
+  endpoints: z.record(z.string(), EndpointSchema.partial()).optional(),
+}).optional();
+
+// Zod schema for DashboardConfig
+const DashboardConfigSchema = z.object({
+  oa3_spec: z.string(),
+  name: z.string(),
+  location: z.string(),
+  resource_type: z.enum(['app-gateway', 'api-management']).optional(),
+  timespan: z.string().optional(),
+  evaluation_frequency: z.number().optional(),
+  evaluation_time_window: z.number().optional(),
+  event_occurrences: z.number().optional(),
+  data_source: z.string(),
+  action_groups: z.array(z.string()).optional(),
+  overrides: OverridesSchema,
+  // Computed properties (optional in input)
+  hosts: z.array(z.string()).optional(),
+  endpoints: z.array(EndpointSchema).optional(),
+  resourceIds: z.array(z.string()).optional(),
+});
+
+export function validateConfig(rawConfig: any): DashboardConfig {
+  // Parse and validate with zod
+  const parsedConfig = DashboardConfigSchema.parse(rawConfig);
+
+  // Apply defaults
+  return {
+    ...DEFAULT_CONFIG,
+    ...parsedConfig,
+  };
+}
 
 export function mergeConfigWithDefaults(config: any): DashboardConfig {
   return {

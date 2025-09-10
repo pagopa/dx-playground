@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import { OA3Resolver } from '../core/resolver';
 import { parseEndpoints } from '../utils/endpoint-parser';
-import { mergeConfigWithDefaults } from '../types/config';
+import { validateConfig } from '../types/config';
 import { BuilderFactory, TemplateType } from '../builders/factory';
 
 export const generateCommand = new Command()
@@ -16,12 +16,7 @@ export const generateCommand = new Command()
       // Load and parse configuration
       const configFile = fs.readFileSync(options.configFile, 'utf8');
       const rawConfig = yaml.load(configFile) as any;
-      const config = mergeConfigWithDefaults(rawConfig);
-
-      // Validate required fields
-      if (!config.oa3_spec || !config.name || !config.location || !config.data_source) {
-        throw new Error('Missing required configuration fields: oa3_spec, name, location, data_source');
-      }
+      const config = validateConfig(rawConfig);
 
       // Resolve OpenAPI spec
       const resolver = new OA3Resolver();
