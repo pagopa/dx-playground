@@ -1,10 +1,10 @@
-import SwaggerParser from '@apidevtools/swagger-parser';
-import { OpenAPISpec } from '../utils/openapi';
+import SwaggerParser from "@apidevtools/swagger-parser";
+import { OpenAPISpec } from "../utils/openapi";
 
 export class ParseError extends Error {
   constructor(message: string) {
     super(message);
-    this.name = 'ParseError';
+    this.name = "ParseError";
   }
 }
 

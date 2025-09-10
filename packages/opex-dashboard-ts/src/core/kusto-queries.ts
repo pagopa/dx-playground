@@ -1,11 +1,14 @@
-import { Endpoint } from '../utils/endpoint-parser';
-import { DashboardConfig } from '../utils/config-validation';
+import { Endpoint } from "../utils/endpoint-parser";
+import { DashboardConfig } from "../utils/config-validation";
 
-export function buildAvailabilityQuery(endpoint: Endpoint, config: DashboardConfig): string {
+export function buildAvailabilityQuery(
+  endpoint: Endpoint,
+  config: DashboardConfig,
+): string {
   const threshold = endpoint.availabilityThreshold || 0.99;
   const regex = uriToRegex(endpoint.path);
 
-  if (config.resource_type === 'api-management') {
+  if (config.resource_type === "api-management") {
     return `
 let threshold = ${threshold};
 AzureDiagnostics
@@ -28,10 +31,13 @@ AzureDiagnostics
   }
 }
 
-export function buildResponseCodesQuery(endpoint: Endpoint, config: DashboardConfig): string {
+export function buildResponseCodesQuery(
+  endpoint: Endpoint,
+  config: DashboardConfig,
+): string {
   const regex = uriToRegex(endpoint.path);
 
-  if (config.resource_type === 'api-management') {
+  if (config.resource_type === "api-management") {
     return `
 AzureDiagnostics
 | where url_s matches regex "${regex}"
@@ -51,11 +57,14 @@ AzureDiagnostics
   }
 }
 
-export function buildResponseTimeQuery(endpoint: Endpoint, config: DashboardConfig): string {
+export function buildResponseTimeQuery(
+  endpoint: Endpoint,
+  config: DashboardConfig,
+): string {
   const threshold = endpoint.responseTimeThreshold || 1;
   const regex = uriToRegex(endpoint.path);
 
-  if (config.resource_type === 'api-management') {
+  if (config.resource_type === "api-management") {
     return `
 let threshold = ${threshold};
 AzureDiagnostics
@@ -82,6 +91,6 @@ AzureDiagnostics
 function uriToRegex(uri: string): string {
   // Convert URI path to regex pattern (same logic as Python version)
   return uri
-    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape regex special chars
-    .replace(/\\\//g, '\\/'); // Escape forward slashes
+    .replace(/[.*+?^${}()|[\]\\]/g, "\\$&") // Escape regex special chars
+    .replace(/\\\//g, "\\/"); // Escape forward slashes
 }

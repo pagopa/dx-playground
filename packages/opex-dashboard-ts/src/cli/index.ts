@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
-import { generateCommand } from './generate';
+import { Command } from "commander";
+import { generateCommand } from "./generate";
 
 const program = new Command();
 
 program
-  .name('opex-dashboard-ts')
-  .description('Generate standardized PagoPA Operational Excellence dashboards from OpenAPI specs')
-  .version('1.0.0');
+  .name("opex-dashboard-ts")
+  .description(
+    "Generate standardized PagoPA Operational Excellence dashboards from OpenAPI specs",
+  )
+  .version("1.0.0");
 
 program.addCommand(generateCommand);
 

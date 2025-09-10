@@ -1,6 +1,6 @@
-import { z } from 'zod';
-import { OpenAPISpec, isOpenAPIV2, isOpenAPIV3 } from './openapi';
-import { DashboardConfig } from './config-validation';
+import { z } from "zod";
+import { OpenAPISpec, isOpenAPIV2, isOpenAPIV3 } from "./openapi";
+import { DashboardConfig } from "./config-validation";
 
 export const DEFAULT_ENDPOINT: Partial<Endpoint> = {
   availabilityThreshold: 0.99,
@@ -29,14 +29,19 @@ export const EndpointSchema = z.object({
 // Inferred types from Zod schemas
 export type Endpoint = z.infer<typeof EndpointSchema>;
 
-export function mergeEndpointWithDefaults(endpoint: Partial<Endpoint>): Endpoint {
+export function mergeEndpointWithDefaults(
+  endpoint: Partial<Endpoint>,
+): Endpoint {
   return {
     ...DEFAULT_ENDPOINT,
     ...endpoint,
   } as Endpoint;
 }
 
-export function parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[] {
+export function parseEndpoints(
+  spec: OpenAPISpec,
+  config: DashboardConfig,
+): Endpoint[] {
   const endpoints: Endpoint[] = [];
   const hosts = extractHosts(spec);
   const paths = Object.keys(spec.paths);
@@ -59,7 +64,7 @@ function extractHosts(spec: OpenAPISpec): string[] {
   if (isOpenAPIV3(spec)) {
     // OpenAPI 3.x uses servers array
     if (spec.servers && spec.servers.length > 0) {
-      return spec.servers.map(server => server.url);
+      return spec.servers.map((server) => server.url);
     }
   } else if (isOpenAPIV2(spec)) {
     // OpenAPI 2.x uses host and basePath
@@ -72,18 +77,25 @@ function extractHosts(spec: OpenAPISpec): string[] {
   return [];
 }
 
-function buildEndpointPath(host: string, path: string, spec: OpenAPISpec): string {
-  if (host.startsWith('http')) {
+function buildEndpointPath(
+  host: string,
+  path: string,
+  spec: OpenAPISpec,
+): string {
+  if (host.startsWith("http")) {
     const url = new URL(host);
-    return `${url.pathname}${path}`.replace(/\/+/g, '/');
+    return `${url.pathname}${path}`.replace(/\/+/g, "/");
   } else {
     // For OpenAPI 2.x, use basePath if available
-    const basePath = isOpenAPIV2(spec) ? (spec.basePath || '') : '';
-    return `${basePath}${path}`.replace(/\/+/g, '/');
+    const basePath = isOpenAPIV2(spec) ? spec.basePath || "" : "";
+    return `${basePath}${path}`.replace(/\/+/g, "/");
   }
 }
 
-function getEndpointOverrides(endpointPath: string, overrides?: any): Partial<Endpoint> {
+function getEndpointOverrides(
+  endpointPath: string,
+  overrides?: any,
+): Partial<Endpoint> {
   if (!overrides?.endpoints) {
     return {};
   }

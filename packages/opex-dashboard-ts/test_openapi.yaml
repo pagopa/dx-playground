@@ -23,7 +23,7 @@ paths:
       summary: Get Service
       description: A previously created service with the provided service ID is returned.
       responses:
-        '200':
+        "200":
           description: Service found.
           schema:
             "$ref": "#/definitions/ServicePublic"
@@ -136,7 +136,7 @@ paths:
     get:
       operationId: getVisibleServices
       summary: Get all visible services
-      description:  |-
+      description: |-
         Returns the description of all visible services.
       responses:
         "200":
@@ -453,9 +453,9 @@ paths:
           description: There was an error in retrieving the message.
           schema:
             $ref: "#/definitions/ProblemJson"
-        '501':
+        "501":
           description: Not Implemented
-        '504':
+        "504":
           description: Gateway Timeout
   "/third-party-messages/{id}/attachments/{attachment_url}":
     x-swagger-router-controller: MessagesController
@@ -498,9 +498,9 @@ paths:
           description: Too Many Requests
         "500":
           description: Internal Server Error
-        '501':
+        "501":
           description: Not Implemented
-        '504':
+        "504":
           description: Gateway Timeout
   "/profile":
     x-swagger-router-controller: ProfileController
@@ -554,12 +554,12 @@ paths:
           x-examples:
             application/json:
               email: foobar@example.com
-              preferred_languages: [ it_IT ]
+              preferred_languages: [it_IT]
               is_inbox_enabled: true
               is_webhook_enabled: false
               version: 1
       responses:
-        '200':
+        "200":
           description: Profile updated.
           schema:
             $ref: "#/definitions/InitializedProfile"
@@ -619,9 +619,9 @@ paths:
               version: 1
               sender_allowed: true
         "400":
-            description: Bad request
-            schema:
-              $ref: "#/definitions/ProblemJson"
+          description: Bad request
+          schema:
+            $ref: "#/definitions/ProblemJson"
         "401":
           description: Bearer token null or expired.
         "404":
@@ -695,7 +695,7 @@ paths:
             $ref: "#/definitions/UserMetadata"
           required: true
       responses:
-        '200':
+        "200":
           description: User Metadata updated.
           schema:
             $ref: "#/definitions/UserMetadata"
@@ -916,7 +916,7 @@ paths:
       summary: Get Activation status
       description: Check the activation status to retrieve the paymentId
       responses:
-        '200':
+        "200":
           description: Payment information
           schema:
             $ref: "#/definitions/PaymentActivationsGetResponse"
@@ -952,7 +952,7 @@ paths:
             $ref: "#/definitions/UserDataProcessingChoiceRequest"
           required: true
       responses:
-        '200':
+        "200":
           description: User Data processing created / updated.
           schema:
             $ref: "#/definitions/UserDataProcessing"
@@ -1277,9 +1277,9 @@ definitions:
     description: Describes an app installation.
     properties:
       platform:
-        $ref: '#/definitions/Platform'
+        $ref: "#/definitions/Platform"
       pushChannel:
-        $ref: '#/definitions/PushChannel'
+        $ref: "#/definitions/PushChannel"
     required:
       - platform
       - pushChannel
@@ -1291,7 +1291,7 @@ definitions:
       accepted_tos_version:
         $ref: "#/definitions/AcceptedTosVersion"
       email:
-        $ref: '#/definitions/EmailAddress'
+        $ref: "#/definitions/EmailAddress"
       blocked_inbox_or_channels:
         $ref: "#/definitions/BlockedInboxOrChannels"
       preferred_languages:
@@ -1307,7 +1307,7 @@ definitions:
       family_name:
         type: string
       fiscal_code:
-        $ref: '#/definitions/FiscalCode'
+        $ref: "#/definitions/FiscalCode"
       has_profile:
         $ref: "#/definitions/HasProfile"
       last_app_version:
@@ -1315,14 +1315,14 @@ definitions:
       name:
         type: string
       spid_email:
-        $ref: '#/definitions/EmailAddress'
+        $ref: "#/definitions/EmailAddress"
       date_of_birth:
         type: string
         format: date
       service_preferences_settings:
-        $ref: '#/definitions/ServicePreferencesSettings'
+        $ref: "#/definitions/ServicePreferencesSettings"
       version:
-        $ref: '#/definitions/Version'
+        $ref: "#/definitions/Version"
     required:
       - family_name
       - fiscal_code
@@ -1350,7 +1350,7 @@ definitions:
     description: Describe the current session of an authenticated user.
     properties:
       spidLevel:
-         $ref: '#/definitions/SpidLevel'
+        $ref: "#/definitions/SpidLevel"
       walletToken:
         type: string
       myPortalToken:
@@ -1374,7 +1374,7 @@ definitions:
     description: Decribe a session of an authenticated user.
     properties:
       createdAt:
-        $ref: '#/definitions/Timestamp'
+        $ref: "#/definitions/Timestamp"
       sessionToken:
         type: string
     required:
@@ -1387,7 +1387,7 @@ definitions:
       sessions:
         type: array
         items:
-          $ref: '#/definitions/SessionInfo'
+          $ref: "#/definitions/SessionInfo"
     required:
       - sessions
   InstallationID:
@@ -1405,7 +1405,7 @@ definitions:
   IsEmailSet:
     type: boolean
     default: false
-    description:  True if the user has presonalized the email.
+    description: True if the user has presonalized the email.
   Version:
     type: integer
     description: The entity version.
@@ -1438,7 +1438,7 @@ definitions:
     type: object
     properties:
       fiscal_code:
-        $ref: '#/definitions/FiscalCode'
+        $ref: "#/definitions/FiscalCode"
     required:
       - fiscal_code
   FederatedUser:

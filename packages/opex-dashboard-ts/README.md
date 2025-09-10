@@ -38,6 +38,7 @@ yarn build
 ### Basic Usage
 
 1. **Create a configuration file** (`config.yaml`):
+
 ```yaml
 oa3_spec: ./examples/petstore.yaml
 name: PetStore Dashboard
@@ -49,6 +50,7 @@ action_groups:
 ```
 
 2. **Generate CDKTF code**:
+
 ```bash
 yarn ts-node src/cli/index.ts generate \
   --config-file config.yaml
@@ -90,15 +92,15 @@ The configuration format is identical to the Python version:
 
 ```yaml
 # Required fields
-oa3_spec: ./path/to/openapi.yaml  # Path to OpenAPI spec file
-name: My API Dashboard           # Dashboard name
-location: West Europe           # Azure region
-data_source: /subscriptions/.../applicationGateways/my-gtw  # Resource ID
+oa3_spec: ./path/to/openapi.yaml # Path to OpenAPI spec file
+name: My API Dashboard # Dashboard name
+location: West Europe # Azure region
+data_source: /subscriptions/.../applicationGateways/my-gtw # Resource ID
 
 # Optional fields
-resource_type: app-gateway       # 'app-gateway' or 'api-management' (default: app-gateway)
-timespan: 5m                    # Dashboard timespan (default: 5m)
-action_groups:                  # Action groups for alerts
+resource_type: app-gateway # 'app-gateway' or 'api-management' (default: app-gateway)
+timespan: 5m # Dashboard timespan (default: 5m)
+action_groups: # Action groups for alerts
   - /subscriptions/.../actionGroups/my-action-group
 ```
 
@@ -115,21 +117,21 @@ overrides:
       availabilityThreshold: 0.95
       responseTimeThreshold: 2.0
     /api/orders:
-      enabled: false  # Disable monitoring for this endpoint
+      enabled: false # Disable monitoring for this endpoint
 ```
 
 ### Configuration Reference
 
-| Field | Type | Required | Default | Description |
-|-------|------|----------|---------|-------------|
-| `oa3_spec` | string | ✅ | - | Path/URL to OpenAPI specification |
-| `name` | string | ✅ | - | Dashboard name |
-| `location` | string | ✅ | - | Azure region |
-| `data_source` | string | ✅ | - | Azure resource ID |
-| `resource_type` | string | ❌ | `app-gateway` | Resource type (`app-gateway` or `api-management`) |
-| `timespan` | string | ❌ | `5m` | Dashboard timespan |
-| `action_groups` | string[] | ❌ | - | Action groups for alerts |
-| `overrides` | object | ❌ | - | Override default settings |
+| Field           | Type     | Required | Default       | Description                                       |
+| --------------- | -------- | -------- | ------------- | ------------------------------------------------- |
+| `oa3_spec`      | string   | ✅       | -             | Path/URL to OpenAPI specification                 |
+| `name`          | string   | ✅       | -             | Dashboard name                                    |
+| `location`      | string   | ✅       | -             | Azure region                                      |
+| `data_source`   | string   | ✅       | -             | Azure resource ID                                 |
+| `resource_type` | string   | ❌       | `app-gateway` | Resource type (`app-gateway` or `api-management`) |
+| `timespan`      | string   | ❌       | `5m`          | Dashboard timespan                                |
+| `action_groups` | string[] | ❌       | -             | Action groups for alerts                          |
+| `overrides`     | object   | ❌       | -             | Override default settings                         |
 
 ## API Documentation
 
@@ -139,7 +141,7 @@ overrides:
 
 ```typescript
 class OA3Resolver {
-  async resolve(specPath: string): Promise<OpenAPISpec>
+  async resolve(specPath: string): Promise<OpenAPISpec>;
 }
 ```
 
@@ -149,8 +151,8 @@ Parses OpenAPI specifications and returns typed objects.
 
 ```typescript
 class AzureDashboardCdkBuilder {
-  constructor(config: DashboardConfig)
-  build(): string
+  constructor(config: DashboardConfig);
+  build(): string;
 }
 ```
 
@@ -161,7 +163,7 @@ Creates CDKTF code for Azure dashboards and alerts.
 #### `parseEndpoints`
 
 ```typescript
-function parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[]
+function parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[];
 ```
 
 Parses OpenAPI spec and returns endpoint configurations with defaults applied.
@@ -169,7 +171,10 @@ Parses OpenAPI spec and returns endpoint configurations with defaults applied.
 #### `buildAvailabilityQuery`
 
 ```typescript
-function buildAvailabilityQuery(endpoint: Endpoint, config: DashboardConfig): string
+function buildAvailabilityQuery(
+  endpoint: Endpoint,
+  config: DashboardConfig,
+): string;
 ```
 
 Generates Kusto query for availability monitoring.
@@ -177,7 +182,10 @@ Generates Kusto query for availability monitoring.
 #### `buildResponseTimeQuery`
 
 ```typescript
-function buildResponseTimeQuery(endpoint: Endpoint, config: DashboardConfig): string
+function buildResponseTimeQuery(
+  endpoint: Endpoint,
+  config: DashboardConfig,
+): string;
 ```
 
 Generates Kusto query for response time monitoring.
@@ -195,21 +203,21 @@ yarn ts-node src/cli/index.ts generate \
 ### Example 3: Programmatic Usage
 
 ```typescript
-import { OA3Resolver } from './src/core/resolver';
-import { parseEndpoints } from './src/utils/endpoint-parser';
-import { AzureDashboardCdkBuilder } from './src/builders/azure-dashboard-cdk';
+import { OA3Resolver } from "./src/core/resolver";
+import { parseEndpoints } from "./src/utils/endpoint-parser";
+import { AzureDashboardCdkBuilder } from "./src/builders/azure-dashboard-cdk";
 
 async function generateDashboard() {
   // Load OpenAPI spec
   const resolver = new OA3Resolver();
-  const spec = await resolver.resolve('./api.yaml');
+  const spec = await resolver.resolve("./api.yaml");
 
   // Parse configuration
   const config = {
-    oa3_spec: './api.yaml',
-    name: 'My Dashboard',
-    location: 'East US',
-    data_source: 'resource-id',
+    oa3_spec: "./api.yaml",
+    name: "My Dashboard",
+    location: "East US",
+    data_source: "resource-id",
     // ... other config
   };
 
@@ -257,6 +265,7 @@ test/
 ### Test Coverage
 
 Current test coverage includes:
+
 - ✅ OpenAPI specification parsing
 - ✅ Endpoint extraction and configuration
 - ✅ Kusto query generation for both resource types
@@ -348,12 +357,14 @@ yarn cdktf:destroy
 ### Common Issues
 
 1. **CDKTF Provider Issues**
+
    ```bash
    # Reinstall CDKTF providers
    yarn cdktf:get
    ```
 
 2. **TypeScript Compilation Errors**
+
    ```bash
    # Clean and rebuild
    yarn clean

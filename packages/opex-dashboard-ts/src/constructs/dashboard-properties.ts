@@ -1,19 +1,23 @@
-import { DashboardConfig } from '../utils/config-validation';
-import { Endpoint } from '../utils/endpoint-parser';
+import { DashboardConfig } from "../utils/config-validation";
+import { Endpoint } from "../utils/endpoint-parser";
 import {
   buildAvailabilityQuery,
   buildResponseCodesQuery,
-  buildResponseTimeQuery
-} from '../core/kusto-queries';
+  buildResponseTimeQuery,
+} from "../core/kusto-queries";
 
-export function buildDashboardPropertiesTemplate(config: DashboardConfig): string {
-  const parts = config.endpoints?.map((endpoint, index) => {
-    const baseIndex = index * 3;
-    return `
+export function buildDashboardPropertiesTemplate(
+  config: DashboardConfig,
+): string {
+  const parts = config.endpoints
+    ?.map((endpoint, index) => {
+      const baseIndex = index * 3;
+      return `
 "${baseIndex}": ${buildAvailabilityPart(endpoint, config, baseIndex)},
 "${baseIndex + 1}": ${buildResponseCodesPart(endpoint, config, baseIndex + 1)},
 "${baseIndex + 2}": ${buildResponseTimePart(endpoint, config, baseIndex + 2)}`;
-  }).join(',');
+    })
+    .join(",");
 
   return `{
   "properties": {
@@ -78,7 +82,11 @@ export function buildDashboardPropertiesTemplate(config: DashboardConfig): strin
 }`;
 }
 
-function buildAvailabilityPart(endpoint: Endpoint, config: DashboardConfig, partId: number): string {
+function buildAvailabilityPart(
+  endpoint: Endpoint,
+  config: DashboardConfig,
+  partId: number,
+): string {
   const query = buildAvailabilityQuery(endpoint, config);
   const resourceIds = JSON.stringify(config.resourceIds || []);
 
@@ -203,7 +211,11 @@ function buildAvailabilityPart(endpoint: Endpoint, config: DashboardConfig, part
   }`;
 }
 
-function buildResponseCodesPart(endpoint: Endpoint, config: DashboardConfig, partId: number): string {
+function buildResponseCodesPart(
+  endpoint: Endpoint,
+  config: DashboardConfig,
+  partId: number,
+): string {
   const query = buildResponseCodesQuery(endpoint, config);
   const resourceIds = JSON.stringify(config.resourceIds || []);
 
@@ -285,7 +297,7 @@ function buildResponseCodesPart(endpoint: Endpoint, config: DashboardConfig, par
           "name": "Dimensions",
           "value": {
             "xAxis": {
-              "name": "${config.resource_type === 'api-management' ? 'responseCode_d' : 'httpStatus_d'}",
+              "name": "${config.resource_type === "api-management" ? "responseCode_d" : "httpStatus_d"}",
               "type": "string"
             },
             "yAxis": [
@@ -332,7 +344,7 @@ function buildResponseCodesPart(endpoint: Endpoint, config: DashboardConfig, par
             ],
             "splitBy": [
               {
-                "name": "${config.resource_type === 'api-management' ? 'HTTPStatus' : 'HTTPStatus'}",
+                "name": "${config.resource_type === "api-management" ? "HTTPStatus" : "HTTPStatus"}",
                 "type": "string"
               }
             ],
@@ -344,7 +356,11 @@ function buildResponseCodesPart(endpoint: Endpoint, config: DashboardConfig, par
   }`;
 }
 
-function buildResponseTimePart(endpoint: Endpoint, config: DashboardConfig, partId: number): string {
+function buildResponseTimePart(
+  endpoint: Endpoint,
+  config: DashboardConfig,
+  partId: number,
+): string {
   const query = buildResponseTimeQuery(endpoint, config);
   const resourceIds = JSON.stringify(config.resourceIds || []);
 

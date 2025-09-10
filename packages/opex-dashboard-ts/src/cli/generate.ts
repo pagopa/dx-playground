@@ -1,10 +1,10 @@
-import { Command } from 'commander';
-import * as fs from 'fs';
-import * as yaml from 'js-yaml';
-import { OA3Resolver } from '../core/resolver';
-import { parseEndpoints } from '../utils/endpoint-parser';
-import { validateConfig, DashboardConfig } from '../utils/config-validation';
-import { AzureDashboardCdkBuilder } from '../builders/azure-dashboard-cdk';
+import { Command } from "commander";
+import * as fs from "fs";
+import * as yaml from "js-yaml";
+import { OA3Resolver } from "../core/resolver";
+import { parseEndpoints } from "../utils/endpoint-parser";
+import { validateConfig, DashboardConfig } from "../utils/config-validation";
+import { AzureDashboardCdkBuilder } from "../builders/azure-dashboard-cdk";
 
 /**
  * Generates the dashboard definition programmatically.
@@ -31,29 +31,30 @@ export async function generateDashboard(config: DashboardConfig) {
 
     return result;
   } catch (error: any) {
-    throw new Error(`Error generating dashboard: ${error?.message || 'Unknown error'}`);
+    throw new Error(
+      `Error generating dashboard: ${error?.message || "Unknown error"}`,
+    );
   }
 }
 
 export const generateCommand = new Command()
-  .name('generate')
-  .description('Generate dashboard definition')
-  .requiredOption('-c, --config-file <file>', 'YAML config file')
+  .name("generate")
+  .description("Generate dashboard definition")
+  .requiredOption("-c, --config-file <file>", "YAML config file")
   .action(async (options: any) => {
     try {
       // Load and parse configuration
-      const configFile = fs.readFileSync(options.configFile, 'utf8');
+      const configFile = fs.readFileSync(options.configFile, "utf8");
       const rawConfig = yaml.load(configFile) as any;
 
       // Use the programmatic function
       const result = await generateDashboard(rawConfig);
 
       // Output result
-      console.log('Terraform CDKTF code generated successfully');
+      console.log("Terraform CDKTF code generated successfully");
       console.log('Run "cdktf synth" to generate Terraform files');
-
     } catch (error: any) {
-      console.error('Error:', error?.message || 'Unknown error');
+      console.error("Error:", error?.message || "Unknown error");
       process.exit(1);
     }
   });
