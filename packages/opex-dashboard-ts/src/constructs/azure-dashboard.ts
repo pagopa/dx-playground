@@ -21,7 +21,7 @@ export class AzureOpexStack extends TerraformStack {
       dashboardProperties: buildDashboardPropertiesTemplate(config),
       location: config.location,
       name: config.name.replace(/\s+/g, "_"),
-      resourceGroupName: "dashboards", // FIXME: hardcoded resource group name
+      resourceGroupName: config.resourceGroupName!,
     });
 
     // Create alerts within the same stack

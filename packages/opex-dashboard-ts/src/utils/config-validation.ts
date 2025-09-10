@@ -7,6 +7,7 @@ export const DEFAULT_CONFIG: Partial<DashboardConfig> = {
   evaluation_time_window: 20,
   event_occurrences: 1,
   resource_type: "app-gateway",
+  resourceGroupName: "dashboards",
   timespan: "5m",
 };
 
@@ -30,6 +31,7 @@ export const DashboardConfigSchema = z.object({
     })
     .optional(),
   resource_type: z.enum(["app-gateway", "api-management"]).optional(),
+  resourceGroupName: z.string().optional(),
   resourceIds: z.array(z.string()).optional(),
   timespan: z.string().optional(),
 });

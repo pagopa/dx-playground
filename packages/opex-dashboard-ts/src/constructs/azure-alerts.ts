@@ -58,7 +58,7 @@ export class AzureAlertsConstruct {
         location: config.location,
         name: alertName,
         query: buildAvailabilityQuery(endpoint, config),
-        resourceGroupName: "dashboards",
+        resourceGroupName: config.resourceGroupName!,
         severity: 1,
         timeWindow: endpoint.availabilityEvaluationTimeWindow || 20,
         trigger: {
@@ -96,7 +96,7 @@ export class AzureAlertsConstruct {
         location: config.location,
         name: alertName,
         query: buildResponseTimeQuery(endpoint, config),
-        resourceGroupName: "dashboards",
+        resourceGroupName: config.resourceGroupName!,
         severity: 1,
         timeWindow: endpoint.responseTimeEvaluationTimeWindow || 20,
         trigger: {
