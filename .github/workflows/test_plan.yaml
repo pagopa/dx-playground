@@ -80,35 +80,20 @@ jobs:
         run: |
           terraform init -input=false
 
-      - name: Terraform Plan Python
-        id: plan
-        uses: pagopa/dx/.github/actions/filter-terraform-plan@feat-terraform-plan-action #pagopa/dx-playground/.github/actions/filter-terraform-plan@feat-action-terraform-plan
-        with:
-          base-path: ${{ steps.directory.outputs.dir }}
+      # - name: Terraform Plan Python
+      #   id: plan
+      #   uses: pagopa/dx/.github/actions/filter-terraform-plan@feat-terraform-plan-action #pagopa/dx-playground/.github/actions/filter-terraform-plan@feat-action-terraform-plan
+      #   with:
+      #     base-path: ${{ steps.directory.outputs.dir }}
 
-      - name: Output Plan Python
-        if: ${{ always() }}
-        run: |
-          echo "Terraform Plan Output:"
-          echo "----------------------"
-          echo "${{ steps.plan.outputs.filtered_plan }}"
-          echo "----------------------"
-          echo "Exit Code: ${{ steps.plan.outputs.exit_code }}"
-
-      - name: Terraform Plan Bash
-        id: plan-sh
-        uses: pagopa/dx/.github/actions/filter-terraform-plan-sh@feat-terraform-plan-action
-        with:
-          base-path: ${{ steps.directory.outputs.dir }}
-
-      - name: Output Plan Bash
-        if: ${{ always() }}
-        run: |
-          echo "Terraform Plan Output:"
-          echo "----------------------"
-          echo "${{ steps.plan-sh.outputs.filtered_plan }}"
-          echo "----------------------"
-          echo "Exit Code: ${{ steps.plan-sh.outputs.exit_code }}"
+      # - name: Output Plan Python
+      #   if: ${{ always() }}
+      #   run: |
+      #     echo "Terraform Plan Output:"
+      #     echo "----------------------"
+      #     echo "${{ steps.plan.outputs.filtered_plan }}"
+      #     echo "----------------------"
+      #     echo "Exit Code: ${{ steps.plan.outputs.exit_code }}"
 
       - name: Terraform Plan javascript
         id: plan-js
@@ -124,6 +109,21 @@ jobs:
           echo "${{ steps.plan-js.outputs.filtered_plan }}"
           echo "----------------------"
           echo "Exit Code: ${{ steps.plan-js.outputs.exit_code }}"
+
+      - name: Terraform Plan Bash
+        id: plan-sh
+        uses: pagopa/dx/.github/actions/filter-terraform-plan-sh@feat-terraform-plan-action
+        with:
+          base-path: ${{ steps.directory.outputs.dir }}
+
+      - name: Output Plan Bash
+        if: ${{ always() }}
+        run: |
+          echo "Terraform Plan Output:"
+          echo "----------------------"
+          echo "${{ steps.plan-sh.outputs.filtered_plan }}"
+          echo "----------------------"
+          echo "Exit Code: ${{ steps.plan-sh.outputs.exit_code }}"
 
       # - name: Terraform Plan Classic
       #   id: plan-classic
