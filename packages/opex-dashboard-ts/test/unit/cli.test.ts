@@ -12,16 +12,6 @@ describe('CLI Commands', () => {
       expect(generateCommand.description()).toContain('Generate dashboard definition');
     });
 
-    it('should have required template-name option', () => {
-      const options = generateCommand.options;
-      const templateOption = options.find(opt => opt.flags.includes('--template-name'));
-
-      expect(templateOption).toBeDefined();
-      expect(templateOption?.flags).toContain('-t');
-      expect(templateOption?.flags).toContain('--template-name');
-      expect(templateOption?.required).toBe(true);
-    });
-
     it('should have required config-file option', () => {
       const options = generateCommand.options;
       const configOption = options.find(opt => opt.flags.includes('--config-file'));
@@ -30,6 +20,13 @@ describe('CLI Commands', () => {
       expect(configOption?.flags).toContain('-c');
       expect(configOption?.flags).toContain('--config-file');
       expect(configOption?.required).toBe(true);
+    });
+
+    it('should not have template-name option', () => {
+      const options = generateCommand.options;
+      const templateOption = options.find(opt => opt.flags.includes('--template-name'));
+
+      expect(templateOption).toBeUndefined();
     });
 
     it('should have an action configured', () => {
@@ -85,7 +82,7 @@ describe('CLI Commands', () => {
 
   describe('command validation', () => {
     it('should accept valid template names', () => {
-      const validTemplates = ['azure-dashboard', 'azure-dashboard-raw'];
+      const validTemplates = ['azure-dashboard'];
 
       validTemplates.forEach(template => {
         expect(() => {

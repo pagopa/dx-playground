@@ -13,8 +13,7 @@ This is a TypeScript port of the Python [opex-dashboard](https://github.com/pago
 
 ## Features
 
-- **🔍 Azure Dashboard Generation**: Creates Azure Portal dashboards with monitoring charts
-- **🚨 Scheduled Alerts**: Generates Azure Monitor alerts for availability and response time
+- ** Scheduled Alerts**: Generates Azure Monitor alerts for availability and response time
 - **📋 OpenAPI Support**: Parses OpenAPI 3.x specifications
 - **🏗️ CDKTF Integration**: Uses CDK for Terraform for infrastructure as code
 - **🔒 Type Safety**: Full TypeScript support with comprehensive type checking
@@ -49,17 +48,9 @@ action_groups:
   - /subscriptions/xxx/resourceGroups/xxx/providers/Microsoft.Insights/actionGroups/xxx
 ```
 
-2. **Generate dashboard JSON**:
+2. **Generate CDKTF code**:
 ```bash
 yarn ts-node src/cli/index.ts generate \
-  --template-name azure-dashboard-raw \
-  --config-file config.yaml
-```
-
-3. **Generate CDKTF code**:
-```bash
-yarn ts-node src/cli/index.ts generate \
-  --template-name azure-dashboard \
   --config-file config.yaml
 ```
 
@@ -82,7 +73,6 @@ yarn ts-node src/cli/index.ts generate \
    - `AzureAlertsConstruct`: Creates Azure Monitor scheduled query rules
 
 4. **Builders**
-   - `AzureDashboardRawBuilder`: Generates JSON dashboard definitions
    - `AzureDashboardCdkBuilder`: Generates CDKTF code for Terraform
 
 ### Key Differences from Python Version
@@ -155,15 +145,16 @@ class OA3Resolver {
 
 Parses OpenAPI specifications and returns typed objects.
 
-#### `BuilderFactory`
+#### `AzureDashboardCdkBuilder`
 
 ```typescript
-class BuilderFactory {
-  static createBuilder(type: TemplateType, config: DashboardConfig): Builder
+class AzureDashboardCdkBuilder {
+  constructor(config: DashboardConfig)
+  build(): string
 }
 ```
 
-Factory for creating dashboard builders.
+Creates CDKTF code for Azure dashboards and alerts.
 
 ### Utility Functions
 
@@ -196,25 +187,9 @@ Generates Kusto query for response time monitoring.
 ### Example 1: Basic Dashboard Generation
 
 ```bash
-# Generate JSON dashboard
-yarn ts-node src/cli/index.ts generate \
-  --template-name azure-dashboard-raw \
-  --config-file examples/basic-config.yaml
-```
-
-### Example 2: CDKTF Code Generation
-
-```bash
 # Generate Terraform CDK code
 yarn ts-node src/cli/index.ts generate \
-  --template-name azure-dashboard \
-  --config-file examples/advanced-config.yaml
-
-# Synthesize Terraform files
-yarn cdktf:synth
-
-# Deploy to Azure
-yarn cdktf:deploy
+  --config-file examples/basic-config.yaml
 ```
 
 ### Example 3: Programmatic Usage
@@ -222,7 +197,7 @@ yarn cdktf:deploy
 ```typescript
 import { OA3Resolver } from './src/core/resolver';
 import { parseEndpoints } from './src/utils/endpoint-parser';
-import { BuilderFactory } from './src/builders/factory';
+import { AzureDashboardCdkBuilder } from './src/builders/azure-dashboard-cdk';
 
 async function generateDashboard() {
   // Load OpenAPI spec
@@ -242,10 +217,10 @@ async function generateDashboard() {
   config.endpoints = parseEndpoints(spec, config);
 
   // Generate dashboard
-  const builder = BuilderFactory.createBuilder('azure-dashboard-raw', config);
-  const dashboardJson = builder.build();
+  const builder = new AzureDashboardCdkBuilder(config);
+  const result = builder.build();
 
-  console.log(dashboardJson);
+  console.log(result);
 }
 ```
 
@@ -332,9 +307,7 @@ packages/opex-dashboard-ts/
 │   │   ├── azure-alerts.ts       # Alerts construct
 │   │   └── dashboard-properties.ts # Dashboard templates
 │   ├── builders/              # Builder pattern
-│   │   ├── azure-dashboard-raw.ts  # JSON builder
-│   │   ├── azure-dashboard-cdk.ts  # CDKTF builder
-│   │   └── factory.ts              # Builder factory
+│   │   └── azure-dashboard-cdk.ts  # CDKTF builder
 │   ├── types/                 # TypeScript definitions
 │   │   ├── openapi.ts         # OpenAPI types
 │   │   └── config.ts          # Configuration types

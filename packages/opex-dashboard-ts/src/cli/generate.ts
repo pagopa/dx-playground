@@ -4,12 +4,11 @@ import * as yaml from 'js-yaml';
 import { OA3Resolver } from '../core/resolver';
 import { parseEndpoints } from '../utils/endpoint-parser';
 import { validateConfig } from '../utils/config-validation';
-import { BuilderFactory, TemplateType } from '../builders/factory';
+import { AzureDashboardCdkBuilder } from '../builders/azure-dashboard-cdk';
 
 export const generateCommand = new Command()
   .name('generate')
   .description('Generate dashboard definition')
-  .requiredOption('-t, --template-name <name>', 'Template name: azure-dashboard or azure-dashboard-raw')
   .requiredOption('-c, --config-file <file>', 'YAML config file')
   .action(async (options: any) => {
     try {
@@ -28,16 +27,12 @@ export const generateCommand = new Command()
       config.resourceIds = [config.data_source];
 
       // Create and run builder
-      const builder = BuilderFactory.createBuilder(options.templateName as TemplateType, config);
+      const builder = new AzureDashboardCdkBuilder(config);
       const result = builder.build();
 
       // Output result
-      if (options.templateName === 'azure-dashboard-raw') {
-        console.log(result);
-      } else {
-        console.log('Terraform CDKTF code generated successfully');
-        console.log('Run "cdktf synth" to generate Terraform files');
-      }
+      console.log('Terraform CDKTF code generated successfully');
+      console.log('Run "cdktf synth" to generate Terraform files');
 
     } catch (error: any) {
       console.error('Error:', error?.message || 'Unknown error');
