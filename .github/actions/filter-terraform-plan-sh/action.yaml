@@ -29,14 +29,16 @@ runs:
         fi
 
         # --- Dynamically build the sed filter expressions ---
-        SED_EXPRESSIONS=""
+        # Using an array is safer for constructing commands with arguments than using a simple string
+        declare -a SED_ARGS
         # Convert comma-separated string to newlines to loop safely
-        for key in $(echo "$SENSITIVE_KEYS" | tr ',' '\n'); do
+        for key in $(echo "${{ inputs.sensitive-keys }}" | tr ',' '\n'); do
           # Trim whitespace just in case
           trimmed_key=$(echo "$key" | xargs)
           if [[ -n "$trimmed_key" ]]; then
-            # For each key, add a new sed expression to the list
-            SED_EXPRESSIONS+=" -e 's/(\"?${trimmed_key}\"?\s*[:=]\s*)\".*?\"/\1\"[SENSITIVE VALUE]\"/I'"
+            # For each key, add '-e' and the expression as separate elements to the array
+            SED_ARGS+=("-e")
+            SED_ARGS+=("s/(\"?${trimmed_key}\"?\s*[:=]\s*)\".*?\"/\1\"[SENSITIVE]\"/I")
           fi
         done
 
