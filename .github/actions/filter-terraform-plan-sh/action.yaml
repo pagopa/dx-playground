@@ -42,8 +42,10 @@ runs:
         cd "$WORKING_DIRECTORY"
 
         # Run terraform plan, capture its exit code
-        terraform plan -no-color -input=false 2>&1 | sed -E ${SED_EXPRESSIONS[@]} | tee "$PLAN_FILE"
+        set +e
+        terraform plan -no-color -input=false 2>&1 | sed -E "${SED_EXPRESSIONS[@]}" | tee "$PLAN_FILE"
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
+        set -e
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
 
