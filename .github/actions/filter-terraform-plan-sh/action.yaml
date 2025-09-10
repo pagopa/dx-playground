@@ -30,7 +30,6 @@ runs:
 
         # --- Dynamically build the sed filter expressions ---
         SED_EXPRESSIONS=(sed -E)
-
         for key in $(echo "$SENSITIVE_KEYS" | tr ',' '\n'); do
           trimmed_key=$(echo "$key" | xargs)
           if [[ -n "$trimmed_key" ]]; then
