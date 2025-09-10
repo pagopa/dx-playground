@@ -22,7 +22,6 @@ runs:
       id: plan
       shell: bash
       run: |
-        set +e
         # Fail fast if no keys are provided
         if [[ -z "$SENSITIVE_KEYS" ]]; then
           echo "Error: The 'sensitive-keys' input is required."
@@ -31,6 +30,7 @@ runs:
 
         # --- Dynamically build the sed filter expressions ---
         SED_EXPRESSIONS=(sed -E)
+
         for key in $(echo "$SENSITIVE_KEYS" | tr ',' '\n'); do
           trimmed_key=$(echo "$key" | xargs)
           if [[ -n "$trimmed_key" ]]; then
@@ -42,8 +42,10 @@ runs:
         cd "$WORKING_DIRECTORY"
 
         # Run terraform plan, capture its exit code
+        set +e
         FILTERED_PLAN=$(terraform plan -no-color -input=false 2>&1 | "${SED_EXPRESSIONS[@]}")
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
+        set -e
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
 
