@@ -9,7 +9,6 @@ import { AzureOpexStack } from "../terraform/azure-dashboard.js";
 import { TerraformStackGeneratorAdapter } from "../terraform/terraform-stack-generator-adapter.js";
 
 /**
- * Legacy function for backward compatibility.
  * Generates Azure dashboard and alerts from configuration object.
  */
 export async function addAzureDashboard({
@@ -20,6 +19,9 @@ export async function addAzureDashboard({
   config: DashboardConfig;
 }): Promise<{ opexStack: AzureOpexStack }> {
   try {
+    // See https://github.com/hashicorp/terraform-cdk/pull/3876
+    process.env.SYNTH_HCL_OUTPUT = "true";
+
     // Create adapters
     const configValidator = new ConfigValidatorAdapter();
     const openAPISpecResolver = new OpenAPISpecResolverAdapter();

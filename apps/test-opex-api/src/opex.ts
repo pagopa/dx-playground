@@ -2,15 +2,6 @@
 import { addAzureDashboard, DashboardConfig } from "@pagopa/opex-dashboard-ts";
 import { App, AzurermBackend, AzurermBackendConfig } from "cdktf";
 
-const backendConfig: AzurermBackendConfig = {
-  containerName: "tfstate",
-  key: "dx.test-opex-api1.tfstate",
-  resourceGroupName: "my-rg",
-  storageAccountName: "mystorageaccount",
-};
-
-// Example configuration
-
 const opexConfig: DashboardConfig = {
   action_groups: [
     "/subscriptions/uuid/resourceGroups/my-rg/providers/microsoft.insights/actionGroups/my-action-group-email",
@@ -26,20 +17,42 @@ const opexConfig: DashboardConfig = {
   timespan: "5m",
 } as const;
 
+const backendConfig: AzurermBackendConfig = {
+  containerName: "tfstate",
+  key: "dx.test-opex-api1.tfstate",
+  resourceGroupName: "my-rg",
+  storageAccountName: "mystorageaccount",
+};
+
 const app = new App({ hclOutput: true, outdir: "." });
 
-addAzureDashboard({ app, config: opexConfig })
-  .then(({ opexStack }) => {
-    new AzurermBackend(opexStack, {
+(async function () {
+  try {
+    const { opexStack: s1 } = await addAzureDashboard({
+      app,
+      config: opexConfig,
+    });
+
+    new AzurermBackend(s1, {
       ...backendConfig,
       key: "dx.test-opex-api1.tfstate",
     });
 
-    // Synthesize the Terraform code
+    // Add more stacks if needed
+    // const { opexStack: s2 } = await addAzureDashboard({
+    //   app,
+    //   config: opexConfig,
+    // });
+    // new AzurermBackend(s2, {
+    //   ...backendConfig,
+    //   key: "dx.test-opex-api2.tfstate",
+    // });
+
     app.synth();
+
     console.log("Terraform CDKTF code generated successfully");
-  })
-  .catch((error: unknown) => {
-    console.error("Error generating dashboard:", error);
+  } catch (error) {
+    console.error("Error generating Terraform CDKTF code:", error);
     process.exit(1);
-  });
+  }
+})();
