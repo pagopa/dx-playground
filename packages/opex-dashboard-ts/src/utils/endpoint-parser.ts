@@ -1,29 +1,30 @@
 import { z } from "zod";
-import { OpenAPISpec, isOpenAPIV2, isOpenAPIV3 } from "./openapi";
-import { DashboardConfig } from "./config-validation";
+
+import { DashboardConfig } from "./config-validation.js";
+import { isOpenAPIV2, isOpenAPIV3, OpenAPISpec } from "./openapi.js";
 
 export const DEFAULT_ENDPOINT: Partial<Endpoint> = {
-  availabilityThreshold: 0.99,
   availabilityEvaluationFrequency: 10,
   availabilityEvaluationTimeWindow: 20,
   availabilityEventOccurrences: 1,
-  responseTimeThreshold: 1,
+  availabilityThreshold: 0.99,
   responseTimeEvaluationFrequency: 10,
   responseTimeEvaluationTimeWindow: 20,
   responseTimeEventOccurrences: 1,
+  responseTimeThreshold: 1,
 };
 
 // Zod schema for Endpoint
 export const EndpointSchema = z.object({
-  path: z.string(),
-  availabilityThreshold: z.number().optional(),
   availabilityEvaluationFrequency: z.number().optional(),
   availabilityEvaluationTimeWindow: z.number().optional(),
   availabilityEventOccurrences: z.number().optional(),
-  responseTimeThreshold: z.number().optional(),
+  availabilityThreshold: z.number().optional(),
+  path: z.string(),
   responseTimeEvaluationFrequency: z.number().optional(),
   responseTimeEvaluationTimeWindow: z.number().optional(),
   responseTimeEventOccurrences: z.number().optional(),
+  responseTimeThreshold: z.number().optional(),
 });
 
 // Inferred types from Zod schemas
@@ -60,6 +61,21 @@ export function parseEndpoints(
   return endpoints;
 }
 
+function buildEndpointPath(
+  host: string,
+  path: string,
+  spec: OpenAPISpec,
+): string {
+  if (host.startsWith("http")) {
+    const url = new URL(host);
+    return `${url.pathname}${path}`.replace(/\/+/g, "/");
+  } else {
+    // For OpenAPI 2.x, use basePath if available
+    const basePath = isOpenAPIV2(spec) ? spec.basePath || "" : "";
+    return `${basePath}${path}`.replace(/\/+/g, "/");
+  }
+}
+
 function extractHosts(spec: OpenAPISpec): string[] {
   if (isOpenAPIV3(spec)) {
     // OpenAPI 3.x uses servers array
@@ -77,24 +93,9 @@ function extractHosts(spec: OpenAPISpec): string[] {
   return [];
 }
 
-function buildEndpointPath(
-  host: string,
-  path: string,
-  spec: OpenAPISpec,
-): string {
-  if (host.startsWith("http")) {
-    const url = new URL(host);
-    return `${url.pathname}${path}`.replace(/\/+/g, "/");
-  } else {
-    // For OpenAPI 2.x, use basePath if available
-    const basePath = isOpenAPIV2(spec) ? spec.basePath || "" : "";
-    return `${basePath}${path}`.replace(/\/+/g, "/");
-  }
-}
-
 function getEndpointOverrides(
   endpointPath: string,
-  overrides?: any,
+  overrides?: DashboardConfig["overrides"],
 ): Partial<Endpoint> {
   if (!overrides?.endpoints) {
     return {};

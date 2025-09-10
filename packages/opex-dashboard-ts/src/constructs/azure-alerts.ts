@@ -1,11 +1,12 @@
-import { Construct } from "constructs";
 import { monitorScheduledQueryRulesAlert } from "@cdktf/provider-azurerm";
-import { DashboardConfig } from "../utils/config-validation";
-import { Endpoint } from "../utils/endpoint-parser";
+import { Construct } from "constructs";
+
 import {
   buildAvailabilityQuery,
   buildResponseTimeQuery,
-} from "../core/kusto-queries";
+} from "../core/kusto-queries.js";
+import { DashboardConfig } from "../utils/config-validation.js";
+import { Endpoint } from "../utils/endpoint-parser.js";
 
 export class AzureAlertsConstruct {
   constructor(scope: Construct, config: DashboardConfig) {
@@ -15,6 +16,19 @@ export class AzureAlertsConstruct {
       this.createAvailabilityAlert(scope, config, endpoint, index);
       this.createResponseTimeAlert(scope, config, endpoint, index);
     });
+  }
+
+  private buildAlertName(
+    dashboardName: string,
+    alertType: string,
+    endpointPath: string,
+  ): string {
+    // Replace special chars and create valid resource name
+    const cleanPath = endpointPath.replace(/[{}]/g, "");
+    return `${dashboardName.replace(/\s+/g, "_")}-${alertType}-@${cleanPath}`.substring(
+      0,
+      80,
+    );
   }
 
   private createAvailabilityAlert(
@@ -33,19 +47,19 @@ export class AzureAlertsConstruct {
       scope,
       `availability-alert-${index}`,
       {
-        name: alertName,
-        resourceGroupName: "dashboards",
-        location: config.location,
         action: {
           actionGroup: config.action_groups || [],
         },
+        autoMitigationEnabled: false,
         dataSourceId: config.data_source,
         description: `Availability for ${endpoint.path} is less than or equal to 99%`,
         enabled: true,
-        autoMitigationEnabled: false,
-        query: buildAvailabilityQuery(endpoint, config),
-        severity: 1,
         frequency: endpoint.availabilityEvaluationFrequency || 10,
+        location: config.location,
+        name: alertName,
+        query: buildAvailabilityQuery(endpoint, config),
+        resourceGroupName: "dashboards",
+        severity: 1,
         timeWindow: endpoint.availabilityEvaluationTimeWindow || 20,
         trigger: {
           operator: "GreaterThanOrEqual",
@@ -71,38 +85,25 @@ export class AzureAlertsConstruct {
       scope,
       `response-time-alert-${index}`,
       {
-        name: alertName,
-        resourceGroupName: "dashboards",
-        location: config.location,
         action: {
           actionGroup: config.action_groups || [],
         },
+        autoMitigationEnabled: false,
         dataSourceId: config.data_source,
         description: `Response time for ${endpoint.path} is less than or equal to 1s`,
         enabled: true,
-        autoMitigationEnabled: false,
-        query: buildResponseTimeQuery(endpoint, config),
-        severity: 1,
         frequency: endpoint.responseTimeEvaluationFrequency || 10,
+        location: config.location,
+        name: alertName,
+        query: buildResponseTimeQuery(endpoint, config),
+        resourceGroupName: "dashboards",
+        severity: 1,
         timeWindow: endpoint.responseTimeEvaluationTimeWindow || 20,
         trigger: {
           operator: "GreaterThanOrEqual",
           threshold: endpoint.responseTimeEventOccurrences || 1,
         },
       },
-    );
-  }
-
-  private buildAlertName(
-    dashboardName: string,
-    alertType: string,
-    endpointPath: string,
-  ): string {
-    // Replace special chars and create valid resource name
-    const cleanPath = endpointPath.replace(/[{}]/g, "");
-    return `${dashboardName.replace(/\s+/g, "_")}-${alertType}-@${cleanPath}`.substring(
-      0,
-      80,
     );
   }
 }

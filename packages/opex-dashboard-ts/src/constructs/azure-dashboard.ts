@@ -1,8 +1,9 @@
-import { Construct } from "constructs";
+import { portalDashboard, provider } from "@cdktf/provider-azurerm";
 import { TerraformStack } from "cdktf";
-import { provider, portalDashboard } from "@cdktf/provider-azurerm";
-import { DashboardConfig } from "../utils/config-validation";
-import { buildDashboardPropertiesTemplate } from "./dashboard-properties";
+import { Construct } from "constructs";
+
+import { DashboardConfig } from "../utils/config-validation.js";
+import { buildDashboardPropertiesTemplate } from "./dashboard-properties.js";
 
 export class AzureDashboardConstruct extends TerraformStack {
   constructor(scope: Construct, id: string, config: DashboardConfig) {
@@ -15,10 +16,10 @@ export class AzureDashboardConstruct extends TerraformStack {
 
     // Create the dashboard using CDKTF PortalDashboard
     new portalDashboard.PortalDashboard(this, "dashboard", {
+      dashboardProperties: buildDashboardPropertiesTemplate(config),
+      location: config.location,
       name: config.name.replace(/\s+/g, "_"),
       resourceGroupName: "dashboards", // FIXME: hardcoded resource group name
-      location: config.location,
-      dashboardProperties: buildDashboardPropertiesTemplate(config),
     });
   }
 }

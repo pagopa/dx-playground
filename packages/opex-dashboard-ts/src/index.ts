@@ -1,2 +1,2 @@
-export { generateDashboard } from "./cli/generate";
-export type { DashboardConfig } from "./utils/config-validation";
+export { generateDashboard } from "./cli/generate.js";
+export type { DashboardConfig } from "./utils/config-validation.js";

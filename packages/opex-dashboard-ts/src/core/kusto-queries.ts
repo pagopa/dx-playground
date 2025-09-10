@@ -1,5 +1,5 @@
-import { Endpoint } from "../utils/endpoint-parser";
-import { DashboardConfig } from "../utils/config-validation";
+import { DashboardConfig } from "../utils/config-validation.js";
+import { Endpoint } from "../utils/endpoint-parser.js";
 
 export function buildAvailabilityQuery(
   endpoint: Endpoint,

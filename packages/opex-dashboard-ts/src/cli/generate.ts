@@ -1,10 +1,12 @@
+/* eslint-disable no-console */
 import { Command } from "commander";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
-import { OA3Resolver } from "../core/resolver";
-import { parseEndpoints } from "../utils/endpoint-parser";
-import { validateConfig, DashboardConfig } from "../utils/config-validation";
-import { AzureDashboardCdkBuilder } from "../builders/azure-dashboard-cdk";
+
+import { AzureDashboardCdkBuilder } from "../builders/azure-dashboard-cdk.js";
+import { OA3Resolver } from "../core/resolver.js";
+import { DashboardConfig, validateConfig } from "../utils/config-validation.js";
+import { parseEndpoints } from "../utils/endpoint-parser.js";
 
 /**
  * Generates the dashboard definition programmatically.
@@ -30,9 +32,10 @@ export async function generateDashboard(config: DashboardConfig) {
     const result = builder.build();
 
     return result;
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw new Error(
-      `Error generating dashboard: ${error?.message || "Unknown error"}`,
+      `Error generating dashboard: ${error instanceof Error ? error.message : "Unknown error"}`,
+      { cause: error },
     );
   }
 }
@@ -41,20 +44,26 @@ export const generateCommand = new Command()
   .name("generate")
   .description("Generate dashboard definition")
   .requiredOption("-c, --config-file <file>", "YAML config file")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   .action(async (options: any) => {
     try {
       // Load and parse configuration
       const configFile = fs.readFileSync(options.configFile, "utf8");
-      const rawConfig = yaml.load(configFile) as any;
+      const rawConfig = yaml.load(configFile);
 
       // Use the programmatic function
-      const result = await generateDashboard(rawConfig);
+      // Cast here is safe since validateConfig will check the structure
+      await generateDashboard(rawConfig as DashboardConfig);
 
       // Output result
       console.log("Terraform CDKTF code generated successfully");
       console.log('Run "cdktf synth" to generate Terraform files');
-    } catch (error: any) {
-      console.error("Error:", error?.message || "Unknown error");
+    } catch (error: unknown) {
+      console.error(
+        "Error:",
+        error instanceof Error ? error.message : "Unknown error",
+        { cause: error },
+      );
       process.exit(1);
     }
   });

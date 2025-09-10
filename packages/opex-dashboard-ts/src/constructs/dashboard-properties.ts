@@ -1,10 +1,10 @@
-import { DashboardConfig } from "../utils/config-validation";
-import { Endpoint } from "../utils/endpoint-parser";
 import {
   buildAvailabilityQuery,
   buildResponseCodesQuery,
   buildResponseTimeQuery,
-} from "../core/kusto-queries";
+} from "../core/kusto-queries.js";
+import { DashboardConfig } from "../utils/config-validation.js";
+import { Endpoint } from "../utils/endpoint-parser.js";
 
 export function buildDashboardPropertiesTemplate(
   config: DashboardConfig,
