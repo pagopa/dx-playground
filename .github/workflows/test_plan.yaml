@@ -80,13 +80,13 @@ jobs:
         run: |
           terraform init -input=false
 
-      - name: Terraform Plan
+      - name: Terraform Plan Python
         id: plan
         uses: pagopa/dx/.github/actions/filter-terraform-plan@feat-terraform-plan-action #pagopa/dx-playground/.github/actions/filter-terraform-plan@feat-action-terraform-plan
         with:
           base-path: ${{ steps.directory.outputs.dir }}
 
-      - name: Output Plan
+      - name: Output Plan Python
         if: ${{ always() }}
         run: |
           echo "Terraform Plan Output:"
@@ -95,17 +95,47 @@ jobs:
           echo "----------------------"
           echo "Exit Code: ${{ steps.plan.outputs.exit_code }}"
 
-      - name: Terraform Plan Classic
-        id: plan-classic
-        working-directory: ${{ steps.directory.outputs.dir }}
+      - name: Terraform Plan Bash
+        id: plan-sh
+        uses: pagopa/dx/.github/actions/filter-terraform-plan-sh@feat-terraform-plan-action
+        with:
+          base-path: ${{ steps.directory.outputs.dir }}
+
+      - name: Output Plan Bash
+        if: ${{ always() }}
         run: |
-          terraform plan \
-            -lock-timeout=120s \
-            -input=false \
-            -no-color \
-            $TF_PLAN_REFRESH_FLAG \
-            -out=plan.out 2>&1
+          echo "Terraform Plan Output:"
+          echo "----------------------"
+          echo "${{ steps.plan-sh.outputs.filtered_plan }}"
+          echo "----------------------"
+          echo "Exit Code: ${{ steps.plan-sh.outputs.exit_code }}"
 
-          terraform show -no-color plan.out > full_plan.txt
+      - name: Terraform Plan javascript
+        id: plan-js
+        uses: pagopa/dx/.github/actions/filter-terraform-plan-js@feat-terraform-plan-action
+        with:
+          base-path: ${{ steps.directory.outputs.dir }}
 
-          cat full_plan.txt
+      - name: Output Plan javascript
+        if: ${{ always() }}
+        run: |
+          echo "Terraform Plan Output:"
+          echo "----------------------"
+          echo "${{ steps.plan-js.outputs.filtered_plan }}"
+          echo "----------------------"
+          echo "Exit Code: ${{ steps.plan-js.outputs.exit_code }}"
+
+      # - name: Terraform Plan Classic
+      #   id: plan-classic
+      #   working-directory: ${{ steps.directory.outputs.dir }}
+      #   run: |
+      #     terraform plan \
+      #       -lock-timeout=120s \
+      #       -input=false \
+      #       -no-color \
+      #       $TF_PLAN_REFRESH_FLAG \
+      #       -out=plan.out 2>&1
+
+      #     terraform show -no-color plan.out > full_plan.txt
+
+      #     cat full_plan.txt
