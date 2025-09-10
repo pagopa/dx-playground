@@ -1,5 +1,6 @@
 import { buildAvailabilityQuery, buildResponseTimeQuery } from '../../src/core/kusto-queries';
-import { Endpoint, DashboardConfig } from '../../src/types/openapi';
+import { Endpoint } from '../../src/utils/endpoint-parser';
+import { DashboardConfig } from '../../src/utils/config-validation';
 
 describe('Kusto Query Generation', () => {
   const mockEndpoint: Endpoint = {

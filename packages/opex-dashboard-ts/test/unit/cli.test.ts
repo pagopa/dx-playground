@@ -1,5 +1,5 @@
 import { generateCommand } from '../../src/cli/generate';
-import { validateConfig } from '../../src/types/config';
+import { validateConfig } from '../../src/utils/config-validation';
 
 describe('CLI Commands', () => {
   describe('generateCommand', () => {

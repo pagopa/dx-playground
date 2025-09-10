@@ -1,5 +1,40 @@
-import { OpenAPISpec, Endpoint, DashboardConfig } from '../types/openapi';
-import { mergeEndpointWithDefaults } from '../types/config';
+import { z } from 'zod';
+import { OpenAPISpec } from '../types/openapi';
+import { DashboardConfig } from './config-validation';
+
+export const DEFAULT_ENDPOINT: Partial<Endpoint> = {
+  availabilityThreshold: 0.99,
+  availabilityEvaluationFrequency: 10,
+  availabilityEvaluationTimeWindow: 20,
+  availabilityEventOccurrences: 1,
+  responseTimeThreshold: 1,
+  responseTimeEvaluationFrequency: 10,
+  responseTimeEvaluationTimeWindow: 20,
+  responseTimeEventOccurrences: 1,
+};
+
+// Zod schema for Endpoint
+export const EndpointSchema = z.object({
+  path: z.string(),
+  availabilityThreshold: z.number().optional(),
+  availabilityEvaluationFrequency: z.number().optional(),
+  availabilityEvaluationTimeWindow: z.number().optional(),
+  availabilityEventOccurrences: z.number().optional(),
+  responseTimeThreshold: z.number().optional(),
+  responseTimeEvaluationFrequency: z.number().optional(),
+  responseTimeEvaluationTimeWindow: z.number().optional(),
+  responseTimeEventOccurrences: z.number().optional(),
+});
+
+// Inferred types from Zod schemas
+export type Endpoint = z.infer<typeof EndpointSchema>;
+
+export function mergeEndpointWithDefaults(endpoint: Partial<Endpoint>): Endpoint {
+  return {
+    ...DEFAULT_ENDPOINT,
+    ...endpoint,
+  } as Endpoint;
+}
 
 export function parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[] {
   const endpoints: Endpoint[] = [];

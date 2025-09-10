@@ -1,4 +1,4 @@
-import { DashboardConfig } from '../types/openapi';
+import { DashboardConfig } from '../utils/config-validation';
 import { buildDashboardPropertiesTemplate } from '../constructs/dashboard-properties';
 
 export class AzureDashboardRawBuilder {

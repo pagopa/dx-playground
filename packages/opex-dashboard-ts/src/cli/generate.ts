@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import { OA3Resolver } from '../core/resolver';
 import { parseEndpoints } from '../utils/endpoint-parser';
-import { validateConfig } from '../types/config';
+import { validateConfig } from '../utils/config-validation';
 import { BuilderFactory, TemplateType } from '../builders/factory';
 
 export const generateCommand = new Command()

@@ -1,5 +1,6 @@
 import { parseEndpoints } from '../../src/utils/endpoint-parser';
-import { OpenAPISpec, DashboardConfig } from '../../src/types/openapi';
+import { OpenAPISpec } from '../../src/types/openapi';
+import { DashboardConfig } from '../../src/utils/config-validation';
 
 describe('parseEndpoints', () => {
   const mockConfig: DashboardConfig = {

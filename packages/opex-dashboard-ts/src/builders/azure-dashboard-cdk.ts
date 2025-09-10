@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 import { App } from 'cdktf';
-import { DashboardConfig } from '../types/openapi';
+import { DashboardConfig } from '../utils/config-validation';
 import { AzureDashboardConstruct } from '../constructs/azure-dashboard';
 import { AzureAlertsConstruct } from '../constructs/azure-alerts';
 

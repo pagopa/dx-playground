@@ -1,4 +1,5 @@
-import { DashboardConfig, Endpoint } from '../types/openapi';
+import { DashboardConfig } from '../utils/config-validation';
+import { Endpoint } from '../utils/endpoint-parser';
 import {
   buildAvailabilityQuery,
   buildResponseCodesQuery,

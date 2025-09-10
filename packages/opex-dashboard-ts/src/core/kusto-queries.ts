@@ -1,4 +1,5 @@
-import { Endpoint, DashboardConfig } from '../types/openapi';
+import { Endpoint } from '../utils/endpoint-parser';
+import { DashboardConfig } from '../utils/config-validation';
 
 export function buildAvailabilityQuery(endpoint: Endpoint, config: DashboardConfig): string {
   const threshold = endpoint.availabilityThreshold || 0.99;

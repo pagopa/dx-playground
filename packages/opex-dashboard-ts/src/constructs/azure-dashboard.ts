@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { TerraformStack } from 'cdktf';
 import { provider, portalDashboard } from '@cdktf/provider-azurerm';
-import { DashboardConfig } from '../types/openapi';
+import { DashboardConfig } from '../utils/config-validation';
 import { buildDashboardPropertiesTemplate } from './dashboard-properties';
 
 export class AzureDashboardConstruct extends TerraformStack {

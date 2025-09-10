@@ -1,4 +1,4 @@
-import { DashboardConfig } from '../types/openapi';
+import { DashboardConfig } from '../utils/config-validation';
 import { AzureDashboardRawBuilder } from './azure-dashboard-raw';
 import { AzureDashboardCdkBuilder } from './azure-dashboard-cdk';
 

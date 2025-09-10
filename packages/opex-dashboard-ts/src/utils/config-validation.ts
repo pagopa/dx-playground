@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import { DashboardConfig, Endpoint } from './openapi';
+import { Endpoint } from './endpoint-parser';
+import { EndpointSchema } from './endpoint-parser';
 
 export const DEFAULT_CONFIG: Partial<DashboardConfig> = {
   resource_type: 'app-gateway',
@@ -9,38 +10,8 @@ export const DEFAULT_CONFIG: Partial<DashboardConfig> = {
   event_occurrences: 1,
 };
 
-export const DEFAULT_ENDPOINT: Partial<Endpoint> = {
-  availabilityThreshold: 0.99,
-  availabilityEvaluationFrequency: 10,
-  availabilityEvaluationTimeWindow: 20,
-  availabilityEventOccurrences: 1,
-  responseTimeThreshold: 1,
-  responseTimeEvaluationFrequency: 10,
-  responseTimeEvaluationTimeWindow: 20,
-  responseTimeEventOccurrences: 1,
-};
-
-// Zod schema for Endpoint
-const EndpointSchema = z.object({
-  path: z.string(),
-  availabilityThreshold: z.number().optional(),
-  availabilityEvaluationFrequency: z.number().optional(),
-  availabilityEvaluationTimeWindow: z.number().optional(),
-  availabilityEventOccurrences: z.number().optional(),
-  responseTimeThreshold: z.number().optional(),
-  responseTimeEvaluationFrequency: z.number().optional(),
-  responseTimeEvaluationTimeWindow: z.number().optional(),
-  responseTimeEventOccurrences: z.number().optional(),
-});
-
-// Zod schema for Overrides
-const OverridesSchema = z.object({
-  hosts: z.array(z.string()).optional(),
-  endpoints: z.record(z.string(), EndpointSchema.partial()).optional(),
-}).optional();
-
 // Zod schema for DashboardConfig
-const DashboardConfigSchema = z.object({
+export const DashboardConfigSchema = z.object({
   oa3_spec: z.string(),
   name: z.string(),
   location: z.string(),
@@ -51,12 +22,18 @@ const DashboardConfigSchema = z.object({
   event_occurrences: z.number().optional(),
   data_source: z.string(),
   action_groups: z.array(z.string()).optional(),
-  overrides: OverridesSchema,
+  overrides: z.object({
+    hosts: z.array(z.string()).optional(),
+    endpoints: z.record(z.string(), EndpointSchema.partial()).optional(),
+  }).optional(),
   // Computed properties (optional in input)
   hosts: z.array(z.string()).optional(),
   endpoints: z.array(EndpointSchema).optional(),
   resourceIds: z.array(z.string()).optional(),
 });
+
+// Inferred types from Zod schemas
+export type DashboardConfig = z.infer<typeof DashboardConfigSchema>;
 
 export function validateConfig(rawConfig: any): DashboardConfig {
   // Parse and validate with zod using safeParse
@@ -82,11 +59,4 @@ export function mergeConfigWithDefaults(config: any): DashboardConfig {
     ...DEFAULT_CONFIG,
     ...config,
   } as DashboardConfig;
-}
-
-export function mergeEndpointWithDefaults(endpoint: Partial<Endpoint>): Endpoint {
-  return {
-    ...DEFAULT_ENDPOINT,
-    ...endpoint,
-  } as Endpoint;
 }

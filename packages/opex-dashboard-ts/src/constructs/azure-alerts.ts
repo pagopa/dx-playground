@@ -1,6 +1,7 @@
 import { Construct } from 'constructs';
 import { monitorScheduledQueryRulesAlert } from '@cdktf/provider-azurerm';
-import { DashboardConfig, Endpoint } from '../types/openapi';
+import { DashboardConfig } from '../utils/config-validation';
+import { Endpoint } from '../utils/endpoint-parser';
 import { buildAvailabilityQuery, buildResponseTimeQuery } from '../core/kusto-queries';
 
 export class AzureAlertsConstruct {
