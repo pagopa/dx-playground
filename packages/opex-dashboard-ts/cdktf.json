@@ -1,0 +1,13 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node src/cli/index.ts",
+  "terraformProviders": [
+    "azurerm@~> 3.0"
+  ],
+  "codeMakerOutput": "dist",
+  "terraformModules": [],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}
