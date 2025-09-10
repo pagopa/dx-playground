@@ -18,6 +18,9 @@ outputs:
   summary_line:
     description: "A summary line indicating the number of resources to be added, changed, or destroyed."
     value: ${{ steps.plan.outputs.summary_line }}
+  filtered_plan_path:
+    description: "The path to the file containing the filtered output of the `terraform plan` command."
+    value: ${{ steps.plan.outputs.filtered_plan_path }}
 
 runs:
   using: "composite"
@@ -81,6 +84,9 @@ runs:
           echo "No plan output available." > ${PLAN_FILE}.tmp
         fi
 
+        mv ${PLAN_FILE}.tmp $PLAN_FILE
+        echo "filtered_plan_path=$WORKING_DIRECTORY/$PLAN_FILE" >> $GITHUB_OUTPUT
+
         # The summary with number of resources to be added, changed, or destroyed (will be used in case the plan output is too long)
         SUMMARY_LINE=$(grep -E "^Plan: [0-9]+ to (add|change|destroy|import)" $PLAN_FILE || echo "No changes.")
         echo "summary_line=$SUMMARY_LINE" >> $GITHUB_OUTPUT
@@ -98,10 +104,10 @@ runs:
         SENSITIVE_KEYS: ${{ inputs.sensitive-keys }}
         PLAN_FILE: filtered_plan.txt
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-      with:
-        name: filtered-terraform-plan
-        path: ${{ inputs.base-path }}/filtered_plan.txt
-        if-no-files-found: error
-        retention-days: 7
+    # - name: Upload Artifact
+    #   uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+    #   with:
+    #     name: filtered-terraform-plan
+    #     path: ${{ inputs.base-path }}/filtered_plan.txt
+    #     if-no-files-found: error
+    #     retention-days: 7

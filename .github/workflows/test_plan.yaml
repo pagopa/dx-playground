@@ -122,10 +122,11 @@ jobs:
         run: |
           echo "Terraform Plan Output:"
           echo "----------------------"
-          ls -la
-          cd ${{ steps.directory.outputs.dir }}
-          ls -la
           echo "${{ steps.plan-sh.outputs.summary_line }}"
+          echo "${{ steps.plan-sh.outputs.filtered_plan_path }}"
+          echo "----------------------"
+          echo "----------------------"
+          cat ${{ steps.plan-sh.outputs.filtered_plan_path }}
 
       # - name: Terraform Plan Classic
       #   id: plan-classic
