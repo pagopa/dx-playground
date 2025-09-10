@@ -115,7 +115,7 @@ jobs:
         uses: pagopa/dx-playground/.github/actions/filter-terraform-plan-sh@feat-action-terraform-plan
         with:
           base-path: ${{ steps.directory.outputs.dir }}
-          sensitive-keys: hidden-link,APPINSIGHTS_INSTRUMENTATIONKEY
+          sensitive-keys: hidden-link,APPINSIGHTS_INSTRUMENTATIONKEY,APPINSIGHTS_SAMPLING_PERCENTAGE
 
       - name: Output Plan Bash
         if: ${{ always() }}
