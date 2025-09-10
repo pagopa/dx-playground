@@ -15,8 +15,8 @@ export class AzureDashboardConstruct extends TerraformStack {
 
     // Create the dashboard using CDKTF PortalDashboard
     new portalDashboard.PortalDashboard(this, 'dashboard', {
-      name: config.name.replace(/\s+/g, '_'), // Same as Python version
-      resourceGroupName: 'dashboards', // Hardcoded as in Python version
+      name: config.name.replace(/\s+/g, '_'),
+      resourceGroupName: 'dashboards', // FIXME: hardcoded resource group name
       location: config.location,
       dashboardProperties: buildDashboardPropertiesTemplate(config)
     });

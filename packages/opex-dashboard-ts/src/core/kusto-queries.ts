@@ -15,7 +15,6 @@ AzureDiagnostics
 | where availability < threshold
 `.trim();
   } else {
-    // app-gateway version - exact same as Python
     const hosts = JSON.stringify(config.hosts || []);
     return `
 let threshold = ${threshold};

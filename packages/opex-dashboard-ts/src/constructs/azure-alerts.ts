@@ -19,7 +19,7 @@ export class AzureAlertsConstruct {
 
     new monitorScheduledQueryRulesAlert.MonitorScheduledQueryRulesAlert(scope, `availability-alert-${index}`, {
       name: alertName,
-      resourceGroupName: 'dashboards', // Same as Python version
+      resourceGroupName: 'dashboards',
       location: config.location,
       action: {
         actionGroup: config.action_groups || []
@@ -29,7 +29,7 @@ export class AzureAlertsConstruct {
       enabled: true,
       autoMitigationEnabled: false,
       query: buildAvailabilityQuery(endpoint, config),
-      severity: 1, // Same as Python version
+      severity: 1,
       frequency: endpoint.availabilityEvaluationFrequency || 10,
       timeWindow: endpoint.availabilityEvaluationTimeWindow || 20,
       trigger: {
@@ -44,7 +44,7 @@ export class AzureAlertsConstruct {
 
     new monitorScheduledQueryRulesAlert.MonitorScheduledQueryRulesAlert(scope, `response-time-alert-${index}`, {
       name: alertName,
-      resourceGroupName: 'dashboards', // Same as Python version
+      resourceGroupName: 'dashboards',
       location: config.location,
       action: {
         actionGroup: config.action_groups || []
@@ -54,7 +54,7 @@ export class AzureAlertsConstruct {
       enabled: true,
       autoMitigationEnabled: false,
       query: buildResponseTimeQuery(endpoint, config),
-      severity: 1, // Same as Python version
+      severity: 1,
       frequency: endpoint.responseTimeEvaluationFrequency || 10,
       timeWindow: endpoint.responseTimeEvaluationTimeWindow || 20,
       trigger: {
@@ -65,7 +65,7 @@ export class AzureAlertsConstruct {
   }
 
   private buildAlertName(dashboardName: string, alertType: string, endpointPath: string): string {
-    // Same logic as Python version: replace special chars and create valid resource name
+    // Replace special chars and create valid resource name
     const cleanPath = endpointPath.replace(/[{}]/g, '');
     return `${dashboardName.replace(/\s+/g, '_')}-${alertType}-@${cleanPath}`.substring(0, 80);
   }
