@@ -59,13 +59,21 @@ const DashboardConfigSchema = z.object({
 });
 
 export function validateConfig(rawConfig: any): DashboardConfig {
-  // Parse and validate with zod
-  const parsedConfig = DashboardConfigSchema.parse(rawConfig);
+  // Parse and validate with zod using safeParse
+  const result = DashboardConfigSchema.safeParse(rawConfig);
+
+  if (!result.success) {
+    // Format validation errors
+    const errorMessage = result.error.issues
+      .map((err: any) => `• ${err.path.join('.')}: ${err.message}`)
+      .join('\n');
+    throw new Error(`Configuration validation failed:\n${errorMessage}`);
+  }
 
   // Apply defaults
   return {
     ...DEFAULT_CONFIG,
-    ...parsedConfig,
+    ...result.data,
   };
 }
 

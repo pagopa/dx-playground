@@ -64,7 +64,9 @@ describe('CLI Commands', () => {
         // missing oa3_spec and data_source
       };
 
-      expect(() => validateConfig(invalidConfig)).toThrow();
+      expect(() => validateConfig(invalidConfig)).toThrow('Configuration validation failed:');
+      expect(() => validateConfig(invalidConfig)).toThrow('oa3_spec: Invalid input: expected string, received undefined');
+      expect(() => validateConfig(invalidConfig)).toThrow('data_source: Invalid input: expected string, received undefined');
     });
 
     it('should apply defaults for optional fields', () => {
