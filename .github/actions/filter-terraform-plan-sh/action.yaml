@@ -22,6 +22,7 @@ runs:
       id: plan
       shell: bash
       run: |
+        set +e
         # Fail fast if no keys are provided
         if [[ -z "$SENSITIVE_KEYS" ]]; then
           echo "Error: The 'sensitive-keys' input is required."
