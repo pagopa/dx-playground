@@ -2,11 +2,11 @@ import { portalDashboard, provider } from "@cdktf/provider-azurerm";
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
 
-import { AzureAlertsConstruct } from "./azure-alerts.js";
 import { DashboardConfig } from "../utils/config-validation.js";
+import { AzureAlertsConstruct } from "./azure-alerts.js";
 import { buildDashboardPropertiesTemplate } from "./dashboard-properties.js";
 
-export class AzureOpexConstruct extends TerraformStack {
+export class AzureOpexStack extends TerraformStack {
   constructor(scope: Construct, id: string, config: DashboardConfig) {
     super(scope, id);
 

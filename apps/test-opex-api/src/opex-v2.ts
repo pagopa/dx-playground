@@ -20,7 +20,6 @@ export const opexConfig: DashboardConfig = {
 
 generateDashboard(opexConfig)
   .then(({ app, opexStack }) => {
-    // TODO questo deve esser applicato allo stack
     new AzurermBackend(opexStack, {
       ...backendConfig,
       key: "dx.test-opex-api1.tfstate",

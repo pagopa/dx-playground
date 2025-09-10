@@ -4,7 +4,7 @@ import { Command } from "commander";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 
-import { AzureOpexStack } from "../builders/azure-opex-cdk.js";
+import { AzureOpexStack } from "../constructs/azure-dashboard.js";
 import { OA3Resolver } from "../core/resolver.js";
 import { DashboardConfig, validateConfig } from "../utils/config-validation.js";
 import { parseEndpoints } from "../utils/endpoint-parser.js";
