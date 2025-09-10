@@ -4,53 +4,8 @@ import { Command } from "commander";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 
-import { AzureOpexStack } from "../constructs/azure-dashboard.js";
-import { OA3Resolver } from "../core/resolver.js";
-import { DashboardConfig, validateConfig } from "../utils/config-validation.js";
-import { parseEndpoints } from "../utils/endpoint-parser.js";
-
-/**
- * Generates the dashboard definition programmatically.
- * @param config - The configuration object (already parsed, not from YAML).
- * @returns The result of the dashboard build.
- */
-export async function generateDashboard(
-  config: DashboardConfig,
-): Promise<{ app: App; opexStack: AzureOpexStack }> {
-  try {
-    // See https://github.com/hashicorp/terraform-cdk/pull/3876
-    process.env.SYNTH_HCL_OUTPUT = "true";
-
-    const app = new App({ hclOutput: true });
-
-    // Validate configuration
-    const validatedConfig = validateConfig(config);
-
-    // Resolve OpenAPI spec
-    const resolver = new OA3Resolver();
-    const spec = await resolver.resolve(validatedConfig.oa3_spec);
-
-    // Parse endpoints
-    validatedConfig.endpoints = parseEndpoints(spec, validatedConfig);
-    validatedConfig.hosts = validatedConfig.overrides?.hosts || [];
-    validatedConfig.resourceIds = [validatedConfig.data_source];
-
-    // Create and run builder
-    // Create the main stack with dashboard and alerts
-    const opexStack = new AzureOpexStack(
-      app,
-      "opex-dashboard",
-      validatedConfig,
-    );
-
-    return { app, opexStack };
-  } catch (error: unknown) {
-    throw new Error(
-      `Error generating dashboard: ${error instanceof Error ? error.message : "Unknown error"}`,
-      { cause: error },
-    );
-  }
-}
+import { DashboardConfig } from "../utils/config-validation.js";
+import { addAzureDashboard } from "../core/add-azure-dashboard.js";
 
 export const generateCommand = new Command()
   .name("generate")
@@ -59,13 +14,15 @@ export const generateCommand = new Command()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   .action(async (options: any) => {
     try {
+      const app = new App({ hclOutput: true, outdir: "opex" });
+
       // Load and parse configuration
       const configFile = fs.readFileSync(options.configFile, "utf8");
       const rawConfig = yaml.load(configFile);
 
       // Use the programmatic function
       // Cast here is safe since validateConfig will check the structure
-      const { app } = await generateDashboard(rawConfig as DashboardConfig);
+      await addAzureDashboard({ config: rawConfig as DashboardConfig, app });
 
       // Generate the Terraform code using local backend
       app.synth();

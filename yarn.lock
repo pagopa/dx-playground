@@ -561,16 +561,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cdktf/provider-azurerm@npm:^14.2.0":
-  version: 14.2.0
-  resolution: "@cdktf/provider-azurerm@npm:14.2.0"
-  peerDependencies:
-    cdktf: ^0.21.0
-    constructs: ^10.4.2
-  checksum: 10c0/17ec170de0c2b4e3b23110361cdcb32a6ad2602290c75e5eed94a004e6961acad892c1a70ef6f82876e41b5db4d1964c67a8e11e51a084bc366c0b5d83cfd753
-  languageName: node
-  linkType: hard
-
 "@changesets/apply-release-plan@npm:^7.0.12":
   version: 7.0.12
   resolution: "@changesets/apply-release-plan@npm:7.0.12"
@@ -3101,7 +3091,7 @@ __metadata:
     "@types/node": "npm:^20.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
     "@typescript-eslint/parser": "npm:^6.0.0"
-    cdktf: "npm:^0.20.0"
+    cdktf: "npm:^0.21.0"
     commander: "npm:^12.0.0"
     constructs: "npm:^10.3.0"
     eslint: "npm:^8.0.0"
@@ -3765,7 +3755,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/js-yaml@npm:^4.0.5, @types/js-yaml@npm:^4.0.9":
+"@types/js-yaml@npm:^4.0.5":
   version: 4.0.9
   resolution: "@types/js-yaml@npm:4.0.9"
   checksum: 10c0/24de857aa8d61526bbfbbaa383aa538283ad17363fcd5bb5148e2c7f604547db36646440e739d78241ed008702a8920665d1add5618687b6743858fae00da211
@@ -5596,36 +5586,6 @@ __metadata:
   version: 1.0.30001718
   resolution: "caniuse-lite@npm:1.0.30001718"
   checksum: 10c0/67f9ad09bc16443e28d14f265d6e468480cd8dc1900d0d8b982222de80c699c4f2306599c3da8a3fa7139f110d4b30d49dbac78f215470f479abb6ffe141d5d3
-  languageName: node
-  linkType: hard
-
-"cdktf-monitoring-stack@workspace:*, cdktf-monitoring-stack@workspace:packages/cdktf-monitoring-stack":
-  version: 0.0.0-use.local
-  resolution: "cdktf-monitoring-stack@workspace:packages/cdktf-monitoring-stack"
-  dependencies:
-    "@cdktf/provider-azurerm": "npm:^14.2.0"
-    "@pagopa/eslint-config": "npm:^5.0.0"
-    "@pagopa/typescript-config-node": "workspace:^"
-    "@types/js-yaml": "npm:^4.0.9"
-    cdktf: "npm:^0.21.0"
-    constructs: "npm:^10.4.2"
-    eslint: "npm:^9.30.1"
-    js-yaml: "npm:^4.1.0"
-    prettier: "npm:^3.6.2"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"cdktf@npm:^0.20.0":
-  version: 0.20.12
-  resolution: "cdktf@npm:0.20.12"
-  dependencies:
-    archiver: "npm:7.0.1"
-    json-stable-stringify: "npm:1.2.1"
-    semver: "npm:7.7.1"
-  peerDependencies:
-    constructs: ^10.3.0
-  checksum: 10c0/157540b4c80b07531e9fc43b9d8e6f0b65dc391552d8223458513c22bdc290c4c1e7d7de83a36eabf4f92350637357821111d85dbada4601cbe38bfc2d10c0df
   languageName: node
   linkType: hard
 
@@ -8852,19 +8812,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json-stable-stringify@npm:1.2.1":
-  version: 1.2.1
-  resolution: "json-stable-stringify@npm:1.2.1"
-  dependencies:
-    call-bind: "npm:^1.0.8"
-    call-bound: "npm:^1.0.3"
-    isarray: "npm:^2.0.5"
-    jsonify: "npm:^0.0.1"
-    object-keys: "npm:^1.1.1"
-  checksum: 10c0/e623e7ce89282f089d56454087edb717357e8572089b552fbc6980fb7814dc3943f7d0e4f1a19429a36ce9f4428b6c8ee6883357974457aaaa98daba5adebeea
-  languageName: node
-  linkType: hard
-
 "json-stable-stringify@npm:1.3.0":
   version: 1.3.0
   resolution: "json-stable-stringify@npm:1.3.0"
@@ -9915,20 +9862,6 @@ __metadata:
   checksum: 10c0/4ad4eb91ea834c237edfa6ab31394e87e00c888fc2918009763389c00d02342345195d6f302d61c3fd807f17723cd48df29b47b538b68375b3827b3758cd520f
   languageName: node
   linkType: hard
-
-"opex-common@workspace:*, opex-common@workspace:packages/opex-common":
-  version: 0.0.0-use.local
-  resolution: "opex-common@workspace:packages/opex-common"
-  dependencies:
-    "@pagopa/eslint-config": "npm:^5.0.0"
-    "@pagopa/typescript-config-node": "workspace:^"
-    cdktf: "npm:^0.21.0"
-    cdktf-monitoring-stack: "workspace:*"
-    eslint: "npm:^9.30.1"
-    prettier: "npm:^3.6.2"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
 
 "optionator@npm:^0.9.3":
   version: 0.9.4
@@ -11256,15 +11189,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.7.1":
-  version: 7.7.1
-  resolution: "semver@npm:7.7.1"
-  bin:
-    semver: bin/semver.js
-  checksum: 10c0/fd603a6fb9c399c6054015433051bdbe7b99a940a8fb44b85c2b524c4004b023d7928d47cb22154f8d054ea7ee8597f586605e05b52047f048278e4ac56ae958
-  languageName: node
-  linkType: hard
-
 "semver@npm:7.7.2, semver@npm:^7.3.5, semver@npm:^7.3.6, semver@npm:^7.3.7, semver@npm:^7.5.2, semver@npm:^7.5.3, semver@npm:^7.5.4, semver@npm:^7.6.0, semver@npm:^7.7.1":
   version: 7.7.2
   resolution: "semver@npm:7.7.2"
@@ -12092,10 +12016,8 @@ __metadata:
     "@pagopa/typescript-config-node": "workspace:^"
     "@types/node": "npm:^22.15.14"
     cdktf: "npm:^0.21.0"
-    cdktf-monitoring-stack: "workspace:*"
     constructs: "npm:^10.4.2"
     eslint: "npm:9.30.1"
-    opex-common: "workspace:*"
     prettier: "npm:^3.6.2"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -12241,13 +12163,11 @@ __metadata:
     "@vitest/coverage-v8": "npm:^3.1.4"
     azure-functions-core-tools: "npm:^4.0.7317"
     cdktf: "npm:^0.21.0"
-    cdktf-monitoring-stack: "workspace:*"
     constructs: "npm:^10.4.2"
     esbuild: "npm:^0.25.4"
     eslint: "npm:9.30.1"
     fp-ts: "npm:^2.16.10"
     io-ts: "npm:^2.2.22"
-    opex-common: "workspace:*"
     prettier: "npm:^3.6.2"
     shx: "npm:^0.4.0"
     swagger-cli: "npm:^4.0.4"
