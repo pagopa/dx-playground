@@ -32,7 +32,7 @@ describe('OA3Resolver', () => {
     });
 
     it('should have resolve method that returns a Promise', () => {
-      const result = resolver.resolve('/test/path.yaml');
+      const result = resolver.resolve('./test_openapi.yaml');
       expect(result).toBeInstanceOf(Promise);
     });
   });
