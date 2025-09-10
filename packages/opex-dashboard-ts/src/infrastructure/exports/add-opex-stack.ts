@@ -11,7 +11,7 @@ import { TerraformStackGeneratorAdapter } from "../terraform/terraform-stack-gen
 /**
  * Generates Azure dashboard and alerts from configuration object.
  */
-export async function addAzureDashboard({
+export async function addOpexStack({
   app,
   config,
 }: {
