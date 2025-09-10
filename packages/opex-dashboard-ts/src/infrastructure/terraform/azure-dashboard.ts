@@ -2,7 +2,7 @@ import { portalDashboard, provider } from "@cdktf/provider-azurerm";
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
 
-import { DashboardConfig } from "../utils/config-validation.js";
+import { DashboardConfig } from "../../domain/index.js";
 import { AzureAlertsConstruct } from "./azure-alerts.js";
 import { buildDashboardPropertiesTemplate } from "./dashboard-properties.js";
 

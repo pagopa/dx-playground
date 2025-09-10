@@ -1,9 +1,10 @@
-import { parseEndpoints } from "../../src/utils/endpoint-parser";
-import { OpenAPISpec } from "../../src/utils/openapi";
-import { DashboardConfig } from "../../src/utils/config-validation";
+import { EndpointParserService } from "../../src/domain/services/endpoint-parser-service.js";
+import { OpenAPISpec } from "../../src/shared/openapi.js";
+import { DashboardConfig } from "../../src/domain/entities/dashboard-config.js";
 import { describe, it, expect } from "vitest";
 
 describe("parseEndpoints", () => {
+  const endpointParser = new EndpointParserService();
   const mockConfig: DashboardConfig = {
     oa3_spec: "/path/to/spec.yaml",
     name: "Test Dashboard",
@@ -25,7 +26,7 @@ describe("parseEndpoints", () => {
     } as OpenAPISpec;
 
     it("should parse endpoints with server URL", () => {
-      const endpoints = parseEndpoints(mockSpec, mockConfig);
+      const endpoints = endpointParser.parseEndpoints(mockSpec, mockConfig);
 
       expect(endpoints.length).toBe(3);
       expect(endpoints.map((e) => e.path)).toEqual([
@@ -36,7 +37,7 @@ describe("parseEndpoints", () => {
     });
 
     it("should apply default configuration to endpoints", () => {
-      const endpoints = parseEndpoints(mockSpec, mockConfig);
+      const endpoints = endpointParser.parseEndpoints(mockSpec, mockConfig);
 
       endpoints.forEach((endpoint) => {
         expect(endpoint).toHaveProperty("path");
@@ -58,7 +59,7 @@ describe("parseEndpoints", () => {
     } as OpenAPISpec;
 
     it("should use host and basePath", () => {
-      const endpoints = parseEndpoints(mockSpec, mockConfig);
+      const endpoints = endpointParser.parseEndpoints(mockSpec, mockConfig);
 
       expect(endpoints.length).toBe(1);
       expect(endpoints[0].path).toBe("/v1/users");
@@ -74,7 +75,7 @@ describe("parseEndpoints", () => {
     } as OpenAPISpec;
 
     it("should return empty array", () => {
-      const endpoints = parseEndpoints(mockSpec, mockConfig);
+      const endpoints = endpointParser.parseEndpoints(mockSpec, mockConfig);
       expect(endpoints).toEqual([]);
     });
   });

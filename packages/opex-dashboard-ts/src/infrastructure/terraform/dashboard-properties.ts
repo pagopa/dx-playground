@@ -1,21 +1,17 @@
-import {
-  buildAvailabilityQuery,
-  buildResponseCodesQuery,
-  buildResponseTimeQuery,
-} from "../core/kusto-queries.js";
-import { DashboardConfig } from "../utils/config-validation.js";
-import { Endpoint } from "../utils/endpoint-parser.js";
+import { DashboardConfig, Endpoint } from "../../domain/index.js";
+import { KustoQueryService } from "../../domain/services/kusto-query-service.js";
 
 export function buildDashboardPropertiesTemplate(
   config: DashboardConfig,
 ): string {
+  const kustoQueryService = new KustoQueryService();
   const parts = config.endpoints
     ?.map((endpoint, index) => {
       const baseIndex = index * 3;
       return `
-"${baseIndex}": ${buildAvailabilityPart(endpoint, config, baseIndex)},
-"${baseIndex + 1}": ${buildResponseCodesPart(endpoint, config, baseIndex + 1)},
-"${baseIndex + 2}": ${buildResponseTimePart(endpoint, config, baseIndex + 2)}`;
+"${baseIndex}": ${buildAvailabilityPart(endpoint, config, baseIndex, kustoQueryService)},
+"${baseIndex + 1}": ${buildResponseCodesPart(endpoint, config, baseIndex + 1, kustoQueryService)},
+"${baseIndex + 2}": ${buildResponseTimePart(endpoint, config, baseIndex + 2, kustoQueryService)}`;
     })
     .join(",");
 
@@ -86,8 +82,9 @@ function buildAvailabilityPart(
   endpoint: Endpoint,
   config: DashboardConfig,
   partId: number,
+  kustoQueryService: KustoQueryService,
 ): string {
-  const query = buildAvailabilityQuery(endpoint, config);
+  const query = kustoQueryService.buildAvailabilityQuery(endpoint, config);
   const resourceIds = JSON.stringify(config.resourceIds || []);
 
   return `{
@@ -215,8 +212,9 @@ function buildResponseCodesPart(
   endpoint: Endpoint,
   config: DashboardConfig,
   partId: number,
+  kustoQueryService: KustoQueryService,
 ): string {
-  const query = buildResponseCodesQuery(endpoint, config);
+  const query = kustoQueryService.buildResponseCodesQuery(endpoint, config);
   const resourceIds = JSON.stringify(config.resourceIds || []);
 
   return `{
@@ -360,8 +358,9 @@ function buildResponseTimePart(
   endpoint: Endpoint,
   config: DashboardConfig,
   partId: number,
+  kustoQueryService: KustoQueryService,
 ): string {
-  const query = buildResponseTimeQuery(endpoint, config);
+  const query = kustoQueryService.buildResponseTimeQuery(endpoint, config);
   const resourceIds = JSON.stringify(config.resourceIds || []);
 
   return `{

@@ -1,5 +1,5 @@
-import { generateCommand } from "../../src/cli/generate";
-import { validateConfig } from "../../src/utils/config-validation";
+import { generateCommand } from "../../src/infrastructure/cli/generate.js";
+import { ConfigValidatorAdapter } from "../../src/infrastructure/config/config-validator-adapter.js";
 import { describe, it, expect } from "vitest";
 
 describe("CLI Commands", () => {
@@ -44,6 +44,8 @@ describe("CLI Commands", () => {
   });
 
   describe("config validation", () => {
+    const configValidator = new ConfigValidatorAdapter();
+
     it("should validate a valid config", () => {
       const validConfig = {
         oa3_spec: "https://example.com/spec.yaml",
@@ -58,8 +60,8 @@ describe("CLI Commands", () => {
         ],
       };
 
-      expect(() => validateConfig(validConfig)).not.toThrow();
-      const result = validateConfig(validConfig);
+      expect(() => configValidator.validateConfig(validConfig)).not.toThrow();
+      const result = configValidator.validateConfig(validConfig);
       expect(result.oa3_spec).toBe("https://example.com/spec.yaml");
       expect(result.name).toBe("Test Dashboard");
     });
@@ -71,13 +73,13 @@ describe("CLI Commands", () => {
         // missing oa3_spec and data_source
       };
 
-      expect(() => validateConfig(invalidConfig)).toThrow(
+      expect(() => configValidator.validateConfig(invalidConfig)).toThrow(
         "Configuration validation failed:",
       );
-      expect(() => validateConfig(invalidConfig)).toThrow(
+      expect(() => configValidator.validateConfig(invalidConfig)).toThrow(
         "oa3_spec: Invalid input: expected string, received undefined",
       );
-      expect(() => validateConfig(invalidConfig)).toThrow(
+      expect(() => configValidator.validateConfig(invalidConfig)).toThrow(
         "data_source: Invalid input: expected string, received undefined",
       );
     });
@@ -91,7 +93,7 @@ describe("CLI Commands", () => {
           "/subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw",
       };
 
-      const result = validateConfig(configWithDefaults);
+      const result = configValidator.validateConfig(configWithDefaults);
       expect(result.resource_type).toBe("app-gateway"); // default value
       expect(result.timespan).toBe("5m"); // default value
       expect(result.resourceGroupName).toBe("dashboards"); // default value

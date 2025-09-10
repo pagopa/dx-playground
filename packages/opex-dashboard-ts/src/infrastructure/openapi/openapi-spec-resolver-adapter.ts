@@ -1,8 +1,8 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
 
-import { OpenAPISpec } from "../utils/openapi.js";
+import { IOpenAPISpecResolver, OpenAPISpec } from "../../domain/index.js";
 
-export class OA3Resolver {
+export class OpenAPISpecResolverAdapter implements IOpenAPISpecResolver {
   async resolve(specPath: string): Promise<OpenAPISpec> {
     try {
       const spec = await SwaggerParser.parse(specPath);

@@ -1,14 +1,12 @@
 import { monitorScheduledQueryRulesAlert } from "@cdktf/provider-azurerm";
 import { Construct } from "constructs";
 
-import {
-  buildAvailabilityQuery,
-  buildResponseTimeQuery,
-} from "../core/kusto-queries.js";
-import { DashboardConfig } from "../utils/config-validation.js";
-import { Endpoint } from "../utils/endpoint-parser.js";
+import { DashboardConfig, Endpoint } from "../../domain/index.js";
+import { KustoQueryService } from "../../domain/services/kusto-query-service.js";
 
 export class AzureAlertsConstruct {
+  private readonly kustoQueryService = new KustoQueryService();
+
   constructor(scope: Construct, config: DashboardConfig) {
     if (!config.endpoints) return;
 
@@ -57,7 +55,7 @@ export class AzureAlertsConstruct {
         frequency: endpoint.availabilityEvaluationFrequency || 10,
         location: config.location,
         name: alertName,
-        query: buildAvailabilityQuery(endpoint, config),
+        query: this.kustoQueryService.buildAvailabilityQuery(endpoint, config),
         resourceGroupName: config.resourceGroupName!,
         severity: 1,
         timeWindow: endpoint.availabilityEvaluationTimeWindow || 20,
@@ -95,7 +93,7 @@ export class AzureAlertsConstruct {
         frequency: endpoint.responseTimeEvaluationFrequency || 10,
         location: config.location,
         name: alertName,
-        query: buildResponseTimeQuery(endpoint, config),
+        query: this.kustoQueryService.buildResponseTimeQuery(endpoint, config),
         resourceGroupName: config.resourceGroupName!,
         severity: 1,
         timeWindow: endpoint.responseTimeEvaluationTimeWindow || 20,

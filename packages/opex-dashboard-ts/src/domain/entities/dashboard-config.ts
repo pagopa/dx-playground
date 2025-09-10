@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { EndpointSchema } from "./endpoint-parser.js";
+import { EndpointSchema } from "./endpoint.js";
 
 export const DEFAULT_CONFIG: Partial<DashboardConfig> = {
   evaluation_frequency: 10,
@@ -46,23 +46,4 @@ export function mergeConfigWithDefaults(
     ...DEFAULT_CONFIG,
     ...config,
   } as DashboardConfig;
-}
-
-export function validateConfig(rawConfig: unknown): DashboardConfig {
-  // Parse and validate with zod using safeParse
-  const result = DashboardConfigSchema.safeParse(rawConfig);
-
-  if (!result.success) {
-    // Format validation errors
-    const errorMessage = result.error.issues
-      .map((err) => `• ${err.path.join(".")}: ${err.message}`)
-      .join("\n");
-    throw new Error(`Configuration validation failed:\n${errorMessage}`);
-  }
-
-  // Apply defaults
-  return {
-    ...DEFAULT_CONFIG,
-    ...result.data,
-  };
 }

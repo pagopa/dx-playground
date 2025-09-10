@@ -58,31 +58,56 @@ yarn tsx src/cli/index.ts generate \
 
 ## Architecture
 
-### Core Components
+This project follows **Hexagonal Architecture** (Ports & Adapters) principles, separating business logic from infrastructure concerns for better testability, maintainability, and extensibility.
 
-1. **OpenAPI Resolver** (`src/core/resolver.ts`)
-   - Parses OpenAPI specifications using `@apidevtools/swagger-parser`
-   - Handles both local files and remote URLs
-   - Provides comprehensive error handling
+### Core Principles
 
-2. **Kusto Query Templates** (`src/core/kusto-queries.ts`)
-   - Generates identical Kusto queries as Python version
-   - Supports API Management and Application Gateway resource types
-   - Handles regex escaping for endpoint paths
+- **Domain Layer**: Pure business logic, independent of frameworks
+- **Application Layer**: Use cases orchestrating domain services
+- **Infrastructure Layer**: Adapters for external systems (CLI, files, OpenAPI, Terraform)
 
-3. **CDKTF Constructs**
-   - `AzureDashboardConstruct`: Creates Azure Portal dashboards
-   - `AzureAlertsConstruct`: Creates Azure Monitor scheduled query rules
+### Layer Structure
 
-4. **Builders**
-   - `AzureDashboardCdkBuilder`: Generates CDKTF code for Terraform
+1. **Domain** (`src/domain/`)
+   - **Entities**: Core business objects (`Endpoint`, `DashboardConfig`)
+   - **Services**: Business logic (`EndpointParserService`, `KustoQueryService`)
+   - **Ports**: Interfaces for external dependencies
 
-### Key Differences from Python Version
+2. **Application** (`src/application/`)
+   - **Use Cases**: Orchestrate domain services (`GenerateDashboardUseCase`)
 
-- **🏗️ CDKTF First**: Uses CDKTF constructs instead of Django templates where possible
-- **📝 String Templates**: Uses JavaScript template literals for complex JSON structures
-- **🔒 Type Safety**: Full TypeScript typing throughout the codebase
-- **🚫 No Template Engine**: No Handlebars or Django - pure CDKTF and string templates
+3. **Infrastructure** (`src/infrastructure/`)
+   - **Adapters**: Concrete implementations of ports
+     - CLI Adapter: Commander.js integration
+     - OpenAPI Adapter: SwaggerParser integration
+     - Terraform Adapter: CDKTF integration
+     - File Adapter: File system operations
+     - Config Adapter: Zod validation
+
+### Key Components
+
+#### Domain Services
+
+- **EndpointParserService**: Parses OpenAPI specs into endpoint configurations
+- **KustoQueryService**: Generates Azure Log Analytics queries
+
+#### Application Use Cases
+
+- **GenerateDashboardUseCase**: Main workflow for dashboard generation
+
+#### Infrastructure Adapters
+
+- **OpenAPISpecResolverAdapter**: Resolves OpenAPI specifications
+- **TerraformGeneratorAdapter**: Generates CDKTF code
+- **ConfigValidatorAdapter**: Validates configuration with Zod
+- **FileReaderAdapter**: Reads YAML configuration files
+
+### Benefits
+
+- **Testability**: Domain logic tested in isolation with mock adapters
+- **Extensibility**: Easy to add new adapters (e.g., AWS, different CLI frameworks)
+- **Maintainability**: Clear separation of concerns
+- **Framework Independence**: Domain layer free from CDKTF/Commander dependencies
 
 ## Configuration
 
@@ -135,60 +160,81 @@ overrides:
 
 ## API Documentation
 
-### Core Classes
+### Domain Layer
 
-#### `OA3Resolver`
+#### Entities
 
 ```typescript
-class OA3Resolver {
+interface Endpoint {
+  path: string;
+  availabilityThreshold?: number;
+  responseTimeThreshold?: number;
+  // ... other properties
+}
+
+interface DashboardConfig {
+  oa3_spec: string;
+  name: string;
+  location: string;
+  data_source: string;
+  // ... other properties
+}
+```
+
+#### Domain Services
+
+```typescript
+class EndpointParserService {
+  parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[];
+}
+
+class KustoQueryService {
+  buildAvailabilityQuery(endpoint: Endpoint, config: DashboardConfig): string;
+  buildResponseTimeQuery(endpoint: Endpoint, config: DashboardConfig): string;
+  buildResponseCodesQuery(endpoint: Endpoint, config: DashboardConfig): string;
+}
+```
+
+### Application Layer
+
+#### Use Cases
+
+```typescript
+class GenerateDashboardUseCase {
+  constructor(
+    fileReader: IFileReader,
+    configValidator: IConfigValidator,
+    openAPISpecResolver: IOpenAPISpecResolver,
+    endpointParser: IEndpointParser,
+    kustoQueryGenerator: IKustoQueryGenerator,
+    terraformGenerator: ITerraformGenerator,
+  ) {}
+
+  async execute(configFilePath: string): Promise<void>;
+}
+```
+
+### Infrastructure Layer
+
+#### Adapters
+
+```typescript
+class OpenAPISpecResolverAdapter implements IOpenAPISpecResolver {
   async resolve(specPath: string): Promise<OpenAPISpec>;
 }
-```
 
-Parses OpenAPI specifications and returns typed objects.
+class TerraformGeneratorAdapter implements ITerraformGenerator {
+  async generate(config: DashboardConfig): Promise<void>;
+}
 
-#### `AzureDashboardCdkBuilder`
+class ConfigValidatorAdapter implements IConfigValidator {
+  validateConfig(rawConfig: unknown): DashboardConfig;
+}
 
-```typescript
-class AzureDashboardCdkBuilder {
-  constructor(config: DashboardConfig);
-  build(): string;
+class FileReaderAdapter implements IFileReader {
+  async readYamlFile(filePath: string): Promise<unknown>;
 }
 ```
-
-Creates CDKTF code for Azure dashboards and alerts.
-
-### Utility Functions
-
-#### `parseEndpoints`
-
-```typescript
-function parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[];
-```
-
-Parses OpenAPI spec and returns endpoint configurations with defaults applied.
-
-#### `buildAvailabilityQuery`
-
-```typescript
-function buildAvailabilityQuery(
-  endpoint: Endpoint,
-  config: DashboardConfig,
-): string;
-```
-
-Generates Kusto query for availability monitoring.
-
-#### `buildResponseTimeQuery`
-
-```typescript
-function buildResponseTimeQuery(
-  endpoint: Endpoint,
-  config: DashboardConfig,
-): string;
-```
-
-Generates Kusto query for response time monitoring.
 
 ## Examples
 
@@ -203,32 +249,35 @@ yarn tsx src/cli/index.ts generate \
 ### Example 3: Programmatic Usage
 
 ```typescript
-import { OA3Resolver } from "./src/core/resolver";
-import { parseEndpoints } from "./src/utils/endpoint-parser";
-import { AzureDashboardCdkBuilder } from "./src/builders/azure-dashboard-cdk";
+import { GenerateDashboardUseCase } from "./src/application/index.js";
+import { FileReaderAdapter } from "./src/infrastructure/file/file-reader-adapter.js";
+import { ConfigValidatorAdapter } from "./src/infrastructure/config/config-validator-adapter.js";
+import { OpenAPISpecResolverAdapter } from "./src/infrastructure/openapi/openapi-spec-resolver-adapter.js";
+import { EndpointParserService } from "./src/domain/services/endpoint-parser-service.js";
+import { KustoQueryService } from "./src/domain/services/kusto-query-service.js";
+import { TerraformGeneratorAdapter } from "./src/infrastructure/terraform/terraform-generator-adapter.js";
 
 async function generateDashboard() {
-  // Load OpenAPI spec
-  const resolver = new OA3Resolver();
-  const spec = await resolver.resolve("./api.yaml");
+  // Create adapters
+  const fileReader = new FileReaderAdapter();
+  const configValidator = new ConfigValidatorAdapter();
+  const openAPISpecResolver = new OpenAPISpecResolverAdapter();
+  const endpointParser = new EndpointParserService();
+  const kustoQueryGenerator = new KustoQueryService();
+  const terraformGenerator = new TerraformGeneratorAdapter();
 
-  // Parse configuration
-  const config = {
-    oa3_spec: "./api.yaml",
-    name: "My Dashboard",
-    location: "East US",
-    data_source: "resource-id",
-    // ... other config
-  };
+  // Create use case
+  const useCase = new GenerateDashboardUseCase(
+    fileReader,
+    configValidator,
+    openAPISpecResolver,
+    endpointParser,
+    kustoQueryGenerator,
+    terraformGenerator,
+  );
 
-  // Parse endpoints
-  config.endpoints = parseEndpoints(spec, config);
-
-  // Generate dashboard
-  const builder = new AzureDashboardCdkBuilder(config);
-  const result = builder.build();
-
-  console.log(result);
+  // Execute
+  await useCase.execute("./config.yaml");
 }
 ```
 
@@ -304,32 +353,44 @@ yarn format
 ```
 packages/opex-dashboard-ts/
 ├── src/
-│   ├── cli/                    # Command-line interface
-│   │   ├── index.ts           # Main CLI entry
-│   │   └── generate.ts        # Generate command
-│   ├── core/                  # Core business logic
-│   │   ├── resolver.ts        # OpenAPI parser
-│   │   ├── kusto-queries.ts   # Kusto query templates
-│   │   └── config.ts          # Configuration types
-│   ├── constructs/            # CDKTF constructs
-│   │   ├── azure-dashboard.ts    # Dashboard construct
-│   │   ├── azure-alerts.ts       # Alerts construct
-│   │   └── dashboard-properties.ts # Dashboard templates
-│   ├── builders/              # Builder pattern
-│   │   └── azure-dashboard-cdk.ts  # CDKTF builder
-│   ├── types/                 # TypeScript definitions
-│   │   ├── openapi.ts         # OpenAPI types
-│   │   └── config.ts          # Configuration types
-│   └── utils/                 # Utility functions
-│       └── endpoint-parser.ts # Endpoint parsing
-├── test/                      # Test files
-│   ├── unit/                  # Unit tests
-│   └── integration/           # Integration tests
-├── examples/                  # Example configurations
+│   ├── domain/                    # Business logic layer
+│   │   ├── entities/              # Core business objects
+│   │   │   ├── endpoint.ts        # Endpoint entity
+│   │   │   └── dashboard-config.ts # Configuration entity
+│   │   ├── services/              # Domain services
+│   │   │   ├── endpoint-parser-service.ts
+│   │   │   └── kusto-query-service.ts
+│   │   ├── ports/                 # Interface definitions
+│   │   │   └── index.ts
+│   │   └── index.ts               # Domain exports
+│   ├── application/               # Application layer
+│   │   ├── use-cases/             # Use case implementations
+│   │   │   └── generate-dashboard-use-case.ts
+│   │   └── index.ts               # Application exports
+│   ├── infrastructure/            # Infrastructure layer
+│   │   ├── cli/                   # CLI adapter
+│   │   │   ├── index.ts
+│   │   │   └── generate.ts
+│   │   ├── openapi/               # OpenAPI adapter
+│   │   │   └── openapi-spec-resolver-adapter.ts
+│   │   ├── terraform/             # Terraform adapter
+│   │   │   ├── azure-dashboard.ts
+│   │   │   ├── azure-alerts.ts
+│   │   │   ├── dashboard-properties.ts
+│   │   │   └── terraform-generator-adapter.ts
+│   │   ├── file/                  # File adapter
+│   │   │   └── file-reader-adapter.ts
+│   │   ├── config/                # Config adapter
+│   │   │   └── config-validator-adapter.ts
+│   │   └── index.ts               # Infrastructure exports
+│   ├── shared/                    # Shared utilities
+│   │   └── openapi.ts             # OpenAPI type guards
+│   └── index.ts                   # Main exports
+├── test/                          # Test files
+│   └── unit/                      # Unit tests
+├── examples/                      # Example configurations
 ├── package.json
 ├── tsconfig.json
-├── cdktf.json
-├── jest.config.js
 └── README.md
 ```
 

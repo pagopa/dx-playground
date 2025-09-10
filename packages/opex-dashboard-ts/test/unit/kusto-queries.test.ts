@@ -1,12 +1,10 @@
-import {
-  buildAvailabilityQuery,
-  buildResponseTimeQuery,
-} from "../../src/core/kusto-queries";
-import { Endpoint } from "../../src/utils/endpoint-parser";
-import { DashboardConfig } from "../../src/utils/config-validation";
+import { KustoQueryService } from "../../src/domain/services/kusto-query-service.js";
+import { Endpoint } from "../../src/domain/entities/endpoint.js";
+import { DashboardConfig } from "../../src/domain/entities/dashboard-config.js";
 import { describe, it, expect } from "vitest";
 
 describe("Kusto Query Generation", () => {
+  const kustoQueryService = new KustoQueryService();
   const mockEndpoint: Endpoint = {
     path: "/api/users",
     availabilityThreshold: 0.99,
@@ -32,7 +30,10 @@ describe("Kusto Query Generation", () => {
 
   describe("buildAvailabilityQuery", () => {
     it("should generate correct availability query for app-gateway", () => {
-      const query = buildAvailabilityQuery(mockEndpoint, mockConfig);
+      const query = kustoQueryService.buildAvailabilityQuery(
+        mockEndpoint,
+        mockConfig,
+      );
 
       expect(query).toContain("AzureDiagnostics");
       expect(query).toContain("originalHost_s in");
@@ -49,7 +50,10 @@ describe("Kusto Query Generation", () => {
         ...mockConfig,
         resource_type: "api-management" as const,
       };
-      const query = buildAvailabilityQuery(mockEndpoint, apiConfig);
+      const query = kustoQueryService.buildAvailabilityQuery(
+        mockEndpoint,
+        apiConfig,
+      );
 
       expect(query).toContain("url_s matches regex");
       expect(query).toContain("responseCode_d < 500");
@@ -57,14 +61,20 @@ describe("Kusto Query Generation", () => {
     });
 
     it("should include time window in query", () => {
-      const query = buildAvailabilityQuery(mockEndpoint, mockConfig);
+      const query = kustoQueryService.buildAvailabilityQuery(
+        mockEndpoint,
+        mockConfig,
+      );
       expect(query).toContain("bin(TimeGenerated, 5m)");
     });
   });
 
   describe("buildResponseTimeQuery", () => {
     it("should generate correct response time query for app-gateway", () => {
-      const query = buildResponseTimeQuery(mockEndpoint, mockConfig);
+      const query = kustoQueryService.buildResponseTimeQuery(
+        mockEndpoint,
+        mockConfig,
+      );
 
       expect(query).toContain("AzureDiagnostics");
       expect(query).toContain("originalHost_s in");
@@ -79,7 +89,10 @@ describe("Kusto Query Generation", () => {
         ...mockConfig,
         resource_type: "api-management" as const,
       };
-      const query = buildResponseTimeQuery(mockEndpoint, apiConfig);
+      const query = kustoQueryService.buildResponseTimeQuery(
+        mockEndpoint,
+        apiConfig,
+      );
 
       expect(query).toContain("url_s matches regex");
       expect(query).toContain("DurationMs");
@@ -89,7 +102,10 @@ describe("Kusto Query Generation", () => {
 
     it("should use correct response time threshold", () => {
       const customEndpoint = { ...mockEndpoint, responseTimeThreshold: 2 };
-      const query = buildResponseTimeQuery(customEndpoint, mockConfig);
+      const query = kustoQueryService.buildResponseTimeQuery(
+        customEndpoint,
+        mockConfig,
+      );
 
       expect(query).toContain("watermark = 2");
     });
@@ -97,11 +113,11 @@ describe("Kusto Query Generation", () => {
 
   describe("query validation", () => {
     it("should generate valid Kusto syntax", () => {
-      const availabilityQuery = buildAvailabilityQuery(
+      const availabilityQuery = kustoQueryService.buildAvailabilityQuery(
         mockEndpoint,
         mockConfig,
       );
-      const responseTimeQuery = buildResponseTimeQuery(
+      const responseTimeQuery = kustoQueryService.buildResponseTimeQuery(
         mockEndpoint,
         mockConfig,
       );
@@ -116,7 +132,7 @@ describe("Kusto Query Generation", () => {
         ...mockEndpoint,
         path: "/api/users/{id}/posts",
       };
-      const query = buildAvailabilityQuery(
+      const query = kustoQueryService.buildAvailabilityQuery(
         endpointWithSpecialChars,
         mockConfig,
       );

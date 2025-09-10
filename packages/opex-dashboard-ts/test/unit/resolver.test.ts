@@ -1,11 +1,11 @@
-import { OA3Resolver, ParseError } from "../../src/core/resolver";
+import { OpenAPISpecResolverAdapter, ParseError } from "../../src/infrastructure/openapi/openapi-spec-resolver-adapter.js";
 import { describe, it, expect, beforeEach } from "vitest";
 
 describe("OA3Resolver", () => {
-  let resolver: OA3Resolver;
+  let resolver: OpenAPISpecResolverAdapter;
 
   beforeEach(() => {
-    resolver = new OA3Resolver();
+    resolver = new OpenAPISpecResolverAdapter();
   });
 
   describe("ParseError", () => {
@@ -25,7 +25,7 @@ describe("OA3Resolver", () => {
 
   describe("OA3Resolver class", () => {
     it("should be instantiable", () => {
-      expect(resolver).toBeInstanceOf(OA3Resolver);
+      expect(resolver).toBeInstanceOf(OpenAPISpecResolverAdapter);
     });
 
     it("should have a resolve method", () => {
