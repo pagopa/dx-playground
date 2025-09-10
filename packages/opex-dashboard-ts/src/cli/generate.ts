@@ -4,7 +4,7 @@ import { Command } from "commander";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 
-import { AzureDashboardStack } from "../builders/azure-dashboard-cdk.js";
+import { AzureOpexStack } from "../builders/azure-opex-cdk.js";
 import { OA3Resolver } from "../core/resolver.js";
 import { DashboardConfig, validateConfig } from "../utils/config-validation.js";
 import { parseEndpoints } from "../utils/endpoint-parser.js";
@@ -35,7 +35,7 @@ export async function generateDashboard(config: DashboardConfig): Promise<App> {
 
     // Create and run builder
     // Create the main stack with dashboard and alerts
-    new AzureDashboardStack(app, "opex-dashboard", validatedConfig);
+    new AzureOpexStack(app, "opex-dashboard", validatedConfig);
 
     return app;
   } catch (error: unknown) {

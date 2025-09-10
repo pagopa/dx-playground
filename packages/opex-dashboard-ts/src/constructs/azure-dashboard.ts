@@ -6,7 +6,7 @@ import { AzureAlertsConstruct } from "./azure-alerts.js";
 import { DashboardConfig } from "../utils/config-validation.js";
 import { buildDashboardPropertiesTemplate } from "./dashboard-properties.js";
 
-export class AzureDashboardConstruct extends TerraformStack {
+export class AzureOpexConstruct extends TerraformStack {
   constructor(scope: Construct, id: string, config: DashboardConfig) {
     super(scope, id);
 
