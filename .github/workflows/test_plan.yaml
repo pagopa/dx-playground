@@ -125,7 +125,7 @@ jobs:
           ls -la
           cd ${{ steps.directory.outputs.dir }}
           ls -la
-          # echo "${{ steps.plan-sh.outputs.filtered_plan }}"
+          echo "${{ steps.plan-sh.outputs.summary_line }}"
 
       # - name: Terraform Plan Classic
       #   id: plan-classic

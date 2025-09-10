@@ -6,13 +6,35 @@ inputs:
     description: 'The directory where terraform plan will be executed. (Defaults to the root of the repository)'
     required: false
     default: '.'
+  plan-refresh:
+    description: 'If true, runs `terraform refresh` before `terraform plan` to update the state with real infrastructure.'
+    required: false
+    default: 'false'
   sensitive-keys:
     description: 'A comma-separated list of sensitive keys to filter from the plan output.'
     required: true
 
+outputs:
+  summary_line:
+    description: "A summary line indicating the number of resources to be added, changed, or destroyed."
+    value: ${{ steps.plan.outputs.summary_line }}
+
 runs:
   using: "composite"
   steps:
+    - name: Set Terraform Refresh
+      shell: bash
+      run: |
+        if [ "$ENABLE_REFRESH" == "true" ]; then
+          echo "TF_PLAN_REFRESH_FLAG=-refresh=false -lock=false" >> $GITHUB_ENV
+          echo "::notice::State will NOT be refreshed"
+        else
+          echo "TF_PLAN_REFRESH_FLAG=" >> $GITHUB_ENV
+          echo "::notice::State will be refreshed"
+        fi
+      env:
+        ENABLE_REFRESH: ${{ inputs.plan-refresh }}
+
     - name: Run Terraform Plan and Filter Output
       id: plan
       shell: bash
@@ -37,11 +59,31 @@ runs:
 
         # Run terraform plan, capture its exit code
         set +e
-        terraform plan -no-color -input=false 2>&1 | sed -E "${SED_EXPRESSIONS[@]}" | tee "$PLAN_FILE"
+
+        terraform plan \
+          -no-color \
+          -lock-timeout=120s \
+          $TF_PLAN_REFRESH_FLAG \
+          -input=false 2>&1 | \
+          sed -E "${SED_EXPRESSIONS[@]}" | \
+          tee "$PLAN_FILE"
+
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
         set -e
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
+
+        # Extracts only the diff section from the Plan by skipping everything before the resource changes,
+        # and filters out non-essential log lines like state refreshes and reads.
+        if [ -s $PLAN_FILE ]; then
+          sed -n '/^  #/,$p' $PLAN_FILE | grep -Ev "Refreshing state|state lock|Reading|Read" > ${PLAN_FILE}.tmp || echo "No changes detected." > ${PLAN_FILE}.tmp
+        else
+          echo "No plan output available." > ${PLAN_FILE}.tmp
+        fi
+
+        # The summary with number of resources to be added, changed, or destroyed (will be used in case the plan output is too long)
+        SUMMARY_LINE=$(grep -E "^Plan: [0-9]+ to (add|change|destroy|import)" $PLAN_FILE || echo "No changes.")
+        echo "summary_line=$SUMMARY_LINE" >> $GITHUB_OUTPUT
 
         # --- Handle Exit Code ---
         # The step should FAIL ONLY on a true error (exit code 1)
