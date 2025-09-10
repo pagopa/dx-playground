@@ -29,25 +29,24 @@ runs:
         fi
 
         # --- Dynamically build the sed filter expressions ---
-        # Using an array is safer for constructing commands with arguments than using a simple string
-        declare -a SED_ARGS
+        SED_EXPRESSIONS="sed -E"
+
         # Convert comma-separated string to newlines to loop safely
-        for key in $(echo "${{ inputs.sensitive-keys }}" | tr ',' '\n'); do
-          # Trim whitespace just in case
+        for key in $(echo "$SENSITIVE_KEYS" | tr ',' '\n'); do
           trimmed_key=$(echo "$key" | xargs)
           if [[ -n "$trimmed_key" ]]; then
-            # For each key, add '-e' and the expression as separate elements to the array
-            SED_ARGS+=("-e")
-            SED_ARGS+=("s/(\"?${trimmed_key}\"?\s*[:=]\s*)\".*?\"/\1\"[SENSITIVE]\"/I")
+            SED_EXPRESSIONS+=" -e 's/(\"?${trimmed_key}\"?\s*[:=]\s*)\".*?\"/\1\"[SENSITIVE VALUE]\"/I'"
           fi
+          echo $SED_EXPRESSIONS
         done
+        echo $SED_EXPRESSIONS
 
         echo "--- Executing Plan in: $WORKING_DIRECTORY ---"
         cd "$WORKING_DIRECTORY"
 
         # Run terraform plan, capture its exit code
         # terraform plan -no-color -input=false 2>&1 | sed -E $SED_EXPRESSIONS | tee "$PLAN_FILE"
-        FILTERED_PLAN=$(terraform plan -no-color -input=false 2>&1 | sed -E $SED_EXPRESSIONS)
+        FILTERED_PLAN=$(terraform plan -no-color -input=false 2>&1 | $SED_EXPRESSIONS)
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
