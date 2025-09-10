@@ -2,10 +2,7 @@ import { DashboardConfig } from "../entities/dashboard-config.js";
 import { Endpoint } from "../entities/endpoint.js";
 
 export class KustoQueryService {
-  buildAvailabilityQuery(
-    endpoint: Endpoint,
-    config: DashboardConfig,
-  ): string {
+  buildAvailabilityQuery(endpoint: Endpoint, config: DashboardConfig): string {
     const threshold = endpoint.availabilityThreshold || 0.99;
     const regex = this.uriToRegex(endpoint.path);
 
@@ -32,10 +29,7 @@ AzureDiagnostics
     }
   }
 
-  buildResponseCodesQuery(
-    endpoint: Endpoint,
-    config: DashboardConfig,
-  ): string {
+  buildResponseCodesQuery(endpoint: Endpoint, config: DashboardConfig): string {
     const regex = this.uriToRegex(endpoint.path);
 
     if (config.resource_type === "api-management") {
@@ -58,10 +52,7 @@ AzureDiagnostics
     }
   }
 
-  buildResponseTimeQuery(
-    endpoint: Endpoint,
-    config: DashboardConfig,
-  ): string {
+  buildResponseTimeQuery(endpoint: Endpoint, config: DashboardConfig): string {
     const threshold = endpoint.responseTimeThreshold || 1;
     const regex = this.uriToRegex(endpoint.path);
 

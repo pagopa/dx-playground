@@ -1,4 +1,7 @@
-import { OpenAPISpecResolverAdapter, ParseError } from "../../src/infrastructure/openapi/openapi-spec-resolver-adapter.js";
+import {
+  OpenAPISpecResolverAdapter,
+  ParseError,
+} from "../../src/infrastructure/openapi/openapi-spec-resolver-adapter.js";
 import { describe, it, expect, beforeEach } from "vitest";
 
 describe("OA3Resolver", () => {
