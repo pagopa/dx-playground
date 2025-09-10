@@ -1,4 +1,5 @@
 import { OA3Resolver, ParseError } from '../../src/core/resolver';
+import { describe, it, expect, beforeEach } from 'vitest';
 
 describe('OA3Resolver', () => {
   let resolver: OA3Resolver;

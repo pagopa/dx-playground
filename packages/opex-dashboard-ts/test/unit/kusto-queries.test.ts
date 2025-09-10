@@ -1,6 +1,7 @@
 import { buildAvailabilityQuery, buildResponseTimeQuery } from '../../src/core/kusto-queries';
 import { Endpoint } from '../../src/utils/endpoint-parser';
 import { DashboardConfig } from '../../src/utils/config-validation';
+import { describe, it, expect } from 'vitest';
 
 describe('Kusto Query Generation', () => {
   const mockEndpoint: Endpoint = {

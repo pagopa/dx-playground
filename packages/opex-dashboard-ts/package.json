@@ -1,17 +1,21 @@
 {
   "name": "@pagopa/opex-dashboard-ts",
-  "version": "1.0.0",
-  "description": "Generate standardized PagoPA's Operational Excellence dashboards from OpenApi specs using TypeScript and CDKTF",
+  "version": "0.0.1",
+  "description": "Generate standardized Operational Excellence dashboards from OpenAPI specs using TypeScript and CDKTF",
   "main": "dist/index.js",
   "bin": "dist/cli/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
+    "lint": "eslint --fix src",
+    "lint:check": "eslint src",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest --coverage",
     "watch": "tsc --watch",
     "cdktf:synth": "cdktf synth",
     "cdktf:deploy": "cdktf deploy",
-    "test": "vitest",
-    "test:run": "vitest run",
-    "lint": "eslint src/**/*.ts",
     "clean": "rm -rf dist cdktf.out"
   },
   "keywords": [
@@ -35,12 +39,14 @@
     "zod": "^4.1.5"
   },
   "devDependencies": {
+    "@tsconfig/node22": "^22.0.2",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.0.0",
+    "tsup": "^8.5.0",
     "typescript": "^5.0.0",
-    "vitest": "^1.0.0"
+    "vitest": "^3.2.4"
   }
 }

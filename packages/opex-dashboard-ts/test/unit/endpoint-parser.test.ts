@@ -1,6 +1,7 @@
 import { parseEndpoints } from '../../src/utils/endpoint-parser';
 import { OpenAPISpec } from '../../src/utils/openapi';
 import { DashboardConfig } from '../../src/utils/config-validation';
+import { describe, it, expect } from 'vitest';
 
 describe('parseEndpoints', () => {
   const mockConfig: DashboardConfig = {

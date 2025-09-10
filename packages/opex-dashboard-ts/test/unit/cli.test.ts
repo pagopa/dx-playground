@@ -1,5 +1,6 @@
 import { generateCommand } from '../../src/cli/generate';
 import { validateConfig } from '../../src/utils/config-validation';
+import { describe, it, expect } from 'vitest';
 
 describe('CLI Commands', () => {
   describe('generateCommand', () => {
