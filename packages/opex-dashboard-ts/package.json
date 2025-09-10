@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Generate standardized Operational Excellence dashboards from OpenAPI specs using TypeScript and CDKTF",
   "main": "dist/index.js",
-  "bin": "dist/cli/index.js",
+  "bin": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "tsup",
@@ -15,9 +15,9 @@
     "test": "vitest run",
     "test:coverage": "vitest --coverage",
     "watch": "tsc --watch",
-    "cdktf:synth": "cdktf synth",
     "cdktf:deploy": "cdktf deploy",
-    "clean": "rm -rf dist cdktf.out"
+    "clean": "rm -rf dist cdktf.out",
+    "generate": "dist/index.js generate"
   },
   "keywords": [
     "opex",

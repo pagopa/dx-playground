@@ -8,10 +8,17 @@ export class OA3Resolver {
       const spec = await SwaggerParser.parse(specPath);
       return spec as OpenAPISpec;
     } catch (error: unknown) {
-      throw (
-        new Error(`OA3 parsing error: ${String(error)}`),
-        { cause: error }
-      );
+      if (error instanceof Error) {
+        throw new ParseError(`OA3 parsing error: ${error.message}`);
+      }
+      throw new ParseError(`OA3 parsing error: ${String(error)}`);
     }
+  }
+}
+
+export class ParseError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ParseError";
   }
 }

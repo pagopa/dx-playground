@@ -52,7 +52,7 @@ action_groups:
 2. **Generate CDKTF code**:
 
 ```bash
-yarn ts-node src/cli/index.ts generate \
+yarn tsx src/cli/index.ts generate \
   --config-file config.yaml
 ```
 
@@ -196,7 +196,7 @@ Generates Kusto query for response time monitoring.
 
 ```bash
 # Generate Terraform CDK code
-yarn ts-node src/cli/index.ts generate \
+yarn tsx src/cli/index.ts generate \
   --config-file examples/basic-config.yaml
 ```
 
@@ -381,7 +381,7 @@ yarn cdktf:destroy
 Enable debug logging:
 
 ```bash
-DEBUG=cdktf:* yarn ts-node src/cli/index.ts generate --config-file config.yaml
+DEBUG=cdktf:* yarn tsx src/cli/index.ts generate --config-file config.yaml
 ```
 
 ## Contributing
