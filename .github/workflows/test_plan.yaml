@@ -123,9 +123,7 @@ jobs:
           echo "Terraform Plan Output:"
           echo "----------------------"
           echo "${{ steps.plan-sh.outputs.filtered_plan }}"
-          echo "----------------------"
-          echo "Exit Code: ${{ steps.plan-sh.outputs.exit_code }}"
-
+          
       # - name: Terraform Plan Classic
       #   id: plan-classic
       #   working-directory: ${{ steps.directory.outputs.dir }}

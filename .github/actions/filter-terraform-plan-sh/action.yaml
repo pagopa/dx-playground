@@ -45,8 +45,7 @@ runs:
         cd "$WORKING_DIRECTORY"
 
         # Run terraform plan, capture its exit code
-        # terraform plan -no-color -input=false 2>&1 | sed -E $SED_EXPRESSIONS | tee "$PLAN_FILE"
-        FILTERED_PLAN=$(terraform plan -no-color -input=false 2>&1 | $SED_EXPRESSIONS)
+        FILTERED_PLAN=$(terraform plan -no-color -input=false 2>&1 | '$SED_EXPRESSIONS')
         PLAN_EXIT_CODE=${PIPESTATUS[0]}
 
         echo "--- Plan executed with exit code: $PLAN_EXIT_CODE ---"
@@ -57,9 +56,6 @@ runs:
         cat "$FILTERED_PLAN" >> $GITHUB_OUTPUT
         echo "" >> $GITHUB_OUTPUT
         echo "$EOF_MARKER" >> $GITHUB_OUTPUT
-
-        # Cleanup
-        # rm "$PLAN_FILE"
 
         # --- Handle Exit Code ---
         # The step should FAIL ONLY on a true error (exit code 1)
@@ -72,4 +68,3 @@ runs:
         WORKING_DIRECTORY: ${{ inputs.base-path }}
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         SENSITIVE_KEYS: ${{ inputs.sensitive-keys }}
-        PLAN_FILE: filtered_plan.txt
