@@ -2,6 +2,7 @@ import { portalDashboard, provider } from "@cdktf/provider-azurerm";
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
 
+import { AzureAlertsConstruct } from "./azure-alerts.js";
 import { DashboardConfig } from "../utils/config-validation.js";
 import { buildDashboardPropertiesTemplate } from "./dashboard-properties.js";
 
@@ -21,5 +22,8 @@ export class AzureDashboardConstruct extends TerraformStack {
       name: config.name.replace(/\s+/g, "_"),
       resourceGroupName: "dashboards", // FIXME: hardcoded resource group name
     });
+
+    // Create alerts within the same stack
+    new AzureAlertsConstruct(this, config);
   }
 }
