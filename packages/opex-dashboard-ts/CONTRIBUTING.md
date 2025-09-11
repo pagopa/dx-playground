@@ -1,6 +1,6 @@
 # Contributing to Opex Dashboard TS
 
-Thank you for your interest in contributing to the Opex Dashboard TypeScript package! 
+Thank you for your interest in contributing to the Opex Dashboard TypeScript package!
 This document outlines the guidelines and best practices for contributing to this project.
 
 ## Installation

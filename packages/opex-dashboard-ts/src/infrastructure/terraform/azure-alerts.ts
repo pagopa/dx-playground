@@ -16,17 +16,25 @@ export class AzureAlertsConstruct {
     });
   }
 
+  private buildAlertDescription(
+    endpointPath: string,
+    alertType: string,
+    threshold: string,
+  ): string {
+    return alertType === "availability"
+      ? `Availability for ${endpointPath} is less than or equal to ${threshold}`
+      : `Response time for ${endpointPath} is less than or equal to ${threshold}`;
+  }
+
   private buildAlertName(
     dashboardName: string,
     alertType: string,
     endpointPath: string,
   ): string {
-    // Replace special chars and create valid resource name
-    const cleanPath = endpointPath.replace(/[{}]/g, "");
-    return `${dashboardName.replace(/\s+/g, "_")}-${alertType}-@${cleanPath}`.substring(
-      0,
-      80,
-    );
+    const fullName = `${dashboardName}-${alertType} @ ${endpointPath}`;
+
+    // Split by "/", join with "_", then remove { and } characters
+    return fullName.split("/").join("_").replace(/[{}]/g, ""); // Remove curly braces
   }
 
   private createAvailabilityAlert(
@@ -43,20 +51,24 @@ export class AzureAlertsConstruct {
 
     new monitorScheduledQueryRulesAlert.MonitorScheduledQueryRulesAlert(
       scope,
-      `availability-alert-${index}`,
+      `alarm_availability_${index}`, // Changed from availability-alert-{index}
       {
         action: {
           actionGroup: config.action_groups || [],
         },
         autoMitigationEnabled: false,
         dataSourceId: config.data_source,
-        description: `Availability for ${endpoint.path} is less than or equal to 99%`,
+        description: this.buildAlertDescription(
+          endpoint.path,
+          "availability",
+          "99%",
+        ),
         enabled: true,
         frequency: endpoint.availabilityEvaluationFrequency || 10,
         location: config.location,
         name: alertName,
         query: this.kustoQueryService.buildAvailabilityQuery(endpoint, config),
-        resourceGroupName: config.resourceGroupName!,
+        resourceGroupName: config.resourceGroupName,
         severity: 1,
         timeWindow: endpoint.availabilityEvaluationTimeWindow || 20,
         trigger: {
@@ -81,20 +93,24 @@ export class AzureAlertsConstruct {
 
     new monitorScheduledQueryRulesAlert.MonitorScheduledQueryRulesAlert(
       scope,
-      `response-time-alert-${index}`,
+      `alarm_time_${index}`, // Changed from response-time-alert-{index}
       {
         action: {
           actionGroup: config.action_groups || [],
         },
         autoMitigationEnabled: false,
         dataSourceId: config.data_source,
-        description: `Response time for ${endpoint.path} is less than or equal to 1s`,
+        description: this.buildAlertDescription(
+          endpoint.path,
+          "responsetime",
+          "1s",
+        ),
         enabled: true,
         frequency: endpoint.responseTimeEvaluationFrequency || 10,
         location: config.location,
         name: alertName,
         query: this.kustoQueryService.buildResponseTimeQuery(endpoint, config),
-        resourceGroupName: config.resourceGroupName!,
+        resourceGroupName: config.resourceGroupName,
         severity: 1,
         timeWindow: endpoint.responseTimeEvaluationTimeWindow || 20,
         trigger: {

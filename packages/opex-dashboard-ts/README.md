@@ -91,7 +91,6 @@ overrides:
 | `action_groups` | string[] | ❌       | -             | Action groups for alerts                          |
 | `overrides`     | object   | ❌       | -             | Override default settings                         |
 
-
 ## Examples
 
 ### Example 1: Basic Dashboard Generation

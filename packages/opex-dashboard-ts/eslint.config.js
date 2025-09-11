@@ -1,3 +1,8 @@
 import lintRules from "@pagopa/eslint-config";
 
-export default [...lintRules];
+export default [
+  {
+    ignores: ["test/**/*", "**/*local*", "examples"],
+  },
+  ...lintRules,
+];

@@ -31,7 +31,7 @@ export const DashboardConfigSchema = z.object({
     })
     .optional(),
   resource_type: z.enum(["app-gateway", "api-management"]).optional(),
-  resourceGroupName: z.string().optional(),
+  resourceGroupName: z.string().default("dashboards"),
   resourceIds: z.array(z.string()).optional(),
   timespan: z.string().optional(),
 });

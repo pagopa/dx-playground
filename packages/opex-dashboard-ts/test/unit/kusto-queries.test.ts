@@ -1,7 +1,8 @@
-import { KustoQueryService } from "../../src/domain/services/kusto-query-service.js";
-import { Endpoint } from "../../src/domain/entities/endpoint.js";
+import { describe, expect, it } from "vitest";
+
 import { DashboardConfig } from "../../src/domain/entities/dashboard-config.js";
-import { describe, it, expect } from "vitest";
+import { Endpoint } from "../../src/domain/entities/endpoint.js";
+import { KustoQueryService } from "../../src/domain/services/kusto-query-service.js";
 
 describe("Kusto Query Generation", () => {
   const kustoQueryService = new KustoQueryService();
@@ -36,8 +37,10 @@ describe("Kusto Query Generation", () => {
       );
 
       expect(query).toContain("AzureDiagnostics");
-      expect(query).toContain("originalHost_s in");
-      expect(query).toContain('["api.example.com"]');
+      expect(query).toContain("originalHost_s in (api_hosts)");
+      expect(query).toContain(
+        'let api_hosts = datatable (name: string) ["api.example.com"]',
+      );
       expect(query).toContain("requestUri_s matches regex");
       expect(query).toContain("httpStatus_d < 500");
       expect(query).toContain("availability=toreal(Success) / Total");
@@ -58,6 +61,7 @@ describe("Kusto Query Generation", () => {
       expect(query).toContain("url_s matches regex");
       expect(query).toContain("responseCode_d < 500");
       expect(query).not.toContain("originalHost_s");
+      expect(query).not.toContain("api_hosts"); // No datatable for api-management
     });
 
     it("should include time window in query", () => {
@@ -66,6 +70,16 @@ describe("Kusto Query Generation", () => {
         mockConfig,
       );
       expect(query).toContain("bin(TimeGenerated, 5m)");
+    });
+
+    it("should include api_hosts datatable for app-gateway", () => {
+      const query = kustoQueryService.buildAvailabilityQuery(
+        mockEndpoint,
+        mockConfig,
+      );
+
+      expect(query).toContain("let api_hosts = datatable (name: string)");
+      expect(query).toContain("originalHost_s in (api_hosts)");
     });
   });
 
@@ -77,11 +91,13 @@ describe("Kusto Query Generation", () => {
       );
 
       expect(query).toContain("AzureDiagnostics");
-      expect(query).toContain("originalHost_s in");
+      expect(query).toContain("originalHost_s in (api_hosts)");
+      expect(query).toContain("let api_hosts = datatable (name: string)");
       expect(query).toContain("requestUri_s matches regex");
       expect(query).toContain("timeTaken_d");
-      expect(query).toContain("percentile(timeTaken_d, 95)");
-      expect(query).toContain("watermark = 1");
+      expect(query).toContain("percentiles(timeTaken_d, 95)");
+      expect(query).toContain("watermark=threshold");
+      expect(query).toContain("where duration_percentile_95 > threshold");
     });
 
     it("should generate correct response time query for api-management", () => {
@@ -98,6 +114,7 @@ describe("Kusto Query Generation", () => {
       expect(query).toContain("DurationMs");
       expect(query).toContain("percentile(DurationMs, 95)");
       expect(query).not.toContain("originalHost_s");
+      expect(query).not.toContain("api_hosts"); // No datatable for api-management
     });
 
     it("should use correct response time threshold", () => {
@@ -107,7 +124,7 @@ describe("Kusto Query Generation", () => {
         mockConfig,
       );
 
-      expect(query).toContain("watermark = 2");
+      expect(query).toContain("let threshold = 2");
     });
   });
 
@@ -127,18 +144,34 @@ describe("Kusto Query Generation", () => {
       expect(responseTimeQuery).toMatch(/^[A-Za-z]/); // Starts with letter
     });
 
-    it("should handle regex escaping correctly", () => {
-      const endpointWithSpecialChars = {
+    it("should use generic regex pattern for parameterized paths", () => {
+      const endpointWithParam = {
         ...mockEndpoint,
-        path: "/api/users/{id}/posts",
+        path: "/api/v1/services/{service_id}",
       };
       const query = kustoQueryService.buildAvailabilityQuery(
-        endpointWithSpecialChars,
+        endpointWithParam,
         mockConfig,
       );
 
       expect(query).toContain("requestUri_s matches regex");
-      expect(query).toContain("/api/users/\\{id\\}/posts");
+      expect(query).toContain("/api/v1/services/[^/]+$");
+      expect(query).not.toContain("{service_id}");
+    });
+
+    it("should handle multiple parameters in path", () => {
+      const endpointWithMultipleParams = {
+        ...mockEndpoint,
+        path: "/api/v1/users/{user_id}/posts/{post_id}",
+      };
+      const query = kustoQueryService.buildAvailabilityQuery(
+        endpointWithMultipleParams,
+        mockConfig,
+      );
+
+      expect(query).toContain("/api/v1/users/[^/]+/posts/[^/]+$");
+      expect(query).not.toContain("{user_id}");
+      expect(query).not.toContain("{post_id}");
     });
   });
 });
