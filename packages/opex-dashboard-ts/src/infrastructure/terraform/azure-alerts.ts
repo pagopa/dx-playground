@@ -41,28 +41,25 @@ export class AzureAlertsConstruct {
 
   private buildAlertDescription(
     endpointPath: string,
-    alertType: string,
-    threshold: string,
+    alertType: "availability" | "responsetime",
+    thresholdValue: number,
     dashboardId: string,
     tenantId: string,
   ): string {
-    const baseDescription =
-      alertType === "availability"
-        ? `Availability for ${endpointPath} is less than or equal to ${threshold}`
-        : `Response time for ${endpointPath} is less than or equal to ${threshold}`;
-
-    // Build the dashboard URL dynamically using TypeScript with tenant GUID
-    const dashboardUrl = `https://portal.azure.com/#@${tenantId}/dashboard/arm${dashboardId}`;
-    return `${baseDescription} - ${dashboardUrl}`;
+    const url = `https://portal.azure.com/#@${tenantId}/dashboard/arm${dashboardId}`;
+    if (alertType === "availability") {
+      const pct = (thresholdValue * 100).toFixed(0) + "%";
+      return `Availability for ${endpointPath} is below ${pct} - ${url}`;
+    }
+    return `Response time (p95) for ${endpointPath} is above ${thresholdValue}s - ${url}`;
   }
 
   private buildAlertName(
     dashboardName: string,
-    alertType: string,
+    alertType: "availability" | "responsetime",
     endpointPath: string,
   ): string {
-    const fullName = `${dashboardName}-${alertType} @ ${endpointPath}`;
-    return fullName.split("/").join("_").replace(/[{}]/g, ""); // Remove curly braces
+    return `${this.slug(dashboardName)}-${alertType}_${this.slug(endpointPath)}`;
   }
 
   private createAvailabilityAlert(
@@ -78,7 +75,7 @@ export class AzureAlertsConstruct {
       "availability",
       endpoint.path,
     );
-
+    const availabilityThreshold = endpoint.availabilityThreshold || 0.99;
     new monitorScheduledQueryRulesAlert.MonitorScheduledQueryRulesAlert(
       scope,
       `alarm_availability_${index}`, // Changed from availability-alert-{index}
@@ -91,7 +88,7 @@ export class AzureAlertsConstruct {
         description: this.buildAlertDescription(
           endpoint.path,
           "availability",
-          "99%",
+          availabilityThreshold,
           dashboard.id,
           clientConfig.tenantId,
         ),
@@ -128,6 +125,7 @@ export class AzureAlertsConstruct {
       "responsetime",
       endpoint.path,
     );
+    const responseThreshold = endpoint.responseTimeThreshold || 1;
 
     new monitorScheduledQueryRulesAlert.MonitorScheduledQueryRulesAlert(
       scope,
@@ -141,7 +139,7 @@ export class AzureAlertsConstruct {
         description: this.buildAlertDescription(
           endpoint.path,
           "responsetime",
-          "1s",
+          responseThreshold,
           dashboard.id,
           clientConfig.tenantId,
         ),
@@ -162,6 +160,30 @@ export class AzureAlertsConstruct {
           threshold: endpoint.responseTimeEventOccurrences || 1,
         },
       },
+    );
+  }
+
+  /* Build a safe slug for embedding in Azure resource names */
+  private slug(input: string): string {
+    return (
+      input
+        .trim()
+        // remove leading slashes to avoid leading underscores later
+        .replace(/^\/+/, "")
+        // normalize spaces and unsupported chars
+        .replace(/\s+/g, "-")
+        .replace(/[{}]/g, "")
+        .replace(/[^a-zA-Z0-9-_/]/g, "-")
+        // drop trailing slashes first
+        .replace(/\/+$/g, "")
+        // turn path separators into underscores
+        .replace(/\//g, "_")
+        // collapse duplicates
+        .replace(/-+/g, "-")
+        .replace(/_+/g, "_")
+        // finally, trim leading/trailing separators
+        .replace(/^[-_]+/, "")
+        .replace(/[-_]+$/, "")
     );
   }
 }
