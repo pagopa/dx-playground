@@ -38,7 +38,8 @@ AzureDiagnostics
       // Keep full series with watermark line for visualization
       return `let threshold = ${threshold};
 ${base}
-| project TimeGenerated, availability, watermark=threshold
+| extend watermark=threshold
+| project TimeGenerated, availability, watermark
 | render timechart with (xtitle = "time", ytitle= "availability(%)")`;
     }
     // alert context: filtered series to fire on breaches
@@ -102,8 +103,8 @@ ${hostsDataTable}
 AzureDiagnostics
 | where originalHost_s in (api_hosts)
 | where requestUri_s matches regex "${regex}"
-| summarize duration_percentile_95_ms=percentiles(timeTaken_d, 95) by bin(TimeGenerated, ${config.timespan})
-| extend watermark=threshold, duration_percentile_95 = duration_percentile_95_ms / 1000.0
+| summarize duration_percentile_95=percentiles(timeTaken_d, 95) by bin(TimeGenerated, ${config.timespan})
+| extend watermark=threshold
 | render timechart with (xtitle = "time", ytitle = "response time (s)")`;
     }
     return `let threshold = ${threshold};
@@ -111,8 +112,8 @@ ${hostsDataTable}
 AzureDiagnostics
 | where originalHost_s in (api_hosts)
 | where requestUri_s matches regex "${regex}"
-| summarize duration_percentile_95_ms=percentiles(timeTaken_d, 95) by bin(TimeGenerated, ${config.timespan})
-| extend watermark=threshold, duration_percentile_95 = duration_percentile_95_ms / 1000.0
+| summarize duration_percentile_95=percentiles(timeTaken_d, 95) by bin(TimeGenerated, ${config.timespan})
+| extend watermark=threshold
 | where duration_percentile_95 > threshold`;
   }
 
