@@ -5,7 +5,6 @@ import {
   IFileReader,
   IOpenAPISpecResolver,
   ITerraformFileGenerator,
-  OpenAPISpec,
 } from "../../domain/index.js";
 
 export class GenerateDashboardUseCase {
@@ -24,10 +23,9 @@ export class GenerateDashboardUseCase {
     // Validate configuration
     const validatedConfig = this.configValidator.validateConfig(rawConfig);
 
-    // Resolve OpenAPI spec
-    const spec: OpenAPISpec = await this.openAPISpecResolver.resolve(
-      validatedConfig.oa3_spec,
-    );
+    // Resolve OpenAPI spec and extract hosts
+    const { hosts: extractedHosts, spec } =
+      await this.openAPISpecResolver.resolveWithHosts(validatedConfig.oa3_spec);
 
     // Parse endpoints
     const endpoints: Endpoint[] = this.endpointParser.parseEndpoints(
@@ -37,7 +35,7 @@ export class GenerateDashboardUseCase {
 
     // Update config with parsed data
     validatedConfig.endpoints = endpoints;
-    validatedConfig.hosts = validatedConfig.overrides?.hosts || [];
+    validatedConfig.hosts = validatedConfig.overrides?.hosts || extractedHosts;
     validatedConfig.resourceIds = [validatedConfig.data_source];
 
     // Generate Terraform code

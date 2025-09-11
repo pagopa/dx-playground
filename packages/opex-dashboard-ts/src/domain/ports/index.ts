@@ -18,6 +18,9 @@ export interface IKustoQueryGenerator {
 
 export interface IOpenAPISpecResolver {
   resolve(specPath: string): Promise<OpenAPISpec>;
+  resolveWithHosts(
+    specPath: string,
+  ): Promise<{ hosts: string[]; spec: OpenAPISpec }>;
 }
 
 export interface ITerraformFileGenerator {

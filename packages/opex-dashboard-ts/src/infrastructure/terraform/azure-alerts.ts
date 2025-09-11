@@ -1,4 +1,7 @@
-import { monitorScheduledQueryRulesAlert } from "@cdktf/provider-azurerm";
+import {
+  monitorScheduledQueryRulesAlert,
+  portalDashboard,
+} from "@cdktf/provider-azurerm";
 import { Construct } from "constructs";
 
 import { DashboardConfig, Endpoint } from "../../domain/index.js";
@@ -7,12 +10,16 @@ import { KustoQueryService } from "../../domain/services/kusto-query-service.js"
 export class AzureAlertsConstruct {
   private readonly kustoQueryService = new KustoQueryService();
 
-  constructor(scope: Construct, config: DashboardConfig) {
+  constructor(
+    scope: Construct,
+    config: DashboardConfig,
+    dashboard: portalDashboard.PortalDashboard,
+  ) {
     if (!config.endpoints) return;
 
     config.endpoints.forEach((endpoint, index) => {
-      this.createAvailabilityAlert(scope, config, endpoint, index);
-      this.createResponseTimeAlert(scope, config, endpoint, index);
+      this.createAvailabilityAlert(scope, config, endpoint, index, dashboard);
+      this.createResponseTimeAlert(scope, config, endpoint, index, dashboard);
     });
   }
 
@@ -20,10 +27,16 @@ export class AzureAlertsConstruct {
     endpointPath: string,
     alertType: string,
     threshold: string,
+    dashboardId: string,
   ): string {
-    return alertType === "availability"
-      ? `Availability for ${endpointPath} is less than or equal to ${threshold}`
-      : `Response time for ${endpointPath} is less than or equal to ${threshold}`;
+    const baseDescription =
+      alertType === "availability"
+        ? `Availability for ${endpointPath} is less than or equal to ${threshold}`
+        : `Response time for ${endpointPath} is less than or equal to ${threshold}`;
+
+    // Build the dashboard URL dynamically using TypeScript
+    const dashboardUrl = `https://portal.azure.com/#dashboard/arm${dashboardId}`;
+    return `${baseDescription} - ${dashboardUrl}`;
   }
 
   private buildAlertName(
@@ -33,7 +46,7 @@ export class AzureAlertsConstruct {
   ): string {
     const fullName = `${dashboardName}-${alertType} @ ${endpointPath}`;
 
-    // Split by "/", join with "_", then remove { and } characters
+    // Implement Terraform logic in TypeScript: split("/"), join("_"), remove {|}
     return fullName.split("/").join("_").replace(/[{}]/g, ""); // Remove curly braces
   }
 
@@ -42,6 +55,7 @@ export class AzureAlertsConstruct {
     config: DashboardConfig,
     endpoint: Endpoint,
     index: number,
+    dashboard: portalDashboard.PortalDashboard,
   ) {
     const alertName = this.buildAlertName(
       config.name,
@@ -62,6 +76,7 @@ export class AzureAlertsConstruct {
           endpoint.path,
           "availability",
           "99%",
+          dashboard.id,
         ),
         enabled: true,
         frequency: endpoint.availabilityEvaluationFrequency || 10,
@@ -84,6 +99,7 @@ export class AzureAlertsConstruct {
     config: DashboardConfig,
     endpoint: Endpoint,
     index: number,
+    dashboard: portalDashboard.PortalDashboard,
   ) {
     const alertName = this.buildAlertName(
       config.name,
@@ -104,6 +120,7 @@ export class AzureAlertsConstruct {
           endpoint.path,
           "responsetime",
           "1s",
+          dashboard.id,
         ),
         enabled: true,
         frequency: endpoint.responseTimeEvaluationFrequency || 10,

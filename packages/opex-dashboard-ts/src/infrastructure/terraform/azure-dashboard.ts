@@ -17,14 +17,14 @@ export class AzureOpexStack extends TerraformStack {
     });
 
     // Create the dashboard using CDKTF PortalDashboard
-    new portalDashboard.PortalDashboard(this, "dashboard", {
+    const dashboard = new portalDashboard.PortalDashboard(this, "dashboard", {
       dashboardProperties: buildDashboardPropertiesTemplate(config),
       location: config.location,
       name: config.name.replace(/\s+/g, "_"),
       resourceGroupName: config.resourceGroupName,
     });
 
-    // Create alerts within the same stack
-    new AzureAlertsConstruct(this, config);
+    // Create alerts within the same stack, passing dashboard reference
+    new AzureAlertsConstruct(this, config, dashboard);
   }
 }
