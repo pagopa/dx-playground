@@ -2,23 +2,14 @@ import { z } from "zod";
 
 import { EndpointSchema } from "./endpoint.js";
 
-export const DEFAULT_CONFIG: Partial<DashboardConfig> = {
-  evaluation_frequency: 10,
-  evaluation_time_window: 20,
-  event_occurrences: 1,
-  resource_group_name: "dashboards",
-  resource_type: "app-gateway",
-  timespan: "5m",
-};
-
 // Zod schema for DashboardConfig
 export const DashboardConfigSchema = z.object({
   action_groups: z.array(z.string()).optional(),
   data_source: z.string(),
   endpoints: z.array(EndpointSchema).optional(),
-  evaluation_frequency: z.number().optional(),
-  evaluation_time_window: z.number().optional(),
-  event_occurrences: z.number().optional(),
+  evaluation_frequency: z.number().default(10),
+  evaluation_time_window: z.number().default(20),
+  event_occurrences: z.number().default(1),
   // Computed properties (optional in input)
   hosts: z.array(z.string()).optional(),
   location: z.string().optional(),
@@ -31,20 +22,13 @@ export const DashboardConfigSchema = z.object({
     })
     .optional(),
   resource_group_name: z.string().default("dashboards"),
-  resource_type: z.enum(["app-gateway", "api-management"]).optional(),
+  resource_type: z
+    .enum(["app-gateway", "api-management"])
+    .default("app-gateway"),
   resourceIds: z.array(z.string()).optional(),
   tags: z.record(z.string(), z.string()).optional(),
-  timespan: z.string().optional(),
+  timespan: z.string().default("5m"),
 });
 
 // Inferred types from Zod schemas
 export type DashboardConfig = z.infer<typeof DashboardConfigSchema>;
-
-export function mergeConfigWithDefaults(
-  config: Partial<DashboardConfig>,
-): DashboardConfig {
-  return {
-    ...DEFAULT_CONFIG,
-    ...config,
-  } as DashboardConfig;
-}

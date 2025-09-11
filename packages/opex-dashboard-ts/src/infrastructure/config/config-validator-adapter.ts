@@ -2,7 +2,6 @@ import {
   DashboardConfig,
   DashboardConfigSchema,
   IConfigValidator,
-  mergeConfigWithDefaults,
 } from "../../domain/index.js";
 
 export class ConfigValidatorAdapter implements IConfigValidator {
@@ -19,6 +18,6 @@ export class ConfigValidatorAdapter implements IConfigValidator {
     }
 
     // Apply defaults
-    return mergeConfigWithDefaults(result.data);
+    return result.data;
   }
 }
