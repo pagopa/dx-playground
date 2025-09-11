@@ -1,4 +1,5 @@
 import {
+  dataAzurermClientConfig,
   monitorScheduledQueryRulesAlert,
   portalDashboard,
 } from "@cdktf/provider-azurerm";
@@ -14,12 +15,27 @@ export class AzureAlertsConstruct {
     scope: Construct,
     config: DashboardConfig,
     dashboard: portalDashboard.PortalDashboard,
+    clientConfig: dataAzurermClientConfig.DataAzurermClientConfig,
   ) {
     if (!config.endpoints) return;
 
     config.endpoints.forEach((endpoint, index) => {
-      this.createAvailabilityAlert(scope, config, endpoint, index, dashboard);
-      this.createResponseTimeAlert(scope, config, endpoint, index, dashboard);
+      this.createAvailabilityAlert(
+        scope,
+        config,
+        endpoint,
+        index,
+        dashboard,
+        clientConfig,
+      );
+      this.createResponseTimeAlert(
+        scope,
+        config,
+        endpoint,
+        index,
+        dashboard,
+        clientConfig,
+      );
     });
   }
 
@@ -28,14 +44,15 @@ export class AzureAlertsConstruct {
     alertType: string,
     threshold: string,
     dashboardId: string,
+    tenantId: string,
   ): string {
     const baseDescription =
       alertType === "availability"
         ? `Availability for ${endpointPath} is less than or equal to ${threshold}`
         : `Response time for ${endpointPath} is less than or equal to ${threshold}`;
 
-    // Build the dashboard URL dynamically using TypeScript
-    const dashboardUrl = `https://portal.azure.com/#dashboard/arm${dashboardId}`;
+    // Build the dashboard URL dynamically using TypeScript with tenant GUID
+    const dashboardUrl = `https://portal.azure.com/#@${tenantId}/dashboard/arm${dashboardId}`;
     return `${baseDescription} - ${dashboardUrl}`;
   }
 
@@ -56,6 +73,7 @@ export class AzureAlertsConstruct {
     endpoint: Endpoint,
     index: number,
     dashboard: portalDashboard.PortalDashboard,
+    clientConfig: dataAzurermClientConfig.DataAzurermClientConfig,
   ) {
     const alertName = this.buildAlertName(
       config.name,
@@ -77,6 +95,7 @@ export class AzureAlertsConstruct {
           "availability",
           "99%",
           dashboard.id,
+          clientConfig.tenantId,
         ),
         enabled: true,
         frequency: endpoint.availabilityEvaluationFrequency || 10,
@@ -100,6 +119,7 @@ export class AzureAlertsConstruct {
     endpoint: Endpoint,
     index: number,
     dashboard: portalDashboard.PortalDashboard,
+    clientConfig: dataAzurermClientConfig.DataAzurermClientConfig,
   ) {
     const alertName = this.buildAlertName(
       config.name,
@@ -121,6 +141,7 @@ export class AzureAlertsConstruct {
           "responsetime",
           "1s",
           dashboard.id,
+          clientConfig.tenantId,
         ),
         enabled: true,
         frequency: endpoint.responseTimeEvaluationFrequency || 10,
