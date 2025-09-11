@@ -1,18 +1,14 @@
-import { DashboardConfig, Endpoint } from "../../domain/index.js";
-import { KustoQueryService } from "../../domain/services/kusto-query-service.js";
+import { Panel } from "../../domain/entities/panel.js";
+import { DashboardConfig } from "../../domain/index.js";
+import { PanelFactory } from "../../domain/services/panel-factory.js";
 
 export function buildDashboardPropertiesTemplate(
   config: DashboardConfig,
 ): string {
-  const kustoQueryService = new KustoQueryService();
-  const parts = config.endpoints
-    ?.map((endpoint, index) => {
-      const baseIndex = index * 3;
-      return `
-"${baseIndex}": ${buildAvailabilityPart(endpoint, config, baseIndex, kustoQueryService)},
-"${baseIndex + 1}": ${buildResponseCodesPart(endpoint, config, baseIndex + 1, kustoQueryService)},
-"${baseIndex + 2}": ${buildResponseTimePart(endpoint, config, baseIndex + 2, kustoQueryService)}`;
-    })
+  const factory = new PanelFactory();
+  const panels = factory.buildPanels(config);
+  const parts = panels
+    .map((panel) => `"${panel.id}": ${serializePanel(panel, config)}`)
     .join(",");
 
   return `{
@@ -69,423 +65,94 @@ export function buildDashboardPropertiesTemplate(
   }`;
 }
 
-function buildAvailabilityPart(
-  endpoint: Endpoint,
-  config: DashboardConfig,
-  partId: number,
-  kustoQueryService: KustoQueryService,
-): string {
-  const query = kustoQueryService.buildAvailabilityQuery(endpoint, config);
-  const resourceIds = JSON.stringify(config.resourceIds || []);
-
-  return `{
-    "position": {
-      "x": 0,
-      "y": ${Math.floor(partId / 3) * 4},
-      "colSpan": 6,
-      "rowSpan": 4
-    },
-    "metadata": {
-      "inputs": [
-        {
-          "name": "resourceTypeMode",
-          "isOptional": true
-        },
-        {
-          "name": "ComponentId",
-          "isOptional": true
-        },
-        {
-          "name": "Scope",
-          "value": {
-            "resourceIds": ${resourceIds}
-          },
-          "isOptional": true
-        },
-        {
-          "name": "PartId",
-          "isOptional": true
-        },
-        {
-          "name": "Version",
-          "value": "2.0",
-          "isOptional": true
-        },
-        {
-          "name": "TimeRange",
-          "value": "PT4H",
-          "isOptional": true
-        },
-        {
-          "name": "DashboardId",
-          "isOptional": true
-        },
-        {
-          "name": "DraftRequestParameters",
-          "value": {
-            "scope": "hierarchy"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "Query",
-          "value": ${JSON.stringify(query)},
-          "isOptional": true
-        },
-        {
-          "name": "ControlType",
-          "value": "FrameControlChart",
-          "isOptional": true
-        },
-        {
-          "name": "SpecificChart",
-          "value": "Line",
-          "isOptional": true
-        },
-        {
-          "name": "PartTitle",
-          "value": "Availability (${config.timespan})",
-          "isOptional": true
-        },
-        {
-          "name": "PartSubTitle",
-          "value": "${endpoint.path}",
-          "isOptional": true
-        },
-        {
-          "name": "Dimensions",
-          "value": {
-            "xAxis": {
-              "name": "TimeGenerated",
-              "type": "datetime"
-            },
-            "yAxis": [
-              {
-                "name": "availability",
-                "type": "real"
-              },
-              {
-                "name": "watermark",
-                "type": "real"
-              }
-            ],
-            "splitBy": [],
-            "aggregation": "Sum"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "LegendOptions",
-          "value": {
-            "isEnabled": true,
-            "position": "Bottom"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "IsQueryContainTimeRange",
-          "value": false,
-          "isOptional": true
-        }
+function buildInputDimensions(panel: Panel, config: DashboardConfig): string {
+  if (panel.kind === "availability") {
+    return JSON.stringify({
+      aggregation: "Sum",
+      splitBy: [],
+      xAxis: { name: "TimeGenerated", type: "datetime" },
+      yAxis: [
+        { name: "availability", type: "real" },
+        { name: "watermark", type: "real" },
       ],
-      "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
-      "settings": {
-        "content": {
-          "Query": ${JSON.stringify(query)},
-          "PartTitle": "Availability (${config.timespan})"
-        }
-      }
-    }
-  }`;
+    });
+  }
+  if (panel.kind === "response-codes") {
+    return JSON.stringify({
+      aggregation: "Sum",
+      splitBy: [],
+      xAxis: {
+        name:
+          config.resource_type === "api-management"
+            ? "responseCode_d"
+            : "httpStatus_d",
+        type: "string",
+      },
+      yAxis: [{ name: "count_", type: "long" }],
+    });
+  }
+  if (panel.kind === "response-time") {
+    return JSON.stringify({
+      aggregation: "Sum",
+      splitBy: [],
+      xAxis: { name: "TimeGenerated", type: "datetime" },
+      yAxis: [{ name: "duration_percentile_95", type: "real" }],
+    });
+  }
+  return "{}";
 }
 
-function buildResponseCodesPart(
-  endpoint: Endpoint,
-  config: DashboardConfig,
-  partId: number,
-  kustoQueryService: KustoQueryService,
-): string {
-  const query = kustoQueryService.buildResponseCodesQuery(endpoint, config);
-  const resourceIds = JSON.stringify(config.resourceIds || []);
-
-  return `{
-    "position": {
-      "x": 6,
-      "y": ${Math.floor(partId / 3) * 4},
-      "colSpan": 6,
-      "rowSpan": 4
-    },
-    "metadata": {
-      "inputs": [
-        {
-          "name": "resourceTypeMode",
-          "isOptional": true
-        },
-        {
-          "name": "ComponentId",
-          "isOptional": true
-        },
-        {
-          "name": "Scope",
-          "value": {
-            "resourceIds": ${resourceIds}
-          },
-          "isOptional": true
-        },
-        {
-          "name": "PartId",
-          "isOptional": true
-        },
-        {
-          "name": "Version",
-          "value": "2.0",
-          "isOptional": true
-        },
-        {
-          "name": "TimeRange",
-          "value": "PT4H",
-          "isOptional": true
-        },
-        {
-          "name": "DashboardId",
-          "isOptional": true
-        },
-        {
-          "name": "DraftRequestParameters",
-          "value": {
-            "scope": "hierarchy"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "Query",
-          "value": ${JSON.stringify(query)},
-          "isOptional": true
-        },
-        {
-          "name": "ControlType",
-          "value": "FrameControlChart",
-          "isOptional": true
-        },
-        {
-          "name": "SpecificChart",
-          "value": "Pie",
-          "isOptional": true
-        },
-        {
-          "name": "PartTitle",
-          "value": "Response Codes (${config.timespan})",
-          "isOptional": true
-        },
-        {
-          "name": "PartSubTitle",
-          "value": "${endpoint.path}",
-          "isOptional": true
-        },
-        {
-          "name": "Dimensions",
-          "value": {
-            "xAxis": {
-              "name": "${config.resource_type === "api-management" ? "responseCode_d" : "httpStatus_d"}",
-              "type": "string"
-            },
-            "yAxis": [
-              {
-                "name": "count_",
-                "type": "long"
-              }
-            ],
-            "splitBy": [],
-            "aggregation": "Sum"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "LegendOptions",
-          "value": {
-            "isEnabled": true,
-            "position": "Bottom"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "IsQueryContainTimeRange",
-          "value": false,
-          "isOptional": true
-        }
+function buildSettingsDimensions(panel: Panel): string | undefined {
+  if (panel.kind === "response-codes") {
+    return JSON.stringify({
+      aggregation: "Sum",
+      splitBy: [{ name: "HTTPStatus", type: "string" }],
+      xAxis: { name: "TimeGenerated", type: "datetime" },
+      yAxis: [{ name: "count_", type: "long" }],
+    });
+  }
+  if (panel.kind === "response-time") {
+    return JSON.stringify({
+      aggregation: "Sum",
+      splitBy: [],
+      xAxis: { name: "TimeGenerated", type: "datetime" },
+      yAxis: [
+        { name: "watermark", type: "long" },
+        { name: "duration_percentile_95", type: "real" },
       ],
-      "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
-      "settings": {
-        "content": {
-          "Query": ${JSON.stringify(query)},
-          "SpecificChart": "StackedArea",
-          "PartTitle": "Response Codes (${config.timespan})",
-          "Dimensions": {
-            "xAxis": {
-              "name": "TimeGenerated",
-              "type": "datetime"
-            },
-            "yAxis": [
-              {
-                "name": "count_",
-                "type": "long"
-              }
-            ],
-            "splitBy": [
-              {
-                "name": "${config.resource_type === "api-management" ? "HTTPStatus" : "HTTPStatus"}",
-                "type": "string"
-              }
-            ],
-            "aggregation": "Sum"
-          }
-        }
-      }
-    }
-  }`;
+    });
+  }
+  return undefined;
 }
 
-function buildResponseTimePart(
-  endpoint: Endpoint,
-  config: DashboardConfig,
-  partId: number,
-  kustoQueryService: KustoQueryService,
-): string {
-  const query = kustoQueryService.buildResponseTimeQuery(endpoint, config);
+function serializePanel(panel: Panel, config: DashboardConfig): string {
   const resourceIds = JSON.stringify(config.resourceIds || []);
-
+  const inputsChart = panel.chart.inputSpecificChart;
+  const dimensions = buildInputDimensions(panel, config);
+  const settingsDimensions = buildSettingsDimensions(panel);
   return `{
-    "position": {
-      "x": 12,
-      "y": ${Math.floor(partId / 3) * 4},
-      "colSpan": 6,
-      "rowSpan": 4
-    },
+    "position": ${JSON.stringify(panel.position)},
     "metadata": {
       "inputs": [
-        {
-          "name": "resourceTypeMode",
-          "isOptional": true
-        },
-        {
-          "name": "ComponentId",
-          "isOptional": true
-        },
-        {
-          "name": "Scope",
-          "value": {
-            "resourceIds": ${resourceIds}
-          },
-          "isOptional": true
-        },
-        {
-          "name": "PartId",
-          "isOptional": true
-        },
-        {
-          "name": "Version",
-          "value": "2.0",
-          "isOptional": true
-        },
-        {
-          "name": "TimeRange",
-          "value": "PT4H",
-          "isOptional": true
-        },
-        {
-          "name": "DashboardId",
-          "isOptional": true
-        },
-        {
-          "name": "DraftRequestParameters",
-          "value": {
-            "scope": "hierarchy"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "Query",
-          "value": ${JSON.stringify(query)},
-          "isOptional": true
-        },
-        {
-          "name": "ControlType",
-          "value": "FrameControlChart",
-          "isOptional": true
-        },
-        {
-          "name": "SpecificChart",
-          "value": "StackedColumn",
-          "isOptional": true
-        },
-        {
-          "name": "PartTitle",
-          "value": "Percentile Response Time (${config.timespan})",
-          "isOptional": true
-        },
-        {
-          "name": "PartSubTitle",
-          "value": "${endpoint.path}",
-          "isOptional": true
-        },
-        {
-          "name": "Dimensions",
-          "value": {
-            "xAxis": {
-              "name": "TimeGenerated",
-              "type": "datetime"
-            },
-            "yAxis": [
-              {
-                "name": "duration_percentile_95",
-                "type": "real"
-              }
-            ],
-            "splitBy": [],
-            "aggregation": "Sum"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "LegendOptions",
-          "value": {
-            "isEnabled": true,
-            "position": "Bottom"
-          },
-          "isOptional": true
-        },
-        {
-          "name": "IsQueryContainTimeRange",
-          "value": false,
-          "isOptional": true
-        }
+        { "name": "resourceTypeMode", "isOptional": true },
+        { "name": "ComponentId", "isOptional": true },
+        { "name": "Scope", "value": { "resourceIds": ${resourceIds} }, "isOptional": true },
+        { "name": "PartId", "isOptional": true },
+        { "name": "Version", "value": "2.0", "isOptional": true },
+        { "name": "TimeRange", "value": "PT4H", "isOptional": true },
+        { "name": "DashboardId", "isOptional": true },
+        { "name": "DraftRequestParameters", "value": { "scope": "hierarchy" }, "isOptional": true },
+        { "name": "Query", "value": ${JSON.stringify(panel.query)}, "isOptional": true },
+        { "name": "ControlType", "value": "FrameControlChart", "isOptional": true },
+        { "name": "SpecificChart", "value": "${inputsChart}", "isOptional": true },
+        { "name": "PartTitle", "value": "${panel.title}", "isOptional": true },
+        { "name": "PartSubTitle", "value": "${panel.subtitle}", "isOptional": true },
+        { "name": "Dimensions", "value": ${dimensions}, "isOptional": true },
+        { "name": "LegendOptions", "value": { "isEnabled": true, "position": "Bottom" }, "isOptional": true },
+        { "name": "IsQueryContainTimeRange", "value": false, "isOptional": true }
       ],
       "type": "Extension/Microsoft_OperationsManagementSuite_Workspace/PartType/LogsDashboardPart",
-      "settings": {
-        "content": {
-          "Query": ${JSON.stringify(query)},
-          "SpecificChart": "Line",
-          "PartTitle": "Percentile Response Time (${config.timespan})",
-          "Dimensions": {
-            "xAxis": {
-              "name": "TimeGenerated",
-              "type": "datetime"
-            },
-            "yAxis": [
-              {
-                "name": "watermark",
-                "type": "long"
-              },
-              {
-                "name": "duration_percentile_95",
-                "type": "real"
-              }
-            ],
-            "splitBy": [],
-            "aggregation": "Sum"
-          }
-        }
-      }
+      "settings": { "content": { "Query": ${JSON.stringify(panel.query)}, ${panel.kind === "response-codes" ? '"SpecificChart": "StackedArea",' : panel.kind === "response-time" ? '"SpecificChart": "Line",' : ""} "PartTitle": "${panel.title}"${settingsDimensions ? `, "Dimensions": ${settingsDimensions}` : ""} } }
     }
   }`;
 }
