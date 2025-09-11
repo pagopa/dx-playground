@@ -16,7 +16,7 @@ export class KustoQueryService {
     config: DashboardConfig,
     context: QueryContext = "alert",
   ): string {
-    const threshold = endpoint.availabilityThreshold || 0.99;
+    const threshold = endpoint.availabilityThreshold ?? 0.99;
     const regex = this.createGenericRegex(endpoint.path);
 
     const base =
@@ -75,7 +75,7 @@ ${base}
     config: DashboardConfig,
     context: QueryContext = "alert",
   ): string {
-    const threshold = endpoint.responseTimeThreshold || 1;
+    const threshold = endpoint.responseTimeThreshold ?? 1;
     const regex = this.createGenericRegex(endpoint.path);
 
     if (config.resource_type === "api-management") {

@@ -79,7 +79,7 @@ export class AzureAlertsConstruct {
       "availability",
       endpoint.path,
     );
-    const availabilityThreshold = endpoint.availabilityThreshold || 0.99;
+    const availabilityThreshold = endpoint.availabilityThreshold ?? 0.99;
     new monitorScheduledQueryRulesAlert.MonitorScheduledQueryRulesAlert(
       scope,
       `alarm_availability_${index}`, // Changed from availability-alert-{index}
@@ -97,7 +97,7 @@ export class AzureAlertsConstruct {
           clientConfig.tenantId,
         ),
         enabled: true,
-        frequency: endpoint.availabilityEvaluationFrequency || 10,
+        frequency: endpoint.availabilityEvaluationFrequency ?? 10,
         location: resolvedLocation,
         name: alertName,
         query: this.kustoQueryService.buildAvailabilityQuery(
@@ -108,10 +108,10 @@ export class AzureAlertsConstruct {
         resourceGroupName: config.resource_group_name,
         severity: 1,
         tags: config.tags,
-        timeWindow: endpoint.availabilityEvaluationTimeWindow || 20,
+        timeWindow: endpoint.availabilityEvaluationTimeWindow ?? 20,
         trigger: {
           operator: "GreaterThanOrEqual",
-          threshold: endpoint.availabilityEventOccurrences || 1,
+          threshold: endpoint.availabilityEventOccurrences ?? 1,
         },
       },
     );
@@ -131,7 +131,7 @@ export class AzureAlertsConstruct {
       "responsetime",
       endpoint.path,
     );
-    const responseThreshold = endpoint.responseTimeThreshold || 1;
+    const responseThreshold = endpoint.responseTimeThreshold ?? 1;
 
     new monitorScheduledQueryRulesAlert.MonitorScheduledQueryRulesAlert(
       scope,
@@ -150,7 +150,7 @@ export class AzureAlertsConstruct {
           clientConfig.tenantId,
         ),
         enabled: true,
-        frequency: endpoint.responseTimeEvaluationFrequency || 10,
+        frequency: endpoint.responseTimeEvaluationFrequency ?? 10,
         location: resolvedLocation,
         name: alertName,
         query: this.kustoQueryService.buildResponseTimeQuery(
@@ -161,10 +161,10 @@ export class AzureAlertsConstruct {
         resourceGroupName: config.resource_group_name,
         severity: 1,
         tags: config.tags,
-        timeWindow: endpoint.responseTimeEvaluationTimeWindow || 20,
+        timeWindow: endpoint.responseTimeEvaluationTimeWindow ?? 20,
         trigger: {
           operator: "GreaterThanOrEqual",
-          threshold: endpoint.responseTimeEventOccurrences || 1,
+          threshold: endpoint.responseTimeEventOccurrences ?? 1,
         },
       },
     );
