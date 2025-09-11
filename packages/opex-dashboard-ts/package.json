@@ -29,8 +29,7 @@
     "test:coverage": "vitest --coverage",
     "watch": "tsc --watch",
     "cdktf:deploy": "cdktf deploy",
-    "clean": "rm -rf dist cdktf.out",
-    "generate": "dist/index.js generate"
+    "clean": "rm -rf dist cdktf.out"
   },
   "keywords": [
     "opex",
