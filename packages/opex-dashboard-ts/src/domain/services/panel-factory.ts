@@ -59,11 +59,7 @@ export class PanelFactory {
         kind: "response-codes",
         path: endpoint.path,
         position: { colSpan: 6, rowSpan: 4, x: 6, y: rowY },
-        query: this.queryService.buildResponseCodesQuery(
-          endpoint,
-          config,
-          "dashboard",
-        ),
+        query: this.queryService.buildResponseCodesQuery(endpoint, config),
         subtitle: endpoint.path,
         title: `Response Codes (${config.timespan})`,
       });
