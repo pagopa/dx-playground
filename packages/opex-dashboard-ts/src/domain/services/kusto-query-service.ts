@@ -79,7 +79,7 @@ ${base}
 
     if (config.resource_type === "api-management") {
       if (context === "dashboard") {
-  return `let threshold = ${threshold};
+        return `let threshold = ${threshold};
 AzureDiagnostics
 | where url_s matches regex "${regex}"
 | summarize duration_percentile_95_ms = percentile(DurationMs, 95) by bin(TimeGenerated, ${config.timespan})

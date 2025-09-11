@@ -38,13 +38,13 @@ describe("dashboard properties template", () => {
     expect(json).not.toContain("where availability < threshold");
 
     // Response time: dashboard variant renders chart, not filtered by threshold
-  expect(json).toContain("response time (s)");
+    expect(json).toContain("response time (s)");
     expect(json).not.toContain("where duration_percentile_95 > threshold");
 
     // Regex expansion check
-  expect(json).toContain("/api/v1/services/[^/]+$");
-  // Subtitle normalization: camelCase placeholder should be snake_case
-  expect(json).toContain("{service_id}");
-  expect(json).not.toContain("{serviceId}");
+    expect(json).toContain("/api/v1/services/[^/]+$");
+    // Subtitle normalization: camelCase placeholder should be snake_case
+    expect(json).toContain("{service_id}");
+    expect(json).not.toContain("{serviceId}");
   });
 });

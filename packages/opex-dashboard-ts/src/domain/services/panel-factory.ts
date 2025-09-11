@@ -37,7 +37,7 @@ export class PanelFactory {
           config,
           "dashboard",
         ),
-  subtitle: normalizePathPlaceholders(endpoint.path),
+        subtitle: normalizePathPlaceholders(endpoint.path),
         title: `Availability (${config.timespan})`,
       });
       // Response Codes
@@ -55,7 +55,7 @@ export class PanelFactory {
         path: endpoint.path,
         position: { colSpan: 6, rowSpan: 4, x: 6, y: rowY },
         query: this.queryService.buildResponseCodesQuery(endpoint, config),
-  subtitle: normalizePathPlaceholders(endpoint.path),
+        subtitle: normalizePathPlaceholders(endpoint.path),
         title: `Response Codes (${config.timespan})`,
       });
       // Response Time
@@ -80,7 +80,7 @@ export class PanelFactory {
           config,
           "dashboard",
         ),
-  subtitle: normalizePathPlaceholders(endpoint.path),
+        subtitle: normalizePathPlaceholders(endpoint.path),
         title: `Percentile Response Time (${config.timespan})`,
       });
     });
