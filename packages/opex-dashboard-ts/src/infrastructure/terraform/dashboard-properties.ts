@@ -16,7 +16,6 @@ export function buildDashboardPropertiesTemplate(
     .join(",");
 
   return `{
-  "properties": {
     "lenses": {
       "0": {
         "order": 0,
@@ -67,15 +66,7 @@ export function buildDashboardPropertiesTemplate(
         }
       }
     }
-  },
-  "name": "${config.name}",
-  "type": "Microsoft.Portal/dashboards",
-  "location": "${config.location}",
-  "tags": {
-    "hidden-title": "${config.name}"
-  },
-  "apiVersion": "2015-08-01-preview"
-}`;
+  }`;
 }
 
 function buildAvailabilityPart(
