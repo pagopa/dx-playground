@@ -30,10 +30,11 @@ describe("Kusto Query Generation", () => {
   };
 
   describe("buildAvailabilityQuery", () => {
-    it("should generate correct availability query for app-gateway", () => {
+    it("should generate correct availability query for app-gateway (alert)", () => {
       const query = kustoQueryService.buildAvailabilityQuery(
         mockEndpoint,
         mockConfig,
+        "alert",
       );
 
       expect(query).toContain("AzureDiagnostics");
@@ -48,7 +49,7 @@ describe("Kusto Query Generation", () => {
       expect(query).toContain("let threshold = 0.99");
     });
 
-    it("should generate correct availability query for api-management", () => {
+    it("should generate correct availability query for api-management (alert)", () => {
       const apiConfig = {
         ...mockConfig,
         resource_type: "api-management" as const,
@@ -56,6 +57,7 @@ describe("Kusto Query Generation", () => {
       const query = kustoQueryService.buildAvailabilityQuery(
         mockEndpoint,
         apiConfig,
+        "alert",
       );
 
       expect(query).toContain("url_s matches regex");
@@ -64,30 +66,43 @@ describe("Kusto Query Generation", () => {
       expect(query).not.toContain("api_hosts"); // No datatable for api-management
     });
 
-    it("should include time window in query", () => {
+    it("should include time window in query (alert)", () => {
       const query = kustoQueryService.buildAvailabilityQuery(
         mockEndpoint,
         mockConfig,
+        "alert",
       );
       expect(query).toContain("bin(TimeGenerated, 5m)");
     });
 
-    it("should include api_hosts datatable for app-gateway", () => {
+    it("should include api_hosts datatable for app-gateway (alert)", () => {
       const query = kustoQueryService.buildAvailabilityQuery(
         mockEndpoint,
         mockConfig,
+        "alert",
       );
 
       expect(query).toContain("let api_hosts = datatable (name: string)");
       expect(query).toContain("originalHost_s in (api_hosts)");
     });
+    it("should NOT filter by threshold in dashboard availability query", () => {
+      const query = kustoQueryService.buildAvailabilityQuery(
+        mockEndpoint,
+        mockConfig,
+        "dashboard",
+      );
+      expect(query).toContain("render timechart");
+      expect(query).not.toContain("where availability < threshold");
+      expect(query).toContain("watermark=threshold");
+    });
   });
 
   describe("buildResponseTimeQuery", () => {
-    it("should generate correct response time query for app-gateway", () => {
+    it("should generate correct response time query for app-gateway (alert)", () => {
       const query = kustoQueryService.buildResponseTimeQuery(
         mockEndpoint,
         mockConfig,
+        "alert",
       );
 
       expect(query).toContain("AzureDiagnostics");
@@ -100,7 +115,7 @@ describe("Kusto Query Generation", () => {
       expect(query).toContain("where duration_percentile_95 > threshold");
     });
 
-    it("should generate correct response time query for api-management", () => {
+    it("should generate correct response time query for api-management (alert)", () => {
       const apiConfig = {
         ...mockConfig,
         resource_type: "api-management" as const,
@@ -108,6 +123,7 @@ describe("Kusto Query Generation", () => {
       const query = kustoQueryService.buildResponseTimeQuery(
         mockEndpoint,
         apiConfig,
+        "alert",
       );
 
       expect(query).toContain("url_s matches regex");
@@ -117,14 +133,24 @@ describe("Kusto Query Generation", () => {
       expect(query).not.toContain("api_hosts"); // No datatable for api-management
     });
 
-    it("should use correct response time threshold", () => {
+    it("should use correct response time threshold (alert)", () => {
       const customEndpoint = { ...mockEndpoint, responseTimeThreshold: 2 };
       const query = kustoQueryService.buildResponseTimeQuery(
         customEndpoint,
         mockConfig,
+        "alert",
       );
 
       expect(query).toContain("let threshold = 2");
+    });
+    it("should NOT filter by threshold in dashboard response time query", () => {
+      const query = kustoQueryService.buildResponseTimeQuery(
+        mockEndpoint,
+        mockConfig,
+        "dashboard",
+      );
+      expect(query).toContain("render timechart");
+      expect(query).not.toContain("where duration_percentile_95 > threshold");
     });
   });
 
@@ -133,10 +159,12 @@ describe("Kusto Query Generation", () => {
       const availabilityQuery = kustoQueryService.buildAvailabilityQuery(
         mockEndpoint,
         mockConfig,
+        "alert",
       );
       const responseTimeQuery = kustoQueryService.buildResponseTimeQuery(
         mockEndpoint,
         mockConfig,
+        "alert",
       );
 
       // Basic syntax checks
@@ -152,6 +180,7 @@ describe("Kusto Query Generation", () => {
       const query = kustoQueryService.buildAvailabilityQuery(
         endpointWithParam,
         mockConfig,
+        "alert",
       );
 
       expect(query).toContain("requestUri_s matches regex");
@@ -167,6 +196,7 @@ describe("Kusto Query Generation", () => {
       const query = kustoQueryService.buildAvailabilityQuery(
         endpointWithMultipleParams,
         mockConfig,
+        "alert",
       );
 
       expect(query).toContain("/api/v1/users/[^/]+/posts/[^/]+$");
