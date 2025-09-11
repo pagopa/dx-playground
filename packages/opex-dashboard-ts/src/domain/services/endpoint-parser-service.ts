@@ -1,6 +1,6 @@
 import { isOpenAPIV2, isOpenAPIV3, OpenAPISpec } from "../../shared/openapi.js";
 import { DashboardConfig } from "../entities/dashboard-config.js";
-import { Endpoint, mergeEndpointWithDefaults } from "../entities/endpoint.js";
+import { Endpoint, EndpointSchema } from "../entities/endpoint.js";
 
 export class EndpointParserService {
   parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[] {
@@ -11,7 +11,7 @@ export class EndpointParserService {
     for (const host of hosts) {
       for (const path of paths) {
         const endpointPath = this.buildEndpointPath(host, path, spec);
-        const endpoint = mergeEndpointWithDefaults({
+        const endpoint = EndpointSchema.parse({
           path: endpointPath,
           ...this.getEndpointOverrides(endpointPath, config.overrides),
         });
