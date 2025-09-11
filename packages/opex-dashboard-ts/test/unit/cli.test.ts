@@ -96,7 +96,7 @@ describe("CLI Commands", () => {
       const result = configValidator.validateConfig(configWithDefaults);
       expect(result.resource_type).toBe("app-gateway"); // default value
       expect(result.timespan).toBe("5m"); // default value
-      expect(result.resourceGroupName).toBe("dashboards"); // default value
+      expect(result.resource_group_name).toBe("dashboards"); // default value
     });
   });
 

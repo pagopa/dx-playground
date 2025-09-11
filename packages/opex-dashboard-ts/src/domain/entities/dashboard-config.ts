@@ -6,8 +6,8 @@ export const DEFAULT_CONFIG: Partial<DashboardConfig> = {
   evaluation_frequency: 10,
   evaluation_time_window: 20,
   event_occurrences: 1,
+  resource_group_name: "dashboards",
   resource_type: "app-gateway",
-  resourceGroupName: "dashboards",
   timespan: "5m",
 };
 
@@ -21,7 +21,7 @@ export const DashboardConfigSchema = z.object({
   event_occurrences: z.number().optional(),
   // Computed properties (optional in input)
   hosts: z.array(z.string()).optional(),
-  location: z.string(),
+  location: z.string().optional(),
   name: z.string(),
   oa3_spec: z.string(),
   overrides: z
@@ -30,9 +30,10 @@ export const DashboardConfigSchema = z.object({
       hosts: z.array(z.string()).optional(),
     })
     .optional(),
+  resource_group_name: z.string().default("dashboards"),
   resource_type: z.enum(["app-gateway", "api-management"]).optional(),
-  resourceGroupName: z.string().default("dashboards"),
   resourceIds: z.array(z.string()).optional(),
+  tags: z.record(z.string(), z.string()).optional(),
   timespan: z.string().optional(),
 });
 

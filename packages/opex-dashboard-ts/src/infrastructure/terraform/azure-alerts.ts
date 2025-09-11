@@ -16,6 +16,7 @@ export class AzureAlertsConstruct {
     config: DashboardConfig,
     dashboard: portalDashboard.PortalDashboard,
     clientConfig: dataAzurermClientConfig.DataAzurermClientConfig,
+    resolvedLocation: string,
   ) {
     if (!config.endpoints) return;
 
@@ -27,6 +28,7 @@ export class AzureAlertsConstruct {
         index,
         dashboard,
         clientConfig,
+        resolvedLocation,
       );
       this.createResponseTimeAlert(
         scope,
@@ -35,6 +37,7 @@ export class AzureAlertsConstruct {
         index,
         dashboard,
         clientConfig,
+        resolvedLocation,
       );
     });
   }
@@ -69,6 +72,7 @@ export class AzureAlertsConstruct {
     index: number,
     dashboard: portalDashboard.PortalDashboard,
     clientConfig: dataAzurermClientConfig.DataAzurermClientConfig,
+    resolvedLocation: string,
   ) {
     const alertName = this.buildAlertName(
       config.name,
@@ -94,15 +98,16 @@ export class AzureAlertsConstruct {
         ),
         enabled: true,
         frequency: endpoint.availabilityEvaluationFrequency || 10,
-        location: config.location,
+        location: resolvedLocation,
         name: alertName,
         query: this.kustoQueryService.buildAvailabilityQuery(
           endpoint,
           config,
           "alert",
         ),
-        resourceGroupName: config.resourceGroupName,
+        resourceGroupName: config.resource_group_name,
         severity: 1,
+        tags: config.tags,
         timeWindow: endpoint.availabilityEvaluationTimeWindow || 20,
         trigger: {
           operator: "GreaterThanOrEqual",
@@ -119,6 +124,7 @@ export class AzureAlertsConstruct {
     index: number,
     dashboard: portalDashboard.PortalDashboard,
     clientConfig: dataAzurermClientConfig.DataAzurermClientConfig,
+    resolvedLocation: string,
   ) {
     const alertName = this.buildAlertName(
       config.name,
@@ -145,15 +151,16 @@ export class AzureAlertsConstruct {
         ),
         enabled: true,
         frequency: endpoint.responseTimeEvaluationFrequency || 10,
-        location: config.location,
+        location: resolvedLocation,
         name: alertName,
         query: this.kustoQueryService.buildResponseTimeQuery(
           endpoint,
           config,
           "alert",
         ),
-        resourceGroupName: config.resourceGroupName,
+        resourceGroupName: config.resource_group_name,
         severity: 1,
+        tags: config.tags,
         timeWindow: endpoint.responseTimeEvaluationTimeWindow || 20,
         trigger: {
           operator: "GreaterThanOrEqual",

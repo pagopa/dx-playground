@@ -1,5 +1,6 @@
 import {
   dataAzurermClientConfig,
+  dataAzurermResourceGroup,
   portalDashboard,
   provider,
 } from "@cdktf/provider-azurerm";
@@ -27,15 +28,30 @@ export class AzureOpexStack extends TerraformStack {
       {},
     );
 
+    // Lookup Resource Group to inherit location
+    const rg = new dataAzurermResourceGroup.DataAzurermResourceGroup(
+      this,
+      "rg",
+      { name: config.resource_group_name },
+    );
+    const resolvedLocation = rg.location;
+
     // Create the dashboard using CDKTF PortalDashboard
     const dashboard = new portalDashboard.PortalDashboard(this, "dashboard", {
       dashboardProperties: buildDashboardPropertiesTemplate(config),
-      location: config.location,
+      location: resolvedLocation,
       name: config.name.replace(/\s+/g, "_"),
-      resourceGroupName: config.resourceGroupName,
+      resourceGroupName: config.resource_group_name,
+      tags: config.tags,
     });
 
     // Create alerts within the same stack, passing dashboard reference and tenant
-    new AzureAlertsConstruct(this, config, dashboard, clientConfig);
+    new AzureAlertsConstruct(
+      this,
+      config,
+      dashboard,
+      clientConfig,
+      resolvedLocation,
+    );
   }
 }

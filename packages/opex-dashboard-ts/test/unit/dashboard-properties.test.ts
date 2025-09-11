@@ -21,7 +21,7 @@ describe("dashboard properties template", () => {
     data_source: "workspace-id",
     resource_type: "app-gateway",
     timespan: "5m",
-    resourceGroupName: "rg-demo",
+    resource_group_name: "rg-demo",
     resourceIds: [
       "/subscriptions/xxxx/resourceGroups/rg-demo/providers/Microsoft.Network/applicationGateways/gtw-demo",
     ],
