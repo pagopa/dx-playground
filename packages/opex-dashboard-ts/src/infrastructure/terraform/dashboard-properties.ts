@@ -65,7 +65,7 @@ export function buildDashboardPropertiesTemplate(
   }`;
 }
 
-function buildInputDimensions(panel: Panel, config: DashboardConfig): string {
+function buildInputDimensions(panel: Panel): string {
   if (panel.kind === "availability") {
     return JSON.stringify({
       aggregation: "Sum",
@@ -80,14 +80,8 @@ function buildInputDimensions(panel: Panel, config: DashboardConfig): string {
   if (panel.kind === "response-codes") {
     return JSON.stringify({
       aggregation: "Sum",
-      splitBy: [],
-      xAxis: {
-        name:
-          config.resource_type === "api-management"
-            ? "responseCode_d"
-            : "httpStatus_d",
-        type: "string",
-      },
+      splitBy: [{ name: "HTTPStatus", type: "string" }],
+      xAxis: { name: "TimeGenerated", type: "datetime" },
       yAxis: [{ name: "count_", type: "long" }],
     });
   }
@@ -96,7 +90,10 @@ function buildInputDimensions(panel: Panel, config: DashboardConfig): string {
       aggregation: "Sum",
       splitBy: [],
       xAxis: { name: "TimeGenerated", type: "datetime" },
-      yAxis: [{ name: "duration_percentile_95", type: "real" }],
+      yAxis: [
+        { name: "duration_percentile_95", type: "real" },
+        { name: "watermark", type: "long" },
+      ],
     });
   }
   return "{}";
@@ -117,8 +114,8 @@ function buildSettingsDimensions(panel: Panel): string | undefined {
       splitBy: [],
       xAxis: { name: "TimeGenerated", type: "datetime" },
       yAxis: [
-        { name: "watermark", type: "long" },
         { name: "duration_percentile_95", type: "real" },
+        { name: "watermark", type: "long" },
       ],
     });
   }
@@ -128,7 +125,7 @@ function buildSettingsDimensions(panel: Panel): string | undefined {
 function serializePanel(panel: Panel, config: DashboardConfig): string {
   const resourceIds = JSON.stringify(config.resourceIds || []);
   const inputsChart = panel.chart.inputSpecificChart;
-  const dimensions = buildInputDimensions(panel, config);
+  const dimensions = buildInputDimensions(panel);
   const settingsDimensions = buildSettingsDimensions(panel);
   return `{
     "position": ${JSON.stringify(panel.position)},

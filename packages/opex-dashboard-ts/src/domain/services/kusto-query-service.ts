@@ -48,21 +48,24 @@ ${base}
   }
 
   buildResponseCodesQuery(endpoint: Endpoint, config: DashboardConfig): string {
-    // For response codes we don't filter by threshold; same query for both contexts.
+    /*
+      Aggregate HTTP status into families (1XX .. 5XX) to reduce noise and align with reference dashboard.
+      Anything outside the standard ranges will be bucketed as "Other".
+    */
     const regex = this.createGenericRegex(endpoint.path);
-    if (config.resource_type === "api-management") {
-      return `AzureDiagnostics
-| where url_s matches regex "${regex}"
-| summarize count_ = count() by bin(TimeGenerated, ${config.timespan}), HTTPStatus = responseCode_d
-| render timechart with (xtitle = "time", ytitle = "count")`;
-    }
-    const hosts = config.hosts || [];
-    const hostsDataTable = this.createHostsDataTable(hosts);
-    return `${hostsDataTable}
-AzureDiagnostics
-| where originalHost_s in (api_hosts)
-| where requestUri_s matches regex "${regex}"
-| summarize count_ = count() by bin(TimeGenerated, ${config.timespan}), HTTPStatus = httpStatus_d
+    const timeBin = config.timespan;
+    const codeColumn =
+      config.resource_type === "api-management"
+        ? "responseCode_d"
+        : "httpStatus_d";
+    const sourceFilter =
+      config.resource_type === "api-management"
+        ? `AzureDiagnostics\n| where url_s matches regex "${regex}"`
+        : `${this.createHostsDataTable(config.hosts || [])}\nAzureDiagnostics\n| where originalHost_s in (api_hosts)\n| where requestUri_s matches regex "${regex}"`;
+
+    return `${sourceFilter}
+| extend HTTPStatus = case(${codeColumn} between (100 .. 199), "1XX", ${codeColumn} between (200 .. 299), "2XX", ${codeColumn} between (300 .. 399), "3XX", ${codeColumn} between (400 .. 499), "4XX", ${codeColumn} between (500 .. 599), "5XX", "Other")
+| summarize count_ = count() by bin(TimeGenerated, ${timeBin}), HTTPStatus
 | render timechart with (xtitle = "time", ytitle = "count")`;
   }
 
@@ -76,17 +79,18 @@ AzureDiagnostics
 
     if (config.resource_type === "api-management") {
       if (context === "dashboard") {
-        return `let threshold = ${threshold};
+  return `let threshold = ${threshold};
 AzureDiagnostics
 | where url_s matches regex "${regex}"
-| summarize duration_percentile_95 = percentile(DurationMs, 95) by bin(TimeGenerated, ${config.timespan})
-| extend watermark = threshold
-| render timechart with (xtitle = "time", ytitle = "duration (ms)")`;
+| summarize duration_percentile_95_ms = percentile(DurationMs, 95) by bin(TimeGenerated, ${config.timespan})
+| extend duration_percentile_95 = duration_percentile_95_ms / 1000.0, watermark = threshold
+| render timechart with (xtitle = "time", ytitle = "response time (s)")`;
       }
       return `let threshold = ${threshold};
 AzureDiagnostics
 | where url_s matches regex "${regex}"
-| summarize duration_percentile_95 = percentile(DurationMs, 95) by bin(TimeGenerated, ${config.timespan})
+| summarize duration_percentile_95_ms = percentile(DurationMs, 95) by bin(TimeGenerated, ${config.timespan})
+| extend duration_percentile_95 = duration_percentile_95_ms / 1000.0
 | where duration_percentile_95 > threshold`;
     }
 
@@ -98,15 +102,17 @@ ${hostsDataTable}
 AzureDiagnostics
 | where originalHost_s in (api_hosts)
 | where requestUri_s matches regex "${regex}"
-| summarize watermark=threshold, duration_percentile_95=percentiles(timeTaken_d, 95) by bin(TimeGenerated, ${config.timespan})
-| render timechart with (xtitle = "time", ytitle = "duration (ms)")`;
+| summarize duration_percentile_95_ms=percentiles(timeTaken_d, 95) by bin(TimeGenerated, ${config.timespan})
+| extend watermark=threshold, duration_percentile_95 = duration_percentile_95_ms / 1000.0
+| render timechart with (xtitle = "time", ytitle = "response time (s)")`;
     }
     return `let threshold = ${threshold};
 ${hostsDataTable}
 AzureDiagnostics
 | where originalHost_s in (api_hosts)
 | where requestUri_s matches regex "${regex}"
-| summarize watermark=threshold, duration_percentile_95=percentiles(timeTaken_d, 95) by bin(TimeGenerated, ${config.timespan})
+| summarize duration_percentile_95_ms=percentiles(timeTaken_d, 95) by bin(TimeGenerated, ${config.timespan})
+| extend watermark=threshold, duration_percentile_95 = duration_percentile_95_ms / 1000.0
 | where duration_percentile_95 > threshold`;
   }
 

@@ -9,7 +9,7 @@ import { DashboardConfig, Endpoint } from "../../src/domain/index.js";
 
 describe("dashboard properties template", () => {
   const endpoint: Endpoint = {
-    path: "/api/v1/services/{service_id}",
+    path: "/api/v1/services/{serviceId}",
     availabilityThreshold: 0.99,
     responseTimeThreshold: 1,
   } as Endpoint;
@@ -38,10 +38,13 @@ describe("dashboard properties template", () => {
     expect(json).not.toContain("where availability < threshold");
 
     // Response time: dashboard variant renders chart, not filtered by threshold
-    expect(json).toContain("duration (ms)");
+  expect(json).toContain("response time (s)");
     expect(json).not.toContain("where duration_percentile_95 > threshold");
 
     // Regex expansion check
-    expect(json).toContain("/api/v1/services/[^/]+$");
+  expect(json).toContain("/api/v1/services/[^/]+$");
+  // Subtitle normalization: camelCase placeholder should be snake_case
+  expect(json).toContain("{service_id}");
+  expect(json).not.toContain("{serviceId}");
   });
 });

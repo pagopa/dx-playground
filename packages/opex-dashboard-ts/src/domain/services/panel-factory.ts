@@ -1,6 +1,7 @@
 import { DashboardConfig } from "../entities/dashboard-config.js";
 import { Panel } from "../entities/panel.js";
 import { KustoQueryService } from "./kusto-query-service.js";
+import { normalizePathPlaceholders } from "./path-utils.js";
 
 /*
   PanelFactory converts Endpoints into a list of logical Panel models (domain) decoupled
@@ -36,7 +37,7 @@ export class PanelFactory {
           config,
           "dashboard",
         ),
-        subtitle: endpoint.path,
+  subtitle: normalizePathPlaceholders(endpoint.path),
         title: `Availability (${config.timespan})`,
       });
       // Response Codes
@@ -46,13 +47,7 @@ export class PanelFactory {
           settingsSpecificChart: "StackedArea",
         },
         dimensions: {
-          xAxis: {
-            name:
-              config.resource_type === "api-management"
-                ? "responseCode_d"
-                : "httpStatus_d",
-            type: "string",
-          },
+          xAxis: { name: "TimeGenerated", type: "datetime" },
           yAxis: [{ name: "count_", type: "long" }],
         },
         id: idx * 3 + 1,
@@ -60,7 +55,7 @@ export class PanelFactory {
         path: endpoint.path,
         position: { colSpan: 6, rowSpan: 4, x: 6, y: rowY },
         query: this.queryService.buildResponseCodesQuery(endpoint, config),
-        subtitle: endpoint.path,
+  subtitle: normalizePathPlaceholders(endpoint.path),
         title: `Response Codes (${config.timespan})`,
       });
       // Response Time
@@ -72,8 +67,8 @@ export class PanelFactory {
         dimensions: {
           xAxis: { name: "TimeGenerated", type: "datetime" },
           yAxis: [
-            { name: "watermark", type: "long" },
             { name: "duration_percentile_95", type: "real" },
+            { name: "watermark", type: "long" },
           ],
         },
         id: idx * 3 + 2,
@@ -85,7 +80,7 @@ export class PanelFactory {
           config,
           "dashboard",
         ),
-        subtitle: endpoint.path,
+  subtitle: normalizePathPlaceholders(endpoint.path),
         title: `Percentile Response Time (${config.timespan})`,
       });
     });
