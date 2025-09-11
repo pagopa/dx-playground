@@ -62,8 +62,6 @@ export class AzureAlertsConstruct {
     endpointPath: string,
   ): string {
     const fullName = `${dashboardName}-${alertType} @ ${endpointPath}`;
-
-    // Implement Terraform logic in TypeScript: split("/"), join("_"), remove {|}
     return fullName.split("/").join("_").replace(/[{}]/g, ""); // Remove curly braces
   }
 
