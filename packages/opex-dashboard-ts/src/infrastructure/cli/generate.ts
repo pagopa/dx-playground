@@ -15,6 +15,9 @@ export const generateCommand = new Command()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   .action(async (options: any) => {
     try {
+      // See https://github.com/hashicorp/terraform-cdk/pull/3876
+      process.env.SYNTH_HCL_OUTPUT = "true";
+
       // Create adapters
       const fileReader = new FileReaderAdapter();
       const configValidator = new ConfigValidatorAdapter();
