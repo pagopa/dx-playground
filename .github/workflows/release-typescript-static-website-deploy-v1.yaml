@@ -151,14 +151,26 @@ jobs:
           bundle_name: ${{ env.BUNDLE_NAME }}
           file_path: "./${{ env.OUTPUT_DIR }}"
 
-      - name: Make sensitive
-        run: echo "::add-mask::${{ needs.find-key.outputs.api_key }}"
+      - name: Set API key env and mask it
+        # Do NOT interpolate the key directly in the workflow YAML. Instead
+        # set it as an environment variable from the job output and call
+        # the runner command to add the mask at runtime. This avoids the
+        # key appearing in workflow logs during render/checkout.
+        env:
+          AZSWAP_API_KEY: ${{ needs.find-key.outputs.api_key }}
+        run: |
+          # Mask the API key for the remainder of the job
+          echo "::add-mask::$AZSWAP_API_KEY"
 
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@4d27395796ac319302594769cfe812bd207490b1 # v1
+        env:
+          # Pass the API key to the action as an environment variable so
+          # it is not directly expanded in the workflow YAML/logs.
+          AZSWAP_API_KEY: ${{ needs.find-key.outputs.api_key }}
         with:
-          azure_static_web_apps_api_token: ${{ needs.find-key.outputs.api_key }}
+          azure_static_web_apps_api_token: ${{ env.AZSWAP_API_KEY }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "./${{ env.OUTPUT_DIR }}"
@@ -169,10 +181,18 @@ jobs:
     needs: [find-key]
     name: Delete Preview when PR is closed
     steps:
+      - name: Set API key env and mask it
+        env:
+          AZSWAP_API_KEY: ${{ needs.find-key.outputs.api_key }}
+        run: |
+          echo "::add-mask::$AZSWAP_API_KEY"
+
       - name: Delete Preview
         uses: Azure/static-web-apps-deploy@v1
+        env:
+          AZSWAP_API_KEY: ${{ needs.find-key.outputs.api_key }}
         with:
-          azure_static_web_apps_api_token: ${{ needs.find-key.outputs.api_key }}
+          azure_static_web_apps_api_token: ${{ env.AZSWAP_API_KEY }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           app_location: "./${{ env.OUTPUT_DIR }}"
           action: "close"
