@@ -9,13 +9,36 @@ const opexConfig: DashboardConfig = {
   ],
   data_source:
     "/subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw",
-  location: "West Europe",
-  name: "My Dashboard",
+  name: "My spec",
   oa3_spec:
-    "https://raw.githubusercontent.com/pagopa/opex-dashboard/main/test/data/io_backend.yaml",
+    "https://raw.githubusercontent.com/pagopa/opex-dashboard/refs/heads/main/test/data/io_backend_light.yaml",
+  overrides: {
+    endpoints: {
+      "/api/v1/services/{service_id}": {
+        availability_evaluation_frequency: 30, // Default: 10
+        availability_evaluation_time_window: 50, // Default: 20
+        availability_event_occurrences: 3, // Default: 1
+        availability_threshold: 0.95, // Default: 99%
+        response_time_evaluation_frequency: 35, // Default: 10
+        response_time_evaluation_time_window: 55, // Default: 20
+        response_time_event_occurrences: 5, // Default: 1
+        response_time_threshold: 2, // Default: 1
+      },
+    },
+    hosts: [
+      // Use these hosts instead of those inside the OpenApi spec
+      "https://example.com",
+      "https://example2.com",
+    ],
+  },
+  resource_group_name: "dashboards",
   resource_type: "app-gateway",
-  timespan: "5m",
-} as const;
+  tags: {
+    Environment: "TEST",
+    Owner: "team-opex",
+  },
+  timespan: "6m", // Default, a number or a timespan https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/scalar-data-types/timespan
+};
 
 const backendConfig: AzurermBackendConfig = {
   containerName: "tfstate",

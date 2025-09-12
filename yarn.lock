@@ -3103,7 +3103,7 @@ __metadata:
     vitest: "npm:^3.2.4"
     zod: "npm:^4.1.5"
   bin:
-    opex-dashboard-ts: dist/cli.js
+    opex-dashboard-ts: dist/infrastructure/cli/index.js
   languageName: unknown
   linkType: soft
 

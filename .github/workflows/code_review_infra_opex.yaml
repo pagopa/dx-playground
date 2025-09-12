@@ -1,0 +1,53 @@
+name: Infra OPEX Code Review
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+    paths:
+      # Trigger the workflow when source files that generate terraform are modified
+      - "test-opex-api/**/opex.ts"
+      - "test-opex-api/**/openapi/*.yaml"
+      # - "**/openapi*.yaml"
+      # - "**/openapi/**/*.yaml"
+      # Trigger the workflow when the involved workflows are modified
+      - ".github/workflows/code_review_infra_opex.yaml"
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+jobs:
+  generate_infra:
+    runs-on: ubuntu-latest
+    name: Generate Infra OPEX
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Generate infra for test-opex-api
+        run: yarn run generate:infra --workspace=test-opex-api
+
+  code_review_dev:
+    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+    name: Code Review Infra OPEX Plan
+    secrets: inherit
+    with:
+      environment: opex-dashboard
+      override_github_environment: "infra-dev"
+      base_path: test-opex-api/stacks
