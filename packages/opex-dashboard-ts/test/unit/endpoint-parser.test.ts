@@ -41,8 +41,8 @@ describe("parseEndpoints", () => {
 
       endpoints.forEach((endpoint) => {
         expect(endpoint).toHaveProperty("path");
-        expect(endpoint).toHaveProperty("availabilityThreshold", 0.99); // from defaults
-        expect(endpoint).toHaveProperty("responseTimeThreshold", 1); // from defaults
+        expect(endpoint).toHaveProperty("availability_threshold", 0.99); // from defaults
+        expect(endpoint).toHaveProperty("response_time_threshold", 1); // from defaults
       });
     });
   });

@@ -1,6 +1,6 @@
-oa3_spec: test/data/io_backend.yaml # If start with http the file would be download from the internet
+oa3_spec: https://raw.githubusercontent.com/pagopa/opex-dashboard/refs/heads/main/test/data/io_backend_light.yaml
 name: My spec
-timespan: 5m # Default, a number or a timespan https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/scalar-data-types/timespan
+timespan: 6m # Default, a number or a timespan https://docs.microsoft.com/en-us/azure/data-explorer/kusto/query/scalar-data-types/timespan
 data_source: /subscriptions/uuid/resourceGroups/my-rg/providers/Microsoft.Network/applicationGateways/my-gtw
 resource_type: app-gateway
 resource_group_name: dashboards

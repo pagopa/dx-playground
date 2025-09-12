@@ -8,14 +8,14 @@ describe("Kusto Query Generation", () => {
   const kustoQueryService = new KustoQueryService();
   const mockEndpoint: Endpoint = {
     path: "/api/users",
-    availabilityThreshold: 0.99,
-    availabilityEvaluationFrequency: 10,
-    availabilityEvaluationTimeWindow: 20,
-    availabilityEventOccurrences: 1,
-    responseTimeThreshold: 1,
-    responseTimeEvaluationFrequency: 10,
-    responseTimeEvaluationTimeWindow: 20,
-    responseTimeEventOccurrences: 1,
+    availability_threshold: 0.99,
+    availability_evaluation_frequency: 10,
+    availability_evaluation_time_window: 20,
+    availability_event_occurrences: 1,
+    response_time_threshold: 1,
+    response_time_evaluation_frequency: 10,
+    response_time_evaluation_time_window: 20,
+    response_time_event_occurrences: 1,
   };
 
   const mockConfig: DashboardConfig = {
@@ -134,7 +134,7 @@ describe("Kusto Query Generation", () => {
     });
 
     it("should use correct response time threshold (alert)", () => {
-      const customEndpoint = { ...mockEndpoint, responseTimeThreshold: 2 };
+      const customEndpoint = { ...mockEndpoint, response_time_threshold: 2 };
       const query = kustoQueryService.buildResponseTimeQuery(
         customEndpoint,
         mockConfig,

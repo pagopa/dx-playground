@@ -10,8 +10,8 @@ import { DashboardConfig, Endpoint } from "../../src/domain/index.js";
 describe("dashboard properties template", () => {
   const endpoint: Endpoint = {
     path: "/api/v1/services/{serviceId}",
-    availabilityThreshold: 0.99,
-    responseTimeThreshold: 1,
+    availability_threshold: 0.99,
+    response_time_threshold: 1,
   } as Endpoint;
 
   const config: DashboardConfig = {

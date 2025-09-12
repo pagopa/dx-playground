@@ -79,8 +79,8 @@ overrides:
     - staging.api.example.com
   endpoints:
     /api/users:
-      availabilityThreshold: 0.95
-      responseTimeThreshold: 2.0
+      availability_threshold: 0.95
+      response_time_threshold: 2.0
     /api/orders:
       enabled: false # Disable monitoring for this endpoint
 ```

@@ -13,8 +13,8 @@ describe("synth: tags are applied to dashboard and alerts", () => {
 
     const endpoint: Endpoint = {
       path: "/api/v1/services",
-      availabilityThreshold: 0.99,
-      responseTimeThreshold: 1,
+      availability_threshold: 0.99,
+      response_time_threshold: 1,
     } as Endpoint;
 
     const dataSource =
