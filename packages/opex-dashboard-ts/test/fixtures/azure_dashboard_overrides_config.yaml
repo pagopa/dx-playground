@@ -13,6 +13,7 @@ tags:
 overrides:
   hosts: # Use these hosts instead of those inside the OpenApi spec
     - https://example.com
+    - https://example2.com
   endpoints:
     /api/v1/services/{service_id}:
       availability_threshold: 0.95 # Default: 99%
