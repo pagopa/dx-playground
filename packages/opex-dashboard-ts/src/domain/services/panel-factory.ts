@@ -1,4 +1,4 @@
-import { DashboardConfig } from "../entities/dashboard-config.js";
+import { ValidDashboardConfig } from "../entities/dashboard-config.js";
 import { Panel } from "../entities/panel.js";
 import { KustoQueryService } from "./kusto-query-service.js";
 import { normalizePathPlaceholders } from "./path-utils.js";
@@ -11,7 +11,7 @@ import { normalizePathPlaceholders } from "./path-utils.js";
 export class PanelFactory {
   private readonly queryService = new KustoQueryService();
 
-  buildPanels(config: DashboardConfig): Panel[] {
+  buildPanels(config: ValidDashboardConfig): Panel[] {
     if (!config.endpoints) return [];
 
     const panels: Panel[] = [];

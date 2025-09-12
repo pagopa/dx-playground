@@ -1,9 +1,9 @@
 import { isOpenAPIV2, isOpenAPIV3, OpenAPISpec } from "../../shared/openapi.js";
-import { DashboardConfig } from "../entities/dashboard-config.js";
+import { ValidDashboardConfig } from "../entities/dashboard-config.js";
 import { Endpoint, EndpointSchema } from "../entities/endpoint.js";
 
 export class EndpointParserService {
-  parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[] {
+  parseEndpoints(spec: OpenAPISpec, config: ValidDashboardConfig): Endpoint[] {
     const endpoints: Endpoint[] = [];
     const hosts = this.extractHosts(spec);
     const paths = Object.keys(spec.paths);
@@ -56,7 +56,7 @@ export class EndpointParserService {
 
   private getEndpointOverrides(
     endpointPath: string,
-    overrides?: DashboardConfig["overrides"],
+    overrides?: ValidDashboardConfig["overrides"],
   ): Partial<Endpoint> {
     if (!overrides?.endpoints) {
       return {};

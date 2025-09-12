@@ -1,9 +1,9 @@
 export interface IConfigValidator {
-  validateConfig(rawConfig: unknown): DashboardConfig;
+  validateConfig(rawConfig: unknown): ValidDashboardConfig;
 }
 
 export interface IEndpointParser {
-  parseEndpoints(spec: OpenAPISpec, config: DashboardConfig): Endpoint[];
+  parseEndpoints(spec: OpenAPISpec, config: ValidDashboardConfig): Endpoint[];
 }
 
 export interface IFileReader {
@@ -11,9 +11,18 @@ export interface IFileReader {
 }
 
 export interface IKustoQueryGenerator {
-  buildAvailabilityQuery(endpoint: Endpoint, config: DashboardConfig): string;
-  buildResponseCodesQuery(endpoint: Endpoint, config: DashboardConfig): string;
-  buildResponseTimeQuery(endpoint: Endpoint, config: DashboardConfig): string;
+  buildAvailabilityQuery(
+    endpoint: Endpoint,
+    config: ValidDashboardConfig,
+  ): string;
+  buildResponseCodesQuery(
+    endpoint: Endpoint,
+    config: ValidDashboardConfig,
+  ): string;
+  buildResponseTimeQuery(
+    endpoint: Endpoint,
+    config: ValidDashboardConfig,
+  ): string;
 }
 
 export interface IOpenAPISpecResolver {
@@ -24,11 +33,11 @@ export interface IOpenAPISpecResolver {
 }
 
 export interface ITerraformFileGenerator {
-  generate(config: DashboardConfig): Promise<void>;
+  generate(config: ValidDashboardConfig): Promise<void>;
 }
 
 export interface ITerraformStackGenerator {
-  generate(config: DashboardConfig, app: App): Promise<AzureOpexStack>;
+  generate(config: ValidDashboardConfig, app: App): Promise<AzureOpexStack>;
 }
 
 import type { App } from "cdktf";
@@ -36,5 +45,5 @@ import type { App } from "cdktf";
 import type { AzureOpexStack } from "../../infrastructure/terraform/azure-dashboard.js";
 // Import types
 import type { OpenAPISpec } from "../../shared/openapi.js";
-import type { DashboardConfig } from "../entities/dashboard-config.js";
+import type { ValidDashboardConfig } from "../entities/dashboard-config.js";
 import type { Endpoint } from "../entities/endpoint.js";

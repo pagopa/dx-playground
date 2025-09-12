@@ -5,7 +5,7 @@ import {
 } from "@cdktf/provider-azurerm";
 import { Construct } from "constructs";
 
-import { DashboardConfig, Endpoint } from "../../domain/index.js";
+import { Endpoint, ValidDashboardConfig } from "../../domain/index.js";
 import { KustoQueryService } from "../../domain/services/kusto-query-service.js";
 
 export class AzureAlertsConstruct {
@@ -13,7 +13,7 @@ export class AzureAlertsConstruct {
 
   constructor(
     scope: Construct,
-    config: DashboardConfig,
+    config: ValidDashboardConfig,
     dashboard: portalDashboard.PortalDashboard,
     clientConfig: dataAzurermClientConfig.DataAzurermClientConfig,
     resolvedLocation: string,
@@ -67,7 +67,7 @@ export class AzureAlertsConstruct {
 
   private createAvailabilityAlert(
     scope: Construct,
-    config: DashboardConfig,
+    config: ValidDashboardConfig,
     endpoint: Endpoint,
     index: number,
     dashboard: portalDashboard.PortalDashboard,
@@ -119,7 +119,7 @@ export class AzureAlertsConstruct {
 
   private createResponseTimeAlert(
     scope: Construct,
-    config: DashboardConfig,
+    config: ValidDashboardConfig,
     endpoint: Endpoint,
     index: number,
     dashboard: portalDashboard.PortalDashboard,

@@ -1,4 +1,4 @@
-import { DashboardConfig } from "../entities/dashboard-config.js";
+import { ValidDashboardConfig } from "../entities/dashboard-config.js";
 import { Endpoint } from "../entities/endpoint.js";
 
 /*
@@ -13,7 +13,7 @@ export type QueryContext = "alert" | "dashboard";
 export class KustoQueryService {
   buildAvailabilityQuery(
     endpoint: Endpoint,
-    config: DashboardConfig,
+    config: ValidDashboardConfig,
     context: QueryContext = "alert",
   ): string {
     const threshold = endpoint.availability_threshold ?? 0.99;
@@ -48,7 +48,10 @@ ${base}
 | where availability < threshold`;
   }
 
-  buildResponseCodesQuery(endpoint: Endpoint, config: DashboardConfig): string {
+  buildResponseCodesQuery(
+    endpoint: Endpoint,
+    config: ValidDashboardConfig,
+  ): string {
     /*
       Aggregate HTTP status into families (1XX .. 5XX) to reduce noise and align with reference dashboard.
       Anything outside the standard ranges will be bucketed as "Other".
@@ -72,7 +75,7 @@ ${base}
 
   buildResponseTimeQuery(
     endpoint: Endpoint,
-    config: DashboardConfig,
+    config: ValidDashboardConfig,
     context: QueryContext = "alert",
   ): string {
     const threshold = endpoint.response_time_threshold ?? 1;

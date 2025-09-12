@@ -30,5 +30,8 @@ export const DashboardConfigSchema = z.object({
   timespan: z.string().default("5m"),
 });
 
+// Fields with defaults applied can be omitted in input
+export type DashboardConfig = z.input<typeof DashboardConfigSchema>;
+
 // Inferred types from Zod schemas
-export type DashboardConfig = z.infer<typeof DashboardConfigSchema>;
+export type ValidDashboardConfig = z.infer<typeof DashboardConfigSchema>;

@@ -7,12 +7,12 @@ import {
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
 
-import { DashboardConfig } from "../../domain/index.js";
+import { ValidDashboardConfig } from "../../domain/index.js";
 import { AzureAlertsConstruct } from "./azure-alerts.js";
 import { buildDashboardPropertiesTemplate } from "./dashboard-properties.js";
 
 export class AzureOpexStack extends TerraformStack {
-  constructor(scope: Construct, id: string, config: DashboardConfig) {
+  constructor(scope: Construct, id: string, config: ValidDashboardConfig) {
     super(scope, id);
 
     // Configure Azure provider

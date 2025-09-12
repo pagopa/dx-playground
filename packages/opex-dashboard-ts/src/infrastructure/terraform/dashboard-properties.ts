@@ -1,9 +1,9 @@
 import { Panel } from "../../domain/entities/panel.js";
-import { DashboardConfig } from "../../domain/index.js";
+import { ValidDashboardConfig } from "../../domain/index.js";
 import { PanelFactory } from "../../domain/services/panel-factory.js";
 
 export function buildDashboardPropertiesTemplate(
-  config: DashboardConfig,
+  config: ValidDashboardConfig,
 ): string {
   const factory = new PanelFactory();
   const panels = factory.buildPanels(config);
@@ -122,7 +122,7 @@ function buildSettingsDimensions(panel: Panel): string | undefined {
   return undefined;
 }
 
-function serializePanel(panel: Panel, config: DashboardConfig): string {
+function serializePanel(panel: Panel, config: ValidDashboardConfig): string {
   const resourceIds = JSON.stringify(config.resourceIds || []);
   const inputsChart = panel.chart.inputSpecificChart;
   const dimensions = buildInputDimensions(panel);

@@ -1,11 +1,11 @@
 import {
-  DashboardConfig,
   DashboardConfigSchema,
   IConfigValidator,
+  ValidDashboardConfig,
 } from "../../domain/index.js";
 
 export class ConfigValidatorAdapter implements IConfigValidator {
-  validateConfig(rawConfig: unknown): DashboardConfig {
+  validateConfig(rawConfig: unknown): ValidDashboardConfig {
     // Parse and validate with zod using safeParse
     const result = DashboardConfigSchema.safeParse(rawConfig);
 
