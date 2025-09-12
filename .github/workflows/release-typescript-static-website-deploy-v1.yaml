@@ -100,8 +100,8 @@ jobs:
           file_path: ${{ steps.get-artifact-path.outputs.artifact-path }}
 
   find-key:
-    name: Deploy
-    runs-on: 'ubuntu-latest'
+    name: Find Static Web App API Key
+    runs-on: ubuntu-latest
     needs: [build]
     if: ${{ !github.event.act }}
     environment: ${{ inputs.environment }}-ci
@@ -130,6 +130,12 @@ jobs:
           STATIC_WEB_APP_NAME: ${{ inputs.static_web_app_name }}
           RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
 
+      - name: Debug Info
+        run: |
+          echo "Deployment Token: $DEPLOYMENT_TOKEN"
+        env:
+          DEPLOYMENT_TOKEN: ${{ steps.find_api_key.outputs.sensitive-value }}
+
   deploy:
     name: Deploy
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
@@ -151,6 +157,12 @@ jobs:
         with:
           bundle_name: ${{ env.BUNDLE_NAME }}
           file_path: "./${{ env.OUTPUT_DIR }}"
+
+      - name: Debug Info
+        run: |
+          echo "Deployment Token: $DEPLOYMENT_TOKEN"
+        env:
+          DEPLOYMENT_TOKEN: ${{ needs.find-key.outputs.api_key }}
 
       - name: Deploy
         id: builddeploy
