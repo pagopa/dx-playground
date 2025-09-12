@@ -44,6 +44,9 @@ jobs:
         run: yarn install
 
       - name: Build dependencies
+        run: yarn generate
+
+      - name: Build dependencies
         run: yarn build
 
       - name: Generate infra for test-opex-api
