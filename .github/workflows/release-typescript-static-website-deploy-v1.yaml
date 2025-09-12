@@ -151,6 +151,9 @@ jobs:
           bundle_name: ${{ env.BUNDLE_NAME }}
           file_path: "./${{ env.OUTPUT_DIR }}"
 
+      - name: Make sensitive
+        run: echo "::add-mask::${{ needs.find-key.outputs.api_key }}"
+
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@4d27395796ac319302594769cfe812bd207490b1 # v1
