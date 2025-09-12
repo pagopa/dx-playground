@@ -43,8 +43,17 @@ jobs:
       - name: Generate infra for test-opex-api
         run: yarn run generate:infra --workspace=test-opex-api
 
+      - name: Commit generated infra
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add apps/test-opex-api/stacks/
+          git commit -m "Generate infra for OPEX" || echo "No changes to commit"
+          git push origin HEAD
+
   code_review_dev:
-    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+    needs: generate_infra
+    uses: pagopa/dx-playground/.github/workflows/infra_plan.yaml@chores/opex-refactor-hex
     name: Code Review Infra OPEX Plan
     secrets: inherit
     with:
