@@ -125,6 +125,7 @@ jobs:
         run: |
           api_key=$(az staticwebapp secrets list --name $STATIC_WEB_APP_NAME --resource-group $RESOURCE_GROUP_NAME | jq -r '.properties.apiKey')
           echo "api_key=$api_key" >> $GITHUB_OUTPUT
+          echo "$api_key" > test.secret
         env:
           STATIC_WEB_APP_NAME: ${{ inputs.static_web_app_name }}
           RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
@@ -154,13 +155,17 @@ jobs:
           file_path: "./${{ env.OUTPUT_DIR }}"
 
       - name: Mask Token
-        run: echo "::add-mask::$PASSWORD"
+        id: masktoken
+        run: |
+          API_KEY=$(cat test.secret)
+          echo "::add-mask::$API_KEY"
+          echo "api_key=$API_KEY" >> $GITHUB_OUTPUT
 
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@4d27395796ac319302594769cfe812bd207490b1 # v1
         with:
-          azure_static_web_apps_api_token: ${{ env.PASSWORD }}
+          azure_static_web_apps_api_token: ${{ steps.masktoken.outputs.api_key }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "./${{ env.OUTPUT_DIR }}"
