@@ -124,10 +124,8 @@ jobs:
         id: find_api_key
         run: |
           api_key=$(az staticwebapp secrets list --name $STATIC_WEB_APP_NAME --resource-group $RESOURCE_GROUP_NAME | jq -r '.properties.apiKey')
-          # Mask the API key immediately so it won't appear in later job logs
+          echo "api_key=$api_key" >> $GITHUB_OUTPUT
           echo "::add-mask::$api_key"
-          # Use the recommended GITHUB_OUTPUT multi-line append to reliably set the step output
-          printf 'api_key<<EOF\n%s\nEOF\n' "$api_key" >> $GITHUB_OUTPUT
         env:
           STATIC_WEB_APP_NAME: ${{ inputs.static_web_app_name }}
           RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
