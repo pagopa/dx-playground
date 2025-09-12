@@ -139,7 +139,7 @@ jobs:
       contents: read
       pull-requests: write
     env:
-      TOKEN: ${{ needs.find-key.outputs.api_key }}
+      PASSWORD: ${{ needs.find-key.outputs.api_key }}
 
     steps:
       - name: Checkout
@@ -154,13 +154,13 @@ jobs:
           file_path: "./${{ env.OUTPUT_DIR }}"
 
       - name: Mask Token
-        run: echo "::add-mask::${{ env.TOKEN }}"
+        run: echo "::add-mask::$PASSWORD"
 
       - name: Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@4d27395796ac319302594769cfe812bd207490b1 # v1
         with:
-          azure_static_web_apps_api_token: ${{ env.TOKEN }}
+          azure_static_web_apps_api_token: ${{ env.PASSWORD }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "./${{ env.OUTPUT_DIR }}"
