@@ -294,3 +294,5 @@ changeset-status.json
 cdktf.out/
 cdk.tf.json
 manifest.json
+
+stacks

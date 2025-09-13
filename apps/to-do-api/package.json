@@ -30,11 +30,9 @@
     "@to-do/azure-adapters": "workspace:^",
     "@to-do/domain": "workspace:^",
     "cdktf": "^0.21.0",
-    "cdktf-monitoring-stack": "workspace:*",
     "constructs": "^10.4.2",
     "fp-ts": "^2.16.10",
     "io-ts": "^2.2.22",
-    "opex-common": "workspace:*",
     "ulid": "^3.0.0"
   },
   "devDependencies": {

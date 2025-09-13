@@ -1,0 +1,67 @@
+{
+  "name": "@pagopa/opex-dashboard-ts",
+  "version": "0.0.1",
+  "description": "Generate standardized Operational Excellence dashboards from OpenAPI specs using TypeScript and CDKTF",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": "dist/infrastructure/cli/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./cli": {
+      "types": "./dist/infrastructure/cli/index.d.ts",
+      "import": "./dist/infrastructure/cli/index.js",
+      "require": "./dist/infrastructure/cli/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "lint": "eslint --fix src",
+    "lint:check": "eslint src",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest --coverage",
+    "watch": "tsc --watch",
+    "cdktf:deploy": "cdktf deploy",
+    "clean": "rm -rf dist cdktf.out"
+  },
+  "keywords": [
+    "opex",
+    "dashboard",
+    "azure",
+    "terraform",
+    "cdkt",
+    "openapi"
+  ],
+  "author": "PagoPA",
+  "license": "MIT",
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "@cdktf/provider-azurerm": "^14.12.0",
+    "cdktf": "^0.21.0",
+    "commander": "^12.0.0",
+    "constructs": "^10.3.0",
+    "js-yaml": "^4.1.0",
+    "openapi-types": "^12.1.3",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@pagopa/eslint-config": "^5.0.0",
+    "@tsconfig/node22": "^22.0.2",
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.6.2",
+    "tsup": "^8.5.0",
+    "typescript": "^5.0.0",
+    "vitest": "^3.2.4"
+  }
+}
