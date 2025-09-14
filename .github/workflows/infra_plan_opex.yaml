@@ -114,15 +114,15 @@ jobs:
             printf "dir=%q/%q" "$BASE_PATH" "$ENVIRONMENT" >> "$GITHUB_OUTPUT"
           fi
 
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+        name: Checkout
+
       - name: Download generated infra artifacts
         if: ${{ inputs.artifact_name }}
         uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.artifact_name }}
           path: ${{ inputs.base_path }}
-
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        name: Checkout
 
       - name: Set Environment Variables
         if: ${{ inputs.env_vars }}
