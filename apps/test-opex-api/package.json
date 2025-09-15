@@ -11,7 +11,7 @@
     "typecheck": "tsc --noemit",
     "lint": "eslint src --fix",
     "lint:check": "eslint src",
-    "infra:generate": "yarn -q dlx tsx src/opex.ts"
+    "infra:generate": "pnpm dlx tsx src/opex.ts"
   },
   "dependencies": {
     "cdktf": "^0.21.0",

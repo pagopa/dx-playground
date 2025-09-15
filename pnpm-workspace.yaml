@@ -1,0 +1,6 @@
+linkWorkspacePackages: true
+packageImportMethod: clone-or-copy
+packages:
+  - apps/*
+  - packages/*
+  - infra/*
