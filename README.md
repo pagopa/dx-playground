@@ -1,72 +1,101 @@
-# DX Playground
+# IO Wallet
 
-## Requirements
+### Introduction
 
-This project requires specific versions of the following tools.  
-To make sure your development setup matches with production follow the recommended installation methods.
+Welcome! 😊
 
-### Node.js
-Use [nodenv](https://github.com/nodenv/nodenv) to install the required version of Node.js.  
-Once you've installed `nodenv`, run the following script:
-```shell
-nodenv install
-# Check the installed version
-node -v
+This is the `io-wallet` project mono-repository containing applications and packages for the IO Wallet app:
+
+- `apps/io-wallet-support-func`: Contains functionalities for assistance and support.
+- `apps/io-wallet-user-func`: Contains functionalities for end users.
+- `packages/io-wallet-common`: Contains shared code among the workspaces.
+- `infra`: Contains infrastructure code to deploy the IO Wallet app.
+
+## Technologies
+
+This project is built with [NodeJS](https://nodejs.org/) and deployed on [Azure Cloud](https://learn.microsoft.com/en-us/azure/?product=popular), utilizing [Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/) and [Azure CosmosDB](https://learn.microsoft.com/en-us/azure/cosmos-db/).
+
+It leverages [TypeScript](https://www.typescriptlang.org/), [fp-ts](https://gcanti.github.io/fp-ts/), and several [Azure SDKs](https://azure.github.io/azure-sdk/#javascript).
+
+We use [Yarn](https://classic.yarnpkg.com/) as the dependencies manager and [Turborepo](https://turbo.build/repo/docs) as the monorepo manager.
+
+Infrastructure is managed with [Terraform](https://www.terraform.io/).
+
+Changelog and versioning are managed with [Changesets](https://github.com/changesets/changesets).
+
+### Setting the Azure Subscription to Access the Dev CosmosDB
+
+To start the backend projects `io-wallet-support-func` and `io-wallet-user-func`, you must first log in with the correct user on Azure and set the subscription you want to use. Ensure you have the Azure `az-cli` package installed. If not, follow the instructions on the [official website](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
+
+This process is necessary for backend applications started locally to connect to the development CosmosDB instance on Azure:
+
+```bash
+az login                                        # Redirects to your main browser for login.
+
+az account set --subscription DEV-IO            # Sets the DEV-IO subscription for backend apps to connect to the dev CosmosDB.
+
+az ad user show --id YOUR_EMAIL                 # Retrieves user info by email. Store the Principal ID for the next command.
+
+az cosmosdb sql role assignment create
+    --account-name io-d-itn-common-cosno-01
+    --resource-group io-d-itn-common-rg-01
+    --scope "/" --principal-id PRINCIPAL_ID
+    --role-definition-id
+        00000000-0000-0000-0000-000000000002    # Grants read and write access to the dev CosmosDB.
 ```
 
-### Yarn
-Yarn must be installed using [Corepack](https://yarnpkg.com/getting-started/install), included by default in `Node.js`.
+### Installation
 
-```shell
-corepack enable
-# Check the installd version
-yarn -v
+```bash
+yarn install
 ```
 
-### Terraform
-Use [tfenv](https://github.com/tfutils/tfenv) to install [the desired version of Terraform](https://github.com/pagopa/dx-playground/blob/main/.terraform-version).  
-Once you've installed `tfenv`, execute the following commands:
-```shell
-tfenv install
-# Check the installed version
-terraform -v
+### Tasks
+
+At the root level, you can run the following commands:
+
+```bash
+yarn test           # Run all unit tests (performed by vitest) for all projects and packages.
+
+yarn format         # Run code formatting (performed by prettier) for all projects and packages.
+
+yarn lint           # Run code linting (performed by ESLint) for all projects and packages without fixing errors or warnings.
+
+yarn lint:fix       # Run code linting (performed by ESLint) for all projects and packages, attempting to fix correctable errors/warnings.
+
+yarn build          # Run a build (performed by tsup-node) for all projects and packages. Build results are stored under the dist/ directory.
+
+yarn version        # Update all packages in the package.json file using @changesets/cli.
+
+yarn release        # Generate consistent versions of your packages using @changesets/cli.
+
+yarn code-review    # Run typechecking, code linting, and unit testing for each project and package. This command ensures code quality in PRs.
 ```
 
-## Folder structure
+You can also run specific commands using `yarn workspace` for a specific project or package. Replace `PROJECT_NAME` with the actual project name:
 
-### `/apps`
+```bash
+# Typecheck
 
-It contains the applications included in the project. Each folder is meant to produce a deployable artifact; how and where to deploy it is demanded to a single application.
+# Linting and formatting
+yarn workspace PROJECT_NAME run lint
+yarn workspace PROJECT_NAME run lint:fix
+yarn workspace PROJECT_NAME run format
 
-Each sub-folder is a workspace.
+# Unit testing
+yarn workspace PROJECT_NAME run test
+yarn workspace PROJECT_NAME run test:coverage # Not available for io-wallet-common
 
-### `/packages`
+# Build
+yarn workspace PROJECT_NAME run build
+yarn workspace PROJECT_NAME run build:watch # Not available for io-wallet-common
 
-Packages are reusable TypeScript modules that implement a specific logic of the project. They are meant for sharing implementations across other apps and packages of the same projects, as well as being published in public registries.
+# Start
+yarn workspace PROJECT_NAME run start # Not available for io-wallet-common
+```
 
-Packages that are meant for internal code sharing have `private: true` in their package.json file; all the others are meant to be published into the public registry.
+`PROJECT_NAME` can be one of the following:
 
-Each sub-folder is a workspace.
-
-### `/infra`
-
-It contains the _infrastructure-as-code_ project that defines the resources for the project as well as the execution environments.  
-Database schemas and migrations are defined here too, in case they are needed.
-
-
-## Releases
-
-Releases are handled using [Changeset](https://github.com/changesets/changesets).
-Changeset takes care of bumping packages, updating the changelog, and tag the repository accordingly.
-
-#### How it works
-
-- When opening a Pull Request with a change intended to be published, [add a changeset file](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md) to the proposed changes.
-- Once the Pull Request is merged, a new Pull Request named `Version Packages` will be automatically opened with all the release changes such as version bumping for each involved app or package and changelog update; if an open `Version Packages` PR already exists, it will be updated and the package versions calculated accordingly (see https://github.com/changesets/changesets/blob/main/docs/decisions.md#how-changesets-are-combined).
-  Only apps and packages mentioned in the changeset files will be bumped.
-- Review the `Version Packages` PR and merge it when ready. Changeset files will be deleted.
-- A Release entry is created for each app or package whose version has been bumped.
-
-> [!TIP]  
-> You can also set up the [Changeset bot](https://github.com/apps/changeset-bot) to alert you with a warning message (for example, [this one](https://github.com/pagopa/dx-playground/pull/9#issuecomment-2507383352)) if a changeset is missing.  
-> Additionally, the bot provides the capability to create a changeset file directly through the GitHub user interface.  
+- `io-wallet-support-func`
+- `io-wallet-user-func`
+- `io-wallet-common`
