@@ -124,8 +124,10 @@ jobs:
         id: find_api_key
         run: |
           api_key=$(az staticwebapp secrets list --name $STATIC_WEB_APP_NAME --resource-group $RESOURCE_GROUP_NAME | jq -r '.properties.apiKey')
-          echo "::add-mask::$API_KEY"
-          echo "api_key=$api_key" >> $GITHUB_OUTPUT
+          # echo "::add-mask::$API_KEY"
+          # echo "api_key=$api_key" >> $GITHUB_OUTPUT
+          safe=$(printf '%s' "$API_KEY" | base64 -w0)
+          echo "api_key=$safe" >> $GITHUB_OUTPUT
         env:
           STATIC_WEB_APP_NAME: ${{ inputs.static_web_app_name }}
           RESOURCE_GROUP_NAME: ${{ inputs.resource_group_name }}
@@ -139,8 +141,6 @@ jobs:
       id-token: write
       contents: read
       pull-requests: write
-    env:
-      PASSWORD: ${{ needs.find-key.outputs.api_key }}
 
     steps:
       - name: Checkout
@@ -154,12 +154,23 @@ jobs:
           bundle_name: ${{ env.BUNDLE_NAME }}
           file_path: "./${{ env.OUTPUT_DIR }}"
 
-      - name: Mask Token
+      # - name: Mask Token
+      #   id: masktoken
+      #   run: |
+      #     API_KEY=${{ needs.find-key.outputs.api_key }}
+      #     # echo "::add-mask::$API_KEY"
+      #     echo "api_key=$API_KEY" >> $GITHUB_OUTPUT
+
+      - name: Decode API Key and mask it (no prints)
         id: masktoken
         run: |
-          API_KEY=${{ needs.find-key.outputs.api_key }}
-          # echo "::add-mask::$API_KEY"
+          echo "Reading api_key_b64 from needs..."
+          echo "${{ needs.find-key.outputs.api_key }}" > /tmp/api_key.b64
+          API_KEY=$(base64 -d /tmp/api_key.b64)
+          echo "::add-mask::$API_KEY"
           echo "api_key=$API_KEY" >> $GITHUB_OUTPUT
+        shell: bash
+
 
       - name: Deploy
         id: builddeploy
