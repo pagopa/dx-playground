@@ -131,3 +131,25 @@ module "function_v3_api_role" {
     }
   }]
 }
+
+resource "azurerm_resource_group" "poc_cae" {
+  name     = "dx-d-itn-poc-caef-rg-01"
+  location = "italynorth"
+}
+
+module "container_app_function_app" {
+  source = "../_modules/container_app_func"
+
+  environment         = merge(local.environment, { app_name = "poc" })
+  resource_group_name = azurerm_resource_group.poc_cae.name
+
+  subnet_pep_id = data.azurerm_subnet.pep_snet.id
+
+  virtual_network = {
+    name                = data.azurerm_virtual_network.test_vnet.name
+    resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
+    id                  = data.azurerm_virtual_network.test_vnet.id
+  }
+
+  tags = local.tags
+}

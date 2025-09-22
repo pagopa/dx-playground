@@ -1,9 +1,9 @@
 {
   "apim": {
-    "hash": "7c4ede49c7e6ebd45b656abca088b846d0e417d3e8e9b700464c7acaefbe5d04",
-    "version": "1.2.2",
+    "hash": "853ca35ce07874a2bf1891ef9e9fc8f687c330a8cfa79c31ff1c76ddfa375b06",
+    "version": "2.0.1",
     "name": "azure_api_management",
-    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-api-management/azurerm/1.2.2"
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-api-management/azurerm/2.0.1"
   },
   "apim_roles": {
     "hash": "9d429fd0aba8a29c1a0dbb6005e7dd72a79d9d8dda5076220eb9f0c8bef438ae",
@@ -60,9 +60,15 @@
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-role-assignments/azurerm/1.2.1"
   },
   "naming_convention": {
-    "hash": "d7973237e601af346ca3cc8797623f4edff8bdb94b661453d4242609f8d49118",
-    "version": "0.0.7",
+    "hash": "8610b9bd32f85eef8aedb86aeca427239c3665ac9ef7a632d721d50895c34814",
+    "version": "0.0.8",
     "name": "azure_naming_convention",
-    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-naming-convention/azurerm/0.0.7"
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-naming-convention/azurerm/0.0.8"
+  },
+  "container_app_function_app.cae": {
+    "hash": "97f9c6f79adc987c1d8b607a99fcc6ecc65a6a76cada97f1d7731e343b560c63",
+    "version": "1.0.2",
+    "name": "azure_container_app_environment",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-container-app-environment/azurerm/1.0.2"
   }
 }

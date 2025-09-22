@@ -8,6 +8,10 @@ terraform {
       source  = "pagopa-dx/azure"
       version = "~> 0"
     }
+    azapi = {
+      source  = "Azure/azapi"
+      version = "~> 2.6"
+    }
   }
 
   backend "azurerm" {
@@ -22,6 +26,9 @@ provider "azurerm" {
   features {
   }
   storage_use_azuread = true
+}
+
+provider "azapi" {
 }
 
 module "naming_convention" {
