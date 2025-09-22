@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".formatconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Project Path="PoCVars.API/PoCVars.API.csproj" Id="ada84db1-8297-4207-95a0-59a39d8f437b" />
+</Solution>

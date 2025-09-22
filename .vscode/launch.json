@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PoCVars.API (Container)",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/apps/poc-vars/PoCVars.API/bin/Debug/net9.0/PoCVars.API.dll",
+            "cwd": "${workspaceFolder}/apps/poc-vars/PoCVars.API",
+            "launchSettingsFilePath": "${workspaceFolder}/apps/poc-vars/PoCVars.API/Properties/launchSettings.json",
+            "launchSettingsProfile": "https"
+        }
+    ]
+}
