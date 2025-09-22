@@ -146,3 +146,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           app_location: "./${{ env.OUTPUT_DIR }}"
           action: "close"
+          
