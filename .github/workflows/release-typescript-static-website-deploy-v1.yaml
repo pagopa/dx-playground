@@ -124,9 +124,7 @@ jobs:
         id: find_api_key
         run: |
           api_key=$(az staticwebapp secrets list --name $STATIC_WEB_APP_NAME --resource-group $RESOURCE_GROUP_NAME | jq -r '.properties.apiKey')
-          # echo "::add-mask::$API_KEY"
-          # echo "api_key=$api_key" >> $GITHUB_OUTPUT
-          safe=$(printf '%s' "$API_KEY" | base64 -w0)
+          safe=$(printf '%s' "$api_key" | base64 -w0)
           echo "api_key=$safe" >> $GITHUB_OUTPUT
         env:
           STATIC_WEB_APP_NAME: ${{ inputs.static_web_app_name }}
