@@ -11,8 +11,8 @@ jobs:
     uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@main
     secrets: inherit
     with:
-      dockerfile_path: apps/poc_vars/PoCVars.API/Dockerfile
-      dockerfile_context: apps/poc_vars
+      dockerfile_path: apps/poc-vars/PoCVars.API/Dockerfile
+      dockerfile_context: apps/poc-vars
       docker_image_name: pagopa/poc-envvars
       docker_image_description: "PoC for environment variables management"
       docker_image_authors: "DevEx Team"
