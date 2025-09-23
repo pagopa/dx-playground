@@ -1,7 +1,7 @@
 {
-  "SentinelKey": 0,
-  "test": "prod",
-  "Google": {
-    "ServiceBaseUrl": "https://api.google.com/"
+  "playground": {
+    "Sentinel": 0,
+    "test": "my test value",
+    "my-api-key": "{\"uri\":\"https://dx-d-itn-vars-kv-01.vault.azure.net/secrets/random-secret\"}"
   }
 }
