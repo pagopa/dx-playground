@@ -32,3 +32,10 @@ resource "azurerm_role_assignment" "kv_me_data_owner" {
   principal_id         = local.me
   description          = "Allow me to manage data in KeyVault"
 }
+
+resource "azurerm_role_assignment" "kv_ca_user" {
+  scope                = azurerm_key_vault.this.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = azurerm_container_app.this.identity[0].principal_id
+  description          = "Allow Container App to read Key Vault Secrets"
+}
