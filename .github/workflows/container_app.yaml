@@ -41,7 +41,6 @@ jobs:
               --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" \
               --separator : \
               --format json \
-              --strict \
               --prefix "playground:" \
               --label "Staging" \
               --yes
@@ -59,7 +58,6 @@ jobs:
               --content-type "application/json" \
               --separator : \
               --format json \
-              --strict \
               --prefix "playground:" \
               --label "Staging" \
               --yes
@@ -77,7 +75,6 @@ jobs:
               --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" \
               --separator : \
               --format json \
-              --strict \
               --prefix "playground:" \
               --label "Production" \
               --yes
@@ -95,7 +92,6 @@ jobs:
               --content-type "application/json" \
               --separator : \
               --format json \
-              --strict \
               --prefix "playground:" \
               --label "Production" \
               --yes
