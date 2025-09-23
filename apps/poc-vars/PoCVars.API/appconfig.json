@@ -1,0 +1,7 @@
+{
+  "SentinelKey": 0,
+  "test": "prod",
+  "Google": {
+    "ServiceBaseUrl": "https://api.google.com/"
+  }
+}

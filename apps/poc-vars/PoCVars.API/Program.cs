@@ -11,7 +11,7 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         .ConfigureRefresh(refreshOptions =>
         {
             refreshOptions.SetRefreshInterval(TimeSpan.FromMinutes(10));
-            refreshOptions.Register("SentinelKey", refreshAll: true);
+            refreshOptions.Register("Sentinel", refreshAll: true);
         });
 });
 
@@ -20,10 +20,16 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-app.MapGet("", (IConfiguration config) =>
+app.MapGet("setting", (IConfiguration config) =>
 {
     var value = config["test"];
     return value;
+});
+
+app.MapGet("secret", (IConfiguration config) =>
+{
+    var secret = config["Secret:my-value"];
+    return secret;
 });
 
 app.UseAzureAppConfiguration();

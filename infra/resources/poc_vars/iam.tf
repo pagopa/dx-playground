@@ -25,3 +25,10 @@ resource "azurerm_role_assignment" "appcs_me_data_owner" {
   principal_id         = local.me
   description          = "Allow me to manage data in App Configuration"
 }
+
+resource "azurerm_role_assignment" "kv_me_data_owner" {
+  scope                = azurerm_key_vault.this.id
+  role_definition_name = "Key Vault Secrets Officer"
+  principal_id         = local.me
+  description          = "Allow me to manage data in KeyVault"
+}
