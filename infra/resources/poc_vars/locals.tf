@@ -3,6 +3,8 @@ locals {
   project         = "dx-d-itn-vars"
   instance_number = "01"
 
+  me = "58e3c6d6-c60a-4147-ac68-5636f50012c3"
+
   tags = {
     CostCenter     = "TS000 - Tecnologia e Servizi"
     CreatedBy      = "Terraform"
