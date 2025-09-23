@@ -16,15 +16,18 @@ builder.Configuration.AddAzureAppConfiguration(options =>
 });
 
 builder.Services.AddAzureAppConfiguration();
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-app.MapGet("/", (IConfiguration config) =>
+app.MapGet("", (IConfiguration config) =>
 {
     var value = config["test"];
     return value;
 });
 
 app.UseAzureAppConfiguration();
+
+app.UseHealthChecks("/healthz");
 
 app.Run();
