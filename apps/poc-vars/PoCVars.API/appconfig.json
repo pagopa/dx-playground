@@ -1,7 +1,4 @@
-{
-  "playground": {
-    "Sentinel": 0,
-    "test": "my test value",
-    "my-api-key": "{\"uri\":\"https://dx-d-itn-vars-kv-01.vault.azure.net/secrets/random-secret\"}"
-  }
+{  
+  "Sentinel": 0,
+  "test": "my production value"
 }

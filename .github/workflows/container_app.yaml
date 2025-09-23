@@ -28,39 +28,59 @@ jobs:
           tenant-id: ${{ secrets.ARM_TENANT_ID }}
           subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
-      # - uses: azure/cli@v2
-      #   name: "Deploy Secrets"
-      #   with:
-      #     azcliversion: latest
-      #     inlineScript: |
-      #       az appconfig kv import \
-      #         --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
-      #         --auth-mode login \
-      #         --source file \
-      #         --path apps/poc-vars/PoCVars.API/secrets.json \
-      #         --content-type "application/json" \
-      #         --separator : \
-      #         --format json \
-      #         # --strict \
-      #         --prefix "playground:*" \
-      #         --yes
+      - uses: azure/cli@v2
+        name: "Deploy Staging Secrets"
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az appconfig kv import \
+              --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
+              --auth-mode login \
+              --source file \
+              --path apps/poc-vars/PoCVars.API/secrets.staging.json \
+              --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" \
+              --separator : \
+              --format json \
+              --strict \
+              --prefix "playground:" \
+              --label "Staging" \
+              --yes
 
-      # - uses: azure/cli@v2
-      #   name: "Deploy Staging AppSettings"
-      #   with:
-      #     azcliversion: latest
-      #     inlineScript: |
-      #       az appconfig kv import \
-      #         --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
-      #         --auth-mode login \
-      #         --source file \
-      #         --path apps/poc-vars/PoCVars.API/appconfig.staging.json \
-      #         --content-type "application/json" \
-      #         --separator : \
-      #         --format json \
-      #         --yes \
-      #         --prefix "playground:*" \
-      #         --label "Staging"
+      - uses: azure/cli@v2
+        name: "Deploy Staging AppSettings"
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az appconfig kv import \
+              --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
+              --auth-mode login \
+              --source file \
+              --path apps/poc-vars/PoCVars.API/appconfig.staging.json \
+              --content-type "application/json" \
+              --separator : \
+              --format json \
+              --strict \
+              --prefix "playground:" \
+              --label "Staging" \
+              --yes
+
+      - uses: azure/cli@v2
+        name: "Deploy Production Secrets"
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az appconfig kv import \
+              --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
+              --auth-mode login \
+              --source file \
+              --path apps/poc-vars/PoCVars.API/secrets.json \
+              --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" \
+              --separator : \
+              --format json \
+              --strict \
+              --prefix "playground:" \
+              --label "Production" \
+              --yes
 
       - uses: azure/cli@v2
         name: "Deploy Prod AppSettings"
@@ -76,7 +96,7 @@ jobs:
               --separator : \
               --format json \
               --strict \
-              --prefix "playground:*"
+              --prefix "playground:" \
               --label "Production" \
               --yes
 
