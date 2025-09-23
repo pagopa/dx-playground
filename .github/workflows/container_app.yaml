@@ -13,7 +13,7 @@ jobs:
     with:
       dockerfile_path: apps/poc_vars/PoCVars.API/Dockerfile
       dockerfile_context: apps/poc_vars
-      docker_image_name: ghcr.io/pagopa/poc-envvars
+      docker_image_name: pagopa/poc-envvars
       docker_image_description: "PoC for environment variables management"
       docker_image_authors: "DevEx Team"
       container_app: "dx-d-itn-vars-ca-01"
