@@ -3,9 +3,10 @@ resource "azurerm_app_configuration" "this" {
   resource_group_name = azurerm_resource_group.this.name
   location            = local.location
 
-  local_auth_enabled       = false
-  public_network_access    = "Enabled"
-  purge_protection_enabled = false
+  data_plane_proxy_authentication_mode = "Pass-through"
+  local_auth_enabled                   = false
+  public_network_access                = "Enabled"
+  purge_protection_enabled             = false
 
   identity {
     type = "UserAssigned"
