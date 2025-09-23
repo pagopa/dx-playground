@@ -18,8 +18,12 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         // .Select("Playground:*", LabelFilter.Null)
         .ConfigureRefresh(refreshOptions =>
         {
-            refreshOptions.SetRefreshInterval(TimeSpan.FromMinutes(10));
-            refreshOptions.Register("Sentinel", refreshAll: true);
+            refreshOptions.SetRefreshInterval(TimeSpan.FromSeconds(20));
+            refreshOptions.Register("playground:Sentinel", refreshAll: true);
+        })
+        .ConfigureKeyVault(keyVaultOptions =>
+        {
+            keyVaultOptions.SetCredential(new DefaultAzureCredential());
         });
 });
 
@@ -31,13 +35,13 @@ var app = builder.Build();
 app.MapGet("setting", (IConfiguration config) =>
 {
     var value = config["playground:test"];
-    return value;
+    return value ?? string.Empty;
 });
 
 app.MapGet("secret", (IConfiguration config) =>
 {
     var secret = config["playground:my-api-key"];
-    return secret;
+    return secret ?? string.Empty;
 });
 
 app.UseAzureAppConfiguration();
