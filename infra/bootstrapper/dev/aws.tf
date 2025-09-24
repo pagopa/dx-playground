@@ -27,6 +27,7 @@ module "aws_bootstrap" {
     }
     secrets = {}
   }
+  oidc_provider_arn = module.aws_core_values.oidc_provider_arn
 
   tags = local.tags
 }
