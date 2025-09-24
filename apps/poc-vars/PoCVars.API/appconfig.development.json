@@ -1,0 +1,13 @@
+{  
+  "Sentinel": 0,
+  "test": "my development value",
+  "feature_management": {
+    "feature_flags": [
+      {
+        "id": "testffs",
+        "enabled": true,
+        "description": "test desc"
+      }
+    ]
+  }
+}
