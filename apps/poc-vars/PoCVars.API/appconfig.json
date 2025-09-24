@@ -5,9 +5,8 @@
     "feature_flags": [
       {
         "id": "testffs",
-        "enabled": true,
-        "description": "test desc",
-        "prefix": ".appconfig.featureflag/dsdasdasdasda"
+        "enabled": false,
+        "description": "test desc"
       }
     ]
   }

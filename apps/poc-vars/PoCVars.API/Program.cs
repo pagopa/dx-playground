@@ -1,4 +1,5 @@
 using Azure.Identity;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.FeatureManagement;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,7 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         })
         .UseFeatureFlags(ffOptions =>
         {
-            ffOptions.Select("playground:*", builder.Environment.EnvironmentName);
+            ffOptions.Select(KeyFilter.Any, builder.Environment.EnvironmentName);
             ffOptions.SetRefreshInterval(TimeSpan.FromSeconds(15));
         });
 });
