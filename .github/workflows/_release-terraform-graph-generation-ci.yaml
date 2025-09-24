@@ -166,15 +166,15 @@ jobs:
           ENCODED_NAME=$(echo -n "$DOT_DIR" | base64 -w 0)
           MD_FILE_PATH="${ENCODED_NAME}.md"
 
-          # curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2025-01-01-preview" \
-          #   -H "Content-Type: application/json" \
-          #   -H "Authorization: Bearer $AZURE_API_KEY" \
-          #   -d @${{ steps.prepare_json.outputs.json_payload_path }} \
-          #   -o "$RESPONSE_FILE"
+          curl -s -X POST "https://dx-d-sdc-test-aif-01.cognitiveservices.azure.com/openai/deployments/o4-mini/chat/completions?api-version=2025-01-01-preview" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $AZURE_API_KEY" \
+            -d @${{ steps.prepare_json.outputs.json_payload_path }} \
+            -o "$RESPONSE_FILE"
 
-          # jq -r '.choices[0].message.content' "$RESPONSE_FILE" > "$MD_FILE_PATH"
+          jq -r '.choices[0].message.content' "$RESPONSE_FILE" > "$MD_FILE_PATH"
 
-          cat $DOT_DIR/graph.md > "$MD_FILE_PATH"
+          # cat $DOT_DIR/graph.md > "$MD_FILE_PATH"
 
           echo "Mermaid file created at: $MD_FILE_PATH"
           echo "md_file_path=$MD_FILE_PATH" >> $GITHUB_OUTPUT
