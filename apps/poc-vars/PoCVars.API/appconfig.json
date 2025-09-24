@@ -1,4 +1,14 @@
 {  
   "Sentinel": 0,
-  "test": "my production value"
+  "test": "my production value",
+  "feature_management": {
+    "feature_flags": [
+      {
+        "id": "testffs",
+        "enabled": true,
+        "description": "test desc",
+        "prefix": ".appconfig.featureflag/dsdasdasdasda"
+      }
+    ]
+  }
 }

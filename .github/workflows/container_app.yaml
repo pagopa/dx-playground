@@ -56,6 +56,7 @@ jobs:
               --source file \
               --path apps/poc-vars/PoCVars.API/appconfig.staging.json \
               --content-type "application/json" \
+              --skip-features \
               --separator : \
               --format json \
               --prefix "playground:" \
@@ -90,6 +91,7 @@ jobs:
               --source file \
               --path apps/poc-vars/PoCVars.API/appconfig.json \
               --content-type "application/json" \
+              --skip-features \
               --separator : \
               --format json \
               --prefix "playground:" \
