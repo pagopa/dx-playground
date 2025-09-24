@@ -1,8 +1,8 @@
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
-import { Capabilities, TaskIdCodec, deleteTaskById } from "@to-do/domain";
-import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
+import { Capabilities, deleteTaskById, TaskIdCodec } from "@to-do/domain";
 import { flow, pipe } from "fp-ts/lib/function.js";
+import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 
 import { toHttpProblemJson } from "../../http/codec.js";
 import { parsePathParameter } from "../../http/middleware.js";

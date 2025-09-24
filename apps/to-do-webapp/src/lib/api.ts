@@ -1,10 +1,11 @@
 "use server";
 
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import * as TE from "fp-ts/TaskEither";
+
 import { client } from "@/lib/client";
 import { TaskId } from "@/lib/client/TaskId";
-import * as E from "fp-ts/Either";
-import * as TE from "fp-ts/TaskEither";
-import { pipe } from "fp-ts/function";
 
 export const getTaskList = async () =>
   pipe(

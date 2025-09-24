@@ -18,9 +18,8 @@ repos:
 
   - repo: local
     hooks:
-      - id: terraform-graph-generator
-        name: Generate Terraform Graph
-        entry: scripts/generate-terraform-graphs.sh
-        language: script
-        files: ^infra/(resources/_modules)/.*\.tf$
-        stages: [commit]
+      - id: terraform_providers_lock_staged
+      - id: lock_modules
+        exclude: ^.*/(_modules|modules|\.terraform)(/.*)?$ # directories to exclude
+        files: infra/(github_runner|identity/dev|repository|resources/dev) # directories with terraform files to validate
+
