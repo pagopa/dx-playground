@@ -28,6 +28,41 @@ jobs:
           tenant-id: ${{ secrets.ARM_TENANT_ID }}
           subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
+      # Development
+      - uses: azure/cli@v2
+        name: "Deploy Development Secrets"
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az appconfig kv import \
+              --name dx-d-itn-vars-appcs-01 \
+              --auth-mode login \
+              --source file \
+              --path apps/poc-vars/PoCVars.API/secrets.development.json \
+              --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" \
+              --format json \
+              --prefix "playground:" \
+              --label "Development" \
+              --yes
+
+      - uses: azure/cli@v2
+        name: "Deploy Development AppSettings"
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az appconfig kv import \
+              --name dx-d-itn-vars-appcs-01 \
+              --auth-mode login \
+              --source file \
+              --path apps/poc-vars/PoCVars.API/appconfig.development.json \
+              --content-type "application/json" \
+              --separator : \
+              --format json \
+              --prefix "playground:" \
+              --label "Development" \
+              --yes
+
+      # Staging
       - uses: azure/cli@v2
         name: "Deploy Staging Secrets"
         with:
@@ -61,6 +96,7 @@ jobs:
               --label "Staging" \
               --yes
 
+      # Production
       - uses: azure/cli@v2
         name: "Deploy Production Secrets"
         with:
