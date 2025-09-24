@@ -11,7 +11,7 @@ module "apim" {
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = data.azurerm_resource_group.test_rg.name
-  tier                = "s"
+  use_case            = "development"
 
   publisher_email = "playground@pagopa.it"
   publisher_name  = "Playground Publisher"

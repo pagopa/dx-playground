@@ -31,7 +31,7 @@ locals {
     region          = "eu-south-1"
     region_short    = "eus1"
     env_short       = "d"
-    domain          = "devex"
+    domain          = "playground"
     instance_number = "01"
   }
 
