@@ -3,6 +3,21 @@
 This module is useful to create a configuration of Application Insights and save the connection string into a key vault.
 
 <!-- BEGIN_TF_GRAPH -->
+```mermaid
+graph LR
+  subgraph Key Vault
+    KVSecret["Key Vault Secret - AI Connection String"]
+  end
+
+  subgraph Monitoring
+    AppInsights["Application Insights"]
+    LogAnalytics["Log Analytics Workspace"]
+  end
+
+  KVSecret --> AppInsights
+  AppInsights --> LogAnalytics
+```
+
 <!-- END_TF_GRAPH -->
 
 <!-- BEGIN_TF_DOCS -->

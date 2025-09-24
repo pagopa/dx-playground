@@ -1,10 +1,10 @@
 ```mermaid
 graph LR
   subgraph Compute
-    VM["Linux Virtual Machine"]
+    vm["Linux Virtual Machine"]
   end
   subgraph Networking
-    NIC["Network Interface"]
+    nic["Network Interface"]
   end
-  VM --> NIC
+  vm --> nic
 ```

@@ -1,12 +1,14 @@
 ```mermaid
 graph LR
+  subgraph Key Vault
+    KVSecret["Key Vault Secret - AI Connection String"]
+  end
+
   subgraph Monitoring
     AppInsights["Application Insights"]
     LogAnalytics["Log Analytics Workspace"]
   end
 
-  KeyVaultSecret["Key Vault Secret (AI Connection String)"]
-
-  KeyVaultSecret --> AppInsights
+  KVSecret --> AppInsights
   AppInsights --> LogAnalytics
 ```

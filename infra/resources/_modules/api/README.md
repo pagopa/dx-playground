@@ -3,6 +3,18 @@
 This module is responsible for creating the API and the APIM backend service for the To Do API.
 
 <!-- BEGIN_TF_GRAPH -->
+```mermaid
+graph LR
+  subgraph API Management
+    Api["API Management API"]
+    Backend["API Management Backend"]
+    ApiPolicy["API Management API Policy"]
+  end
+
+  ApiPolicy --> Api
+  ApiPolicy --> Backend
+```
+
 <!-- END_TF_GRAPH -->
 
 <!-- BEGIN_TF_DOCS -->
