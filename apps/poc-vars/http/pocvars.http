@@ -1,5 +1,3 @@
-@baseUrl = localhost:8080
-
 ### GET health probe
 {{baseUrl}}/healthz
 
