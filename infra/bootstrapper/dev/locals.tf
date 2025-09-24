@@ -1,8 +1,18 @@
 locals {
-  environment = {
+  azure_environment = {
     prefix          = "dx"
     location        = "italynorth"
     location_short  = "itn"
+    env_short       = "d"
+    domain          = "playground"
+    app_name        = "playground"
+    instance_number = "01"
+  }
+
+  aws_environment = {
+    prefix          = "dx"
+    region          = "eu-south-1"
+    region_short    = "eus1"
     env_short       = "d"
     domain          = "playground"
     app_name        = "playground"
@@ -28,14 +38,14 @@ locals {
   location_short = {
     italynorth = "itn"
     westeurope = "weu"
-  }[lower(local.environment.location)]
+  }[lower(local.azure_environment.location)]
 
-  project = "${local.environment.prefix}-${local.environment.env_short}-${local.location_short}"
+  project = "${local.azure_environment.prefix}-${local.azure_environment.env_short}-${local.location_short}"
 
   adgroups = {
-    admins_name   = "${local.environment.prefix}-${local.environment.env_short}-adgroup-admin"
-    devs_name     = "${local.environment.prefix}-${local.environment.env_short}-adgroup-developers"
-    external_name = "${local.environment.prefix}-${local.environment.env_short}-adgroup-externals"
+    admins_name   = "${local.azure_environment.prefix}-${local.azure_environment.env_short}-adgroup-admin"
+    devs_name     = "${local.azure_environment.prefix}-${local.azure_environment.env_short}-adgroup-developers"
+    external_name = "${local.azure_environment.prefix}-${local.azure_environment.env_short}-adgroup-externals"
   }
 
   tf_storage_account = {
