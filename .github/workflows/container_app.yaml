@@ -34,12 +34,11 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az appconfig kv import \
-              --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
+              --name dx-d-itn-vars-appcs-01 \
               --auth-mode login \
               --source file \
               --path apps/poc-vars/PoCVars.API/secrets.staging.json \
               --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" \
-              --separator : \
               --format json \
               --prefix "playground:" \
               --label "Staging" \
@@ -51,7 +50,7 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az appconfig kv import \
-              --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
+              --name dx-d-itn-vars-appcs-01 \
               --auth-mode login \
               --source file \
               --path apps/poc-vars/PoCVars.API/appconfig.staging.json \
@@ -69,12 +68,11 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az appconfig kv import \
-              --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
+              --name dx-d-itn-vars-appcs-01 \
               --auth-mode login \
               --source file \
               --path apps/poc-vars/PoCVars.API/secrets.json \
               --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" \
-              --separator : \
               --format json \
               --prefix "playground:" \
               --label "Production" \
@@ -86,7 +84,7 @@ jobs:
           azcliversion: latest
           inlineScript: |
             az appconfig kv import \
-              --endpoint https://dx-d-itn-vars-appcs-01.azconfig.io \
+              --name dx-d-itn-vars-appcs-01 \
               --auth-mode login \
               --source file \
               --path apps/poc-vars/PoCVars.API/appconfig.json \
