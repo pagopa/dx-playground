@@ -1,5 +1,5 @@
 using Azure.Identity;
-// using Microsoft.Extensions.Configuration.AzureAppConfiguration;
+using Microsoft.FeatureManagement;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,14 +8,8 @@ string endpoint = builder.Configuration.GetValue<string>("Endpoints:AppConfigura
 
 builder.Configuration.AddAzureAppConfiguration(options =>
 {
-    // var prefix = builder.Environment.IsProduction() ?
-    //     string.Empty :
-    //     "staging-";
-
     options.Connect(new Uri(endpoint), new DefaultAzureCredential())
-        // .Select("playground:", builder.Environment.EnvironmentName)
         .Select("playground:*", builder.Environment.EnvironmentName)
-        // .Select("Playground:*", LabelFilter.Null)
         .ConfigureRefresh(refreshOptions =>
         {
             refreshOptions.SetRefreshInterval(TimeSpan.FromSeconds(20));
@@ -24,10 +18,16 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         .ConfigureKeyVault(keyVaultOptions =>
         {
             keyVaultOptions.SetCredential(new DefaultAzureCredential());
+        })
+        .UseFeatureFlags(ffOptions =>
+        {
+            ffOptions.Select("playground:*", builder.Environment.EnvironmentName);
+            ffOptions.SetRefreshInterval(TimeSpan.FromSeconds(15));
         });
 });
 
 builder.Services.AddAzureAppConfiguration();
+builder.Services.AddFeatureManagement();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
@@ -42,6 +42,12 @@ app.MapGet("secret", (IConfiguration config) =>
 {
     var secret = config["playground:my-api-key"];
     return secret ?? string.Empty;
+});
+
+app.MapGet("featureflag", async (IFeatureManager featureManager) =>
+{
+    bool ff = await featureManager.IsEnabledAsync("filtereddemoff");
+    return ff;
 });
 
 app.UseAzureAppConfiguration();
