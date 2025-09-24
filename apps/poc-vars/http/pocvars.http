@@ -1,0 +1,13 @@
+@baseUrl = localhost:8080
+
+### GET health probe
+{{baseUrl}}/healthz
+
+### Get appsetting from AppConfiguration
+{{baseUrl}}/setting
+
+### Get secret from AppConfiguration
+{{baseUrl}}/secret
+
+### GET featureflag from AppConfiguration
+{{baseUrl}}/featureflag
