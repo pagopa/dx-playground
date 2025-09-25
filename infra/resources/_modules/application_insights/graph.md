@@ -1,12 +1,14 @@
 ```mermaid
 graph LR
   subgraph Monitoring
-    AppInsights["Application Insights"]
-    LogAnalytics["Log Analytics Workspace"]
+    ApplicationInsights["Application Insights"]
+    LogAnalyticsWorkspace["Log Analytics Workspace"]
   end
 
-  KeyVaultSecret["Key Vault Secret (AI Connection String)"]
+  subgraph Key Vault
+    KeyVaultSecret["Key Vault Secret - AI Connection String"]
+  end
 
-  KeyVaultSecret --> AppInsights
-  AppInsights --> LogAnalytics
+  KeyVaultSecret --> ApplicationInsights
+  ApplicationInsights --> LogAnalyticsWorkspace
 ```

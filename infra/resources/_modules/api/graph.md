@@ -1,11 +1,11 @@
 ```mermaid
 graph LR
-subgraph API Management Service
-  API["API Management API"]
-  Policy["API Management API Policy"]
-  Backend["API Management Backend"]
-end
+  subgraph API Management
+    ApiManagementApiPolicy["API Management API Policy"]
+    ApiManagementApi["API Management API"]
+    ApiManagementBackend["API Management Backend"]
+  end
 
-Policy --> API
-Policy --> Backend
+  ApiManagementApiPolicy --> ApiManagementApi
+  ApiManagementApiPolicy --> ApiManagementBackend
 ```
