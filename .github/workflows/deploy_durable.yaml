@@ -20,7 +20,7 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
+    uses: pagopa/dx/.github/workflows/release-azure-appsvc.yaml@6e129731f780e3e149f5c347b56946fb9e722ec0
     secrets: inherit
     with:
       workspace_name: test-durable-function
@@ -28,4 +28,4 @@ jobs:
       resource_group_name: dx-d-itn-test-rg-01
       web_app_name: dx-d-itn-playground-df-func-01
       use_private_agent: true
-      use_staging_slot: false
+      disable_auto_staging_deploy: true
