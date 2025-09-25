@@ -108,13 +108,27 @@ jobs:
           echo "Files organized."
           echo "changes_made=$changes_made" >> $GITHUB_OUTPUT
 
-      - name: Discard unwanted changes
+      - name: Collect changed files
+        id: collect_changed
         if: steps.organize_files.outputs.changes_made == 'true'
         run: |
-          git restore --worktree package.json || true
+          # Find changed/added files
+          files=$(git status --porcelain | awk '/^ M|^A / {print $2}' | grep -E '(README\.md|graph\.md)$' || true)
+
+          if [ -z "$files" ]; then
+            echo "No README.md or graph.md changes found."
+            echo "paths=" >> $GITHUB_OUTPUT
+          else
+            echo "Found changed files:"
+            echo "$files"
+            # Convert in list with newlines separator
+            echo "paths<<EOF" >> $GITHUB_OUTPUT
+            echo "$files" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
 
       - name: Create Pull Request for updated diagrams
-        if: steps.organize_files.outputs.changes_made == 'true'
+        if: steps.organize_files.outputs.changes_made == 'true' && steps.collect_changed.outputs.paths != ''
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -129,3 +143,4 @@ jobs:
           labels: "documentation, automated"
           committer: "dx-pagopa-bot <dx-pagopa-github-bot@pagopa.it>"
           author: "dx-pagopa-bot <dx-pagopa-github-bot@pagopa.it>"
+          add-paths: ${{ steps.collect_changed.outputs.paths }}
