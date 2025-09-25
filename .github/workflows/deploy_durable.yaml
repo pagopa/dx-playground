@@ -1,19 +1,26 @@
 name: Deploy Test Durable Function
+
 on:
-  workflow_dispatch: null
+  workflow_dispatch:
   push:
     tags:
-      - test-durable-function@[0-9]+.[0-9]+.[0-9]+
+      # Trigger this workflow when a tag `test-durable-function@<sem-ver>` is pushed
+      # E.g.: `test-durable-function@1.2.3` triggers the workflow;
+      # `test-durable-function@1` does not.
+      - "test-durable-function@[0-9]+.[0-9]+.[0-9]+"
+
 permissions:
   contents: read
   id-token: write
+
 jobs:
   deploy:
-    uses: pagopa/dx/.github/workflows/release-azure-appsvc.yaml@19c975849e973ea0d3e43ed93c797a1b0addd02c
     name: Deploy Test Durable Function
     concurrency:
       group: ${{ github.workflow }}-cd
+      # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
     secrets: inherit
     with:
       workspace_name: test-durable-function
@@ -21,4 +28,4 @@ jobs:
       resource_group_name: dx-d-itn-test-rg-01
       web_app_name: dx-d-itn-playground-df-func-01
       use_private_agent: true
-      disable_auto_staging_deploy: true
+      use_staging_slot: false

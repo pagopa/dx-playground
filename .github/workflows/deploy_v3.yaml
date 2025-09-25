@@ -1,19 +1,23 @@
 name: Deploy Azure Function V3
+
 on:
-  workflow_dispatch: null
+  workflow_dispatch:
   push:
     tags:
-      - azure-function-v3@[0-9]+.[0-9]+.[0-9]+
+      - "azure-function-v3@[0-9]+.[0-9]+.[0-9]+"
+
 permissions:
   contents: read
   id-token: write
+
 jobs:
   deploy:
-    uses: pagopa/dx/.github/workflows/release-azure-appsvc.yaml@19c975849e973ea0d3e43ed93c797a1b0addd02c
     name: Deploy Azure Function V3
     concurrency:
       group: ${{ github.workflow }}-cd
+      # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
     secrets: inherit
     with:
       workspace_name: azure-function-v3
@@ -21,4 +25,4 @@ jobs:
       resource_group_name: dx-d-itn-test-rg-01
       web_app_name: dx-d-itn-playground-v3-func-01
       use_private_agent: true
-      disable_auto_staging_deploy: true
+      use_staging_slot: false
