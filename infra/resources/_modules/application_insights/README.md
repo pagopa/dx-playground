@@ -3,6 +3,17 @@
 This module is useful to create a configuration of Application Insights and save the connection string into a key vault.
 
 <!-- BEGIN_TF_GRAPH -->
+```mermaid
+graph LR
+  subgraph Observability
+    AInsights["Application Insights"]
+    LAWorkspace["Log Analytics Workspace"]
+  end
+  KVSecret["Key Vault Secret AI Connection String"]
+  KVSecret --> AInsights
+  AInsights --> LAWorkspace
+```
+
 <!-- END_TF_GRAPH -->
 
 <!-- BEGIN_TF_DOCS -->

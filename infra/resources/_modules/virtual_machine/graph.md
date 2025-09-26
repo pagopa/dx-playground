@@ -1,10 +1,8 @@
 ```mermaid
 graph LR
-  subgraph Compute
-    VM["Linux Virtual Machine"]
-  end
-  subgraph Networking
-    NIC["Network Interface"]
-  end
-  VM --> NIC
+subgraph Azure Resources
+  LinuxVirtualMachine["Linux Virtual Machine"]
+  NetworkInterface["Network Interface"]
+end
+LinuxVirtualMachine --> NetworkInterface
 ```
