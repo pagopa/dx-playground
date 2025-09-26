@@ -1,0 +1,9 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "azurerm_application_insights.main" [label="azurerm_application_insights.main"];
+  "azurerm_key_vault_secret.ai_connection_string" [label="azurerm_key_vault_secret.ai_connection_string"];
+  "azurerm_log_analytics_workspace.main" [label="azurerm_log_analytics_workspace.main"];
+  "azurerm_application_insights.main" -> "azurerm_log_analytics_workspace.main";
+  "azurerm_key_vault_secret.ai_connection_string" -> "azurerm_application_insights.main";
+}
