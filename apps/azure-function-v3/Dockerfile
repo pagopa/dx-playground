@@ -30,10 +30,3 @@ COPY --from=builder /workspace/out/ /home/site/
 WORKDIR /home/site/apps/azure-function-v3
 
 EXPOSE 80
-
-# # Copy package.json and install packages before copying the rest of the code to enable caching
-# COPY package.json package.json
-# RUN npm install
-
-# # Copy the rest of the code
-# COPY . .
