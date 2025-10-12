@@ -22,9 +22,9 @@ jobs:
     uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@main
     secrets: inherit
     with:
-      dockerfile_path: ./apps/azure-function-v3/Dockerfile
+      dockerfile_path: ./apps/dotnet-func-app/Dockerfile
       dockerfile_context: .
-      docker_image_name: pagopa/azure-function-v3
+      docker_image_name: pagopa/dotnetfunc
       docker_image_description: "Test app for function container app"
       container_app: dx-d-itn-modules-test-ca-01
       resource_group_name: dx-d-itn-modules-rg-01

@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS installer-env
+FROM mcr.microsoft.com/dotnet/sdk:9.0-preview AS installer-env
 
 COPY . /src/dotnet-function-app
 RUN cd /src/dotnet-function-app && \
-  mkdir -p /home/site/wwwroot && \
-  dotnet publish *.csproj --output /home/site/wwwroot
+mkdir -p /home/site/wwwroot && \
+dotnet publish *.csproj --output /home/site/wwwroot
 
 # To enable ssh & remote debugging on app service change the base image to the one below
 # FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated9.0-appservice

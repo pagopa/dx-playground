@@ -1,13 +1,19 @@
 {
-    "version": "2.0",
-    "telemetryMode": "OpenTelemetry",
-    "logging": {
-        "applicationInsights": {
-            "samplingSettings": {
-                "isEnabled": false
-            },
-            "enableLiveMetricsFilters": true,
-            "enableDependencyTracking": true
-        }
+  "version": "2.0",
+  "telemetryMode": "OpenTelemetry",
+  "logging": {
+    "applicationInsights": {
+      "samplingSettings": {
+        "isEnabled": false
+      },
+      "enableLiveMetricsFilters": true,
+      "enableDependencyTracking": true
     }
+  },
+  "extensions": {
+    "http": {
+      "routePrefix": "api",
+      "maxConcurrentRequests": 200
+    }
+  }
 }
