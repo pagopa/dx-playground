@@ -14,10 +14,10 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Checkout
-      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.7
-      with:
-        token: ${{ inputs.bot_token == '' && github.token || inputs.bot_token }}
+    # - name: Checkout
+    #   uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.7
+    #   with:
+    #     token: ${{ inputs.bot_token == '' && github.token || inputs.bot_token }}
 
     - name: Calculate days since last commit
       id: commit_date
@@ -45,18 +45,21 @@ runs:
         GIT_EMAIL="41898282+github-actions[bot]@users.noreply.github.com"
 
         # Try to fetch info from API (works if GITHUB_TOKEN has read:user permission)
-        USER_DATA=$(curl -s -H "Authorization: Bearer ${{ env.GH_TOKEN }}" "https://api.github.com/users/$ACTOR")
-        echo "User data: $USER_DATA"
+        # USER_DATA=$(curl -s -H "Authorization: Bearer ${{ env.GH_TOKEN }}" "https://api.github.com/users/$ACTOR")
+        # echo "User data: $USER_DATA"
 
         GITHUB_USER=$(gh api user)
         echo "GITHUB_USER: $GITHUB_USER"
 
-        if [ "$(echo "$USER_DATA" | jq -r '.email')" != "null" ]; then
-          GIT_EMAIL=$(echo "$USER_DATA" | jq -r '.email')
-          echo "Entered in email"
-        fi
-        if [ "$(echo "$USER_DATA" | jq -r '.name')" != "null" ]; then
-          GIT_NAME=$(echo "$USER_DATA" | jq -r '.name')
+        # if [ "$(echo "$USER_DATA" | jq -r '.email')" != "null" ]; then
+        #   GIT_EMAIL=$(echo "$USER_DATA" | jq -r '.email')
+        #   echo "Entered in email"
+        # fi
+        # if [ "$(echo "$USER_DATA" | jq -r '.name')" != "null" ]; then
+        #   GIT_NAME=$(echo "$USER_DATA" | jq -r '.name')
+        #   echo "Entered in name"
+        if [ "$(echo "$GITHUB_USER" | jq -r '.login')" != "null" ]; then
+          GIT_NAME=$(echo "$GITHUB_USER" | jq -r '.login')
           echo "Entered in name"
         else
           GIT_NAME="$ACTOR"
@@ -65,10 +68,10 @@ runs:
 
         echo "Git user will be: $GIT_NAME <$GIT_EMAIL>"
         git config --local user.name "$GIT_NAME"
-        git config --local user.email "$GIT_EMAIL"
+        # git config --local user.email "$GIT_EMAIL"
 
         echo "Name: $GIT_NAME"
-        echo "Email: $GIT_EMAIL"
+        # echo "Email: $GIT_EMAIL"
       env:
         ACTOR: ${{ github.actor }}
         GH_TOKEN: ${{ inputs.bot_token == '' && github.token || inputs.bot_token }}
