@@ -36,7 +36,7 @@ runs:
         echo "days_since_commit=$DIFFERENCE" >> $GITHUB_OUTPUT
 
     - name: Configure git user
-      if: steps.commit_date.outputs.days_since_commit >= 55 || inputs.bypass == 'true'
+      # if: steps.commit_date.outputs.days_since_commit >= 55 || inputs.bypass == 'true'
       id: git_user
       shell: bash
       run: |
