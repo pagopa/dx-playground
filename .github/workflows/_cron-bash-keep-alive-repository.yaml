@@ -35,4 +35,4 @@ jobs:
         uses: ./.github/actions/keep-alive
         with:
           bypass: ${{ github.event.inputs.bypass || 'false' }}
-          bot_token: ${{ secrets.BOT_GH_TOKEN }}
+          bot_token: ${{ secrets.KEEP_ALIVE_BOT_TOKEN }}
