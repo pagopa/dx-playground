@@ -1,0 +1,38 @@
+name: Keep Alive
+
+# This workflow is designed to keep the repository active.
+# GitHub automatically disables all actions with a cron trigger after 60 days of inactivity.
+# This action checks if there has been a commit in the last 55 days.
+# If a commit is found within this timeframe, the workflow does nothing,
+# however, if no commits have been made, it performs an empty push to keep the repository active.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bypass:
+        description: "Perform the action even if the last commit was less than 55 days ago."
+        type: boolean
+        default: false
+        required: false
+  push:
+    branches:
+      - test-keep-alive-action-dx
+  # schedule:
+  #   - cron: '*/5 * * * *' # Run every minute cron: '0 0 * * *' # Run at 00:00 every day
+
+jobs:
+  keep_alive:
+    runs-on: 'ubuntu-latest'
+    permissions:
+      contents: write
+      actions: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.7
+
+      - name: Keep Alive
+        uses: ./.github/actions/keep-alive
+        with:
+          bypass: ${{ github.event.inputs.bypass || 'false' }}
+          bot_token: ${{ secrets.BOT_GH_TOKEN }}
