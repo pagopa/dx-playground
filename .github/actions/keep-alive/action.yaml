@@ -45,7 +45,7 @@ runs:
         GIT_EMAIL="41898282+github-actions[bot]@users.noreply.github.com"
 
         # Try to fetch info from API (works if GITHUB_TOKEN has read:user permission)
-        USER_DATA=$(curl -s -H "Authorization: Bearer ${{ github.token }}" "https://api.github.com/users/$ACTOR")
+        USER_DATA=$(curl -s -H "Authorization: Bearer ${{ env.GH_TOKEN }}" "https://api.github.com/users/$ACTOR")
         echo "User data: $USER_DATA"
 
         GITHUB_USER=$(gh api user)
