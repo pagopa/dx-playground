@@ -70,7 +70,7 @@ runs:
       if: ${{ inputs.purge_paths != '' }}
       shell: bash
       run: |
-        az $AZ_RESOURCE endpoint purge \
+        az afd endpoint purge \
           --resource-group $RESOURCE_GROUP_NAME \
           --endpoint-name $ENDPOINT_NAME \
           --profile-name $PROFILE_NAME \
@@ -87,7 +87,7 @@ runs:
       if: ${{ inputs.purge_paths == '' }}
       shell: bash
       run: |
-        az $AZ_RESOURCE endpoint purge \
+        az afd endpoint purge \
           --resource-group $RESOURCE_GROUP_NAME \
           --endpoint-name $ENDPOINT_NAME \
           --profile-name $PROFILE_NAME \
