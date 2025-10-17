@@ -2,9 +2,9 @@ name: Deploy Static Site to Azure CDN - TEST
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - test-workflow-deploy-cdn-ts
+  push:
+    branches:
+      - test-workflow-deploy-cdn-ts
 
 jobs:
   test:
