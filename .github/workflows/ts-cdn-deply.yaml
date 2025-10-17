@@ -14,6 +14,7 @@ jobs:
     with:
       workspace_name: "static-test-app"
       storage_account_name: "dxditntestfrontdoorst01"
+      # blob_container_name: "$web"
       resource_group_name: "dx-d-itn-test-rg-01"
       profile_name: "dx-d-itn-test-frontdoor-01"
       endpoint_name: "dx-d-itn-test-ep-g3dubxcwh7ewfwdb.a02.azurefd.net"
