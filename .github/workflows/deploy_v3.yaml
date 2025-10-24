@@ -23,7 +23,7 @@ jobs:
     secrets: inherit
     with:
       dockerfile_path: apps/azure-function-v3/Dockerfile
-      docker_image_name: azure-function-v3
+      docker_image_name: pagopa/dx-azure-function-v3
       docker_image_description: "Azure Function V3 for DX Playground"
       docker_image_authors: "DevX Team"
       container_app: dx-d-itn-func-ca-01
