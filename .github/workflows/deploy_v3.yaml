@@ -17,12 +17,13 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
+    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@main
     secrets: inherit
     with:
-      workspace_name: azure-function-v3
+      dockerfile_path: apps/azure-function-v3/Dockerfile
+      docker_image_name: azure-function-v3
+      docker_image_description: "Azure Function V3 for DX Playground"
+      docker_image_authors: "DevX Team"
+      container_app: dx-d-itn-func-ca-01
+      resource_group_name: dx-d-itn-github-runner-rg-01
       environment: app-dev
-      resource_group_name: dx-d-itn-test-rg-01
-      web_app_name: dx-d-itn-playground-v3-func-01
-      use_private_agent: true
-      use_staging_slot: false
