@@ -5,12 +5,12 @@ name: Generate Mermaid Diagrams for Terraform modules - CI - TEST
 # If 'dot_path' is not provided, all changed .dot files in the PR will be processed
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-    paths:
-      - '**/graph.dot'
+  # pull_request:
+  #   types:
+  #     - opened
+  #     - synchronize
+  #   paths:
+  #     - '**/graph.dot'
   workflow_dispatch:
     inputs:
       dot_path:

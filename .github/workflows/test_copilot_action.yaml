@@ -1,0 +1,32 @@
+name: Call Copilot CLI - TEST
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat-poc-ai-graph-generation
+
+jobs:
+  call-copilot-cli:
+    name: Call Copilot CLI Action
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          fetch-depth: 0
+
+      - name: Call Copilot CLI Action
+        id: call-copilot
+        uses: ./.github/actions/copilot-cli
+        with:
+          prompt: |
+            Please answer these questions:
+            1. What is 2+2?
+            2. What is the capital of Italy?
+            3. What color is the sky?

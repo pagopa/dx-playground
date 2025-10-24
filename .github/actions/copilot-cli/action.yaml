@@ -1,0 +1,108 @@
+name: "Copilot CLI Runner"
+description: "Execute prompts using GitHub Copilot CLI and return the results"
+author: "PagoPA DX Team"
+
+inputs:
+  prompt:
+    description: "The prompt to send to Copilot CLI"
+    required: true
+  github-token:
+    description: "GitHub token for Copilot CLI authentication. Defaults to GITHUB_TOKEN"
+    required: false
+    default: ${{ github.token }}
+  timeout:
+    description: "Timeout in milliseconds for the Copilot CLI command"
+    required: false
+    default: "300000"
+
+outputs:
+  result:
+    description: "The response from Copilot CLI"
+    value: ${{ steps.run-copilot.outputs.result }}
+  success:
+    description: "Whether the command executed successfully (true/false)"
+    value: ${{ steps.run-copilot.outputs.success }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Copilot CLI
+      shell: bash
+      run: |
+        if ! command -v copilot &> /dev/null; then
+          echo "Installing @github/copilot..."
+          npm install -g @github/copilot
+        else
+          echo "Copilot CLI already installed"
+        fi
+
+    - name: Run Copilot CLI
+      id: run-copilot
+      uses: actions/github-script@v7
+      env:
+        PROMPT: ${{ inputs.prompt }}
+        TIMEOUT: ${{ inputs.timeout }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const { exec } = require('@actions/exec');
+          const core = require('@actions/core');
+
+          const prompt = process.env.PROMPT;
+          const timeout = parseInt(process.env.TIMEOUT);
+
+          try {
+            // Check if copilot CLI is installed
+            try {
+              await exec('copilot', ['--version'], { silent: true });
+            } catch (error) {
+              core.setFailed('Copilot CLI is not installed.');
+              core.setOutput('success', 'false');
+              core.setOutput('result', 'Copilot CLI not found');
+              return;
+            }
+
+            // Run copilot command with timeout
+            let output = '';
+            let errorOutput = '';
+
+            const execPromise = exec('copilot', [
+              '-p', prompt,
+              '--allow-all-tools',
+              '--no-color'
+            ], {
+              silent: false,
+              listeners: {
+                stdout: (data) => { output += data.toString(); },
+                stderr: (data) => { errorOutput += data.toString(); }
+              }
+            });
+
+            // Create timeout promise
+            const timeoutPromise = new Promise((_, reject) => {
+              setTimeout(() => reject(new Error('Command timed out')), timeout);
+            });
+
+            // Race between execution and timeout
+            await Promise.race([execPromise, timeoutPromise]);
+
+            // Success
+            core.setOutput('success', 'true');
+            core.setOutput('result', output || errorOutput);
+            core.info('Copilot CLI executed successfully');
+
+          } catch (error) {
+            core.error(`Copilot CLI failed: ${error.message}`);
+            core.setOutput('success', 'false');
+            core.setOutput('result', error.message);
+          }
+
+branding:
+  icon: "cpu"
+  color: "purple"
