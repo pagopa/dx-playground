@@ -5,7 +5,7 @@
       "direction": "in",
       "name": "req",
       "authLevel": "anonymous",
-      "route": "tasks",
+      "route": "hello",
       "methods": ["get"]
     },
     {

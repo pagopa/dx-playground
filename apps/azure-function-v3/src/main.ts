@@ -1,36 +1,13 @@
-import {
-  createCosmosClient,
-  makeTaskRepository,
-} from "@to-do/azure-adapters/cosmosdb";
-import { Task } from "@to-do/domain";
-import * as E from "fp-ts/lib/Either.js";
-import { pipe } from "fp-ts/lib/function.js";
+import createAzureFunctionHandler from "@pagopa/express-azure-functions/dist/src/createAzureFunctionsHandler.js";
 
-import {
-  expressToAzureFunction,
-  makeExpressApp,
-} from "./adapters/express/index.js";
-import { getConfigOrError } from "./config.js";
+import express from "express";
 
-const config = pipe(
-  getConfigOrError(process.env),
-  E.getOrElseW((error) => {
-    throw error;
-  }),
-);
+const app = express();
 
-const cosmosClient = createCosmosClient({ endpoint: config.cosmosDb.endpoint });
+app.use(express.json());
 
-const db = cosmosClient.database(config.cosmosDb.dbName);
-const taskContainer = db.container(config.cosmosDb.containers.tasks);
+app.get("/api/hello", async (req, res) => {
+  res.json({ message: "Hello, World!" });
+});
 
-const env = {
-  // Just a fake implementation, since it is not used in this function (v3)
-  taskIdGenerator: {
-    generate: () => `${Date.now()}` as Task["id"],
-  },
-  taskRepository: makeTaskRepository(taskContainer),
-};
-
-const app = makeExpressApp(env);
-export const entryPoint = expressToAzureFunction(app);
+export default createAzureFunctionHandler.default(app);
