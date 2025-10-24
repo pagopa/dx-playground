@@ -51,7 +51,7 @@ runs:
       with:
         github-token: ${{ inputs.github-token }}
         script: |
-          const { exec } = require('@actions/exec');
+          const { exec: execCommand } = require('@actions/exec');
           const core = require('@actions/core');
 
           const prompt = process.env.PROMPT;
@@ -60,7 +60,7 @@ runs:
           try {
             // Check if copilot CLI is installed
             try {
-              await exec('copilot', ['--version'], { silent: true });
+              await execCommand('copilot', ['--version'], { silent: true });
             } catch (error) {
               core.setFailed('Copilot CLI is not installed.');
               core.setOutput('success', 'false');
@@ -72,7 +72,7 @@ runs:
             let output = '';
             let errorOutput = '';
 
-            const execPromise = exec('copilot', [
+            const execPromise = execCommand('copilot', [
               '-p', prompt,
               '--allow-all-tools',
               '--no-color'
