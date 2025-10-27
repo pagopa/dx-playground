@@ -34,98 +34,98 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Cloud Login
-      uses: pagopa/dx/actions/csp-login@main
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
-    - name: Install AWS SDK
-      shell: bash
-      run: |
-        npm install -g @aws-sdk/client-bedrock-runtime
-
     - name: Call AWS Bedrock
       id: run-bedrock
-      uses: actions/github-script@v7
+      shell: bash
       env:
         PROMPT: ${{ inputs.prompt }}
         MODEL: ${{ inputs.model }}
         AWS_REGION: ${{ inputs.aws-region }}
         MAX_TOKENS: ${{ inputs.max-tokens }}
         TEMPERATURE: ${{ inputs.temperature }}
-      with:
-        script: |
-          const { BedrockRuntimeClient, InvokeModelCommand } = require('@aws-sdk/client-bedrock-runtime');
+      run: |
+        set -e
 
-          const prompt = process.env.PROMPT;
-          const modelId = process.env.MODEL;
-          const region = process.env.AWS_REGION;
-          const maxTokens = parseInt(process.env.MAX_TOKENS);
-          const temperature = parseFloat(process.env.TEMPERATURE);
+        echo "Calling AWS Bedrock with model: $MODEL in region: $AWS_REGION"
 
-          try {
-            core.info(`Calling AWS Bedrock with model: ${modelId} in region: ${region}`);
+        # Escape prompt for JSON
+        PROMPT_JSON=$(echo "$PROMPT" | jq -Rs .)
 
-            const client = new BedrockRuntimeClient({ region });
-
-            // Prepare the request based on model type
-            let requestBody;
-
-            if (modelId.startsWith('anthropic.claude')) {
-              // Claude models format
-              requestBody = {
-                anthropic_version: "bedrock-2023-05-31",
-                max_tokens: maxTokens,
-                temperature: temperature,
-                messages: [
-                  {
-                    role: "user",
-                    content: prompt
-                  }
-                ]
-              };
-            } else if (modelId.startsWith('amazon.titan')) {
-              // Titan models format
-              requestBody = {
-                inputText: prompt,
-                textGenerationConfig: {
-                  maxTokenCount: maxTokens,
-                  temperature: temperature
-                }
-              };
-            } else {
-              throw new Error(`Unsupported model: ${modelId}`);
+        # Prepare request body based on model type
+        if [[ "$MODEL" == anthropic.claude* ]]; then
+          # Claude models format
+          REQUEST_BODY=$(cat <<EOF
+        {
+          "anthropic_version": "bedrock-2023-05-31",
+          "max_tokens": $MAX_TOKENS,
+          "temperature": $TEMPERATURE,
+          "messages": [
+            {
+              "role": "user",
+              "content": $PROMPT_JSON
             }
-
-            const command = new InvokeModelCommand({
-              modelId: modelId,
-              contentType: "application/json",
-              accept: "application/json",
-              body: JSON.stringify(requestBody)
-            });
-
-            const response = await client.send(command);
-            const responseBody = JSON.parse(new TextDecoder().decode(response.body));
-
-            let result;
-            if (modelId.startsWith('anthropic.claude')) {
-              result = responseBody.content[0].text;
-            } else if (modelId.startsWith('amazon.titan')) {
-              result = responseBody.results[0].outputText;
-            }
-
-            core.setOutput('success', 'true');
-            core.setOutput('result', result);
-            core.info('AWS Bedrock call successful');
-
-          } catch (error) {
-            core.error(`AWS Bedrock failed: ${error.message}`);
-            core.setOutput('success', 'false');
-            core.setOutput('result', error.message);
+          ]
+        }
+        EOF
+        )
+        elif [[ "$MODEL" == amazon.titan* ]]; then
+          # Titan models format
+          REQUEST_BODY=$(cat <<EOF
+        {
+          "inputText": $PROMPT_JSON,
+          "textGenerationConfig": {
+            "maxTokenCount": $MAX_TOKENS,
+            "temperature": $TEMPERATURE
           }
+        }
+        EOF
+        )
+        else
+          # Default format for other models
+          REQUEST_BODY=$(cat <<EOF
+        {
+          "inputText": $PROMPT_JSON,
+          "textGenerationConfig": {
+            "maxTokenCount": $MAX_TOKENS,
+            "temperature": $TEMPERATURE
+          }
+        }
+        EOF
+        )
+        fi
+
+        # Call Bedrock API
+        RESPONSE=$(aws bedrock-runtime invoke-model \
+          --model-id "$MODEL" \
+          --region "$AWS_REGION" \
+          --body "$REQUEST_BODY" \
+          --cli-binary-format raw-in-base64-out \
+          /dev/stdout 2>/tmp/bedrock_error.log)
+
+        if [ $? -ne 0 ]; then
+          echo "success=false" >> $GITHUB_OUTPUT
+          ERROR_MSG=$(cat /tmp/bedrock_error.log)
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          echo "AWS Bedrock error: $ERROR_MSG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+
+        # Extract result based on model type
+        if [[ "$MODEL" == anthropic.claude* ]]; then
+          RESULT=$(echo "$RESPONSE" | jq -r '.content[0].text')
+        elif [[ "$MODEL" == amazon.titan* ]]; then
+          RESULT=$(echo "$RESPONSE" | jq -r '.results[0].outputText')
+        else
+          RESULT=$(echo "$RESPONSE" | jq -r '.results[0].outputText // .content[0].text // .outputText')
+        fi
+
+        echo "success=true" >> $GITHUB_OUTPUT
+        echo "result<<EOF" >> $GITHUB_OUTPUT
+        echo "$RESULT" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+        echo "AWS Bedrock call successful"
 
 branding:
   icon: "cpu"

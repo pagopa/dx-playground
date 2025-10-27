@@ -21,6 +21,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Cloud Login
+        uses: pagopa/dx/actions/csp-login@main
+
       - name: Call Copilot CLI Action
         id: call-copilot
         uses: ./.github/actions/copilot-cli
