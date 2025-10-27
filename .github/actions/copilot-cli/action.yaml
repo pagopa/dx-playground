@@ -44,80 +44,100 @@ runs:
         MAX_TOKENS: ${{ inputs.max-tokens }}
         TEMPERATURE: ${{ inputs.temperature }}
       run: |
-        set -e
+        set +e
 
         echo "Calling AWS Bedrock with model: $MODEL in region: $AWS_REGION"
 
-        # Escape prompt for JSON
-        PROMPT_JSON=$(echo "$PROMPT" | jq -Rs .)
+        # Create temporary file for request body
+        REQUEST_FILE=$(mktemp)
+        OUTPUT_FILE=$(mktemp)
 
         # Prepare request body based on model type
         if [[ "$MODEL" == anthropic.claude* ]]; then
           # Claude models format
-          REQUEST_BODY=$(cat <<EOF
-        {
-          "anthropic_version": "bedrock-2023-05-31",
-          "max_tokens": $MAX_TOKENS,
-          "temperature": $TEMPERATURE,
-          "messages": [
-            {
-              "role": "user",
-              "content": $PROMPT_JSON
-            }
-          ]
-        }
-        EOF
-        )
+          jq -n \
+            --arg prompt "$PROMPT" \
+            --argjson max_tokens "$MAX_TOKENS" \
+            --argjson temperature "$TEMPERATURE" \
+            '{
+              anthropic_version: "bedrock-2023-05-31",
+              max_tokens: $max_tokens,
+              temperature: $temperature,
+              messages: [{
+                role: "user",
+                content: $prompt
+              }]
+            }' > "$REQUEST_FILE"
         elif [[ "$MODEL" == amazon.titan* ]]; then
           # Titan models format
-          REQUEST_BODY=$(cat <<EOF
-        {
-          "inputText": $PROMPT_JSON,
-          "textGenerationConfig": {
-            "maxTokenCount": $MAX_TOKENS,
-            "temperature": $TEMPERATURE
-          }
-        }
-        EOF
-        )
+          jq -n \
+            --arg prompt "$PROMPT" \
+            --argjson max_tokens "$MAX_TOKENS" \
+            --argjson temperature "$TEMPERATURE" \
+            '{
+              inputText: $prompt,
+              textGenerationConfig: {
+                maxTokenCount: $max_tokens,
+                temperature: $temperature
+              }
+            }' > "$REQUEST_FILE"
         else
-          # Default format for other models
-          REQUEST_BODY=$(cat <<EOF
-        {
-          "inputText": $PROMPT_JSON,
-          "textGenerationConfig": {
-            "maxTokenCount": $MAX_TOKENS,
-            "temperature": $TEMPERATURE
-          }
-        }
-        EOF
-        )
+          # Default format (Qwen and others)
+          jq -n \
+            --arg prompt "$PROMPT" \
+            --argjson max_tokens "$MAX_TOKENS" \
+            --argjson temperature "$TEMPERATURE" \
+            '{
+              prompt: $prompt,
+              max_tokens: $max_tokens,
+              temperature: $temperature
+            }' > "$REQUEST_FILE"
         fi
 
+        echo "Request body:"
+        cat "$REQUEST_FILE"
+
         # Call Bedrock API
-        RESPONSE=$(aws bedrock-runtime invoke-model \
+        aws bedrock-runtime invoke-model \
           --model-id "$MODEL" \
           --region "$AWS_REGION" \
-          --body "$REQUEST_BODY" \
+          --body "file://$REQUEST_FILE" \
           --cli-binary-format raw-in-base64-out \
-          /dev/stdout 2>/tmp/bedrock_error.log)
+          "$OUTPUT_FILE" 2>&1
 
-        if [ $? -ne 0 ]; then
+        EXIT_CODE=$?
+
+        if [ $EXIT_CODE -ne 0 ]; then
+          echo "AWS CLI failed with exit code: $EXIT_CODE"
+          cat "$OUTPUT_FILE"
           echo "success=false" >> $GITHUB_OUTPUT
-          ERROR_MSG=$(cat /tmp/bedrock_error.log)
           echo "result<<EOF" >> $GITHUB_OUTPUT
-          echo "AWS Bedrock error: $ERROR_MSG" >> $GITHUB_OUTPUT
+          echo "AWS Bedrock error. Check logs above." >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+          rm -f "$REQUEST_FILE" "$OUTPUT_FILE"
           exit 1
         fi
 
+        echo "Response:"
+        cat "$OUTPUT_FILE"
+
         # Extract result based on model type
         if [[ "$MODEL" == anthropic.claude* ]]; then
-          RESULT=$(echo "$RESPONSE" | jq -r '.content[0].text')
+          RESULT=$(jq -r '.content[0].text' "$OUTPUT_FILE")
         elif [[ "$MODEL" == amazon.titan* ]]; then
-          RESULT=$(echo "$RESPONSE" | jq -r '.results[0].outputText')
+          RESULT=$(jq -r '.results[0].outputText' "$OUTPUT_FILE")
         else
-          RESULT=$(echo "$RESPONSE" | jq -r '.results[0].outputText // .content[0].text // .outputText')
+          # Try multiple possible response formats for other models
+          RESULT=$(jq -r '.output // .generation // .text // .content[0].text // .results[0].outputText' "$OUTPUT_FILE")
+        fi
+
+        rm -f "$REQUEST_FILE" "$OUTPUT_FILE"
+
+        if [ -z "$RESULT" ] || [ "$RESULT" = "null" ]; then
+          echo "Could not extract result from response"
+          echo "success=false" >> $GITHUB_OUTPUT
+          echo "result=Could not parse Bedrock response" >> $GITHUB_OUTPUT
+          exit 1
         fi
 
         echo "success=true" >> $GITHUB_OUTPUT
