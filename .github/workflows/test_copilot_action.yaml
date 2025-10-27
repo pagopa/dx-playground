@@ -10,7 +10,7 @@ jobs:
   call-copilot-cli:
     name: Call Copilot CLI Action
     runs-on: ubuntu-latest
-
+    environment: app-dev-ci
     permissions: write-all
 
     steps:
@@ -20,7 +20,6 @@ jobs:
           fetch-depth: 0
 
       - name: Call Copilot CLI Action
-        environment: app-dev-ci
         id: call-copilot
         uses: ./.github/actions/copilot-cli
         with:
