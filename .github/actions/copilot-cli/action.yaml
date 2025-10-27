@@ -1,101 +1,96 @@
-name: "Copilot CLI Runner"
-description: "Execute prompts using GitHub Copilot CLI and return the results"
+name: "GitHub Models AI Runner"
+description: "Execute prompts using GitHub Models API and return the results"
 author: "PagoPA DX Team"
 
 inputs:
   prompt:
-    description: "The prompt to send to Copilot CLI"
+    description: "The prompt to send to GitHub Models"
     required: true
+  model:
+    description: "The model to use (e.g., gpt-4o, gpt-4o-mini, o1-preview, o1-mini)"
+    required: false
+    default: "gpt-4o-mini"
   github-token:
-    description: "GitHub token for Copilot CLI authentication. Defaults to GITHUB_TOKEN"
+    description: "GitHub token for authentication. Defaults to GITHUB_TOKEN"
     required: false
     default: ${{ github.token }}
-  timeout:
-    description: "Timeout in milliseconds for the Copilot CLI command"
+  max-tokens:
+    description: "Maximum tokens in the response"
     required: false
-    default: "300000"
+    default: "4096"
+  temperature:
+    description: "Temperature for response generation (0.0-2.0)"
+    required: false
+    default: "1.0"
 
 outputs:
   result:
-    description: "The response from Copilot CLI"
-    value: ${{ steps.run-copilot.outputs.result }}
+    description: "The response from GitHub Models"
+    value: ${{ steps.run-model.outputs.result }}
   success:
     description: "Whether the command executed successfully (true/false)"
-    value: ${{ steps.run-copilot.outputs.success }}
+    value: ${{ steps.run-model.outputs.success }}
 
 runs:
   using: "composite"
   steps:
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
-    - name: Install Copilot CLI
-      shell: bash
-      run: |
-        if ! command -v copilot &> /dev/null; then
-          echo "Installing @github/copilot..."
-          npm install -g @github/copilot
-        else
-          echo "Copilot CLI already installed"
-        fi
-
-    - name: Run Copilot CLI
-      id: run-copilot
+    - name: Call GitHub Models API
+      id: run-model
       uses: actions/github-script@v7
       env:
         PROMPT: ${{ inputs.prompt }}
-        TIMEOUT: ${{ inputs.timeout }}
-        GITHUB_TOKEN: ${{ inputs.github-token }}
+        MODEL: ${{ inputs.model }}
+        MAX_TOKENS: ${{ inputs.max-tokens }}
+        TEMPERATURE: ${{ inputs.temperature }}
       with:
         github-token: ${{ inputs.github-token }}
         script: |
           const prompt = process.env.PROMPT;
-          const timeout = parseInt(process.env.TIMEOUT);
+          const model = process.env.MODEL;
+          const maxTokens = parseInt(process.env.MAX_TOKENS);
+          const temperature = parseFloat(process.env.TEMPERATURE);
 
           try {
-            // Check if copilot CLI is installed
-            try {
-              await exec.exec('copilot', ['--version'], { silent: true });
-            } catch (error) {
-              core.setFailed('Copilot CLI is not installed.');
-              core.setOutput('success', 'false');
-              core.setOutput('result', 'Copilot CLI not found');
-              return;
+            core.info(`Calling GitHub Models API with model: ${model}`);
+
+            const response = await fetch('https://models.inference.ai.azure.com/chat/completions', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`
+              },
+              body: JSON.stringify({
+                messages: [
+                  {
+                    role: 'user',
+                    content: prompt
+                  }
+                ],
+                model: model,
+                temperature: temperature,
+                max_tokens: maxTokens
+              })
+            });
+
+            if (!response.ok) {
+              const errorText = await response.text();
+              throw new Error(`GitHub Models API error (${response.status}): ${errorText}`);
             }
 
-            // Run copilot command with timeout
-            let output = '';
-            let errorOutput = '';
+            const data = await response.json();
 
-            const execPromise = exec.exec('copilot', [
-              '-p', prompt,
-              '--allow-all-tools',
-              '--no-color'
-            ], {
-              silent: false,
-              listeners: {
-                stdout: (data) => { output += data.toString(); },
-                stderr: (data) => { errorOutput += data.toString(); }
-              }
-            });
+            if (!data.choices || data.choices.length === 0) {
+              throw new Error('No response from GitHub Models API');
+            }
 
-            // Create timeout promise
-            const timeoutPromise = new Promise((_, reject) => {
-              setTimeout(() => reject(new Error('Command timed out')), timeout);
-            });
+            const result = data.choices[0].message.content;
 
-            // Race between execution and timeout
-            await Promise.race([execPromise, timeoutPromise]);
-
-            // Success
             core.setOutput('success', 'true');
-            core.setOutput('result', output || errorOutput);
-            core.info('Copilot CLI executed successfully');
+            core.setOutput('result', result);
+            core.info('GitHub Models API call successful');
 
           } catch (error) {
-            core.error(`Copilot CLI failed: ${error.message}`);
+            core.error(`GitHub Models API failed: ${error.message}`);
             core.setOutput('success', 'false');
             core.setOutput('result', error.message);
           }
