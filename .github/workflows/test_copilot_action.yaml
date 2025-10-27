@@ -20,6 +20,7 @@ jobs:
           fetch-depth: 0
 
       - name: Call Copilot CLI Action
+        environment: app-dev-ci
         id: call-copilot
         uses: ./.github/actions/copilot-cli
         with:
