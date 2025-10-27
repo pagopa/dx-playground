@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/api/hello", async (req, res) => {
-  res.json({ message: "Hello, World!" });
+  res.json({ message: "Hello, World FROM NEW VERSION!" });
 });
 
 export default createAzureFunctionHandler.default(app);
