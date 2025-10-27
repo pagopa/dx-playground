@@ -27,5 +27,5 @@ jobs:
       docker_image_description: "Azure Function V3 for DX Playground"
       docker_image_authors: "DevX Team"
       container_app: dx-d-itn-func-ca-01
-      resource_group_name: dx-d-itn-github-runner-rg-01
+      resource_group_name: dx-d-itn-workflow-test-rg-01
       environment: app-dev
