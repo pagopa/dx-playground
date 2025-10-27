@@ -9,7 +9,7 @@ locals {
 
 module "app_service" {
   source  = "pagopa-dx/azure-app-service/azurerm"
-  version = "~> 0"
+  version = "~> 0.0"
 
   environment         = merge(local.environment, { app_name = "fe" })
   tier                = "s"
@@ -36,7 +36,7 @@ module "app_service" {
 
 module "app_service_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 1"
+  version = "~> 1.0"
 
   principal_id    = module.app_service.app_service.app_service.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id

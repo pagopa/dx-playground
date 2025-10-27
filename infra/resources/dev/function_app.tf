@@ -21,7 +21,7 @@ locals {
 
 module "function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
-  version = "~> 0"
+  version = "~> 0.0"
 
   environment         = merge(local.environment, { app_name = "be" })
   tier                = "s"
@@ -53,7 +53,7 @@ resource "dx_available_subnet_cidr" "function_v3_cidr" {
 
 module "azure_function_v3_function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
-  version = "~> 0"
+  version = "~> 0.0"
 
   environment         = merge(local.environment, { app_name = "v3" })
   tier                = "s"
@@ -80,7 +80,7 @@ module "azure_function_v3_function_app" {
 
 module "func_api_role" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 1"
+  version = "~> 1.0"
 
   principal_id    = module.function_app.function_app.function_app.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
@@ -107,7 +107,7 @@ module "func_api_role" {
 
 module "function_v3_api_role" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 1"
+  version = "~> 1.0"
 
   principal_id    = module.azure_function_v3_function_app.function_app.function_app.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
