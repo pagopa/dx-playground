@@ -20,7 +20,7 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@fix-code-injection-actions
     secrets: inherit
     with:
       workspace_name: test-durable-function

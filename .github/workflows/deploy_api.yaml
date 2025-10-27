@@ -6,7 +6,7 @@ on:
     tags:
       # Trigger this workflow when a tag `to-do-api@<sem-ver>` is pushed
       # E.g.: `to-do-api@1.2.3` triggers the workflow; `to-do-api@1` does not.
-      - 'to-do-api@[0-9]+.[0-9]+.[0-9]+'
+      - "to-do-api@[0-9]+.[0-9]+.[0-9]+"
 
 permissions:
   contents: read
@@ -19,7 +19,7 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@fix-code-injection-actions
     secrets: inherit
     with:
       workspace_name: to-do-api
