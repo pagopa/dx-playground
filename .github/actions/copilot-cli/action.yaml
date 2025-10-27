@@ -9,7 +9,7 @@ inputs:
   model:
     description: "The Bedrock model ID (e.g., anthropic.claude-3-5-sonnet-20240620-v1:0, anthropic.claude-3-haiku-20240307-v1:0)"
     required: false
-    default: "Qwen3-Coder-30B-A3B-Instruct"
+    default: "qwen.qwen3-coder-30b-a3b-v1:0"
   aws-region:
     description: "AWS region for Bedrock"
     required: false
