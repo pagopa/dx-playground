@@ -10,7 +10,7 @@ jobs:
   call-copilot-cli:
     name: Call Copilot CLI Action
     runs-on: ubuntu-latest
-    environment: app-dev-ci
+    environment: infra-dev-ci
     permissions: write-all
 
     steps:
