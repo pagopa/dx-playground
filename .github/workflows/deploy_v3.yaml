@@ -19,7 +19,7 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@feats/unify-incremental-rollout-apis
+    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@add-revision-suffix
     secrets: inherit
     with:
       dockerfile_path: apps/azure-function-v3/Dockerfile
