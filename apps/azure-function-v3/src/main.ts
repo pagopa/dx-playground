@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 app.get("/api/hello", async (req, res) => {
-  res.json({ message: "Hello, World FROM NEW VERSION - now multiple revision enabled!" });
+  res.json({ message: "Hello, World FROM NEW VERSION - with FINALIZE HOOK" });
 });
 
 export default createAzureFunctionHandler.default(app);
