@@ -1,0 +1,83 @@
+name: Docker Metadata - TEST
+
+on:
+  push:
+    tags:
+      - "@test/my-tag@**"
+  workflow_dispatch:
+
+jobs:
+  docker-metadata-test:
+    runs-on: ubuntu-latest
+    environment: app-dev-cd
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
+
+      - name: Extract metadata with docker/metadata-action
+        id: meta
+        uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+        with:
+          # Immagine fittizia per test
+          images: |
+            ghcr.io/test/my-test-app
+            docker.io/test/my-test-app
+          # Configurazione dei tag
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
+          # Etichette aggiuntive
+          labels: |
+            org.opencontainers.image.title=My Test Application
+            org.opencontainers.image.description=Test application for Docker metadata
+            org.opencontainers.image.vendor=Test Organization
+            maintainer=test@example.com
+
+      - name: Debug Tag Information
+        run: |
+          echo "=== DEBUG TAG INFORMATION ==="
+          echo "GitHub Event Name: ${{ github.event_name }}"
+          echo "GitHub Ref: ${{ github.ref }}"
+          echo "GitHub Ref Name: ${{ github.ref_name }}"
+          echo "GitHub Ref Type: ${{ github.ref_type }}"
+          echo "GitHub SHA: ${{ github.sha }}"
+          echo "Workflow was triggered by: ${{ github.event_name }}"
+
+      - name: Display extracted metadata
+        run: |
+          echo "=== DOCKER METADATA RESULTS ==="
+          echo "Tags:"
+          echo "${{ steps.meta.outputs.tags }}"
+          echo ""
+          echo "Labels:"
+          echo "${{ steps.meta.outputs.labels }}"
+          echo ""
+          echo "JSON metadata:"
+          echo "${{ steps.meta.outputs.json }}"
+          echo ""
+          echo "=== TESTING TAG TYPE=REF,EVENT=TAG ==="
+          echo "Current ref: ${{ github.ref }}"
+          echo "Current ref name: ${{ github.ref_name }}"
+          echo "Event name: ${{ github.event_name }}"
+
+      - name: Simulate Docker Build (dry-run)
+        run: |
+          echo "=== SIMULATING DOCKER BUILD ==="
+          echo "Would build with the following tags:"
+          for tag in $(echo "${{ steps.meta.outputs.tags }}" | tr '\n' ' '); do
+            echo "  - $tag"
+          done
+          echo ""
+          echo "Would use the following labels:"
+          echo "${{ steps.meta.outputs.labels }}" | while IFS= read -r label; do
+            echo "  - $label"
+          done
