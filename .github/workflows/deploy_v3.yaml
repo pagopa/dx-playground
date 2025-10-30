@@ -20,7 +20,8 @@ jobs:
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
     # uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@feats/unify-incremental-rollout-apis
-    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@fix-code-injection-actions
+    # uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@fix-code-injection-actions
+    uses: pagopa/dx/.github/workflows/web_app_deploy.yaml@main
     secrets: inherit
     with:
       # dockerfile_path: apps/azure-function-v3/Dockerfile
