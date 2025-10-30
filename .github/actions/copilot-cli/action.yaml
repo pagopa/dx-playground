@@ -1,0 +1,152 @@
+name: "AWS Bedrock AI Runner"
+description: "Execute prompts using AWS Bedrock and return the results"
+author: "PagoPA DX Team"
+
+inputs:
+  prompt:
+    description: "The prompt to send to AWS Bedrock"
+    required: true
+  model:
+    description: "The Bedrock model ID (e.g., anthropic.claude-3-5-sonnet-20240620-v1:0, anthropic.claude-3-haiku-20240307-v1:0)"
+    required: false
+    default: "qwen.qwen3-coder-30b-a3b-v1:0"
+  aws-region:
+    description: "AWS region for Bedrock"
+    required: false
+    default: "eu-central-1"
+  max-tokens:
+    description: "Maximum tokens in the response"
+    required: false
+    default: "4096"
+  temperature:
+    description: "Temperature for response generation (0.0-1.0)"
+    required: false
+    default: "1.0"
+
+outputs:
+  result:
+    description: "The response from AWS Bedrock"
+    value: ${{ steps.run-bedrock.outputs.result }}
+  success:
+    description: "Whether the command executed successfully (true/false)"
+    value: ${{ steps.run-bedrock.outputs.success }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Call AWS Bedrock
+      id: run-bedrock
+      shell: bash
+      env:
+        PROMPT: ${{ inputs.prompt }}
+        MODEL: ${{ inputs.model }}
+        AWS_REGION: ${{ inputs.aws-region }}
+        MAX_TOKENS: ${{ inputs.max-tokens }}
+        TEMPERATURE: ${{ inputs.temperature }}
+      run: |
+        set +e
+
+        echo "Calling AWS Bedrock with model: $MODEL in region: $AWS_REGION"
+
+        # Create temporary file for request body
+        REQUEST_FILE=$(mktemp)
+        OUTPUT_FILE=$(mktemp)
+
+        # Prepare request body based on model type
+        if [[ "$MODEL" == anthropic.claude* ]]; then
+          # Claude models format
+          jq -n \
+            --arg prompt "$PROMPT" \
+            --argjson max_tokens "$MAX_TOKENS" \
+            --argjson temperature "$TEMPERATURE" \
+            '{
+              anthropic_version: "bedrock-2023-05-31",
+              max_tokens: $max_tokens,
+              temperature: $temperature,
+              messages: [{
+                role: "user",
+                content: $prompt
+              }]
+            }' > "$REQUEST_FILE"
+        elif [[ "$MODEL" == amazon.titan* ]]; then
+          # Titan models format
+          jq -n \
+            --arg prompt "$PROMPT" \
+            --argjson max_tokens "$MAX_TOKENS" \
+            --argjson temperature "$TEMPERATURE" \
+            '{
+              inputText: $prompt,
+              textGenerationConfig: {
+                maxTokenCount: $max_tokens,
+                temperature: $temperature
+              }
+            }' > "$REQUEST_FILE"
+        else
+          # Default format (Qwen and others)
+          jq -n \
+            --arg prompt "$PROMPT" \
+            --argjson max_tokens "$MAX_TOKENS" \
+            --argjson temperature "$TEMPERATURE" \
+            '{
+              prompt: $prompt,
+              max_tokens: $max_tokens,
+              temperature: $temperature
+            }' > "$REQUEST_FILE"
+        fi
+
+        echo "Request body:"
+        cat "$REQUEST_FILE"
+
+        # Call Bedrock API
+        aws bedrock-runtime invoke-model \
+          --model-id "$MODEL" \
+          --region "$AWS_REGION" \
+          --body "file://$REQUEST_FILE" \
+          --cli-binary-format raw-in-base64-out \
+          "$OUTPUT_FILE" 2>&1
+
+        EXIT_CODE=$?
+
+        if [ $EXIT_CODE -ne 0 ]; then
+          echo "AWS CLI failed with exit code: $EXIT_CODE"
+          cat "$OUTPUT_FILE"
+          echo "success=false" >> $GITHUB_OUTPUT
+          echo "result<<EOF" >> $GITHUB_OUTPUT
+          echo "AWS Bedrock error. Check logs above." >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          rm -f "$REQUEST_FILE" "$OUTPUT_FILE"
+          exit 1
+        fi
+
+        echo "Response:"
+        cat "$OUTPUT_FILE"
+
+        # Extract result based on model type
+        if [[ "$MODEL" == anthropic.claude* ]]; then
+          RESULT=$(jq -r '.content[0].text' "$OUTPUT_FILE")
+        elif [[ "$MODEL" == amazon.titan* ]]; then
+          RESULT=$(jq -r '.results[0].outputText' "$OUTPUT_FILE")
+        else
+          # Try multiple possible response formats for other models
+          RESULT=$(jq -r '.output // .generation // .text // .content[0].text // .results[0].outputText' "$OUTPUT_FILE")
+        fi
+
+        rm -f "$REQUEST_FILE" "$OUTPUT_FILE"
+
+        if [ -z "$RESULT" ] || [ "$RESULT" = "null" ]; then
+          echo "Could not extract result from response"
+          echo "success=false" >> $GITHUB_OUTPUT
+          echo "result=Could not parse Bedrock response" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+
+        echo "success=true" >> $GITHUB_OUTPUT
+        echo "result<<EOF" >> $GITHUB_OUTPUT
+        echo "$RESULT" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+        echo "AWS Bedrock call successful"
+
+branding:
+  icon: "cpu"
+  color: "orange"
