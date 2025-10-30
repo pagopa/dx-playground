@@ -1,10 +1,10 @@
 name: Docker Metadata - TEST
 
 on:
+  workflow_dispatch:
   push:
     tags:
-      - "@test/my-tag@**"
-  workflow_dispatch:
+      - "@test/my-tag@*"
 
 jobs:
   docker-metadata-test:
