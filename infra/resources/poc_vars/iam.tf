@@ -33,9 +33,37 @@ resource "azurerm_role_assignment" "kv_me_data_owner" {
   description          = "Allow me to manage data in KeyVault"
 }
 
+resource "azurerm_role_assignment" "kv_app_cd_data_owner" {
+  scope                = azurerm_key_vault.this.id
+  role_definition_name = "Key Vault Secrets Officer"
+  principal_id         = data.azurerm_user_assigned_identity.app_cd.principal_id
+  description          = "Allow App CD to manage data in KeyVault"
+}
+
+resource "azurerm_role_assignment" "appcs_app_cd_data_owner" {
+  scope                = azurerm_app_configuration.this.id
+  role_definition_name = "App Configuration Data Owner"
+  principal_id         = data.azurerm_user_assigned_identity.app_cd.principal_id
+  description          = "Allow App CD to manage data in App Configuration"
+}
+
+resource "azurerm_role_assignment" "appcs_infra_cd_contributor" {
+  scope                = azurerm_app_configuration.this.id
+  role_definition_name = "App Configuration Contributor"
+  principal_id         = data.azurerm_user_assigned_identity.infra_cd.principal_id
+  description          = "Allow me to manage App Configuration"
+}
+
 resource "azurerm_role_assignment" "kv_ca_user" {
   scope                = azurerm_key_vault.this.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_container_app.this.identity[0].principal_id
   description          = "Allow Container App to read Key Vault Secrets"
+}
+
+resource "azurerm_role_assignment" "ca_app_cd_ca_contributor" {
+  scope                = azurerm_container_app.this.id
+  role_definition_name = "Container Apps Contributor"
+  principal_id         = data.azurerm_user_assigned_identity.app_cd.principal_id
+  description          = "Allow Infra CD to manage Container Apps"
 }
