@@ -31,7 +31,6 @@ jobs:
       # Development
       - uses: azure/cli@v2
         name: "Deploy Development Secrets"
-        if: false
         with:
           azcliversion: latest
           inlineScript: |
