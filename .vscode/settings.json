@@ -13,7 +13,7 @@
         },
         "local": {},
         "production": {
-          "baseUrl": "https://dx-d-itn-vars-ca-01.agreeableplant-81d6f53c.italynorth.azurecontainerapps.io"
+          "baseUrl": "https://dx-d-itn-vars-ca-01.whiteglacier-dafcee6e.italynorth.azurecontainerapps.io"
         }
     }
 }
