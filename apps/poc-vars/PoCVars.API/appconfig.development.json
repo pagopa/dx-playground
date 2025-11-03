@@ -1,4 +1,4 @@
-{  
+{
   "Sentinel": 0,
   "test": "my development value",
   "feature_management": {
@@ -6,7 +6,7 @@
       {
         "id": "testffs",
         "enabled": true,
-        "description": "test desc"
+        "description": "Simple feature flag"
       }
     ]
   }

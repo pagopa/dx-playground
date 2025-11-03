@@ -1,4 +1,4 @@
-{  
+{
   "Sentinel": 0,
   "test": "my production value",
   "feature_management": {
@@ -6,7 +6,30 @@
       {
         "id": "testffs",
         "enabled": false,
-        "description": "test desc"
+        "description": "Feature flag with conditions",
+        "telemetry": {
+          "enabled": false
+        },
+        "conditions": {
+          "requirement_type": "All",
+          "client_filters": [
+            {
+              "name": "Microsoft.Targeting",
+              "parameters": {
+                "Audience": {
+                  "Users": [],
+                  "Groups": [
+                    {
+                      "Name": "beta-testers",
+                      "RolloutPercentage": 100
+                    }
+                  ],
+                  "DefaultRolloutPercentage": 0
+                }
+              }
+            }
+          ]
+        }
       }
     ]
   }

@@ -1,6 +1,7 @@
 using Azure.Identity;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.FeatureManagement;
+using PoCVars.API.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,9 +28,14 @@ builder.Configuration.AddAzureAppConfiguration(options =>
         });
 });
 
-builder.Services.AddAzureAppConfiguration();
-builder.Services.AddFeatureManagement();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddHealthChecks();
+
+builder.Services.AddAzureAppConfiguration();
+builder.Services.AddFeatureManagement()
+    .AddFeatureFilter<RandomFilter>()
+    .WithTargeting<UserTargetingContext>();
 
 var app = builder.Build();
 
@@ -47,7 +53,7 @@ app.MapGet("secret", (IConfiguration config) =>
 
 app.MapGet("featureflag", async (IFeatureManager featureManager) =>
 {
-    bool ff = await featureManager.IsEnabledAsync("filtereddemoff");
+    bool ff = await featureManager.IsEnabledAsync("testffs");
     return ff;
 });
 
