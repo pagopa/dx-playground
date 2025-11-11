@@ -66,9 +66,9 @@
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-naming-convention/azurerm/0.0.8"
   },
   "new_webapp_app_service": {
-    "hash": "1d96ee0130208abb4c439ef92628ff7b16dc68989696784449eba097d33422ca",
-    "version": "2.0.0",
+    "hash": "574eefa5a3e46ae05349a2a08c1035017b22abe9be747491f1b6fbbfc6d5d332",
+    "version": "2.0.1",
     "name": "azure_app_service",
-    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-app-service/azurerm/2.0.0"
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-app-service/azurerm/2.0.1"
   }
 }
