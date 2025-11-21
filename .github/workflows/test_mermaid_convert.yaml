@@ -1,0 +1,44 @@
+name: Test mermaid conversion action
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix-test-trigger-workflow-tag
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  BASE: "infra/resources/test"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          fetch-depth: 0
+
+      - name: check_before
+        run: |
+          echo "Files before conversion:"
+          ls -la $BASE
+          echo "-----------------------"
+          cat $BASE/test.md
+
+      - name: Convert graph into SVG
+        uses: pagopa/dx-playground/.github/actions/convert-mermaid-svg@fix-test-trigger-workflow-tag
+        with:
+          file_path: $BASE/test.md
+
+      - name: check_after
+        run: |
+          echo "Files after conversion:"
+          ls -la $BASE
+          echo "-----------------------"
+          cat $BASE/test.md
