@@ -1,0 +1,58 @@
+name: Deploy on AppService
+
+on:
+  workflow_dispatch:
+    inputs:
+      workspace_name:
+        description: "The monorepo workspace to build and deploy"
+        type: string
+        required: true
+        default: "to-do-webapp"
+      environment:
+        description: "Environment where the artifact will be deployed"
+        type: string
+        required: true
+        default: "app-dev"
+      resource_group_name:
+        description: "Web App resource group name"
+        type: string
+        required: true
+        default: "dx-d-itn-test-rg-01"
+      web_app_name:
+        description: "Web App name"
+        type: string
+        required: true
+        default: "dx-d-itn-playground-fe-app-01"
+      use_private_agent:
+        description: "Use a private agent to deploy the built artifact"
+        type: boolean
+        required: false
+        default: true
+      use_labels:
+        description: "Use labels to start the right environment's GitHub runner. If use_labels is true, also use_private_agent must be set to true"
+        type: boolean
+        required: false
+        default: false
+      override_labels:
+        description: "Needed for special cases where the environment alone is not sufficient as a distinguishing label"
+        type: string
+        required: false
+        default: ""
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+jobs:
+  deploy:
+    if: github.event_name == 'workflow_dispatch'
+    uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@main
+    with:
+      workspace_name: ${{ inputs.workspace_name }}
+      environment: ${{ inputs.environment }}
+      resource_group_name: ${{ inputs.resource_group_name }}
+      web_app_name: ${{ inputs.web_app_name }}
+      use_private_agent: ${{ inputs.use_private_agent }}
+      use_labels: ${{ inputs.use_labels }}
+      override_labels: ${{ inputs.override_labels }}
+      disable_auto_staging_deploy: true
+    secrets: inherit

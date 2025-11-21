@@ -9,7 +9,7 @@ locals {
 
 module "app_service" {
   source  = "pagopa-dx/azure-app-service/azurerm"
-  version = "~> 0"
+  version = "~> 0.2"
 
   environment         = merge(local.environment, { app_name = "fe" })
   tier                = "s"
@@ -34,9 +34,41 @@ module "app_service" {
   tags = local.tags
 }
 
+resource "dx_available_subnet_cidr" "next_cidr" {
+  virtual_network_id = data.azurerm_virtual_network.test_vnet.id
+  prefix_length      = 24
+}
+
+module "new_webapp_app_service" {
+  source       = "pagopa-dx/azure-app-service/azurerm"
+  version      = "~> 2.0"
+  node_version = 22
+
+  environment = merge(local.environment, { app_name = "test-fe" })
+
+  use_case = "default"
+  size     = "P1v3"
+
+  resource_group_name = data.azurerm_resource_group.test_rg.name
+
+  virtual_network = {
+    name                = data.azurerm_virtual_network.test_vnet.name
+    resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
+  }
+
+  subnet_pep_id = data.azurerm_subnet.pep_snet.id
+  subnet_cidr   = dx_available_subnet_cidr.next_cidr.cidr_block
+
+  app_settings = {}
+
+  health_check_path = "/"
+
+  tags = local.tags
+}
+
 module "app_service_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 1"
+  version = "~> 1.2"
 
   principal_id    = module.app_service.app_service.app_service.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
