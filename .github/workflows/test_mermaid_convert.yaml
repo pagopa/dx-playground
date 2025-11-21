@@ -34,7 +34,7 @@ jobs:
       - name: Convert graph into SVG
         uses: pagopa/dx-playground/.github/actions/convert-mermaid-svg@fix-test-trigger-workflow-tag
         with:
-          file_path: $BASE/test.md
+          file_path: "${{ env.BASE }}/test.md"
 
       - name: check_after
         run: |
