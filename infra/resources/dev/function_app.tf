@@ -25,6 +25,7 @@ module "function_app" {
 
   environment         = merge(local.environment, { app_name = "be" })
   tier                = "s"
+
   resource_group_name = data.azurerm_resource_group.test_rg.name
 
   virtual_network = {
