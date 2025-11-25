@@ -11,7 +11,7 @@ module "function_test_durable" {
 
   environment         = merge(local.environment, { app_name = "df" })
   tier                = "s"
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
 
   virtual_network = {
     name                = data.azurerm_virtual_network.test_vnet.name
@@ -19,7 +19,7 @@ module "function_test_durable" {
   }
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
-  subnet_cidr   = "10.50.7.0/24"
+  subnet_cidr   = "10.51.27.0/24"
 
   app_settings      = merge(local.fn_settings, {})
   slot_app_settings = {}

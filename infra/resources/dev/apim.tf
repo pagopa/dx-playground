@@ -2,7 +2,7 @@ resource "azurerm_subnet" "apim" {
   name                 = "${module.naming_convention.project}-apim-snet-${local.environment.instance_number}"
   virtual_network_name = data.azurerm_virtual_network.test_vnet.name
   resource_group_name  = data.azurerm_virtual_network.test_vnet.resource_group_name
-  address_prefixes     = ["10.50.1.0/24"]
+  address_prefixes     = ["10.51.21.0/24"]
 }
 
 module "apim" {
@@ -10,7 +10,7 @@ module "apim" {
   version = "~> 1.2"
 
   environment         = merge(local.environment, { app_name = "pg" })
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
   tier                = "s"
 
   publisher_email = "playground@pagopa.it"

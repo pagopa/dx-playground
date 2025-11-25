@@ -25,7 +25,7 @@ module "function_app" {
 
   environment         = merge(local.environment, { app_name = "be" })
   tier                = "s"
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
 
   virtual_network = {
     name                = data.azurerm_virtual_network.test_vnet.name
@@ -33,7 +33,7 @@ module "function_app" {
   }
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
-  subnet_cidr   = "10.50.5.0/24"
+  subnet_cidr   = "10.51.25.0/24"
 
   app_settings      = merge(local.to_do_api_settings, {})
   slot_app_settings = {}
@@ -57,7 +57,7 @@ module "azure_function_v3_function_app" {
 
   environment         = merge(local.environment, { app_name = "v3" })
   tier                = "s"
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
 
   virtual_network = {
     name                = data.azurerm_virtual_network.test_vnet.name

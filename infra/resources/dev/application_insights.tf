@@ -10,7 +10,7 @@ module "to_do_api_application_insights" {
     instance_number = 1
   }
 
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
   key_vault_id        = data.azurerm_key_vault.common_kv.id
 
   tags = local.tags
@@ -28,7 +28,7 @@ module "azure_function_v3_application_insights" {
     instance_number = 1
   }
 
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
   key_vault_id        = data.azurerm_key_vault.common_kv.id
 
   tags = local.tags

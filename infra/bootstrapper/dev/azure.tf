@@ -48,3 +48,9 @@ module "azure_bootstrap" {
   additional_resource_group_ids = [data.azurerm_resource_group.test_workflow.id]
   tags                          = local.tags
 }
+
+resource "azurerm_role_assignment" "infra_ci" {
+  scope                = module.azure_bootstrap.resource_group.id
+  role_definition_name = "API Management Service Contributor"
+  principal_id         = module.azure_bootstrap.identities.infra.ci.principal_id
+}

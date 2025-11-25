@@ -14,9 +14,17 @@ locals {
     BusinessUnit   = "DevEx"
     Source         = "https://github.com/pagopa/dx-playground/tree/main/infra/repository"
     ManagementTeam = "Developer Experience"
-    Scope          = "Dynatrace PoC"
+    Scope          = "DX Playground"
   }
 
+  resource_group_name = provider::dx::resource_name({
+    prefix          = local.environment.prefix
+    environment     = local.environment.env_short
+    location        = local.environment.location
+    name            = local.environment.domain
+    resource_type   = "resource_group"
+    instance_number = tonumber(local.environment.instance_number)
+  })
 
   # Update with the resources you want to monitor with Dynatrace
   targets = {

@@ -3,7 +3,7 @@ module "cosmos" {
   version = "~> 0.3"
 
   environment         = merge(local.environment, { app_name = "pg" })
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
 

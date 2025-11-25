@@ -13,7 +13,7 @@ module "app_service" {
 
   environment         = merge(local.environment, { app_name = "fe" })
   tier                = "s"
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
 
   virtual_network = {
     name                = data.azurerm_virtual_network.test_vnet.name
@@ -21,7 +21,7 @@ module "app_service" {
   }
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
-  subnet_cidr   = "10.50.6.0/24"
+  subnet_cidr   = "10.51.26.0/24"
 
   app_settings      = merge(local.to_do_webapp_settings, {})
   slot_app_settings = {}
@@ -49,7 +49,7 @@ module "new_webapp_app_service" {
   use_case = "default"
   size     = "P1v3"
 
-  resource_group_name = data.azurerm_resource_group.test_rg.name
+  resource_group_name = local.resource_group_name
 
   virtual_network = {
     name                = data.azurerm_virtual_network.test_vnet.name
