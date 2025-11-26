@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "eslint"
+    "lint": "eslint",
+    "start": "next start"
   },
   "dependencies": {
     "next": "16.0.1",
