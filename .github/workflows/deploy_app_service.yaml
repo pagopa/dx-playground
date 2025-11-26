@@ -45,7 +45,7 @@ permissions:
 jobs:
   deploy:
     if: github.event_name == 'workflow_dispatch'
-    uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@e112309ce93fd6c218047b3053468665b14debee
+    uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@4bef421c7ef752dbafead33d988e293ae3aa7adc
     with:
       workspace_name: ${{ inputs.workspace_name }}
       environment: ${{ inputs.environment }}
