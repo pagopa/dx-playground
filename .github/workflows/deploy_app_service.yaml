@@ -17,7 +17,7 @@ on:
         description: "Web App resource group name"
         type: string
         required: true
-        default: "dx-d-itn-test-rg-01"
+        default: "dx-d-itn-playground-rg-01"
       web_app_name:
         description: "Web App name"
         type: string
