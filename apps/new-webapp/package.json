@@ -2,12 +2,11 @@
   "name": "new-webapp",
   "version": "0.1.0",
   "private": true,
-  "main": "apps/new-webapp/server.js",
+  "main": "server.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "lint": "eslint",
-    "start": "node apps/new-webapp/server.js"
+    "lint": "eslint"
   },
   "dependencies": {
     "next": "16.0.1",
