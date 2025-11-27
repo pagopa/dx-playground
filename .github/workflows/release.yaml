@@ -28,18 +28,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GH_BOT_PAT }}
 
-      # Corepack is an official tool by Node.js that manages package managers versions
-      - name: Setup yarn
-        run: corepack enable
-
-      - name: Setup Node.js environment
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version-file: ".node-version"
-          cache: "yarn"
+      - name: Node Setup
+        uses: pagopa/dx/.github/actions/node-setup@main
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm install
 
       - name: Configure Git user
         run: |
@@ -50,8 +43,8 @@ jobs:
         id: changesets
         uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308 # v1.4.9
         with:
-          version: yarn run version
-          publish: yarn run release
+          version: pnpm run version
+          publish: pnpm run release
           setupGitUser: false
         env:
           GITHUB_TOKEN: ${{ secrets.GH_BOT_PAT }}
