@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "cdktf": "^0.21.0",
-    "cdktf-monitoring-stack": "workspace:*"
+    "cdktf-monitoring-stack": "workspace:^"
   },
   "devDependencies": {
     "@pagopa/eslint-config": "^5.0.0",

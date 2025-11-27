@@ -11,13 +11,13 @@
     "typecheck": "tsc --noemit",
     "lint": "eslint src --fix",
     "lint:check": "eslint src",
-    "infra:generate": "yarn -q dlx tsx src/opex.ts"
+    "infra:generate": "pnpm dlx tsx src/opex.ts"
   },
   "dependencies": {
     "cdktf": "^0.21.0",
-    "cdktf-monitoring-stack": "workspace:*",
+    "cdktf-monitoring-stack": "workspace:^",
     "constructs": "^10.4.2",
-    "opex-common": "workspace:*"
+    "opex-common": "workspace:^"
   },
   "devDependencies": {
     "@pagopa/eslint-config": "^5.0.0",
