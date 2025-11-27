@@ -15,25 +15,25 @@
     "start": "func start"
   },
   "dependencies": {
-    "@azure/functions": "^4.7.2",
-    "@azure/identity": "^4.10.1",
-    "@pagopa/handler-kit": "^1.1.0",
-    "@pagopa/handler-kit-azure-func": "^2.0.7",
-    "@pagopa/ts-commons": "^13.1.2",
+    "@azure/functions": "catalog:",
+    "@azure/identity": "catalog:",
+    "@pagopa/handler-kit": "catalog:",
+    "@pagopa/handler-kit-azure-func": "catalog:",
+    "@pagopa/ts-commons": "catalog:",
     "durable-functions": "^3.1.0",
-    "fp-ts": "^2.16.10",
-    "io-ts": "^2.2.22",
-    "ulid": "^3.0.0"
+    "fp-ts": "catalog:",
+    "io-ts": "catalog:",
+    "ulid": "catalog:"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^5.0.0",
+    "@pagopa/eslint-config": "catalog:",
     "@pagopa/typescript-config-node": "workspace:^",
     "@typescript-eslint/parser": "^5.62.0",
-    "azure-functions-core-tools": "^4.0.7317",
-    "eslint": "9.30.1",
-    "prettier": "^3.6.2",
+    "azure-functions-core-tools": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
     "prettier-eslint": "^16.4.2",
-    "shx": "^0.4.0",
-    "typescript": "^5.8.3"
+    "shx": "catalog:",
+    "typescript": "catalog:"
   }
 }

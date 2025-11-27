@@ -18,21 +18,21 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@azure/cosmos": "^4.4.1",
-    "@azure/identity": "^4.10.1",
+    "@azure/cosmos": "catalog:",
+    "@azure/identity": "catalog:",
     "@to-do/domain": "workspace:^",
-    "fp-ts": "^2.16.10",
-    "io-ts": "^2.2.22"
+    "fp-ts": "catalog:",
+    "io-ts": "catalog:"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^5.0.0",
+    "@pagopa/eslint-config": "catalog:",
     "@pagopa/typescript-config-node": "workspace:^",
-    "eslint": "^9.39.1",
-    "prettier": "^3.6.2",
-    "shx": "^0.4.0",
-    "typescript": "^5.8.3",
-    "vitest": "^3.1.4",
-    "vitest-mock-extended": "^3.1.0"
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "shx": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "vitest-mock-extended": "catalog:"
   },
   "files": [
     "dist"

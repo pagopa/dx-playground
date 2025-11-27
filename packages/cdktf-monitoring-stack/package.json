@@ -12,18 +12,18 @@
     "lint:check": "eslint src"
   },
   "dependencies": {
-    "@cdktf/provider-azurerm": "^14.2.0",
-    "cdktf": "^0.21.0",
-    "constructs": "^10.4.2",
-    "js-yaml": "^4.1.0"
+    "@cdktf/provider-azurerm": "catalog:",
+    "cdktf": "catalog:",
+    "constructs": "catalog:",
+    "js-yaml": "catalog:"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^5.0.0",
+    "@pagopa/eslint-config": "catalog:",
     "@pagopa/typescript-config-node": "workspace:^",
-    "@types/js-yaml": "^4.0.9",
-    "@types/node": "^24.10.1",
-    "eslint": "^9.39.1",
-    "prettier": "^3.6.2",
-    "typescript": "^5.8.3"
+    "@types/js-yaml": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   }
 }

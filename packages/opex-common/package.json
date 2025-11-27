@@ -12,14 +12,14 @@
     "lint:check": "eslint src"
   },
   "dependencies": {
-    "cdktf": "^0.21.0",
+    "cdktf": "catalog:",
     "cdktf-monitoring-stack": "workspace:^"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^5.0.0",
+    "@pagopa/eslint-config": "catalog:",
     "@pagopa/typescript-config-node": "workspace:^",
-    "eslint": "^9.39.1",
-    "prettier": "^3.6.2",
-    "typescript": "^5.8.3"
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:"
   }
 }

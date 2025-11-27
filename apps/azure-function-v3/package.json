@@ -7,25 +7,25 @@
   "dependencies": {
     "@azure/functions": "^3.5.1",
     "@opentelemetry/api": "^1.9.0",
-    "@pagopa/azure-tracing": "^0.4.0",
+    "@pagopa/azure-tracing": "catalog:",
     "@pagopa/express-azure-functions": "^4.0.1",
-    "@pagopa/ts-commons": "^13.1.2",
+    "@pagopa/ts-commons": "catalog:",
     "@to-do/azure-adapters": "workspace:^",
     "@to-do/domain": "workspace:^",
     "express": "^4.17.2",
-    "fp-ts": "^2.16.10",
-    "io-ts": "^2.2.22"
+    "fp-ts": "catalog:",
+    "io-ts": "catalog:"
   },
   "devDependencies": {
-    "@pagopa/eslint-config": "^5.0.0",
+    "@pagopa/eslint-config": "catalog:",
     "@pagopa/typescript-config-node": "workspace:^",
-    "@types/express": "^4.17.2",
-    "azure-functions-core-tools": "^4.0.7317",
-    "esbuild": "^0.25.4",
-    "eslint": "^9.39.1",
-    "prettier": "^3.6.2",
-    "shx": "^0.4.0",
-    "typescript": "^5.8.3"
+    "@types/express": "catalog:",
+    "azure-functions-core-tools": "catalog:",
+    "esbuild": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "shx": "catalog:",
+    "typescript": "catalog:"
   },
   "scripts": {
     "clean": "shx rm -rf ./dist ./out",
