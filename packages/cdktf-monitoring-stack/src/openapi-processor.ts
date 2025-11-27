@@ -1,5 +1,5 @@
-import * as fs from "fs";
 import * as yaml from "js-yaml";
+import * as fs from "node:fs";
 
 export interface EndpointDetails {
   host?: string;
