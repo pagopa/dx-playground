@@ -14,13 +14,13 @@ nodenv install
 node -v
 ```
 
-### Yarn
-Yarn must be installed using [Corepack](https://yarnpkg.com/getting-started/install), included by default in `Node.js`.
+### pnpm
+pnpm must be installed using [Corepack](https://pnpm.io/getting-started/install), included by default in `Node.js`.
 
 ```shell
 corepack enable
 # Check the installd version
-yarn -v
+pnpm -v
 ```
 
 ### Terraform
