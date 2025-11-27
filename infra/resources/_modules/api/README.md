@@ -2,6 +2,9 @@
 
 This module is responsible for creating the API and the APIM backend service for the To Do API.
 
+<!-- BEGIN_TF_GRAPH -->
+<!-- END_TF_GRAPH -->
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
