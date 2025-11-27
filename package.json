@@ -13,10 +13,10 @@
     "infra:generate": "turbo run infra:generate --no-color --output-logs=new-only --no-update-notifier"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.4",
+    "@changesets/changelog-github": "^0.5.2",
+    "@changesets/cli": "^2.29.8",
     "@vitest/coverage-v8": "catalog:",
-    "turbo": "^2.5.4",
+    "turbo": "^2.6.1",
     "vitest": "catalog:"
   },
   "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a"
