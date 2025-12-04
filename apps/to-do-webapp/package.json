@@ -21,11 +21,11 @@
     "fp-ts": "catalog:",
     "io-ts": "catalog:",
     "next": "catalog:next",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/eslintrc": "^3.3.3",
     "@pagopa/eslint-config": "catalog:",
     "@pagopa/openapi-codegen-ts": "catalog:",
     "@pagopa/typescript-config-react": "workspace:^",
