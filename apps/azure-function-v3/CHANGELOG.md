@@ -1,5 +1,11 @@
 # azure-function-v3
 
+## 0.3.3
+
+### Patch Changes
+
+- [#312](https://github.com/pagopa/dx-playground/pull/312) [`c75a04e`](https://github.com/pagopa/dx-playground/commit/c75a04e4457b934e978ab75856852a02ae560b84) Thanks [@kin0992](https://github.com/kin0992)! - Bump to latest version of some dependencies
+
 ## 0.3.2
 
 ### Patch Changes
