@@ -9,7 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "next": "16.0.5",
+    "next": "catalog:next",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
@@ -18,7 +18,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "catalog:",
-    "eslint-config-next": "16.0.5",
+    "eslint-config-next": "catalog:next",
     "typescript": "catalog:"
   }
 }
