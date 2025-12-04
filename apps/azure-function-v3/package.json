@@ -12,7 +12,7 @@
     "@pagopa/ts-commons": "catalog:",
     "@to-do/azure-adapters": "workspace:^",
     "@to-do/domain": "workspace:^",
-    "express": "^4.17.2",
+    "express": "^4.22.1",
     "fp-ts": "catalog:",
     "io-ts": "catalog:"
   },
