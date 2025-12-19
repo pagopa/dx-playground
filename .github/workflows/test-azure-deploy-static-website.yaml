@@ -27,7 +27,7 @@ on:
 #           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
 #           repo_token: ${{ secrets.GITHUB_TOKEN }}
 #           action: "upload"
-          
+
 #           app_location: "/apps/static-test-app/"
 #           api_location: ""
 #           output_location: "dist"
@@ -42,3 +42,4 @@ jobs:
       static_web_app_name: "dx-d-itn-test-preview-sapp-01"
       resource_group_name: "dx-d-itn-test-rg-01"
       environment: "infra-dev"
+
