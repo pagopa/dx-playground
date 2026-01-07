@@ -24,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: check_before
+      - name: check_before_0
         run: |
           echo "Files before conversion:"
           ls -la $BASE
@@ -36,9 +36,19 @@ jobs:
         with:
           file_path: "${{ env.BASE }}/test.md"
 
-      - name: check_after
+      - name: check_after_1
         run: |
-          echo "Files after conversion:"
+          echo "Files after 1st conversion:"
           ls -la $BASE
           echo "-----------------------"
           cat $BASE/test.md
+
+      - name: Convert mmd graph into SVG
+        uses: pagopa/dx-playground/.github/actions/convert-mermaid-svg@fix-test-trigger-workflow-tag
+        with:
+          file_path: "${{ env.BASE }}/test.mmd"
+
+      - name: check_after_2
+        run: |
+          echo "Files after 2nd conversion:"
+          ls -la $BASE
