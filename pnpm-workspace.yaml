@@ -17,7 +17,7 @@ catalog:
   '@types/express': ^4.17.2
   '@types/js-yaml': ^4.0.9
   '@types/node': ^22.15.14
-  '@vitest/coverage-v8': ^4.0.15
+  '@vitest/coverage-v8': ^4.0.16
   azure-functions-core-tools: ^4.0.7317
   cdktf: ^0.21.0
   constructs: ^10.4.2
@@ -32,13 +32,16 @@ catalog:
   ts2esm: ^2.2.7
   typescript: ^5.8.3
   ulid: ^3.0.2
-  vitest: ^4.0.15
+  vitest: ^4.0.16
   vitest-mock-extended: ^3.1.0
 
 catalogs:
   next:
     eslint-config-next: ^16.0.7
-    next: ^16.0.7
+    next: ^16.1.1
 
 configDependencies:
   pnpm-plugin-pagopa: 1.0.0+sha512-fWP4sdK5yH3OXi1oZeMEcMzBtjINfXx6woFOuzWtdlvuF7Co3vFJ3UIFLrOAolbYrXi4b3r2pIMESJt7vilizA==
+
+onlyBuiltDependencies:
+  - esbuild
