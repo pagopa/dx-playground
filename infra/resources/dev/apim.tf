@@ -7,11 +7,11 @@ resource "azurerm_subnet" "apim" {
 
 module "apim" {
   source  = "pagopa-dx/azure-api-management/azurerm"
-  version = "~> 1.2"
+  version = "~> 2.1"
 
   environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = local.resource_group_name
-  tier                = "s"
+  use_case            = "development"
 
   publisher_email = "playground@pagopa.it"
   publisher_name  = "Playground Publisher"
