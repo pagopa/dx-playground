@@ -17,7 +17,7 @@ catalog:
   '@types/express': ^4.17.2
   '@types/js-yaml': ^4.0.9
   '@types/node': ^22.15.14
-  '@vitest/coverage-v8': ^4.0.16
+  '@vitest/coverage-v8': ^4.0.17
   azure-functions-core-tools: ^4.0.7317
   cdktf: ^0.21.0
   constructs: ^10.4.2
@@ -32,7 +32,7 @@ catalog:
   ts2esm: ^2.2.7
   typescript: ^5.8.3
   ulid: ^3.0.2
-  vitest: ^4.0.16
+  vitest: ^4.0.17
   vitest-mock-extended: ^3.1.0
 
 catalogs:
