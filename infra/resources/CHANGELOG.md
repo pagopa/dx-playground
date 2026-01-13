@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 1.3.3
+
+### Patch Changes
+
+- [#315](https://github.com/pagopa/dx-playground/pull/315) [`fae7e90`](https://github.com/pagopa/dx-playground/commit/fae7e90929dfbc23edfe48b427a3bae9b263d3b4) Thanks [@kin0992](https://github.com/kin0992)! - Upgrade AppService module to latest major version
+
 ## 1.3.2
 
 ### Patch Changes
