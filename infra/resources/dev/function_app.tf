@@ -21,10 +21,9 @@ locals {
 
 module "function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
-  version = "~> 0.3"
+  version = "~> 4.1"
 
   environment         = merge(local.environment, { app_name = "be" })
-  tier                = "s"
   resource_group_name = local.resource_group_name
 
   virtual_network = {
