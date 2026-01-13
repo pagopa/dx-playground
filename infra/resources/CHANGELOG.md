@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 1.3.4
+
+### Patch Changes
+
+- [#313](https://github.com/pagopa/dx-playground/pull/313) [`179d365`](https://github.com/pagopa/dx-playground/commit/179d3658fd2cc11a1a08e1395bdb01e37eaadadf) Thanks [@kin0992](https://github.com/kin0992)! - Upgrade API Management module to the latest major version
+
 ## 1.3.3
 
 ### Patch Changes
