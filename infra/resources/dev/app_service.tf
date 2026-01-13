@@ -55,7 +55,6 @@ module "new_webapp_app_service" {
   environment = merge(local.environment, { app_name = "test-fe" })
 
   use_case = "default"
-  size     = "P1v3"
 
   resource_group_name = local.resource_group_name
 
