@@ -24,7 +24,7 @@ jobs:
     with:
       workspace_name: to-do-api
       environment: app-dev
-      resource_group_name: dx-d-itn-test-rg-01
+      resource_group_name: dx-d-itn-playground-rg-01
       web_app_name: dx-d-itn-playground-be-func-01
       use_private_agent: true
       disable_auto_staging_deploy: true

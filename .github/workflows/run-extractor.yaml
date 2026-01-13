@@ -24,7 +24,7 @@ env:
   apiops_release_version: v6.0.1.7
   AZURE_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
   AZURE_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-  AZURE_RESOURCE_GROUP_NAME: dx-d-itn-test-rg-01
+  AZURE_RESOURCE_GROUP_NAME: dx-d-itn-playground-rg-01
   API_MANAGEMENT_SERVICE_NAME: dx-d-itn-playground-pg-apim-01
   API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: apimartifacts  # change this to the artifacts folder
   API_SPECIFICATION_FORMAT: ${{ github.event.inputs.API_SPECIFICATION_FORMAT }}
