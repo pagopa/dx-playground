@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 1.3.2
+
+### Patch Changes
+
+- [#314](https://github.com/pagopa/dx-playground/pull/314) [`901fb6f`](https://github.com/pagopa/dx-playground/commit/901fb6fcdc319f8f8c4059351f1dea34f4215e58) Thanks [@kin0992](https://github.com/kin0992)! - Upgrade Function App module to latest major version
+
 ## 1.3.1
 
 ### Patch Changes
