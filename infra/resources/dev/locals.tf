@@ -26,12 +26,4 @@ locals {
     instance_number = tonumber(local.environment.instance_number)
   })
 
-  # Update with the resources you want to monitor with Dynatrace
-  targets = {
-    cosmos-account = module.cosmos.id
-    app-service    = module.app_service.app_service.app_service.id
-    function-app   = module.function_app.function_app.function_app.id
-    apim           = module.apim.id
-  }
-
 }

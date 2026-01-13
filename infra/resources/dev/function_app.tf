@@ -19,7 +19,12 @@ locals {
   }
 }
 
-module "function_app" {
+resource "dx_available_subnet_cidr" "todo_api_cidr" {
+  virtual_network_id = data.azurerm_virtual_network.test_vnet.id
+  prefix_length      = 24
+}
+
+module "todo_api_function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
   version = "~> 4.1"
 
@@ -34,14 +39,14 @@ module "function_app" {
   }
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
-  subnet_cidr   = "10.51.25.0/24"
+  subnet_cidr   = dx_available_subnet_cidr.todo_api_cidr.cidr_block
 
   app_settings      = merge(local.to_do_api_settings, {})
   slot_app_settings = {}
 
   health_check_path = "/api/info"
 
-  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.azure_function_v3_application_insights.connection_string_secret_id})"
+  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.to_do_api_application_insights.connection_string_secret_id})"
   application_insights_sampling_percentage = 100
 
   tags = local.tags
@@ -83,7 +88,7 @@ module "func_api_role" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
   version = "~> 1.0"
 
-  principal_id    = module.function_app.function_app.function_app.principal_id
+  principal_id    = module.todo_api_function_app.function_app.function_app.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
 
   cosmos = [
