@@ -4,6 +4,7 @@
   "private": true,
   "main": "server.js",
   "scripts": {
+    "clean": "shx rm -rf .next ",
     "dev": "next dev --turbopack",
     "build": "next build",
     "lint": "eslint src --fix",
