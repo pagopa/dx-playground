@@ -7,12 +7,20 @@ locals {
   }
 }
 
-module "app_service" {
+resource "dx_available_subnet_cidr" "next_todo_webapp_cidr" {
+  virtual_network_id = data.azurerm_virtual_network.test_vnet.id
+  prefix_length      = 24
+}
+
+module "todo_webapp_app_service" {
   source  = "pagopa-dx/azure-app-service/azurerm"
-  version = "~> 0.2"
+  version = "~> 2.0"
+
+  node_version = 22
+  size         = "P1v3"
 
   environment         = merge(local.environment, { app_name = "fe" })
-  tier                = "s"
+  use_case            = "default"
   resource_group_name = local.resource_group_name
 
   virtual_network = {
@@ -21,14 +29,14 @@ module "app_service" {
   }
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
-  subnet_cidr   = "10.51.26.0/24"
+  subnet_cidr   = dx_available_subnet_cidr.next_todo_webapp_cidr.cidr_block
 
   app_settings      = merge(local.to_do_webapp_settings, {})
   slot_app_settings = {}
 
   health_check_path = "/"
 
-  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.azure_function_v3_application_insights.connection_string_secret_id})"
+  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.to_do_api_application_insights.connection_string_secret_id})"
   application_insights_sampling_percentage = 100
 
   tags = local.tags
@@ -47,7 +55,6 @@ module "new_webapp_app_service" {
   environment = merge(local.environment, { app_name = "test-fe" })
 
   use_case = "default"
-  size     = "P1v3"
 
   resource_group_name = local.resource_group_name
 
@@ -70,7 +77,7 @@ module "app_service_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
   version = "~> 1.2"
 
-  principal_id    = module.app_service.app_service.app_service.principal_id
+  principal_id    = module.todo_webapp_app_service.app_service.app_service.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
 
   apim = [
