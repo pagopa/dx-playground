@@ -86,8 +86,8 @@ module "to_do_api" {
 
   backend = {
     name               = "to-do-api-azure-function"
-    url                = "https://${module.function_app.function_app.function_app.default_hostname}"
-    target_resource_id = module.function_app.function_app.function_app.id
+    url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}"
+    target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
 }
 
