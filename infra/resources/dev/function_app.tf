@@ -28,6 +28,8 @@ module "todo_api_function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
   version = "~> 4.1"
 
+  node_version = 22
+
   environment         = merge(local.environment, { app_name = "be" })
   resource_group_name = local.resource_group_name
 
