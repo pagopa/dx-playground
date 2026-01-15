@@ -59,10 +59,11 @@ resource "dx_available_subnet_cidr" "function_v3_cidr" {
 
 module "azure_function_v3_function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
-  version = "~> 0.3"
+  version = "~> 4.1"
+
+  node_version = 22
 
   environment         = merge(local.environment, { app_name = "v3" })
-  tier                = "s"
   resource_group_name = local.resource_group_name
 
   virtual_network = {
@@ -84,7 +85,7 @@ module "azure_function_v3_function_app" {
   tags = local.tags
 }
 
-module "func_api_role" {
+module "todo_api_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
   version = "~> 1.0"
 
@@ -111,7 +112,7 @@ module "func_api_role" {
   }]
 }
 
-module "function_v3_api_role" {
+module "function_v3_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
   version = "~> 1.0"
 

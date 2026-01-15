@@ -23,17 +23,17 @@
 | <a name="module_apim_roles"></a> [apim\_roles](#module\_apim\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1 |
 | <a name="module_app_service_roles"></a> [app\_service\_roles](#module\_app\_service\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.2 |
 | <a name="module_azure_function_v3_application_insights"></a> [azure\_function\_v3\_application\_insights](#module\_azure\_function\_v3\_application\_insights) | ../_modules/application_insights | n/a |
-| <a name="module_azure_function_v3_function_app"></a> [azure\_function\_v3\_function\_app](#module\_azure\_function\_v3\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 0.3 |
+| <a name="module_azure_function_v3_function_app"></a> [azure\_function\_v3\_function\_app](#module\_azure\_function\_v3\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
 | <a name="module_cosmos"></a> [cosmos](#module\_cosmos) | pagopa-dx/azure-cosmos-account/azurerm | ~> 0.3 |
-| <a name="module_func_api_role"></a> [func\_api\_role](#module\_func\_api\_role) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
-| <a name="module_function_test_durable"></a> [function\_test\_durable](#module\_function\_test\_durable) | pagopa-dx/azure-function-app/azurerm | ~> 0.2 |
-| <a name="module_function_v3_api_role"></a> [function\_v3\_api\_role](#module\_function\_v3\_api\_role) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
+| <a name="module_function_test_durable"></a> [function\_test\_durable](#module\_function\_test\_durable) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
+| <a name="module_function_v3_roles"></a> [function\_v3\_roles](#module\_function\_v3\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_naming_convention"></a> [naming\_convention](#module\_naming\_convention) | pagopa-dx/azure-naming-convention/azurerm | ~> 0.0 |
 | <a name="module_new_webapp_app_service"></a> [new\_webapp\_app\_service](#module\_new\_webapp\_app\_service) | pagopa-dx/azure-app-service/azurerm | ~> 2.0 |
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 | <a name="module_to_do_api_application_insights"></a> [to\_do\_api\_application\_insights](#module\_to\_do\_api\_application\_insights) | ../_modules/application_insights | n/a |
 | <a name="module_to_do_api_v3"></a> [to\_do\_api\_v3](#module\_to\_do\_api\_v3) | ../_modules/api | n/a |
 | <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
+| <a name="module_todo_api_roles"></a> [todo\_api\_roles](#module\_todo\_api\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_todo_webapp_app_service"></a> [todo\_webapp\_app\_service](#module\_todo\_webapp\_app\_service) | pagopa-dx/azure-app-service/azurerm | ~> 2.0 |
 
 ## Resources
@@ -45,6 +45,7 @@
 | [azurerm_cosmosdb_sql_container.tasks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_container) | resource |
 | [azurerm_cosmosdb_sql_database.db](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_database) | resource |
 | [azurerm_subnet.apim](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet) | resource |
+| [dx_available_subnet_cidr.durable_function_cidr](https://registry.terraform.io/providers/pagopa-dx/azure/latest/docs/resources/available_subnet_cidr) | resource |
 | [dx_available_subnet_cidr.function_v3_cidr](https://registry.terraform.io/providers/pagopa-dx/azure/latest/docs/resources/available_subnet_cidr) | resource |
 | [dx_available_subnet_cidr.next_cidr](https://registry.terraform.io/providers/pagopa-dx/azure/latest/docs/resources/available_subnet_cidr) | resource |
 | [dx_available_subnet_cidr.next_todo_webapp_cidr](https://registry.terraform.io/providers/pagopa-dx/azure/latest/docs/resources/available_subnet_cidr) | resource |

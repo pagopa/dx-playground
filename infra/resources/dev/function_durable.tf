@@ -2,15 +2,19 @@ locals {
   fn_settings = {}
 }
 
+resource "dx_available_subnet_cidr" "durable_function_cidr" {
+  virtual_network_id = data.azurerm_virtual_network.test_vnet.id
+  prefix_length      = 24
+}
+
 module "function_test_durable" {
   source  = "pagopa-dx/azure-function-app/azurerm"
-  version = "~> 0.2"
+  version = "~> 4.1"
 
   has_durable_functions    = true
   application_insights_key = "app-insights-key"
 
   environment         = merge(local.environment, { app_name = "df" })
-  tier                = "s"
   resource_group_name = local.resource_group_name
 
   virtual_network = {
@@ -19,7 +23,7 @@ module "function_test_durable" {
   }
 
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
-  subnet_cidr   = "10.51.27.0/24"
+  subnet_cidr   = dx_available_subnet_cidr.durable_function_cidr.cidr_block
 
   app_settings      = merge(local.fn_settings, {})
   slot_app_settings = merge(local.fn_settings, {})
