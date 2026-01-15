@@ -22,7 +22,7 @@ module "function_test_durable" {
   subnet_cidr   = "10.51.27.0/24"
 
   app_settings      = merge(local.fn_settings, {})
-  slot_app_settings = {}
+  slot_app_settings = merge(local.fn_settings, {})
 
   health_check_path = "/info"
 

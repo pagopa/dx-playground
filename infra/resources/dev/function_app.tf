@@ -42,7 +42,7 @@ module "todo_api_function_app" {
   subnet_cidr   = dx_available_subnet_cidr.todo_api_cidr.cidr_block
 
   app_settings      = merge(local.to_do_api_settings, {})
-  slot_app_settings = {}
+  slot_app_settings = merge(local.to_do_api_settings, {})
 
   health_check_path = "/api/info"
 
@@ -74,7 +74,7 @@ module "azure_function_v3_function_app" {
   subnet_cidr   = dx_available_subnet_cidr.function_v3_cidr.cidr_block
 
   app_settings      = merge(local.azure_function_v3_settings, {})
-  slot_app_settings = {}
+  slot_app_settings = merge(local.azure_function_v3_settings, {})
 
   health_check_path = "/"
 

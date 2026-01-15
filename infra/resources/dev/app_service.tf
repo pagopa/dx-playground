@@ -32,7 +32,7 @@ module "todo_webapp_app_service" {
   subnet_cidr   = dx_available_subnet_cidr.next_todo_webapp_cidr.cidr_block
 
   app_settings      = merge(local.to_do_webapp_settings, {})
-  slot_app_settings = {}
+  slot_app_settings = merge(local.to_do_webapp_settings, {})
 
   health_check_path = "/"
 
