@@ -2,14 +2,11 @@ module "cosmos" {
   source  = "pagopa-dx/azure-cosmos-account/azurerm"
   version = "~> 0.3"
 
-  environment         = merge(local.environment, { app_name = "pg" })
-  resource_group_name = local.resource_group_name
-
-  subnet_pep_id = data.azurerm_subnet.pep_snet.id
-
+  environment                          = merge(local.environment, { app_name = "pg" })
+  resource_group_name                  = local.resource_group_name
+  subnet_pep_id                        = data.azurerm_subnet.pep_snet.id
   private_dns_zone_resource_group_name = data.azurerm_resource_group.net_rg.name
-
-  force_public_network_access_enabled = false
+  force_public_network_access_enabled  = false
 
   consistency_policy = {
     consistency_preset = "Default"

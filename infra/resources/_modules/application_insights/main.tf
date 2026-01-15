@@ -13,8 +13,7 @@ resource "azurerm_application_insights" "main" {
   location            = var.environment.location
   resource_group_name = var.resource_group_name
   application_type    = "other"
-
-  workspace_id = azurerm_log_analytics_workspace.main.id
+  workspace_id        = azurerm_log_analytics_workspace.main.id
 
   tags = var.tags
 }
