@@ -45,8 +45,6 @@ configDependencies:
 
 injectWorkspacePackages: true
 
-hoist: false
-
 onlyBuiltDependencies:
   - azure-functions-core-tools
   - esbuild
