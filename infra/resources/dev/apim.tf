@@ -99,12 +99,6 @@ resource "azurerm_api_management_subscription" "key_with_tracing" {
   state               = "active"
 }
 
-resource "azurerm_key_vault_secret" "todo_webapp_apim_subscription_key" {
-  name         = "todo-webapp-apim-subscription-key"
-  key_vault_id = data.azurerm_key_vault.common_kv.id
-  value        = azurerm_api_management_subscription.key_with_tracing.primary_key
-}
-
 resource "azurerm_api_management_named_value" "todo_api_function_key" {
   api_management_name = module.apim.name
   resource_group_name = module.apim.resource_group_name
@@ -112,6 +106,16 @@ resource "azurerm_api_management_named_value" "todo_api_function_key" {
   display_name        = "todo-api-function-key"
   secret              = true
   value_from_key_vault {
-    secret_id = azurerm_key_vault_secret.todo_api_default_function_key.versionless_id
+    secret_id = azurerm_key_vault_secret.todo_api_azure_function_key.versionless_id
   }
 }
+
+resource "azurerm_api_management_backend" "no_auth" {
+  name                = "no-auth-backend"
+  api_management_name = module.apim.name
+  resource_group_name = module.apim.resource_group_name
+  protocol            = "http"
+  url                 = format("https://%s", module.todo_api_function_app.function_app.function_app.default_hostname)
+  resource_id         = format("https://management.azure.com%s", module.todo_api_function_app.function_app.function_app.id)
+}
+
