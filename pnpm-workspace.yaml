@@ -45,7 +45,7 @@ configDependencies:
 
 injectWorkspacePackages: true
 
-nodeLinker: hoisted
+hoist: false
 
 onlyBuiltDependencies:
   - azure-functions-core-tools
