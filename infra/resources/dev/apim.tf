@@ -78,7 +78,7 @@ module "to_do_api" {
     description                   = "API to handle a To Do list"
     path                          = "todo"
     openapi                       = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
-    function_key_named_value_name = azurerm_api_management_named_value.to_do_api_key.name
+    function_key_named_value_name = azurerm_api_management_named_value.todo_api_function_key.name
   }
 
   apim_name           = module.apim.name
@@ -91,13 +91,27 @@ module "to_do_api" {
   }
 }
 
-resource "azurerm_api_management_named_value" "to_do_api_key" {
-  name                = "to-do-api-function-key"
-  resource_group_name = module.apim.resource_group_name
+resource "azurerm_api_management_subscription" "key_with_tracing" {
   api_management_name = module.apim.name
-  display_name        = "to-do-api-function-key"
+  resource_group_name = module.apim.resource_group_name
+  display_name        = "Subscription with Tracing Enabled"
+  allow_tracing       = true
+  state               = "active"
+}
+
+resource "azurerm_key_vault_secret" "todo_webapp_apim_subscription_key" {
+  name         = "todo-webapp-apim-subscription-key"
+  key_vault_id = data.azurerm_key_vault.common_kv.id
+  value        = azurerm_api_management_subscription.key_with_tracing.primary_key
+}
+
+resource "azurerm_api_management_named_value" "todo_api_function_key" {
+  api_management_name = module.apim.name
+  resource_group_name = module.apim.resource_group_name
+  name                = "todo-api-function-key"
+  display_name        = "todo-api-function-key"
   secret              = true
   value_from_key_vault {
-    secret_id = data.azurerm_key_vault_secret.to_do_api_key.versionless_id
+    secret_id = azurerm_key_vault_secret.todo_api_default_function_key.versionless_id
   }
 }

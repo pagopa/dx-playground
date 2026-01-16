@@ -2,7 +2,7 @@ locals {
   to_do_webapp_settings = {
     API_BASE_URL      = module.apim.gateway_url
     API_BASE_PATH     = "todo"
-    API_KEY           = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.apim_api_key.versionless_id})"
+    API_KEY           = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.todo_webapp_apim_subscription_key.versionless_id})"
     OTEL_SERVICE_NAME = "To Do WebApp"
   }
 }

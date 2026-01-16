@@ -78,3 +78,14 @@ module "todo_api_roles" {
     }
   }]
 }
+
+data "azurerm_function_app_host_keys" "todo_api_host_keys" {
+  name                = module.todo_api_function_app.function_app.function_app.name
+  resource_group_name = module.todo_api_function_app.function_app.resource_group_name
+}
+
+resource "azurerm_key_vault_secret" "todo_api_default_function_key" {
+  name         = "todo-api-azure-function-key"
+  key_vault_id = data.azurerm_key_vault.common_kv.id
+  value        = data.azurerm_function_app_host_keys.todo_api_host_keys.default_function_key
+}
