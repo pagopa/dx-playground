@@ -45,6 +45,8 @@ configDependencies:
 
 injectWorkspacePackages: true
 
+nodeLinker: hoisted
+
 onlyBuiltDependencies:
   - azure-functions-core-tools
   - esbuild
