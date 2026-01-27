@@ -86,9 +86,12 @@ module "to_do_api" {
   resource_group_name = module.apim.resource_group_name
 
   backend = {
-    name               = "to-do-api-azure-function"
-    url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}/api"
-    target_resource_id = module.todo_api_function_app.function_app.function_app.id
+    name = "to-do-api-azure-function"
+    // FIXME: use reference instead of hardcoded values. Used hardcoded values to not apply the Function App
+    # url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}/api"
+    # target_resource_id = module.todo_api_function_app.function_app.function_app.id
+    url                = "https://dx-d-itn-playground-be-func-01.azurewebsites.net/api"
+    target_resource_id = "/subscriptions/35e6e3b2-4388-470e-a1b9-ad3bc34326d1/resourceGroups/dx-d-itn-playground-rg-01/providers/Microsoft.Web/sites/dx-d-itn-playground-be-func-01"
   }
 }
 
@@ -98,16 +101,4 @@ resource "azurerm_api_management_subscription" "key_with_tracing" {
   display_name        = "Subscription with Tracing Enabled"
   allow_tracing       = true
   state               = "active"
-}
-
-// TODO: Remove
-resource "azurerm_api_management_named_value" "todo_api_function_key" {
-  api_management_name = module.apim.name
-  resource_group_name = module.apim.resource_group_name
-  name                = "todo-api-function-key"
-  display_name        = "todo-api-function-key"
-  secret              = true
-  value_from_key_vault {
-    secret_id = azurerm_key_vault_secret.todo_api_azure_function_key.versionless_id
-  }
 }
