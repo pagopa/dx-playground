@@ -8,15 +8,19 @@ variable "apim_name" {
   type        = string
 }
 
+variable "entra_id_app_client_id" {
+  description = "The Entra ID Application Client ID used for backend authentication"
+  type        = string
+}
+
 variable "api" {
   description = "API definition"
   type = object({
-    name                          = string
-    display_name                  = string
-    path                          = string
-    description                   = string
-    openapi                       = string
-    function_key_named_value_name = string
+    name         = string
+    display_name = string
+    path         = string
+    description  = string
+    openapi      = string
   })
 }
 

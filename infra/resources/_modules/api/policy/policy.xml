@@ -1,6 +1,7 @@
 <policies>
     <inbound>
         <base />
+        <authentication-managed-identity resource="${entra-id-app}" />
         <set-backend-service backend-id="${backend-id}" />
         <cors>
             <allowed-origins>

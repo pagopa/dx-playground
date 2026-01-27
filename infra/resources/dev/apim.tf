@@ -72,13 +72,14 @@ module "apim_roles" {
 module "to_do_api" {
   source = "../_modules/api"
 
+  entra_id_app_client_id = "8be7b28b-d984-480f-bf6b-5894dbd0906c"
+
   api = {
-    name                          = "to-do-api"
-    display_name                  = "To Do API"
-    description                   = "API to handle a To Do list"
-    path                          = "todo"
-    openapi                       = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
-    function_key_named_value_name = azurerm_api_management_named_value.todo_api_function_key.name
+    name         = "to-do-api"
+    display_name = "To Do API"
+    description  = "API to handle a To Do list"
+    path         = "todo"
+    openapi      = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
   }
 
   apim_name           = module.apim.name
@@ -99,6 +100,7 @@ resource "azurerm_api_management_subscription" "key_with_tracing" {
   state               = "active"
 }
 
+// TODO: Remove
 resource "azurerm_api_management_named_value" "todo_api_function_key" {
   api_management_name = module.apim.name
   resource_group_name = module.apim.resource_group_name
