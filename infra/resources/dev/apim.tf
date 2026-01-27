@@ -86,7 +86,7 @@ module "to_do_api" {
 
   backend = {
     name               = "to-do-api-azure-function"
-    url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}"
+    url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}/api"
     target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
 }
@@ -109,13 +109,3 @@ resource "azurerm_api_management_named_value" "todo_api_function_key" {
     secret_id = azurerm_key_vault_secret.todo_api_azure_function_key.versionless_id
   }
 }
-
-resource "azurerm_api_management_backend" "no_auth" {
-  name                = "no-auth-backend"
-  api_management_name = module.apim.name
-  resource_group_name = module.apim.resource_group_name
-  protocol            = "http"
-  url                 = format("https://%s", module.todo_api_function_app.function_app.function_app.default_hostname)
-  resource_id         = format("https://management.azure.com%s", module.todo_api_function_app.function_app.function_app.id)
-}
-
