@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.10.0
+
+### Minor Changes
+
+- [#319](https://github.com/pagopa/dx-playground/pull/319) [`99622fc`](https://github.com/pagopa/dx-playground/commit/99622fc154dde7f0149376eaed1681b87a649d56) Thanks [@kin0992](https://github.com/kin0992)! - Convert endpoints to anonymous auth level
+
 ## 0.9.3
 
 ### Patch Changes
