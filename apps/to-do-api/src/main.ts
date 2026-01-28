@@ -62,7 +62,7 @@ app.http("getTaskById", {
   route: "tasks/{taskId}",
 });
 
-app.http("getTask", {
+app.http("getTaskList", {
   authLevel: "anonymous",
   handler: makeGetTasksHandler(env),
   methods: ["GET"],
