@@ -42,7 +42,7 @@ app.http("info", {
 });
 
 app.http("createTask", {
-  authLevel: "function",
+  authLevel: "anonymous",
   handler: (req, context) => {
     context.trace("CREATING A TASK");
     context.debug("CREATING A TASK");
@@ -56,21 +56,21 @@ app.http("createTask", {
 });
 
 app.http("getTaskById", {
-  authLevel: "function",
+  authLevel: "anonymous",
   handler: makeGetTaskHandler(env),
   methods: ["GET"],
   route: "tasks/{taskId}",
 });
 
 app.http("getTask", {
-  authLevel: "function",
+  authLevel: "anonymous",
   handler: makeGetTasksHandler(env),
   methods: ["GET"],
   route: "tasks",
 });
 
 app.http("deleteTask", {
-  authLevel: "function",
+  authLevel: "anonymous",
   handler: makeDeleteTaskHandler(env),
   methods: ["DELETE"],
   route: "tasks/{taskId}",
