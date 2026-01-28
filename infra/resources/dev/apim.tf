@@ -101,7 +101,7 @@ module "to_do_api_auth_with_identity" {
     name         = "to-do-api-auth-identity"
     display_name = "To Do API - Authentication with Managed Identity"
     description  = "API to handle a To Do list"
-    path         = "todo"
+    path         = "todo-auth"
     openapi      = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
   }
 
@@ -109,7 +109,7 @@ module "to_do_api_auth_with_identity" {
   resource_group_name = module.apim.resource_group_name
 
   backend = {
-    name               = "to-do-api-azure-function-auth-with-identity"
+    name               = "to-do-api-auth-with-identity"
     url                = "https://${module.todo_api_function_app_managed_identity_auth.function_app.function_app.default_hostname}/api"
     target_resource_id = module.todo_api_function_app_managed_identity_auth.function_app.function_app.id
   }
