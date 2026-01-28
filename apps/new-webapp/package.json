@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "next": "catalog:next",
-    "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react": "catalog:react",
+    "react-dom": "catalog:react"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react",
+    "@types/react-dom": "catalog:react",
     "eslint": "catalog:",
     "eslint-config-next": "catalog:next",
     "typescript": "catalog:"
