@@ -39,7 +39,7 @@ jobs:
       COMMIT_ID: ${{ inputs.COMMIT_ID }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 2
 
@@ -51,7 +51,7 @@ jobs:
           subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
 
       # Run Spectral
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
       - run: npm install -g @stoplight/spectral-cli
@@ -60,7 +60,7 @@ jobs:
       # Add this step for each APIM environment and pass specific set of secrets that you want replaced in the env section below
       - name: "Perform namevalue secret substitution in configuration.${{ inputs.API_MANAGEMENT_ENVIRONMENT}}.yaml"
         if: (inputs.API_MANAGEMENT_ENVIRONMENT == 'prod' )
-        uses: cschleiden/replace-tokens@v1.3
+        uses: cschleiden/replace-tokens@4d5a042c84c3568b3858b7af9394923d2d5195c9 # v1.3
         with:
           tokenPrefix: "{#"
           tokenSuffix: "#}"
