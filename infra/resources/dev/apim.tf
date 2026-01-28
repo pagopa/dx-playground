@@ -86,12 +86,9 @@ module "to_do_api" {
   resource_group_name = module.apim.resource_group_name
 
   backend = {
-    name = "to-do-api-azure-function"
-    // FIXME: use reference instead of hardcoded values. Used hardcoded values to not apply the Function App
-    # url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}/api"
-    # target_resource_id = module.todo_api_function_app.function_app.function_app.id
-    url                = "https://dx-d-itn-playground-be-func-01.azurewebsites.net/api"
-    target_resource_id = "/subscriptions/35e6e3b2-4388-470e-a1b9-ad3bc34326d1/resourceGroups/dx-d-itn-playground-rg-01/providers/Microsoft.Web/sites/dx-d-itn-playground-be-func-01"
+    name               = "to-do-api-azure-function"
+    url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}/api"
+    target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
 }
 
