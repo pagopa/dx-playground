@@ -1,14 +1,8 @@
 <policies>
     <inbound>
         <base />
+        <authentication-managed-identity resource="${entra-id-app}" />
         <set-backend-service backend-id="${backend-id}" />
-        <!-- Append base-path, if defined, before invoking the backend -->
-        <choose>
-            <when condition="@(System.String.IsNullOrEmpty(&quot;${base-path}&quot;))"></when>
-            <otherwise>
-                <rewrite-uri template="@(System.String.Concat(&quot;${base-path}/&quot;, context.Request.Url.Path))" />
-            </otherwise>
-        </choose>
         <cors>
             <allowed-origins>
                 <origin>*</origin>

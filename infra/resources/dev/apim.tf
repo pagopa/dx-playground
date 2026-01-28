@@ -72,13 +72,14 @@ module "apim_roles" {
 module "to_do_api" {
   source = "../_modules/api"
 
+  entra_id_app_client_id = "8be7b28b-d984-480f-bf6b-5894dbd0906c"
+
   api = {
-    name                          = "to-do-api"
-    display_name                  = "To Do API"
-    description                   = "API to handle a To Do list"
-    path                          = "todo"
-    openapi                       = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
-    function_key_named_value_name = azurerm_api_management_named_value.todo_api_function_key.name
+    name         = "to-do-api"
+    display_name = "To Do API"
+    description  = "API to handle a To Do list"
+    path         = "todo"
+    openapi      = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
   }
 
   apim_name           = module.apim.name
@@ -86,7 +87,7 @@ module "to_do_api" {
 
   backend = {
     name               = "to-do-api-azure-function"
-    url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}"
+    url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}/api"
     target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
 }
@@ -98,24 +99,3 @@ resource "azurerm_api_management_subscription" "key_with_tracing" {
   allow_tracing       = true
   state               = "active"
 }
-
-resource "azurerm_api_management_named_value" "todo_api_function_key" {
-  api_management_name = module.apim.name
-  resource_group_name = module.apim.resource_group_name
-  name                = "todo-api-function-key"
-  display_name        = "todo-api-function-key"
-  secret              = true
-  value_from_key_vault {
-    secret_id = azurerm_key_vault_secret.todo_api_azure_function_key.versionless_id
-  }
-}
-
-resource "azurerm_api_management_backend" "no_auth" {
-  name                = "no-auth-backend"
-  api_management_name = module.apim.name
-  resource_group_name = module.apim.resource_group_name
-  protocol            = "http"
-  url                 = format("https://%s", module.todo_api_function_app.function_app.function_app.default_hostname)
-  resource_id         = format("https://management.azure.com%s", module.todo_api_function_app.function_app.function_app.id)
-}
-
