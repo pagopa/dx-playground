@@ -50,8 +50,6 @@ module "apim" {
   tags = local.tags
 }
 
-
-
 # To Do API
 module "to_do_api" {
   source = "../_modules/api"
