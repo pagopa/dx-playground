@@ -17,25 +17,35 @@ const EnvSchema = z.object({
   OTEL_SERVICE_NAME: z.string().optional(),
 });
 
-// Only perform validation on the server. If this module is accidentally
-// imported on the client, avoid throwing and instead rely on server routes
-// to validate. `typeof window === 'undefined'` indicates server runtime.
-let env: undefined | z.infer<typeof EnvSchema>;
-if (typeof window === "undefined") {
-  env = EnvSchema.parse(process.env);
+// Create the API client on the server only. This will parse and validate
+// environment variables and throw immediately if any required value is
+// missing or invalid — preventing the app from starting with a bad config.
+function createServerClient() {
+  const env = EnvSchema.parse(process.env); // throws on validation error
+
+  const withApiKey: WithDefaultsT<"ApiKeyAuth"> =
+    (wrappedOperation) => (params) =>
+      wrappedOperation({
+        ...params,
+        ApiKeyAuth: env.API_KEY,
+      });
+
+  return createClient<"ApiKeyAuth">({
+    basePath: env.API_BASE_PATH,
+    baseUrl: env.API_BASE_URL,
+    fetchApi: fetch as unknown as typeof fetch,
+    withDefaults: withApiKey,
+  });
 }
 
-const withApiKey: WithDefaultsT<"ApiKeyAuth"> =
-  (wrappedOperation) => (params) =>
-    wrappedOperation({
-      ...params,
-      // At runtime on the server we validated env above; assert here for TS.
-      ApiKeyAuth: (env?.API_KEY ?? process.env.API_KEY) as string,
-    });
-
-export const client = createClient({
-  basePath: (env?.API_BASE_PATH ?? process.env.API_BASE_PATH) as string,
-  baseUrl: (env?.API_BASE_URL ?? process.env.API_BASE_URL) as string,
-  fetchApi: fetch as unknown as typeof fetch,
-  withDefaults: withApiKey,
-});
+// Export a server-only client. If this module is imported on the client,
+// accessing `client` will throw a clear error (and it will not contain
+// server secrets). This keeps env values out of client bundles.
+export const client =
+  typeof window === "undefined"
+    ? createServerClient()
+    : ((): never => {
+        throw new Error(
+          "Attempted to initialize server-only API client on the client. Ensure this module is only imported from server code.",
+        );
+      })();
