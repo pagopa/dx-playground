@@ -18,6 +18,26 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Environment
+
+This app expects several server-only environment variables to be set before running. To avoid accidental leaks, do not commit `.env.local` with secrets. Create a local file from your environment or use your secrets manager.
+
+Required variables (server-only):
+
+- `API_BASE_URL` — base URL of the backend API
+- `API_BASE_PATH` — base path used by the generated API client
+- `API_KEY` — API key for server-to-server calls (keep secret)
+
+When running locally you can copy a provided example (if present) or create `.env.local` yourself:
+
+```bash
+# create a local env and edit values
+cp .env.local.example .env.local 2>/dev/null || true
+# then edit .env.local to set API_BASE_URL/API_BASE_PATH/API_KEY
+```
+
+The app validates required env vars on the server at startup and will fail fast with a clear error if any are missing.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
