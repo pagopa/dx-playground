@@ -32,8 +32,8 @@ export default function TasksClient({
         setError(body?.message ?? "Failed creating task");
       }
     } catch (err) {
-      setError("Failed creating task");
-      throw err instanceof Error ? err : new Error(String(err));
+      console.error("TasksClient.addTask error", err);
+      setError(err instanceof Error ? err.message : "Failed creating task");
     }
   };
 
@@ -47,8 +47,8 @@ export default function TasksClient({
         setError("Failed deleting task");
       }
     } catch (err) {
-      setError("Failed deleting task");
-      throw err instanceof Error ? err : new Error(String(err));
+      console.error("TasksClient.completeTask error", err);
+      setError(err instanceof Error ? err.message : "Failed deleting task");
     }
   };
 
