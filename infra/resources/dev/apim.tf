@@ -55,17 +55,6 @@ module "apim_roles" {
   version         = "~> 1"
   principal_id    = module.apim.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
-
-  key_vault = [
-    {
-      name                = data.azurerm_key_vault.common_kv.name
-      resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
-      description         = "Allow dx-playground repo to read secrets"
-      roles = {
-        secrets = "reader"
-      }
-    }
-  ]
 }
 
 # To Do API

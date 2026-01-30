@@ -1,9 +1,9 @@
 {
   "apim": {
-    "hash": "e0738a64be09de854b56326f3b1301aa821bdeb165a1063eff40f52356f8d048",
-    "version": "2.1.0",
+    "hash": "33e2ad8be91c8a5b07269ecaf0052dfb3285bce2fe508ab24643b8a2a7244c58",
+    "version": "2.1.1",
     "name": "azure_api_management",
-    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-api-management/azurerm/2.1.0"
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-api-management/azurerm/2.1.1"
   },
   "apim_roles": {
     "hash": "320e6d020c54d3d5094ea8aaa6440621cde729ec1f61ce1baf1b79f0732430da",
