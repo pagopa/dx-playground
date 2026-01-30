@@ -1,13 +1,11 @@
 import { Checkbox, ListItem, ListItemText } from "@mui/material";
 import React from "react";
 
-import { completeTask } from "@/lib/api";
 import { TaskId } from "@/lib/client/TaskId";
 
 interface TodoItemProps {
   id: TaskId;
-  // Function to execute when a task is completed
-  onComplete: (id: TaskId) => void;
+  onComplete: (id: TaskId) => Promise<void>;
   state: "COMPLETED" | "DELETED" | "INCOMPLETE";
   title: string;
 }
@@ -18,22 +16,23 @@ const ToDoItem: React.FC<TodoItemProps> = ({
   state,
   title,
 }) => {
-  const handleTaskComplete = async (taskId: TaskId) => {
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleChange = async () => {
+    setIsLoading(true);
     try {
-      const { status } = await completeTask(taskId);
-      if (status === 204) {
-        onComplete(id);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      /* error when deleting the task */
+      await onComplete(id);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
-    <ListItem dense divider={true} key={id}>
+    <ListItem dense divider={true}>
       <Checkbox
         checked={state === "COMPLETED"}
-        onChange={() => handleTaskComplete(id)}
+        disabled={isLoading}
+        onChange={handleChange}
       />
       <ListItemText primary={title} />
     </ListItem>

@@ -7,7 +7,8 @@ import { TaskItemList } from "@/lib/client/TaskItemList";
 
 interface TaskListProps {
   // Function to execute when a task is completed
-  onTaskComplete: (id: TaskId) => void;
+  // Function to execute when a task is completed (async)
+  onTaskComplete: (id: TaskId) => Promise<void>;
   tasks: TaskItemList;
 }
 
@@ -19,7 +20,13 @@ const ToDoList: React.FC<TaskListProps> = ({
     {tasks
       .filter(({ state }) => state === "INCOMPLETE")
       .map((item) => (
-        <ToDoItem {...item} key={item.id} onComplete={onTaskComplete} />
+        <ToDoItem
+          id={item.id}
+          key={item.id}
+          onComplete={onTaskComplete}
+          state={item.state}
+          title={item.title}
+        />
       ))}
   </List>
 );
