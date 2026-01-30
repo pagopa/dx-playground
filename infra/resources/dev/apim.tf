@@ -50,12 +50,7 @@ module "apim" {
   tags = local.tags
 }
 
-module "apim_roles" {
-  source          = "pagopa-dx/azure-role-assignments/azurerm"
-  version         = "~> 1"
-  principal_id    = module.apim.principal_id
-  subscription_id = data.azurerm_subscription.current.subscription_id
-}
+
 
 # To Do API
 module "to_do_api" {
