@@ -44,7 +44,8 @@ module "azure_storage_account" {
   blob_features = {
     versioning = true
     immutability_policy = {
-      state = null
+      enabled = false
+      state   = null
     }
   }
 
