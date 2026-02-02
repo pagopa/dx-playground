@@ -131,7 +131,7 @@ variable "blob_features" {
   }
 
   validation {
-    condition     = try(var.blob_features.immutability_policy.state, null) == null ? true : contains(["Locked", "Unlocked"], var.blob_features.immutability_policy.state)
+    condition     = var.blob_features.immutability_policy.state == null || contains(["Locked", "Unlocked"], var.blob_features.immutability_policy.state)
     error_message = "Immutability policy state must be either 'Locked' or 'Unlocked'. Note: Locking is irreversible and prevents account deletion."
   }
 
