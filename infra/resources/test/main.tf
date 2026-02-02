@@ -27,8 +27,9 @@ resource "azurerm_user_assigned_identity" "example" {
 }
 
 module "azure_storage_account" {
-  source  = "pagopa-dx/azure-storage-account/azurerm"
-  version = "~> 2.0"
+  # source  = "pagopa-dx/azure-storage-account/azurerm"
+  # version = "~> 2.0"
+  source = "../_modules/azure_storage_account"
 
   environment         = local.environment
   use_case            = "default"

@@ -18,7 +18,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azure_storage_account"></a> [azure\_storage\_account](#module\_azure\_storage\_account) | pagopa-dx/azure-storage-account/azurerm | ~> 2.0 |
+| <a name="module_azure_storage_account"></a> [azure\_storage\_account](#module\_azure\_storage\_account) | ../_modules/azure_storage_account | n/a |
 
 ## Resources
 
