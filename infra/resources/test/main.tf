@@ -43,9 +43,6 @@ module "azure_storage_account" {
 
   blob_features = {
     versioning = true
-    immutability_policy = {
-      enabled = false
-    }
   }
 
   force_public_network_access_enabled = false
