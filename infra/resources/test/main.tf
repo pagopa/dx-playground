@@ -45,7 +45,6 @@ module "azure_storage_account" {
     versioning = true
     immutability_policy = {
       enabled = false
-      state   = null
     }
   }
 
