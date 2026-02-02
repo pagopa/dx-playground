@@ -8,11 +8,17 @@
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~>4 |
 | <a name="requirement_dx"></a> [dx](#requirement\_dx) | >= 0.0.6, < 1.0.0 |
 
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.58.0 |
+
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azure_storage_account"></a> [azure\_storage\_account](#module\_azure\_storage\_account) | pagopa-dx/azure-storage-account/azurerm | ~> 2.1 |
+| <a name="module_azure_storage_account"></a> [azure\_storage\_account](#module\_azure\_storage\_account) | pagopa-dx/azure-storage-account/azurerm | ~> 2.0 |
 
 ## Resources
 

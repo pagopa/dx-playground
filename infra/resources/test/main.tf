@@ -28,7 +28,7 @@ resource "azurerm_user_assigned_identity" "example" {
 
 module "azure_storage_account" {
   source  = "pagopa-dx/azure-storage-account/azurerm"
-  version = "~> 2.1"
+  version = "~> 2.0"
 
   environment         = local.environment
   use_case            = "default"
@@ -50,7 +50,7 @@ module "azure_storage_account" {
   access_tier = "Hot"
 
   subservices_enabled = {
-    blob  = true
+    blob = true
   }
 
   network_rules = {
@@ -73,7 +73,7 @@ module "azure_storage_account" {
 
   containers = [
     {
-      name        = "container1"
+      name = "container1"
     }
   ]
 
