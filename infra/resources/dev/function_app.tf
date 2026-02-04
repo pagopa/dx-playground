@@ -185,4 +185,12 @@ module "function_v3_function_app_roles" {
       role                = "writer"
     }
   ]
+  key_vault = [{
+    name                = data.azurerm_key_vault.common_kv.name
+    resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+    description         = "Allow Function App to read secrets from Key Vault"
+    roles = {
+      secrets = "reader"
+    }
+  }]
 }
