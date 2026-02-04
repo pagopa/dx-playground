@@ -136,3 +136,53 @@ module "todo_api_function_app_managed_identity_roles" {
     }
   }]
 }
+
+resource "dx_available_subnet_cidr" "function_v3_cidr" {
+  virtual_network_id = data.azurerm_virtual_network.test_vnet.id
+  prefix_length      = 24
+}
+
+module "function_v3_function_app" {
+  source  = "pagopa-dx/azure-function-app/azurerm"
+  version = "~> 4.1"
+
+  node_version        = 22
+  environment         = merge(local.environment, { app_name = "v3" })
+  resource_group_name = local.resource_group_name
+
+  virtual_network = {
+    name                = data.azurerm_virtual_network.test_vnet.name
+    resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
+  }
+
+  subnet_pep_id = data.azurerm_subnet.pep_snet.id
+  subnet_cidr   = dx_available_subnet_cidr.function_v3_cidr.cidr_block
+
+  app_settings      = merge(local.azure_function_v3_settings, {})
+  slot_app_settings = merge(local.azure_function_v3_settings, {})
+
+  health_check_path = "/api/info"
+
+  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.to_do_api_application_insights.connection_string_secret_id})"
+  application_insights_sampling_percentage = 100
+
+  tags = local.tags
+}
+
+module "function_v3_function_app_roles" {
+  source  = "pagopa-dx/azure-role-assignments/azurerm"
+  version = "~> 1.0"
+
+  principal_id    = module.function_v3_function_app.function_app.function_app.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
+
+  cosmos = [
+    {
+      account_name        = module.cosmos.name
+      resource_group_name = module.cosmos.resource_group_name
+      database            = azurerm_cosmosdb_sql_database.db.name
+      description         = "Allow Function App to read and write on Cosmos DB"
+      role                = "writer"
+    }
+  ]
+}
