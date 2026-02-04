@@ -26,57 +26,48 @@ resource "azurerm_user_assigned_identity" "example" {
   location            = local.environment.location
 }
 
-module "azure_storage_account" {
-  # source  = "pagopa-dx/azure-storage-account/azurerm"
-  # version = "~> 2.0"
-  source = "../_modules/azure_storage_account"
+module "apim" {
+  # source  = "pagopa-dx/azure-api-management/azurerm"
+  # version = "~> 2.1"
+  source = "../_modules/azure_api_management"
 
-  environment         = local.environment
-  use_case            = "default"
+  environment         = merge(local.environment, { app_name = "pg" })
   resource_group_name = azurerm_resource_group.example.name
+  use_case            = "development"
 
-  subnet_pep_id                        = data.azurerm_subnet.pep.id
-  private_dns_zone_resource_group_name = local.virtual_network.resource_group_name
+  publisher_email = "playground@pagopa.it"
+  publisher_name  = "Playground Publisher"
 
-  customer_managed_key = {
-    enabled = false
+  virtual_network = {
+    name                = data.azurerm_virtual_network.test_vnet.name
+    resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
   }
 
-  blob_features = {
-    versioning = true
+  application_insights = {
+    enabled             = true
+    connection_string   = module.to_do_api_application_insights.connection_string
+    id                  = module.to_do_api_application_insights.id
+    sampling_percentage = 100
+    verbosity           = "information"
   }
 
-  force_public_network_access_enabled = false
+  monitoring = {
+    enabled                    = true
+    log_analytics_workspace_id = module.to_do_api_application_insights.log_analytics_workspace_id
 
-  access_tier = "Hot"
-
-  subservices_enabled = {
-    blob = true
-  }
-
-  network_rules = {
-    default_action             = "Deny"
-    bypass                     = ["AzureServices"]
-    ip_rules                   = ["203.0.113.0/24"]
-    virtual_network_subnet_ids = [azurerm_subnet.example.id]
-  }
-
-  static_website = {
-    enabled            = true
-    index_document     = "index.html"
-    error_404_document = "404.html"
-  }
-
-  custom_domain = {
-    name          = "example.com"
-    use_subdomain = true
-  }
-
-  containers = [
-    {
-      name = "container1"
+    logs = {
+      enabled = true
+      groups  = ["allLogs", "audit"]
     }
-  ]
+
+    metrics = {
+      enabled = true
+    }
+  }
+
+  subnet_id                     = azurerm_subnet.apim.id
+  virtual_network_type_internal = true
+  enable_public_network_access  = true
 
   tags = local.tags
 }
