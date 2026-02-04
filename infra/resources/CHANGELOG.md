@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 1.4.1
+
+### Patch Changes
+
+- [#327](https://github.com/pagopa/dx-playground/pull/327) [`506f149`](https://github.com/pagopa/dx-playground/commit/506f149e8dfdfb6ee5101bcb212316cb4bff2dce) Thanks [@kin0992](https://github.com/kin0992)! - Create new Function App that will host an Azure Function v3.
+
 ## 1.4.0
 
 ### Minor Changes
