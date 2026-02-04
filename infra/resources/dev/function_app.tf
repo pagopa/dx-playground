@@ -161,7 +161,7 @@ module "function_v3_function_app" {
   app_settings      = merge(local.azure_function_v3_settings, {})
   slot_app_settings = merge(local.azure_function_v3_settings, {})
 
-  health_check_path = "/api/info"
+  health_check_path = "/api/tasks"
 
   application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.to_do_api_application_insights.connection_string_secret_id})"
   application_insights_sampling_percentage = 100
