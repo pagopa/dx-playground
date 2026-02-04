@@ -39,33 +39,11 @@ module "apim" {
   publisher_name  = "Playground Publisher"
 
   virtual_network = {
-    name                = data.azurerm_virtual_network.test_vnet.name
-    resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
+    name                = local.virtual_network.name
+    resource_group_name = local.virtual_network.resource_group_name
   }
 
-  application_insights = {
-    enabled             = true
-    connection_string   = module.to_do_api_application_insights.connection_string
-    id                  = module.to_do_api_application_insights.id
-    sampling_percentage = 100
-    verbosity           = "information"
-  }
-
-  monitoring = {
-    enabled                    = true
-    log_analytics_workspace_id = module.to_do_api_application_insights.log_analytics_workspace_id
-
-    logs = {
-      enabled = true
-      groups  = ["allLogs", "audit"]
-    }
-
-    metrics = {
-      enabled = true
-    }
-  }
-
-  subnet_id                     = azurerm_subnet.apim.id
+  subnet_id                     = data.azurerm_subnet.pep.id
   virtual_network_type_internal = true
   enable_public_network_access  = true
 

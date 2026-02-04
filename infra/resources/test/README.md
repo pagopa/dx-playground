@@ -18,7 +18,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_azure_storage_account"></a> [azure\_storage\_account](#module\_azure\_storage\_account) | ../_modules/azure_storage_account | n/a |
+| <a name="module_apim"></a> [apim](#module\_apim) | ../_modules/azure_api_management | n/a |
 
 ## Resources
 
