@@ -25,6 +25,7 @@
 | <a name="module_function_v3_function_app_roles"></a> [function\_v3\_function\_app\_roles](#module\_function\_v3\_function\_app\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_function_v3_storage"></a> [function\_v3\_storage](#module\_function\_v3\_storage) | pagopa-dx/azure-storage-account/azurerm | ~> 2.0 |
 | <a name="module_naming_convention"></a> [naming\_convention](#module\_naming\_convention) | pagopa-dx/azure-naming-convention/azurerm | ~> 0.0 |
+| <a name="module_storage"></a> [storage](#module\_storage) | pagopa-dx/azure-storage-account/azurerm | ~> 2.0 |
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 | <a name="module_to_do_api_application_insights"></a> [to\_do\_api\_application\_insights](#module\_to\_do\_api\_application\_insights) | ../_modules/application_insights | n/a |
 | <a name="module_to_do_api_auth_with_identity"></a> [to\_do\_api\_auth\_with\_identity](#module\_to\_do\_api\_auth\_with\_identity) | ../_modules/api | n/a |

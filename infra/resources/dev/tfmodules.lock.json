@@ -70,5 +70,11 @@
     "version": "2.1.3",
     "name": "azure_storage_account",
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-storage-account/azurerm/2.1.3"
+  },
+  "storage": {
+    "hash": "6da3fb32083ef687be7a06507f6ce3243e21d346407af3be3818e982cc3e6b76",
+    "version": "2.1.3",
+    "name": "azure_storage_account",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-storage-account/azurerm/2.1.3"
   }
 }
