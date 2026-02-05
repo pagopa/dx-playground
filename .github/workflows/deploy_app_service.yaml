@@ -5,7 +5,7 @@ on:
     inputs:
       workspace_name:
         description: "The monorepo workspace to build and deploy"
-        type: string
+        type: choice
         required: true
         default: "to-do-webapp"
         options:
@@ -25,7 +25,7 @@ on:
         default: "dx-d-itn-playground-rg-01"
       web_app_name:
         description: "Web App name"
-        type: string
+        type: choice
         required: true
         default: "dx-d-itn-playground-fe-app-01"
         options:
