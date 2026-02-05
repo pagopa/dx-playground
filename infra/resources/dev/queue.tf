@@ -2,6 +2,8 @@ module "function_v3_storage" {
   source  = "pagopa-dx/azure-storage-account/azurerm"
   version = "~> 2.0"
 
+  force_public_network_access_enabled = true
+
   resource_group_name = local.resource_group_name
   environment = {
     location        = local.environment.location
