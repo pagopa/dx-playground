@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   release_dev:
-    uses: pagopa/dx/.github/workflows/infra_apply.yaml@chores/hardening
+    uses: pagopa/dx/.github/workflows/infra_apply.yaml@main
     name: Release Infrastructure
     secrets: inherit
     with:
