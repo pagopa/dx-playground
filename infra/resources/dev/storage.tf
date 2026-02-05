@@ -14,4 +14,5 @@ module "storage" {
   }
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
   tags          = local.tags
+
 }
