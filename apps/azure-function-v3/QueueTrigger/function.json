@@ -1,0 +1,13 @@
+{
+  "bindings": [
+    {
+      "name": "myQueueItem",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "tasks-queue",
+      "connection": "AzureWebJobsStorage"
+    }
+  ],
+  "scriptFile": "../dist/queueTrigger.js",
+  "entryPoint": "entryPoint"
+}

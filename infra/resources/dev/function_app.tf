@@ -158,8 +158,12 @@ module "function_v3_function_app" {
   subnet_pep_id = data.azurerm_subnet.pep_snet.id
   subnet_cidr   = dx_available_subnet_cidr.function_v3_cidr.cidr_block
 
-  app_settings      = merge(local.azure_function_v3_settings, {})
-  slot_app_settings = merge(local.azure_function_v3_settings, {})
+  app_settings = merge(local.azure_function_v3_settings, {
+    "AzureWebJobsStorage__queueServiceUri" = module.function_v3_storage.primary_connection_string
+  })
+  slot_app_settings = merge(local.azure_function_v3_settings, {
+    "AzureWebJobsStorage__queueServiceUri" = module.function_v3_storage.primary_connection_string
+  })
 
   health_check_path = "/api/tasks"
 
