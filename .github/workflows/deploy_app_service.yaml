@@ -8,6 +8,11 @@ on:
         type: string
         required: true
         default: "to-do-webapp"
+        options:
+          - to-do-webapp
+          - to-do-api
+          - test-opex-api
+          - azure-function-v3
       environment:
         description: "Environment where the artifact will be deployed"
         type: string
@@ -23,6 +28,11 @@ on:
         type: string
         required: true
         default: "dx-d-itn-playground-fe-app-01"
+        options:
+          - dx-d-itn-playground-be-func-01
+          - dx-d-itn-playground-fe-app-01
+          - dx-d-itn-playground-id-func-01
+          - dx-d-itn-playground-v3-func-01
       use_private_agent:
         description: "Use a private agent to deploy the built artifact"
         type: boolean
