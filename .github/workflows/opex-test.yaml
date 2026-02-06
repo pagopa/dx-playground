@@ -1,4 +1,4 @@
-name: Deploy OpEx Dashboards
+name: Deploy OPEX Dashboards
 
 on:
   push:
