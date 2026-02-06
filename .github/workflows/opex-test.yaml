@@ -1,11 +1,8 @@
-name: Deploy OPEX Dashboards
+name: Deploy OpEx Dashboards
 
 on:
   push:
     branches: [test/opex-action]
-    paths:
-      - "apps/**/config.yaml"
-      - "apps/**/openapi.yaml"
 
 jobs:
   deploy:
