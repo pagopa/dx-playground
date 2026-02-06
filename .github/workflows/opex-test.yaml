@@ -1,0 +1,17 @@
+name: Deploy OpEx Dashboards
+
+on:
+  push:
+    branches: [test/opex-action]
+    paths:
+      - "apps/**/config.yaml"
+      - "apps/**/openapi.yaml"
+
+jobs:
+  deploy:
+    uses: pagopa/dx/.github/workflows/opex-dashboard-deploy.yaml@chores/opex-workflow
+    secrets: inherit
+    with:
+      config_pattern: "apps/**/config.yaml"
+      github_environment: opex-dev-cd
+      dry_run: true
