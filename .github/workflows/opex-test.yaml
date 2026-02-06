@@ -9,6 +9,8 @@ on:
 
 jobs:
   deploy:
+    permissions:
+      contents: read
     uses: pagopa/dx/.github/workflows/opex-dashboard-deploy.yaml@chores/opex-workflow
     secrets: inherit
     with:
