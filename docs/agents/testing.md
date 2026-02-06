@@ -50,6 +50,35 @@ const mockCosmosClient = mockDeep<CosmosClient>();
 
 See [Build, Test, and Lint Commands](./commands.md) for running tests by pattern, file, or with watch mode.
 
+## Test Data Organization
+
+Tests should place data and fixtures in `__tests__/data.ts`:
+
+```typescript
+// src/__tests__/data.ts
+export const mockTodo = {
+  id: "1",
+  title: "Buy groceries",
+  completed: false,
+};
+
+export const mockError = new Error("Service unavailable");
+
+export const mockList = [mockTodo];
+```
+
+Reuse across test files:
+
+```typescript
+import { mockTodo, mockError } from "./__tests__/data.ts";
+
+it("handles errors", async () => {
+  // use mockError
+});
+```
+
 ## Related Guidance
 
 For io-ts validation patterns in tests, see [TypeScript, Types, and Error Handling](./typescript.md).
+
+For project organization, see [Project Organization](./project-organization.md).

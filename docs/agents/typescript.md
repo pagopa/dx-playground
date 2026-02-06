@@ -42,8 +42,22 @@ Guidelines for writing type-safe, maintainable TypeScript code in this monorepo.
 - **Constants** (truly global/static): `UPPER_SNAKE_CASE`
 - **Keep functions small and focused**; prefer pure functions in domain logic
 
+## ES Modules and Configuration
+
+This monorepo uses **ES Modules** exclusively:
+- Every `package.json` has `"type": "module"`
+- Use `import`/`export` syntax (no `require`)
+- Configure TypeScript with `"module": "ES2020"` (or higher)
+
+Benefits:
+- Native browser compatibility
+- Tree-shaking for smaller bundles
+- Better async/await support
+
 ## Related Guidance
 
 For formatting rules (2-space indent, line length, etc.), see [Formatting and Linting](./formatting.md).
 
 For testing patterns with io-ts and fp-ts, see [Testing](./testing.md).
+
+For project-specific patterns, see [Azure Functions](./azure-functions.md) and [Next.js Applications](./nextjs-apps.md).

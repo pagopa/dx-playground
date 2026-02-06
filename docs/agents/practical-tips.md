@@ -6,9 +6,49 @@ Optimization strategies and workflow patterns for efficient development in this 
 
 When adding or updating dependencies:
 
-- **For catalog versions**: Check `pnpm-workspace.yaml` for existing versions. Use `"catalog:"` in `package.json` to reference them. Example: `"@azure/functions": "catalog:"`
-- **For internal packages**: Use the workspace protocol: `"@to-do/domain": "workspace:^"`
-- **Keep Azure SDK versions consistent** across projects for compatibility.
+### Catalog Versions
+
+Check `pnpm-workspace.yaml` for existing versions and use `catalog:` to reference them:
+
+```json
+{
+  "@azure/functions": "catalog:",
+  "@azure/cosmos": "catalog:",
+  "io-ts": "catalog:"
+}
+```
+
+This ensures consistency across all workspaces.
+
+### Workspace References
+
+For internal packages, use the workspace protocol:
+
+```json
+{
+  "@to-do/domain": "workspace:^",
+  "@to-do/azure-adapters": "workspace:^"
+}
+```
+
+### Azure SDK Consistency
+
+Keep Azure SDK versions consistent across projects to avoid compatibility issues:
+- Don't mix v3 and v4 of the same package
+- Use the same version in all packages that depend on a given Azure SDK
+
+## Best Practices
+
+1. **Always run `pnpm generate`** before building packages that use code generation
+2. **Use Turborepo task dependencies** (defined in `turbo.json`) to ensure proper build order
+3. **Follow semantic versioning** for all packages and apps
+4. **Keep shared logic in packages**, not duplicated in apps
+5. **Document OpenAPI specs** before implementing endpoints
+6. **Use catalog versions** for consistent dependencies across workspaces
+7. **Test infrastructure changes** in dev environment first
+8. **Use workspace references** for internal package dependencies
+9. **Run code-review before creating PRs** to catch issues early
+10. **Keep Azure Function host.json v4 compatible** when upgrading
 
 ## Finding Conventions
 
@@ -43,4 +83,5 @@ If something is ambiguous after checking relevant documentation:
 
 - For detailed command usage, see [Build, Test, and Lint Commands](./commands.md)
 - For Definition of Done and PR requirements, see [Git Workflow and PR Requirements](./git-workflow.md)
-- For project architecture and tech stack, see `.github/copilot-instructions.md`
+- For project structure and organization, see [Project Structure](./project-structure.md) and [Project Organization](./project-organization.md)
+- For framework-specific patterns, see [Azure Functions](./azure-functions.md) and [Next.js Applications](./nextjs-apps.md)

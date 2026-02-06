@@ -18,12 +18,39 @@ If code-review fails, fix the issues before pushing.
 
 A code change is **complete** only when:
 
-- ✅ Typecheck passes (`pnpm typecheck`)
-- ✅ Linting passes (`pnpm lint:check`)
-- ✅ All tests pass (`pnpm test`)
+- ✅ Code compiles without errors (`pnpm typecheck` passes)
+- ✅ All linting rules pass (`pnpm lint:check` passes)
+- ✅ All tests pass (`pnpm test` passes)
 - ✅ New functionality has unit tests
 - ✅ `pnpm code-review` completes successfully
-- ✅ Code follows conventions in related docs (formatting, TypeScript, testing)
+- ✅ Code follows project conventions and best practices
+
+### Code Quality Requirements
+
+**All code changes MUST be validated before completion**:
+
+1. **Always produce valid, compilable code**
+   - Run `pnpm typecheck` after any TypeScript changes
+   - Fix all type errors before considering the task complete
+   - Ensure imports are correct and modules are properly referenced
+
+2. **All code changes MUST pass tests**
+   - Every new feature or function MUST have unit tests
+   - Run `pnpm test` in the relevant workspace after changes
+   - Ensure all tests pass before completion
+   - Update existing tests when modifying functionality
+
+3. **Validate with code-review**
+   - Execute `pnpm code-review` (typecheck + lint:check + test) after modifications
+   - Fix any errors reported by the code-review script
+   - Do not consider the task complete until code-review passes
+
+4. **Error Handling**
+   - Never ignore compilation errors
+   - Never skip test failures
+   - Never commit code that doesn't pass `pnpm code-review`
+   - If tests fail, investigate and fix the root cause
+   - If types don't compile, fix the type errors properly (don't use `any` or `@ts-ignore`)
 
 ## English-Only Requirement
 
@@ -33,4 +60,4 @@ This is a global requirement across all tasks and files.
 
 ## Additional Notes
 
-For detailed information about the project structure and architecture context, see `.github/copilot-instructions.md`.
+For project structure and organization patterns, see [Project Structure](./project-structure.md) and [Project Organization](./project-organization.md).
