@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/pagopa/dx/refs/heads/main/apps/opex-dashboard/config.schema.json
-oa3_spec: ../docs/openapi.yaml
+oa3_spec: apps/to-do-api/docs/openapi.yaml
 name: todo-api-opex
 location: "West Europe"
 data_source: /subscriptions/35e6e3b2-4388-470e-a1b9-ad3bc34326d1/resourceGroups/dx-d-itn-playground-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01
