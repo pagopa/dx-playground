@@ -14,5 +14,5 @@ jobs:
     secrets: inherit
     with:
       config_pattern: "apps/**/config.yaml"
-      github_environment: opex-dev-cd
+      github_environment: opex-dev
       dry_run: true
