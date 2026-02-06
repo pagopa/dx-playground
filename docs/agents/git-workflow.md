@@ -6,11 +6,6 @@ Guidelines for pull requests, changesets, and the Definition of Done.
 
 **Always run `pnpm code-review` before creating or updating a pull request.**
 
-This runs:
-- Typecheck (`pnpm typecheck`)
-- Lint check (`pnpm lint:check`)
-- Tests (`pnpm test`)
-
 If code-review fails, fix the issues before pushing.
 
 ## Changesets and Versioning

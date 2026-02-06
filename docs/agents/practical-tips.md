@@ -2,31 +2,6 @@
 
 Optimization strategies and workflow patterns for efficient development in this monorepo.
 
-## Typical Workflow for Code Changes
-
-When making changes, follow this sequence:
-
-1. **Run code generation** if the package uses codegen: `pnpm generate` or `cd package && pnpm run generate`
-2. **Typecheck**: `pnpm typecheck` (or workspace-scoped)
-3. **Lint**: `pnpm lint` (auto-fixes most issues)
-4. **Run tests**: `pnpm test -- path/to/file.test.ts` or `pnpm test -- -t "pattern"`
-5. **Full validation**: `pnpm code-review` before pushing
-
-## Workspace-Scoped Work
-
-For large monorepos, **avoid running the entire monorepo when not needed**:
-
-```bash
-# Preferred for workspace-specific work
-pnpm --filter to-do-api typecheck
-pnpm --filter to-do-api test
-
-# Alternative: work from the package directory
-cd apps/to-do-api && pnpm typecheck
-```
-
-This is much faster than running all workspaces.
-
 ## Dependency Patterns
 
 When adding or updating dependencies:

@@ -4,9 +4,10 @@ Standards for code style, formatting, and linting across the monorepo.
 
 ## Formatting Standards
 
-- **EditorConfig**: 2-space indent, LF line endings, final newline, max line length **80 columns**.
+See [`.editorconfig`](../../.editorconfig) for the authoritative formatting standards (2-space indent, LF line endings, final newline, max line length 80 columns).
+
 - **Prettier**: Automatically formats code. If commit hooks are present, they run as configured.
-- Fix lint errors: `pnpm lint` or `pnpm --filter <pkg> lint` before pushing.
+- **Fix lint errors**: `pnpm lint` or `pnpm --filter <pkg> lint` before pushing.
 
 ## ESLint Configuration
 

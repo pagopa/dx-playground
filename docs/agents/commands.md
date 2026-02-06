@@ -2,13 +2,17 @@
 
 Reference for running builds, tests, linting, and code generation in this monorepo.
 
-## Root Monorepo Commands
+## Task Orchestration: Turborepo
 
-Uses **pnpm** (Corepack enabled) and **Turborepo** for orchestration.
+**Turborepo** is the monorepo task manager. It orchestrates tasks, manages dependencies between them, and provides caching. Most commands run through Turborepo to leverage these capabilities.
 
-- **Install deps**: `pnpm install`
-- **Full code review** (typecheck + lint check + test): `pnpm code-review` *(run before opening a PR)*
-- **Build everything**: `pnpm build`
+**Package manager**: **pnpm** (Corepack enabled) handles dependency installation.
+
+## Root Monorepo Commands (via Turborepo)
+
+- **Install deps**: `pnpm install` (run once; pnpm manages this)
+- **Full code review** (typecheck + lint check + test): `pnpm code-review` *(run before opening a PR)* (Turborepo orchestrates all 3)
+- **Build everything**: `pnpm build` (Turborepo respects task dependencies and caching)
 - **Typecheck all workspaces**: `pnpm typecheck`
 - **Lint & fix all workspaces**: `pnpm lint`
 - **Run all tests**: `pnpm test`
