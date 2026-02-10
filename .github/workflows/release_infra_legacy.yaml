@@ -6,11 +6,12 @@ on:
       - main
     paths:
       - "infra/legacy/**"
+  workflow_dispatch:
 
 jobs:
   apply_dev:
     name: Apply Development
-    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@main
+    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@infra-legacy-apply-workflow
     secrets: inherit
     with:
       environment: dev
