@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "infra/legacy/**"
+  workflow_dispatch:
 
 jobs:
   apply_dev:
