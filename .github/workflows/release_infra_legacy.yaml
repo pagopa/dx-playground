@@ -14,7 +14,7 @@ jobs:
     uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@infra-legacy-apply-workflow
     secrets: inherit
     with:
-      environment: dev
+      environment: infra-dev
       dir: infra/legacy
       azure_environment: dev
       use_private_agent: true
