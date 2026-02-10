@@ -1,0 +1,19 @@
+name: Legacy Terraform Apply
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "infra/legacy/**"
+
+jobs:
+  apply_dev:
+    name: Apply Development
+    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@main
+    secrets: inherit
+    with:
+      environment: dev
+      dir: infra/legacy
+      azure_environment: dev
+      use_private_agent: true
