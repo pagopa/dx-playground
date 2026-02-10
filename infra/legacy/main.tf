@@ -17,14 +17,24 @@ provider "azurerm" {
   storage_use_azuread = true
 }
 
-resource "azurerm_resource_group" "main" {
-  name     = provider::dx::resource_name(merge(
-    var.environment,
+
+module "azure_storage_account" {
+  source  = "pagopa-dx/azure-storage-account/azurerm"
+  version = "~> 2.1"
+
+  environment         = merge(var.environment, { app_name = "test" })
+  use_case            = "default"
+  resource_group_name = "dx-d-itn-playground-rg-01"
+
+  subnet_pep_id                        = data.azurerm_subnet.pep_snet.id
+  private_dns_zone_resource_group_name = "dx-d-itn-network-rg-01"
+
+  containers = [
     {
-      name          = "legacy",
-      domain        = "",
-      resource_type = "resource_group",
-  }))
-  location = var.environment.location
-  tags     = var.tags
+      name        = "container1"
+      access_type = "private"
+    },
+  ]
+
+  tags = var.tags
 }

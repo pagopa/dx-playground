@@ -1,6 +1,6 @@
 variable "environment" {
   description = "Environment configuration for the legacy resources"
-  type        = object({
+  type = object({
     prefix          = string
     env_short       = string
     location        = string
