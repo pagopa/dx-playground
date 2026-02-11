@@ -18,3 +18,8 @@ variable "image_tag" {
   description = "Tag of the image to be used for the virtual machine"
   type        = string
 }
+
+variable "image_repository" {
+  description = "Repository of the image to be used for the virtual machine"
+  type        = string
+}
