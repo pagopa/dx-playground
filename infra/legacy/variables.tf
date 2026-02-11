@@ -13,3 +13,8 @@ variable "tags" {
   description = "Tags to be applied to all resources"
   type        = map(string)
 }
+
+variable "image_tag" {
+  description = "Tag of the image to be used for the virtual machine"
+  type        = string
+}

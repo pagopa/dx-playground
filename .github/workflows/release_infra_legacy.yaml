@@ -18,3 +18,4 @@ jobs:
       dir: infra/legacy
       azure_environment: dev
       use_private_agent: true
+      env_vars: TF_VAR_image_tag=v0.1.0
