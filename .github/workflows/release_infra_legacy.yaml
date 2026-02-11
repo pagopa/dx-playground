@@ -11,11 +11,13 @@ on:
 jobs:
   apply_dev:
     name: Apply Development
-    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@main
+    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@accept-multi-env-variables-in-legacy-apply-workflow
     secrets: inherit
     with:
       environment: infra-dev
       dir: infra/legacy
       azure_environment: dev
       use_private_agent: true
-      env_vars: TF_VAR_image_tag=v0.1.0,TF_VAR_image_repository=dxplayground.pluto.io/itn/pep
+      env_vars: |
+        TF_VAR_image_tag=v0.1.0
+        TF_VAR_image_repository=dxplayground.pluto.io/itn/pep
