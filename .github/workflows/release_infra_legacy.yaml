@@ -11,7 +11,7 @@ on:
 jobs:
   apply_dev:
     name: Apply Development
-    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@infra-legacy-apply-workflow
+    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@main
     secrets: inherit
     with:
       environment: infra-dev
