@@ -24,7 +24,7 @@ module "azure_storage_account" {
   source  = "pagopa-dx/azure-storage-account/azurerm"
   version = "~> 2.1"
 
-  environment         = merge(var.environment, { app_name = "lega" })
+  environment         = merge(var.environment, { app_name = "legz" })
   use_case            = "default"
   resource_group_name = "dx-d-itn-playground-rg-01"
 
