@@ -9,12 +9,10 @@ action_groups:
 resource_type: api-management
 
 terraform:
-  environments:
-    dev:
-      prefix: dx
-      env_short: "d"
-      backend:
-        resource_group_name: dx-d-itn-terraform-rg-01
-        storage_account_name: dxditntfst01
-        container_name: terraform-state
-        key: opex.test.tfstate
+  prefix: dx
+  env_short: "d"
+  backend:
+    resource_group_name: dx-d-itn-terraform-rg-01
+    storage_account_name: dxditntfst01
+    container_name: terraform-state
+    key: opex.test.tfstate
