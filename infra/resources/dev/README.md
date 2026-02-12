@@ -12,7 +12,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.58.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.59.0 |
 | <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0 |
 
 ## Modules
@@ -23,9 +23,7 @@
 | <a name="module_cosmos"></a> [cosmos](#module\_cosmos) | pagopa-dx/azure-cosmos-account/azurerm | ~> 0.3 |
 | <a name="module_function_v3_function_app"></a> [function\_v3\_function\_app](#module\_function\_v3\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
 | <a name="module_function_v3_function_app_roles"></a> [function\_v3\_function\_app\_roles](#module\_function\_v3\_function\_app\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
-| <a name="module_function_v3_storage"></a> [function\_v3\_storage](#module\_function\_v3\_storage) | pagopa-dx/azure-storage-account/azurerm | ~> 2.0 |
 | <a name="module_naming_convention"></a> [naming\_convention](#module\_naming\_convention) | pagopa-dx/azure-naming-convention/azurerm | ~> 0.0 |
-| <a name="module_storage"></a> [storage](#module\_storage) | pagopa-dx/azure-storage-account/azurerm | ~> 2.0 |
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 | <a name="module_to_do_api_application_insights"></a> [to\_do\_api\_application\_insights](#module\_to\_do\_api\_application\_insights) | ../_modules/application_insights | n/a |
 | <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
