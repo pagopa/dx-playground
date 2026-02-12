@@ -29,12 +29,6 @@
     "name": "azure_naming_convention",
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-naming-convention/azurerm/0.0.8"
   },
-  "storage": {
-    "hash": "bb76fcbb89a9f589b7cdd69de201e756bae00720103b4c3d021a392483581910",
-    "version": "2.1.4",
-    "name": "azure_storage_account",
-    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-storage-account/azurerm/2.1.4"
-  },
   "todo_api_function_app": {
     "hash": "0ebbe863c7b48075ef6a3a79465fd2905aca43e043065a4e8d07dd90d28499dd",
     "version": "4.2.1",
