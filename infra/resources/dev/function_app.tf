@@ -25,8 +25,8 @@ resource "dx_available_subnet_cidr" "todo_api_cidr" {
 }
 
 module "todo_api_function_app" {
-  source  = "pagopa-dx/azure-function-app/azurerm"
-  version = "~> 4.1"
+  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=features/enable-managed-identity-auth-function-app"
+  # version = "~> 4.1"
 
   node_version        = 22
   environment         = merge(local.environment, { app_name = "be" })
@@ -148,7 +148,7 @@ resource "dx_available_subnet_cidr" "todo_api_entra_auth_cidr" {
 }
 
 module "todo_api_function_app_entra_auth" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=bb7e24d72a1cdd2a81c061b9a81ecdb06d23daa9"
+  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=features/enable-managed-identity-auth-function-app"
 
   node_version        = 22
   environment         = merge(local.environment, { app_name = "id" })
