@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: To Do List API
-  version: 0.0.13
+  version: 0.0.14
 
 servers:
   - url: http://localhost
