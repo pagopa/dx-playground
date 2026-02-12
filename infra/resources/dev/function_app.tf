@@ -84,8 +84,8 @@ resource "dx_available_subnet_cidr" "function_v3_cidr" {
 }
 
 module "function_v3_function_app" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=86c3e2ae338111f0a8f004fa92d7244cbd9246f3"
-  # version = "~> 4.1"
+  source  = "pagopa-dx/azure-function-app/azurerm"
+  version = "~> 4.1"
 
   node_version        = 22
   environment         = merge(local.environment, { app_name = "v3" })
@@ -101,11 +101,11 @@ module "function_v3_function_app" {
 
   app_settings = merge(local.azure_function_v3_settings, {
     AzureWebJobsStorage__accountName     = module.function_v3_function_app.storage_account.name
-    AzureWebJobsStorage__queueServiceUri = module.function_v3_function_app.storage_account.endpoints.queue
+    AzureWebJobsStorage__queueServiceUri = module.function_v3_function_app.storage_account.primary_queue_endpoint
   })
   slot_app_settings = merge(local.azure_function_v3_settings, {
     AzureWebJobsStorage__accountName     = module.function_v3_function_app.storage_account.name
-    AzureWebJobsStorage__queueServiceUri = module.function_v3_function_app.storage_account.endpoints.queue
+    AzureWebJobsStorage__queueServiceUri = module.function_v3_function_app.storage_account.primary_queue_endpoint
   })
 
   health_check_path = "/api/tasks"

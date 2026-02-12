@@ -12,7 +12,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.58.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.59.0 |
 | <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0 |
 
 ## Modules
@@ -21,7 +21,7 @@
 |------|--------|---------|
 | <a name="module_apim"></a> [apim](#module\_apim) | pagopa-dx/azure-api-management/azurerm | ~> 2.1 |
 | <a name="module_cosmos"></a> [cosmos](#module\_cosmos) | pagopa-dx/azure-cosmos-account/azurerm | ~> 0.3 |
-| <a name="module_function_v3_function_app"></a> [function\_v3\_function\_app](#module\_function\_v3\_function\_app) | github.com/pagopa/dx//infra/modules/azure_function_app | 86c3e2ae338111f0a8f004fa92d7244cbd9246f3 |
+| <a name="module_function_v3_function_app"></a> [function\_v3\_function\_app](#module\_function\_v3\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
 | <a name="module_function_v3_function_app_roles"></a> [function\_v3\_function\_app\_roles](#module\_function\_v3\_function\_app\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_naming_convention"></a> [naming\_convention](#module\_naming\_convention) | pagopa-dx/azure-naming-convention/azurerm | ~> 0.0 |
 | <a name="module_storage"></a> [storage](#module\_storage) | pagopa-dx/azure-storage-account/azurerm | ~> 2.0 |
