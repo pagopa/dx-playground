@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/pagopa/dx/refs/heads/main/apps/opex-dashboard/config.schema.json
+oa3_spec: apps/to-do-api/docs/openapi.yaml
+name: todo-api-opex
+location: "West Europe"
+data_source: /subscriptions/35e6e3b2-4388-470e-a1b9-ad3bc34326d1/resourceGroups/dx-d-itn-playground-rg-01/providers/Microsoft.ApiManagement/service/dx-d-itn-playground-pg-apim-01
+action_groups:
+  - /subscriptions/35e6e3b2-4388-470e-a1b9-ad3bc34326d1/resourceGroups/dx-d-itn-ai-rg-01/providers/microsoft.insights/actiongroups/dx-d-glb-test-action-group
+
+resource_type: api-management
+
+terraform:
+  prefix: dx
+  env_short: "d"
+  backend:
+    resource_group_name: dx-d-itn-terraform-rg-01
+    storage_account_name: dxditntfstatest01
+    container_name: terraform-state
+    key: opex.test.tfstate
