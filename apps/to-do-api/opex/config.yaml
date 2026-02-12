@@ -13,6 +13,6 @@ terraform:
   env_short: "d"
   backend:
     resource_group_name: dx-d-itn-terraform-rg-01
-    storage_account_name: dxditntfst01
+    storage_account_name: dxditntfstatest01
     container_name: terraform-state
     key: opex.test.tfstate
