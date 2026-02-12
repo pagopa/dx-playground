@@ -73,3 +73,26 @@ module "to_do_api" {
     target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
 }
+# To Do API - Without x-funcions-key header
+module "to_do_api_entra_auth" {
+  source = "../_modules/api"
+
+  entra_id_app_client_id = module.todo_api_function_app_entra_auth.entra_id_authentication.entra_application_client_id
+
+  api = {
+    name         = "to-do-api-entra"
+    display_name = "To Do API - Entra Auth"
+    description  = "API to handle a To Do list"
+    path         = "auth"
+    openapi      = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
+  }
+
+  apim_name           = module.apim.name
+  resource_group_name = module.apim.resource_group_name
+
+  backend = {
+    name               = "to-do-api-azure-function-entra-auth"
+    url                = "https://${module.todo_api_function_app_entra_auth.function_app.function_app.default_hostname}/api"
+    target_resource_id = module.todo_api_function_app_entra_auth.function_app.function_app.id
+  }
+}

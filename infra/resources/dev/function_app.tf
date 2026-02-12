@@ -141,3 +141,69 @@ module "function_v3_function_app_roles" {
     }
   }]
 }
+
+resource "dx_available_subnet_cidr" "todo_api_entra_auth_cidr" {
+  virtual_network_id = data.azurerm_virtual_network.test_vnet.id
+  prefix_length      = 24
+}
+
+module "todo_api_function_app_entra_auth" {
+  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=bb7e24d72a1cdd2a81c061b9a81ecdb06d23daa9"
+
+  node_version        = 22
+  environment         = merge(local.environment, { app_name = "ea" })
+  resource_group_name = local.resource_group_name
+
+  virtual_network = {
+    name                = data.azurerm_virtual_network.test_vnet.name
+    resource_group_name = data.azurerm_virtual_network.test_vnet.resource_group_name
+  }
+
+  subnet_pep_id = data.azurerm_subnet.pep_snet.id
+  subnet_cidr   = dx_available_subnet_cidr.todo_api_entra_auth_cidr.cidr_block
+
+  app_settings      = merge(local.to_do_api_settings, {})
+  slot_app_settings = merge(local.to_do_api_settings, {})
+
+  health_check_path = "/api/info"
+
+  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.to_do_api_application_insights.connection_string_secret_id})"
+  application_insights_sampling_percentage = 100
+
+  entra_id_authentication = {
+    entra_application_client_id = data.azuread_application.entra_auth_app.client_id
+    allowed_client_applications = [
+      data.azuread_service_principal.apim.client_id
+    ]
+    tenant_id = data.azurerm_subscription.current.tenant_id
+  }
+
+  tags = local.tags
+}
+
+module "todo_api_function_app_entra_auth_roles" {
+  source  = "pagopa-dx/azure-role-assignments/azurerm"
+  version = "~> 1.0"
+
+  principal_id    = module.todo_api_function_app_entra_auth.function_app.function_app.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
+
+  cosmos = [
+    {
+      account_name        = module.cosmos.name
+      resource_group_name = module.cosmos.resource_group_name
+      database            = azurerm_cosmosdb_sql_database.db.name
+      description         = "Allow Function App to read and write on Cosmos DB"
+      role                = "writer"
+    }
+  ]
+
+  key_vault = [{
+    name                = data.azurerm_key_vault.common_kv.name
+    resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+    description         = "Allow Function App to read secrets from Key Vault"
+    roles = {
+      secrets = "reader"
+    }
+  }]
+}

@@ -5,6 +5,7 @@
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.1 |
 | <a name="requirement_dx"></a> [dx](#requirement\_dx) | ~> 0 |
 
@@ -12,7 +13,8 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.60.0 |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.7.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.59.0 |
 | <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0 |
 
 ## Modules
@@ -26,7 +28,10 @@
 | <a name="module_naming_convention"></a> [naming\_convention](#module\_naming\_convention) | pagopa-dx/azure-naming-convention/azurerm | ~> 0.0 |
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 | <a name="module_to_do_api_application_insights"></a> [to\_do\_api\_application\_insights](#module\_to\_do\_api\_application\_insights) | ../_modules/application_insights | n/a |
+| <a name="module_to_do_api_entra_auth"></a> [to\_do\_api\_entra\_auth](#module\_to\_do\_api\_entra\_auth) | ../_modules/api | n/a |
 | <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
+| <a name="module_todo_api_function_app_entra_auth"></a> [todo\_api\_function\_app\_entra\_auth](#module\_todo\_api\_function\_app\_entra\_auth) | github.com/pagopa/dx//infra/modules/azure_function_app | bb7e24d72a1cdd2a81c061b9a81ecdb06d23daa9 |
+| <a name="module_todo_api_function_app_entra_auth_roles"></a> [todo\_api\_function\_app\_entra\_auth\_roles](#module\_todo\_api\_function\_app\_entra\_auth\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_todo_api_function_app_roles"></a> [todo\_api\_function\_app\_roles](#module\_todo\_api\_function\_app\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_todo_webapp_app_service"></a> [todo\_webapp\_app\_service](#module\_todo\_webapp\_app\_service) | pagopa-dx/azure-app-service/azurerm | ~> 2.0 |
 | <a name="module_todo_webapp_roles"></a> [todo\_webapp\_roles](#module\_todo\_webapp\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.2 |
@@ -42,6 +47,9 @@
 | [dx_available_subnet_cidr.function_v3_cidr](https://registry.terraform.io/providers/pagopa-dx/azure/latest/docs/resources/available_subnet_cidr) | resource |
 | [dx_available_subnet_cidr.next_todo_webapp_cidr](https://registry.terraform.io/providers/pagopa-dx/azure/latest/docs/resources/available_subnet_cidr) | resource |
 | [dx_available_subnet_cidr.todo_api_cidr](https://registry.terraform.io/providers/pagopa-dx/azure/latest/docs/resources/available_subnet_cidr) | resource |
+| [dx_available_subnet_cidr.todo_api_entra_auth_cidr](https://registry.terraform.io/providers/pagopa-dx/azure/latest/docs/resources/available_subnet_cidr) | resource |
+| [azuread_application.entra_auth_app](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/application) | data source |
+| [azuread_service_principal.apim](https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/data-sources/service_principal) | data source |
 | [azurerm_key_vault.common_kv](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault) | data source |
 | [azurerm_resource_group.common_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |
 | [azurerm_resource_group.net_rg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/resource_group) | data source |

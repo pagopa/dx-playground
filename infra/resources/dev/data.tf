@@ -21,3 +21,13 @@ data "azurerm_key_vault" "common_kv" {
   name                = "${module.naming_convention.project}-common-kv-${local.environment.instance_number}"
   resource_group_name = data.azurerm_resource_group.common_rg.name
 }
+
+# Entra ID application used as identity provider for Function App authentication.
+# Callers (e.g. APIM) use their Managed Identity to obtain a JWT from this app.
+data "azuread_application" "entra_auth_app" {
+  display_name = "playground-test-apim-auth"
+}
+
+data "azuread_service_principal" "apim" {
+  display_name = module.apim.name
+}
