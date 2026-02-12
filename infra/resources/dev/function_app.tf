@@ -151,7 +151,7 @@ module "todo_api_function_app_entra_auth" {
   source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=bb7e24d72a1cdd2a81c061b9a81ecdb06d23daa9"
 
   node_version        = 22
-  environment         = merge(local.environment, { app_name = "ea" })
+  environment         = merge(local.environment, { app_name = "id" })
   resource_group_name = local.resource_group_name
 
   virtual_network = {
