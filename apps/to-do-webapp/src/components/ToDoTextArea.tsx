@@ -1,13 +1,12 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 
-import { insertTask } from "@/lib/api";
-import { TaskItem } from "@/lib/client/TaskItem";
+// TaskItem type removed; this component is presentational and only deals with titles
 
 interface Props {
   label: string;
-  // Function to update the list of tasks with the new task
-  onAddTask: (task: TaskItem) => void;
+  // Parent must return a promise so the component can await and show loading
+  onAddTask: (taskTitle: string) => Promise<void>;
 }
 
 const ToDoTextArea = ({ label, onAddTask }: Props) => {
@@ -18,14 +17,10 @@ const ToDoTextArea = ({ label, onAddTask }: Props) => {
   const handleAddTask = async (text: string) => {
     setIsLoading(true);
     try {
-      const { status, value } = await insertTask(text);
-      if (status === 201) {
-        setTaskText("");
-        onAddTask(value);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      /* error when creating a task */
+      await onAddTask(text);
+      setTaskText("");
+    } catch {
+      // let parent show error
     } finally {
       setIsLoading(false);
     }
@@ -52,10 +47,10 @@ const ToDoTextArea = ({ label, onAddTask }: Props) => {
       <Button
         disabled={isEmptyText || isLoading}
         onClick={() => handleAddTask(taskText)}
-        style={{ marginTop: "10px" }}
+        sx={{ mt: 1 }}
         variant="contained"
       >
-        {isLoading ? "adding the task..." : "add"}
+        {isLoading ? "Adding..." : "Add"}
       </Button>
     </>
   );
