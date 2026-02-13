@@ -77,7 +77,7 @@ module "to_do_api" {
 module "to_do_api_entra_auth" {
   source = "../_modules/api"
 
-  entra_id_app_client_id = module.todo_api_function_app_entra_auth.entra_id_authentication.entra_application_client_id
+  entra_id_app_client_id = module.todo_api_function_app_entra_auth.entra_id_authentication.audience_client_id
 
   api = {
     name         = "to-do-api-entra"
