@@ -29,8 +29,8 @@
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 | <a name="module_to_do_api_application_insights"></a> [to\_do\_api\_application\_insights](#module\_to\_do\_api\_application\_insights) | ../_modules/application_insights | n/a |
 | <a name="module_to_do_api_entra_auth"></a> [to\_do\_api\_entra\_auth](#module\_to\_do\_api\_entra\_auth) | ../_modules/api | n/a |
-| <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | github.com/pagopa/dx//infra/modules/azure_function_app | features/enable-managed-identity-auth-function-app |
-| <a name="module_todo_api_function_app_entra_auth"></a> [todo\_api\_function\_app\_entra\_auth](#module\_todo\_api\_function\_app\_entra\_auth) | github.com/pagopa/dx//infra/modules/azure_function_app | features/enable-managed-identity-auth-function-app |
+| <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | github.com/pagopa/dx//infra/modules/azure_function_app | e51354899ea6bd299a581993587ac4c17a7a5c3d |
+| <a name="module_todo_api_function_app_entra_auth"></a> [todo\_api\_function\_app\_entra\_auth](#module\_todo\_api\_function\_app\_entra\_auth) | github.com/pagopa/dx//infra/modules/azure_function_app | e51354899ea6bd299a581993587ac4c17a7a5c3d |
 | <a name="module_todo_api_function_app_entra_auth_roles"></a> [todo\_api\_function\_app\_entra\_auth\_roles](#module\_todo\_api\_function\_app\_entra\_auth\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_todo_api_function_app_roles"></a> [todo\_api\_function\_app\_roles](#module\_todo\_api\_function\_app\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_todo_webapp_app_service"></a> [todo\_webapp\_app\_service](#module\_todo\_webapp\_app\_service) | pagopa-dx/azure-app-service/azurerm | ~> 2.0 |

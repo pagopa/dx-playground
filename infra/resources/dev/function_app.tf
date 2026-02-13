@@ -25,7 +25,7 @@ resource "dx_available_subnet_cidr" "todo_api_cidr" {
 }
 
 module "todo_api_function_app" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=features/enable-managed-identity-auth-function-app"
+  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=e51354899ea6bd299a581993587ac4c17a7a5c3d"
   # version = "~> 4.1"
 
   node_version        = 22
@@ -148,7 +148,7 @@ resource "dx_available_subnet_cidr" "todo_api_entra_auth_cidr" {
 }
 
 module "todo_api_function_app_entra_auth" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=features/enable-managed-identity-auth-function-app"
+  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=e51354899ea6bd299a581993587ac4c17a7a5c3d"
 
   node_version        = 22
   environment         = merge(local.environment, { app_name = "id" })
@@ -171,8 +171,8 @@ module "todo_api_function_app_entra_auth" {
   application_insights_sampling_percentage = 100
 
   entra_id_authentication = {
-    entra_application_client_id = data.azuread_application.entra_auth_app.client_id
-    allowed_client_applications = [
+    audience_client_id = data.azuread_application.entra_auth_app.client_id
+    allowed_callers_client_ids = [
       data.azuread_service_principal.apim.client_id
     ]
     tenant_id = data.azurerm_subscription.current.tenant_id
