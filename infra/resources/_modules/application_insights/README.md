@@ -13,7 +13,7 @@ This module is useful to create a configuration of Application Insights and save
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.17.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.60.0 |
 
 ## Modules
 

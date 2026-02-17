@@ -19,7 +19,9 @@ resource "azurerm_application_insights" "main" {
 }
 
 resource "azurerm_key_vault_secret" "ai_connection_string" {
-  name         = "${azurerm_application_insights.main.name}-connection-string"
-  key_vault_id = var.key_vault_id
-  value        = azurerm_application_insights.main.connection_string
+  name             = "${azurerm_application_insights.main.name}-connection-string"
+  key_vault_id     = var.key_vault_id
+  value_wo         = azurerm_application_insights.main.connection_string
+  value_wo_version = 1
+  content_type     = "Application Insights connection string for ${azurerm_application_insights.main.name}"
 }
