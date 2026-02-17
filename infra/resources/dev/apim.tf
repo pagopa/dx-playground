@@ -73,11 +73,3 @@ module "to_do_api" {
     target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
 }
-
-resource "azurerm_api_management_subscription" "key_with_tracing" {
-  api_management_name = module.apim.name
-  resource_group_name = module.apim.resource_group_name
-  display_name        = "Subscription with Tracing Enabled"
-  allow_tracing       = true
-  state               = "active"
-}
