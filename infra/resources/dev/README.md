@@ -14,7 +14,7 @@
 | Name | Version |
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.7.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.59.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.60.0 |
 | <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0 |
 
 ## Modules
@@ -29,8 +29,8 @@
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 | <a name="module_to_do_api_application_insights"></a> [to\_do\_api\_application\_insights](#module\_to\_do\_api\_application\_insights) | ../_modules/application_insights | n/a |
 | <a name="module_to_do_api_entra_auth"></a> [to\_do\_api\_entra\_auth](#module\_to\_do\_api\_entra\_auth) | ../_modules/api | n/a |
-| <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | github.com/pagopa/dx//infra/modules/azure_function_app | f5d5b54a95af2de6d2d09c88cd383f4d91138dec |
-| <a name="module_todo_api_function_app_entra_auth"></a> [todo\_api\_function\_app\_entra\_auth](#module\_todo\_api\_function\_app\_entra\_auth) | github.com/pagopa/dx//infra/modules/azure_function_app | f5d5b54a95af2de6d2d09c88cd383f4d91138dec |
+| <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
+| <a name="module_todo_api_function_app_entra_auth"></a> [todo\_api\_function\_app\_entra\_auth](#module\_todo\_api\_function\_app\_entra\_auth) | pagopa-dx/azure-function-app/azurerm | ~> 4.1 |
 | <a name="module_todo_api_function_app_entra_auth_roles"></a> [todo\_api\_function\_app\_entra\_auth\_roles](#module\_todo\_api\_function\_app\_entra\_auth\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_todo_api_function_app_roles"></a> [todo\_api\_function\_app\_roles](#module\_todo\_api\_function\_app\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_todo_webapp_app_service"></a> [todo\_webapp\_app\_service](#module\_todo\_webapp\_app\_service) | pagopa-dx/azure-app-service/azurerm | ~> 2.0 |

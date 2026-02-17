@@ -25,8 +25,8 @@ resource "dx_available_subnet_cidr" "todo_api_cidr" {
 }
 
 module "todo_api_function_app" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=f5d5b54a95af2de6d2d09c88cd383f4d91138dec"
-  # version = "~> 4.1"
+  source  = "pagopa-dx/azure-function-app/azurerm"
+  version = "~> 4.1"
 
   node_version        = 22
   environment         = merge(local.environment, { app_name = "be" })
@@ -148,7 +148,8 @@ resource "dx_available_subnet_cidr" "todo_api_entra_auth_cidr" {
 }
 
 module "todo_api_function_app_entra_auth" {
-  source = "github.com/pagopa/dx//infra/modules/azure_function_app?ref=f5d5b54a95af2de6d2d09c88cd383f4d91138dec"
+  source  = "pagopa-dx/azure-function-app/azurerm"
+  version = "~> 4.1"
 
   node_version        = 22
   environment         = merge(local.environment, { app_name = "id" })
