@@ -1,5 +1,13 @@
 # @infra/resources
 
+## 1.4.1
+
+### Patch Changes
+
+- [#338](https://github.com/pagopa/dx-playground/pull/338) [`09bb355`](https://github.com/pagopa/dx-playground/commit/09bb355973069f14122464e90fcb8b817d45b564) Thanks [@kin0992](https://github.com/kin0992)! - Enable Managed Identity authentication on Function Apps
+
+- [#327](https://github.com/pagopa/dx-playground/pull/327) [`506f149`](https://github.com/pagopa/dx-playground/commit/506f149e8dfdfb6ee5101bcb212316cb4bff2dce) Thanks [@kin0992](https://github.com/kin0992)! - Create new Function App that will host an Azure Function v3.
+
 ## 1.4.0
 
 ### Minor Changes
