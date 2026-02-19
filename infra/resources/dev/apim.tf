@@ -23,15 +23,15 @@ module "apim" {
 
   application_insights = {
     enabled             = true
-    connection_string   = module.to_do_api_application_insights.connection_string
-    id                  = module.to_do_api_application_insights.id
+    connection_string   = module.to_do_api_monitoring.connection_string
+    id                  = module.to_do_api_monitoring.application_insights_id
     sampling_percentage = 100
     verbosity           = "information"
   }
 
   monitoring = {
     enabled                    = true
-    log_analytics_workspace_id = module.to_do_api_application_insights.log_analytics_workspace_id
+    log_analytics_workspace_id = module.to_do_api_monitoring.log_analytics_workspace_id
 
     logs = {
       enabled = true

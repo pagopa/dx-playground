@@ -8,12 +8,6 @@ variable "resource_group_name" {
   description = "Resource group name"
 }
 
-variable "key_vault_id" {
-  type        = string
-  sensitive   = true
-  description = "The Id of the key vault where the AI connection string is going to be created"
-}
-
 variable "environment" {
   type = object({
     prefix          = string
@@ -25,3 +19,5 @@ variable "environment" {
   })
   description = "Environment configuration object for resource naming"
 }
+
+

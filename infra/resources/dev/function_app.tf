@@ -45,7 +45,7 @@ module "todo_api_function_app" {
 
   health_check_path = "/api/info"
 
-  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${module.to_do_api_application_insights.connection_string_secret_id})"
+  application_insights_connection_string   = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.application_insights_connection_string.versionless_id})"
   application_insights_sampling_percentage = 100
 
   entra_id_authentication = {
@@ -77,8 +77,8 @@ module "todo_api_function_app_roles" {
   ]
 
   key_vault = [{
-    name                = data.azurerm_key_vault.common_kv.name
-    resource_group_name = data.azurerm_key_vault.common_kv.resource_group_name
+    name                = azurerm_key_vault.vault.name
+    resource_group_name = azurerm_key_vault.vault.resource_group_name
     description         = "Allow Function App to read secrets from Key Vault"
     roles = {
       secrets = "reader"
