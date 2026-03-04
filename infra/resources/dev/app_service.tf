@@ -50,14 +50,14 @@ module "todo_webapp_roles" {
     {
       name                = module.apim.name
       resource_group_name = module.apim.resource_group_name
-      description         = "Allow App Service to call APIM"
+      description         = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to make call to ${module.apim.name}"
       role                = "reader"
   }]
 
   key_vault = [{
     name                = azurerm_key_vault.vault.name
     resource_group_name = azurerm_key_vault.vault.resource_group_name
-    description         = "Allow App Service to read secrets from Key Vault"
+    description         = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to read secrets on ${azurerm_key_vault.vault.name}"
     roles = {
       secrets = "reader"
     }

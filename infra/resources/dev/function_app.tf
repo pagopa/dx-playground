@@ -71,7 +71,7 @@ module "todo_api_function_app_roles" {
       account_name        = module.cosmos.name
       resource_group_name = module.cosmos.resource_group_name
       database            = azurerm_cosmosdb_sql_database.db.name
-      description         = "Allow Function App to read and write on Cosmos DB"
+      description         = "Allow ${module.todo_api_function_app.function_app.function_app.name} to read and write on ${module.cosmos.name}"
       role                = "writer"
     }
   ]
@@ -79,7 +79,7 @@ module "todo_api_function_app_roles" {
   key_vault = [{
     name                = azurerm_key_vault.vault.name
     resource_group_name = azurerm_key_vault.vault.resource_group_name
-    description         = "Allow Function App to read secrets from Key Vault"
+    description         = "Allow ${module.todo_api_function_app.function_app.function_app.name} to read secrets on ${azurerm_key_vault.vault.name}"
     roles = {
       secrets = "reader"
     }
