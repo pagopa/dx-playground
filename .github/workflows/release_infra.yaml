@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   release_dev:
-    uses: pagopa/dx/.github/workflows/infra_apply.yaml@main
+    uses: pagopa/dx/.github/workflows/infra_apply.yaml@poc-store-plan-artifact-in-csp
     name: Release Infrastructure
     secrets: inherit
     with:
