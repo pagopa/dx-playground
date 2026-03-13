@@ -24,7 +24,7 @@
     "react-dom": "catalog:react"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.4",
+    "@eslint/eslintrc": "^3.3.5",
     "@pagopa/eslint-config": "catalog:",
     "@pagopa/openapi-codegen-ts": "catalog:",
     "@pagopa/typescript-config-react": "workspace:^",
