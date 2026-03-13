@@ -1,9 +1,15 @@
 ephemeral "random_password" "admin_password" {
-  length = 16
+  length           = 15
+  special          = true
+  min_lower        = 1
+  min_upper        = 1
+  min_numeric      = 1
+  min_special      = 1
+  override_special = "!#$%&*()-_=+[]{}<>:?"
 }
 
 module "postgres" {
-  source = "github.com/pagopa/dx//infra/modules//azure_postgres_server?ref=838989f9837f4eae26bb8efa634eb47dfc7619a1"
+  source = "github.com/pagopa/dx//infra/modules//azure_postgres_server?ref=793326b44f041572e1cc44dafa4ac982a5f2d389"
 
   tags = local.tags
   environment = {
@@ -16,9 +22,10 @@ module "postgres" {
 
   create_replica = false
 
-  resource_group_name = local.resource_group_name
-  admin_username      = "playground"
-  admin_password      = ephemeral.random_password.admin_password.result
+  resource_group_name    = local.resource_group_name
+  admin_username         = "playground"
+  admin_password         = ephemeral.random_password.admin_password.result
+  admin_password_version = 2
 
   subnet_pep_id                        = data.azurerm_subnet.pep_snet.id
   private_dns_zone_resource_group_name = data.azurerm_subnet.pep_snet.resource_group_name

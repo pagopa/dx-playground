@@ -15,9 +15,9 @@ resource "azurerm_key_vault_secret" "application_insights_connection_string" {
 resource "azurerm_key_vault_secret" "db_password" {
   key_vault_id     = azurerm_key_vault.vault.id
   name             = "DB-PASSWORD"
-  value_wo         = module.postgres.admin_password
-  value_wo_version = 2
+  value_wo         = ephemeral.random_password.admin_password.result
+  value_wo_version = 3
   tags = {
-    ephemeral = "true"
+    ephemeral = true
   }
 }
