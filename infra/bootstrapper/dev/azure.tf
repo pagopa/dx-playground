@@ -30,10 +30,12 @@ module "azure_bootstrap" {
     name  = "dx-playground"
   }
 
+
   github_private_runner = {
     container_app_environment_id       = module.azure_core_values.github_runner.environment_id
     container_app_environment_location = local.azure_environment.location
-    labels                             = []
+    labels                             = [local.env_long]
+    use_github_app                     = true
     key_vault = {
       name                = module.azure_core_values.common_key_vault.name
       resource_group_name = module.azure_core_values.common_key_vault.resource_group_name

@@ -35,6 +35,12 @@ locals {
     key                  = "dx.core.dev.tfstate"
   }
 
+  env_long = {
+    d = "dev"
+    u = "uat"
+    p = "prod"
+  }[lower(local.azure_environment.env_short)]
+
   location_short = {
     italynorth = "itn"
     westeurope = "weu"
