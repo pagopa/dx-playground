@@ -25,7 +25,9 @@ module "postgres" {
   resource_group_name    = local.resource_group_name
   admin_username         = "playground"
   admin_password         = ephemeral.random_password.admin_password.result
-  admin_password_version = 2
+  admin_password_version = 3
+
+  key_vault_id = azurerm_key_vault.vault.id
 
   subnet_pep_id                        = data.azurerm_subnet.pep_snet.id
   private_dns_zone_resource_group_name = data.azurerm_subnet.pep_snet.resource_group_name
