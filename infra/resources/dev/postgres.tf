@@ -25,7 +25,7 @@ module "postgres" {
   resource_group_name    = local.resource_group_name
   admin_username         = "playground"
   admin_password         = ephemeral.random_password.admin_password.result
-  admin_password_version = 3
+  admin_password_version = 4
 
   key_vault_id = azurerm_key_vault.vault.id
 
