@@ -9,7 +9,7 @@ ephemeral "random_password" "admin_password" {
 }
 
 module "postgres" {
-  source = "github.com/pagopa/dx//infra/modules//azure_postgres_server?ref=793326b44f041572e1cc44dafa4ac982a5f2d389"
+  source = "github.com/pagopa/dx//infra/modules//azure_postgres_server?ref=refactors%2Fpostgres-module"
 
   tags = local.tags
   environment = {
