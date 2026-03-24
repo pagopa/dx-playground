@@ -1,5 +1,11 @@
 # test-durable
 
+## 2.0.2
+
+### Patch Changes
+
+- [#346](https://github.com/pagopa/dx-playground/pull/346) [`6ed07d8`](https://github.com/pagopa/dx-playground/commit/6ed07d836b95000b94cecbc8f27ffff49178da8a) Thanks [@kin0992](https://github.com/kin0992)! - Upgrade eslint and other dependencies
+
 ## 2.0.1
 
 ### Patch Changes
