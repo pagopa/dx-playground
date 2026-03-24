@@ -17,7 +17,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
-    "eslint": "catalog:",
+    "eslint": "catalog:next",
     "eslint-config-next": "catalog:next",
     "typescript": "catalog:"
   }
