@@ -34,6 +34,6 @@ jobs:
         uses: pagopa/github-actions-template/check-pr-size@922ed4e43b0e45a5e47eb0296d550996d8c87c64 # v1.19.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          ignored_files: 'yarn.lock, infra/**/.terraform.lock.hcl .yarn/releases/*'
+          ignored_files: 'pnpm-lock.yaml, infra/**/.terraform.lock.hcl'
           min_size: 200
           max_size: 800
