@@ -8,8 +8,8 @@ catalog:
   '@azure/functions': ^4.11.2
   '@azure/identity': ^4.13.1
   '@cdktf/provider-azurerm': ^14.2.0
-  '@pagopa/azure-tracing': ^0.4.13
-  '@pagopa/eslint-config': ^6.0.0
+  '@pagopa/azure-tracing': ^0.4.14
+  '@pagopa/eslint-config': ^6.0.1
   '@pagopa/handler-kit': ^1.1.0
   '@pagopa/handler-kit-azure-func': ^2.0.7
   '@pagopa/openapi-codegen-ts': ^14.0.0
