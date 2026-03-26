@@ -1,5 +1,6 @@
 {
   "name": "opex-common",
+  "description": "Common utilities for operational excellence - test workflow trigger",
   "version": "1.0.1",
   "private": true,
   "main": "dist/index.js",
