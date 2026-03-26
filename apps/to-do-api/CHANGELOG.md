@@ -1,5 +1,11 @@
 # to-do-api
 
+## 0.10.1
+
+### Patch Changes
+
+- [#349](https://github.com/pagopa/dx-playground/pull/349) [`6702d45`](https://github.com/pagopa/dx-playground/commit/6702d455a60bcbdd5d0eba829abf167f68559144) Thanks [@kin0992](https://github.com/kin0992)! - Emit more custom events when an error occurred
+
 ## 0.10.0
 
 ### Minor Changes
