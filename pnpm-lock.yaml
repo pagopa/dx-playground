@@ -1867,10 +1867,6 @@ packages:
     resolution: {integrity: sha512-DqxY8yoAaiBPivoJD4UtgrMS8gEmzZ5lnaxzPojzLVHBGqPxgWm4zcuvcUHZiqQ6kRX2Klel2r9y8cA2HAtqpw==}
     engines: {node: '>=8.0.0'}
 
-  '@opentelemetry/api-logs@0.205.0':
-    resolution: {integrity: sha512-wBlPk1nFB37Hsm+3Qy73yQSobVn28F4isnWIBvKpd5IUH/eat8bwcL02H9yzmHyyPmukeccSl2mbN5sDQZYnPg==}
-    engines: {node: '>=8.0.0'}
-
   '@opentelemetry/api-logs@0.213.0':
     resolution: {integrity: sha512-zRM5/Qj6G84Ej3F1yt33xBVY/3tnMxtL1fiDIxYbDWYaZ/eudVw3/PBiZ8G7JwUxXxjW8gU4g6LnOyfGKYHYgw==}
     engines: {node: '>=8.0.0'}
@@ -2060,12 +2056,6 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
 
-  '@opentelemetry/instrumentation@0.205.0':
-    resolution: {integrity: sha512-cgvm7tvQdu9Qo7VurJP84wJ7ZV9F6WqDDGZpUc6rUEXwjV7/bXWs0kaYp9v+1Vh1+3TZCD3i6j/lUBcPhu8NhA==}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': ^1.3.0
-
   '@opentelemetry/instrumentation@0.213.0':
     resolution: {integrity: sha512-3i9NdkET/KvQomeh7UaR/F4r9P25Rx6ooALlWXPIjypcEOUxksCmVu0zA70NBJWlrMW1rPr/LRidFAflLI+s/w==}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -2241,7 +2231,7 @@ packages:
     engines: {node: ^18.19.0 || >=20.6.0}
 
   '@pagopa/azure-tracing@file:pagopa-azure-tracing-0.4.14.tgz':
-    resolution: {integrity: sha512-zjtuREbt3ECvEmtHzDOHTrJDWVkjrWkxg3biMOL2hDBGTjg2lzJ1sesfTAScJwwEb0D5c5ZLr7aJVCPFGHVQyQ==, tarball: file:pagopa-azure-tracing-0.4.14.tgz}
+    resolution: {integrity: sha512-7s6Fy5dQEx2j01Lsw8Alqk3LqYqYC4N2n8Mny7P21hI7j/mWYxzgS06PXVaGFDoX4Z6/BdCBIl1Ou04FiZA6NQ==, tarball: file:pagopa-azure-tracing-0.4.14.tgz}
     version: 0.4.14
 
   '@pagopa/eslint-config@5.1.2':
@@ -7352,10 +7342,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
 
-  '@opentelemetry/api-logs@0.205.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-
   '@opentelemetry/api-logs@0.213.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -7612,15 +7598,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@opentelemetry/instrumentation@0.205.0(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.205.0
-      import-in-the-middle: 1.15.0
-      require-in-the-middle: 7.5.2
-    transitivePeerDependencies:
-      - supports-color
-
   '@opentelemetry/instrumentation@0.213.0(@opentelemetry/api@1.9.0)':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -7830,7 +7807,7 @@ snapshots:
       '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.32
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.213.0
-      '@opentelemetry/instrumentation': 0.205.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.213.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-undici': 0.23.0(@opentelemetry/api@1.9.0)
       '@t3-oss/env-core': 0.13.11(typescript@5.9.3)(zod@4.3.6)
       import-in-the-middle: 1.15.0
