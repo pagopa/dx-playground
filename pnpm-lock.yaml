@@ -2232,7 +2232,7 @@ packages:
     engines: {node: ^18.19.0 || >=20.6.0}
 
   '@pagopa/azure-tracing@file:pagopa-azure-tracing-0.4.14.tgz':
-    resolution: {integrity: sha512-vdOkV/h4gxkQvbz2K+NkIfjM8ouMF7JcdOLzSCRBgN5QRSx7I+j4QlqLiP1ydijuXXG0hFncc7JTJI1IfuT3ww==, tarball: file:pagopa-azure-tracing-0.4.14.tgz}
+    resolution: {integrity: sha512-G9B0GUTdv2ASmt6itkJD61jTjpG3Ktoi0sCYe7OaqXDnp4G/cw1qwOliyzrteli/4AO2wwVJnji3TEfDJKdM7A==, tarball: file:pagopa-azure-tracing-0.4.14.tgz}
     version: 0.4.14
 
   '@pagopa/eslint-config@5.1.2':
