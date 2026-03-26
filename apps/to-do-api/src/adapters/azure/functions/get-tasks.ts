@@ -1,3 +1,4 @@
+import { emitCustomEvent } from "@pagopa/azure-tracing/logger";
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
 import { Capabilities, listTasks } from "@to-do/domain";
@@ -21,6 +22,12 @@ const makeHandlerKitHandler: H.Handler<
     // execute use case
     RTE.flatMap(listTasks),
     // handle result and prepare response
+    RTE.mapLeft((error) => {
+      emitCustomEvent("taskListFetchFailed", {
+        errorMessage: error.message,
+      })("GetTasksHandler");
+      return error;
+    }),
     RTE.mapBoth(toHttpProblemJson, flow(RA.map(toTaskItemAPI), H.successJson)),
     RTE.orElseW(RTE.of),
   ),

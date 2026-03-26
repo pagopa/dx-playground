@@ -1,3 +1,4 @@
+import { emitCustomEvent } from "@pagopa/azure-tracing/logger";
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
 import { createCosmosClient } from "@to-do/azure-adapters/cosmosdb";
@@ -20,7 +21,12 @@ const cosmosHealthCheck: RTE.ReaderTaskEither<
   pipe(
     TE.tryCatch(() => cosmosClient.getDatabaseAccount(), E.toError),
     TE.bimap(
-      ({ message }) => [message],
+      ({ message }) => {
+        emitCustomEvent("cosmosHealthCheckFailed", {
+          errorMessage: message,
+        })("InfoHandler");
+        return [message];
+      },
       () => true,
     ),
   );

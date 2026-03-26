@@ -1,3 +1,4 @@
+import { emitCustomEvent } from "@pagopa/azure-tracing/logger";
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
 import { Capabilities, deleteTaskById, TaskIdCodec } from "@to-do/domain";
@@ -25,6 +26,12 @@ const makeHandlerKitHandler: H.Handler<
     // execute use case
     RTE.flatMap(({ id }) => deleteTaskById(id)),
     // handle result and prepare response
+    RTE.mapLeft((error) => {
+      emitCustomEvent("taskDeletionFailed", {
+        errorMessage: error.message,
+      })("DeleteTaskHandler");
+      return error;
+    }),
     RTE.mapBoth(toHttpProblemJson, flow(H.successJson, H.withStatusCode(204))),
     RTE.orElseW(RTE.of),
   ),
