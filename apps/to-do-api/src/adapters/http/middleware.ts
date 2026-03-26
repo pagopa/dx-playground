@@ -1,3 +1,4 @@
+import { emitCustomEvent } from "@pagopa/azure-tracing/logger";
 import * as H from "@pagopa/handler-kit";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
@@ -17,7 +18,12 @@ export const parseRequestBody =
     pipe(
       req.body,
       H.parse(schema),
-      E.mapLeft(() => new H.HttpBadRequestError("Missing or invalid body")),
+      E.mapLeft((error) => {
+        emitCustomEvent("requestBodyParseError", {
+          errorMessage: error.message,
+        })("parseRequestBody");
+        return new H.HttpBadRequestError("Missing or invalid body");
+      }),
     );
 
 /**
@@ -29,5 +35,11 @@ export const parsePathParameter =
     pipe(
       req.path[paramName],
       H.parse(schema, `Invalid format of ${paramName} parameter`),
-      E.mapLeft(({ message }) => new H.HttpBadRequestError(message)),
+      E.mapLeft(({ message }) => {
+        emitCustomEvent("pathParameterParseError", {
+          errorMessage: message,
+          paramName,
+        })("parsePathParameter");
+        return new H.HttpBadRequestError(message);
+      }),
     );

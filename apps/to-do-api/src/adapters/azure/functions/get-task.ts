@@ -1,3 +1,4 @@
+import { emitCustomEvent } from "@pagopa/azure-tracing/logger";
 import * as H from "@pagopa/handler-kit";
 import { httpAzureFunction } from "@pagopa/handler-kit-azure-func";
 import { Capabilities, getTaskById, TaskIdCodec } from "@to-do/domain";
@@ -26,6 +27,12 @@ const makeHandlerKitHandler: H.Handler<
     // execute use case
     RTE.flatMap(({ id }) => getTaskById(id)),
     // handle result and prepare response
+    RTE.mapLeft((error) => {
+      emitCustomEvent("taskFetchFailed", {
+        errorMessage: error.message,
+      })("GetTaskHandler");
+      return error;
+    }),
     RTE.mapBoth(toHttpProblemJson, flow(toTaskItemAPI, H.successJson)),
     RTE.orElseW(RTE.of),
   ),

@@ -29,6 +29,12 @@ const makeHandlerKitHandler: H.Handler<
       return RTE.of(task);
     }),
     // handle result and prepare response
+    RTE.mapLeft((error) => {
+      emitCustomEvent("taskCreationFailed", {
+        errorMessage: error.message,
+      })("CreateTaskHandler");
+      return error;
+    }),
     RTE.mapBoth(toHttpProblemJson, flow(toTaskItemAPI, H.createdJson)),
     RTE.orElseW(RTE.of),
   ),
