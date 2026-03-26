@@ -1,11 +1,6 @@
 {
   "name": "dx-playground",
   "private": true,
-  "pnpm": {
-    "overrides": {
-      "@pagopa/azure-tracing": "file:./pagopa-azure-tracing-0.4.14.tgz"
-    }
-  },
   "scripts": {
     "code-review": "turbo run typecheck lint:check test",
     "build": "turbo run build",
