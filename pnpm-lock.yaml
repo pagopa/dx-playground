@@ -2232,7 +2232,7 @@ packages:
     engines: {node: ^18.19.0 || >=20.6.0}
 
   '@pagopa/azure-tracing@file:pagopa-azure-tracing-0.4.14.tgz':
-    resolution: {integrity: sha512-G9B0GUTdv2ASmt6itkJD61jTjpG3Ktoi0sCYe7OaqXDnp4G/cw1qwOliyzrteli/4AO2wwVJnji3TEfDJKdM7A==, tarball: file:pagopa-azure-tracing-0.4.14.tgz}
+    resolution: {integrity: sha512-0uNTjOogEU1kMdRI5jWZQSCbB4Fj5QZmleTr0QN2PNU5NaLLd8LEnlnhBZ0of0HJGWvRCR5/irskJJFE+Xp7tw==, tarball: file:pagopa-azure-tracing-0.4.14.tgz}
     version: 0.4.14
 
   '@pagopa/eslint-config@5.1.2':
@@ -7806,7 +7806,7 @@ snapshots:
       '@opentelemetry/instrumentation': 0.213.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation-undici': 0.23.0(@opentelemetry/api@1.9.0)
       '@t3-oss/env-core': 0.13.11(typescript@5.9.3)(zod@4.3.6)
-      import-in-the-middle: 1.15.0
+      import-in-the-middle: 2.0.6
       zod: 4.3.6
     transitivePeerDependencies:
       - arktype
