@@ -52,7 +52,7 @@ module "apim" {
 
 # To Do API
 module "to_do_api" {
-  source = "../_modules/api"
+  source = "../../_modules/api"
 
   entra_id_app_client_id = module.todo_api_function_app.entra_id_authentication.audience_client_id
 
@@ -61,7 +61,7 @@ module "to_do_api" {
     display_name = "To Do API"
     description  = "API to handle a To Do list"
     path         = "todo"
-    openapi      = file("${path.module}/../../../apps/to-do-api/docs/openapi.yaml")
+    openapi      = file("${path.module}/../../../../apps/to-do-api/docs/openapi.yaml")
   }
 
   apim_name           = module.apim.name
