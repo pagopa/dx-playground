@@ -43,14 +43,7 @@ app.http("info", {
 
 app.http("createTask", {
   authLevel: "anonymous",
-  handler: (req, context) => {
-    context.trace("CREATING A TASK");
-    context.debug("CREATING A TASK");
-    context.log("CREATING A TASK");
-    context.warn("CREATING A TASK");
-    context.error("CREATING A TASK");
-    return makePostTaskHandler(env)(req, context);
-  },
+  handler: () => ({ status: 500 }),
   methods: ["POST"],
   route: "tasks",
 });
