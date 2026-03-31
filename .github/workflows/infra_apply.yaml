@@ -164,14 +164,7 @@ jobs:
       TF_HTTP_USERNAME: ${{ secrets.STATEGRAPH_USERNAME }}
       TF_HTTP_PASSWORD: ${{ secrets.STATEGRAPH_TOKEN }}
     outputs:
-      working_dir: ${{ steps.directory.outputs.dir }}
       terraform_version: ${{ needs.get-terraform-version.outputs.terraform_version }}
-      plan_provider: ${{ steps.upload_plan.outputs.provider }}
-      plan_path: ${{ steps.upload_plan.outputs.plan-path }}
-      plan_azure_storage_account: ${{ steps.upload_plan.outputs.azure-storage-account }}
-      plan_azure_container: ${{ steps.upload_plan.outputs.azure-container }}
-      plan_aws_bucket: ${{ steps.upload_plan.outputs.aws-bucket }}
-      plan_aws_region: ${{ steps.upload_plan.outputs.aws-region }}
 
     steps:
       # The working directory comes from the matrix; available in ${{ steps.directory.outputs.dir }}
@@ -240,6 +233,27 @@ jobs:
           plan-file: ${{ env.TFPLAN_FILE }}
           working-directory: ${{ steps.directory.outputs.dir }}
 
+      # Generate dynamic outputs with names prefixed by path slug.
+      # This allows tf_apply to access plan outputs per matrix item using needs.tf_plan.outputs['<key-name>']
+      - name: Export plan outputs
+        env:
+          SLUG: ${{ steps.artifact.outputs.name }}
+          PROVIDER: ${{ steps.upload_plan.outputs.provider }}
+          PLAN_PATH: ${{ steps.upload_plan.outputs.plan-path }}
+          AZURE_STORAGE: ${{ steps.upload_plan.outputs.azure-storage-account }}
+          AZURE_CONTAINER: ${{ steps.upload_plan.outputs.azure-container }}
+          AWS_BUCKET: ${{ steps.upload_plan.outputs.aws-bucket }}
+          AWS_REGION: ${{ steps.upload_plan.outputs.aws-region }}
+        run: |
+          set -euo pipefail
+          echo "${SLUG}-provider=${PROVIDER}" >> "$GITHUB_OUTPUT"
+          echo "${SLUG}-plan-path=${PLAN_PATH}" >> "$GITHUB_OUTPUT"
+          echo "${SLUG}-azure-storage=${AZURE_STORAGE}" >> "$GITHUB_OUTPUT"
+          echo "${SLUG}-azure-container=${AZURE_CONTAINER}" >> "$GITHUB_OUTPUT"
+          echo "${SLUG}-aws-bucket=${AWS_BUCKET}" >> "$GITHUB_OUTPUT"
+          echo "${SLUG}-aws-region=${AWS_REGION}" >> "$GITHUB_OUTPUT"
+        id: plan_outputs
+
   tf_apply:
     name: "Terraform Apply"
     strategy:
@@ -282,17 +296,17 @@ jobs:
           terraform_version: ${{ needs.get-terraform-version.outputs.terraform_version }}
 
       # Download and extract the plan bundle (plan file + .terraform.lock.hcl + .terraform/modules/).
-      # Storage coordinates come directly from the tf_plan job outputs — no terraform init required.
+      # Storage coordinates come from dynamic outputs named "<slug>-<key>" from tf_plan matrix.
       - name: Download Terraform Plan
         uses: pagopa/dx/actions/terraform-plan-storage-download@main
         with:
-          provider: ${{ needs.tf_plan.outputs.plan_provider }}
-          plan-path: ${{ needs.tf_plan.outputs.plan_path }}
-          working-directory: ${{ needs.tf_plan.outputs.working_dir }}
-          azure-storage-account: ${{ needs.tf_plan.outputs.plan_azure_storage_account }}
-          azure-container: ${{ needs.tf_plan.outputs.plan_azure_container }}
-          aws-bucket: ${{ needs.tf_plan.outputs.plan_aws_bucket }}
-          aws-region: ${{ needs.tf_plan.outputs.plan_aws_region }}
+          provider: ${{ needs.tf_plan.outputs[format('{0}-provider', steps.artifact.outputs.name)] }}
+          plan-path: ${{ needs.tf_plan.outputs[format('{0}-plan-path', steps.artifact.outputs.name)] }}
+          working-directory: ${{ matrix.dir }}
+          azure-storage-account: ${{ needs.tf_plan.outputs[format('{0}-azure-storage', steps.artifact.outputs.name)] }}
+          azure-container: ${{ needs.tf_plan.outputs[format('{0}-azure-container', steps.artifact.outputs.name)] }}
+          aws-bucket: ${{ needs.tf_plan.outputs[format('{0}-aws-bucket', steps.artifact.outputs.name)] }}
+          aws-region: ${{ needs.tf_plan.outputs[format('{0}-aws-region', steps.artifact.outputs.name)] }}
 
       - name: Terraform Init
         working-directory: ${{ matrix.dir }}
