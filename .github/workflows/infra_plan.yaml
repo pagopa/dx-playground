@@ -110,24 +110,21 @@ jobs:
           set -euo pipefail
           BASE_PATH="${BASE_PATH%/}"
           DIR="$BASE_PATH/$ENVIRONMENT"
+          MODULES_DIR="$BASE_PATH/_modules"
 
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             CHANGED=$(find "$DIR" -maxdepth 2 -name '*.tf' -not -path "*/_modules/*" 2>/dev/null || true)
           elif [ "$EVENT_NAME" = "pull_request" ]; then
             CHANGED=$(git diff --name-only "origin/${BASE_REF}...HEAD" -- "$DIR" || true)
+            MODULES_CHANGED=$(git diff --name-only "origin/${BASE_REF}...HEAD" -- "$MODULES_DIR" || true)
           else
             CHANGED=$(git diff --name-only "$BEFORE" "$SHA" -- "$DIR" || true)
+            MODULES_CHANGED=$(git diff --name-only "$BEFORE" "$SHA" -- "$MODULES_DIR" || true)
           fi
 
-          echo "Changed files: $CHANGED"
-          echo "Base path: $BASE_PATH"
-          echo "Environment: $ENVIRONMENT"
-          echo "Dir: $DIR"
-
-          if [ "$EVENT_NAME" != "workflow_dispatch" ] && printf '%s\n' "$CHANGED" | grep -qE "^${BASE_PATH}/_modules/"; then
+          if [ "$EVENT_NAME" != "workflow_dispatch" ] && [ -n "${MODULES_CHANGED:-}" ]; then
             CHANGED=$(find "$DIR" -maxdepth 2 -name '*.tf' -not -path "*/_modules/*" 2>/dev/null || true)
-            echo "Detected changes in _modules"
-            echo "Changed files affecting modules: $CHANGED"
+            echo "Modules changed, including all projects in $DIR: $CHANGED"
           fi
 
           # The two layouts are mutually exclusive:
