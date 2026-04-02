@@ -119,6 +119,11 @@ jobs:
             CHANGED=$(git diff --name-only "$BEFORE" "$SHA" -- "$DIR" || true)
           fi
 
+          echo "Changed files: $CHANGED"
+          echo "Base path: $BASE_PATH"
+          echo "Environment: $ENVIRONMENT"
+          echo "Dir: $DIR"
+
           if [ "$EVENT_NAME" != "workflow_dispatch" ] && printf '%s\n' "$CHANGED" | grep -qE "^${BASE_PATH}/_modules/"; then
             CHANGED=$(find "$DIR" -maxdepth 2 -name '*.tf' -not -path "*/_modules/*" 2>/dev/null || true)
             echo "Detected changes in _modules"
