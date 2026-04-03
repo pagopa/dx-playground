@@ -8,20 +8,20 @@ catalog:
   '@azure/functions': ^4.11.2
   '@azure/identity': ^4.13.1
   '@cdktf/provider-azurerm': ^14.2.0
-  '@pagopa/azure-tracing': ^0.4.16
-  '@pagopa/eslint-config': ^6.0.1
+  '@pagopa/azure-tracing': ^0.4.17
+  '@pagopa/eslint-config': ^6.0.2
   '@pagopa/handler-kit': ^1.1.0
   '@pagopa/handler-kit-azure-func': ^2.0.7
   '@pagopa/openapi-codegen-ts': ^14.0.0
   '@pagopa/ts-commons': ^13.1.2
   '@types/express': ^4.17.2
   '@types/js-yaml': ^4.0.9
-  '@types/node': ^22.19.15
+  '@types/node': ^22.19.16
   '@vitest/coverage-v8': ^4.1.2
   azure-functions-core-tools: ^4.9.0
   cdktf: ^0.21.0
   constructs: ^10.6.0
-  esbuild: ^0.27.4
+  esbuild: ^0.27.7
   eslint: ^10.1.0
   fp-ts: ^2.16.10
   io-ts: ^2.2.22
@@ -33,14 +33,14 @@ catalog:
   typescript: ^5.8.3
   ulid: ^3.0.2
   vitest: ^4.1.2
-  vitest-mock-extended: ^3.1.0
+  vitest-mock-extended: ^3.1.1
 
 catalogs:
   next:
     '@pagopa/eslint-config': 5.1.2
     eslint: 9.39.4
-    eslint-config-next: ^16.2.1
-    next: ^16.2.1
+    eslint-config-next: ^16.2.2
+    next: ^16.2.2
   react:
     '@types/react': ^19.2.14
     '@types/react-dom': ^19.1.3
