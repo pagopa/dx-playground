@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 1.5.0
+
+### Minor Changes
+
+- [#355](https://github.com/pagopa/dx-playground/pull/355) [`c2451f3`](https://github.com/pagopa/dx-playground/commit/c2451f369dc5e8e67cb6142e3c3babe5ec1dda37) Thanks [@kin0992](https://github.com/kin0992)! - Remove postgres resource
+
 ## 1.4.1
 
 ### Patch Changes
