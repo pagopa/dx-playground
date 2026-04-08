@@ -7,8 +7,9 @@ module "github_repository" {
   repository = {
     name            = "dx-playground"
     description     = "A playground for the DevEx team"
-    topics          = ["dx", "typescript"]
+    topics          = ["dx", "typescript", "playground"]
     reviewers_teams = ["engineering-team-devex"]
     environments    = ["dev"]
+    has_issues      = true
   }
 }
