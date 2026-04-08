@@ -5,11 +5,12 @@ module "github_repository" {
   version = "~> 1.0"
 
   repository = {
-    name            = "dx-playground"
-    description     = "A playground for the DevEx team"
-    topics          = ["dx", "typescript", "playground"]
-    reviewers_teams = ["engineering-team-devex"]
-    environments    = ["dev"]
-    has_issues      = true
+    name                   = "dx-playground"
+    description            = "A playground for the DevEx team"
+    topics                 = ["dx", "typescript", "playground"]
+    reviewers_teams        = ["engineering-team-devex"]
+    pull_request_bypassers = ["pagopa/engineering-team-devex"]
+    environments           = ["dev"]
+    has_issues             = true
   }
 }
