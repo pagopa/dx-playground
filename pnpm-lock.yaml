@@ -399,6 +399,9 @@ importers:
 
   apps/to-do-webapp:
     dependencies:
+      '@azure/identity':
+        specifier: 'catalog:'
+        version: 4.13.1
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@19.2.14)(react@19.2.5)

@@ -15,5 +15,7 @@ resource "azurerm_application_insights" "main" {
   application_type    = "other"
   workspace_id        = azurerm_log_analytics_workspace.main.id
 
+  local_authentication_disabled = true
+
   tags = var.tags
 }

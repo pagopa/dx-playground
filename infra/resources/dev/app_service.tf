@@ -4,6 +4,8 @@ locals {
     API_BASE_PATH     = "todo"
     API_KEY           = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.todo_webapp_apim_key.versionless_id})"
     OTEL_SERVICE_NAME = "To Do WebApp"
+    # Enable Application Insights authentication with Entra ID, so that the Function App can send telemetry to AI without needing to manage credentials
+    APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
   }
 }
 
@@ -62,4 +64,11 @@ module "todo_webapp_roles" {
       secrets = "reader"
     }
   }]
+}
+
+resource "azurerm_role_assignment" "app_service_monitoring_metrics_publisher" {
+  description          = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to publish metrics to Application Insights"
+  scope                = module.playground_monitoring.application_insights_id
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = module.todo_webapp_app_service.app_service.app_service.principal_id
 }
