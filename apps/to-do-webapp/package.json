@@ -12,11 +12,10 @@
     "start:clean": "npm run clean && npm run generate && npm run build && cp -R public/ .next/standalone/apps/to-do-webapp && cp -R .next/static .next/standalone/apps/to-do-webapp/.next && node -r dotenv/config .next/standalone/apps/to-do-webapp/server.js node -r dotenv/config dist/main.js dotenv_config_path=.env.local"
   },
   "dependencies": {
-    "@azure/identity": "catalog:",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.11",
-    "@pagopa/azure-tracing": "file:../../local-packages/pagopa-azure-tracing-0.4.17.tgz",
+    "@pagopa/azure-tracing": "file:../../local-packages/pagopa-azure-tracing-0.5.0-rc.0.tgz",
     "@pagopa/ts-commons": "catalog:",
     "fp-ts": "catalog:",
     "io-ts": "catalog:",

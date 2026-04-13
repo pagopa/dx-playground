@@ -13,8 +13,8 @@
 
 | Name | Version |
 | ---- | ------- |
-| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.8.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.68.0 |
+| <a name="provider_azuread"></a> [azuread](#provider\_azuread) | ~> 3.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 4.58 |
 | <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0.0 |
 
 ## Modules
