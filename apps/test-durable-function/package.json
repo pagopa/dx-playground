@@ -28,7 +28,7 @@
   "devDependencies": {
     "@pagopa/eslint-config": "catalog:",
     "@pagopa/typescript-config-node": "workspace:^",
-    "@typescript-eslint/parser": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.1",
     "azure-functions-core-tools": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
