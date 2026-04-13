@@ -33,7 +33,7 @@ catalog:
   typescript: ^5.8.3
   ulid: ^3.0.2
   vitest: ^4.1.4
-  vitest-mock-extended: ^3.1.1
+  vitest-mock-extended: ^4.0.0
 
 catalogs:
   next:

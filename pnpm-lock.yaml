@@ -95,8 +95,8 @@ catalogs:
       specifier: ^4.1.4
       version: 4.1.4
     vitest-mock-extended:
-      specifier: ^3.1.1
-      version: 3.1.1
+      specifier: ^4.0.0
+      version: 4.0.0
   next:
     '@pagopa/eslint-config':
       specifier: 5.1.2
@@ -386,7 +386,7 @@ importers:
         version: 4.1.4(@opentelemetry/api@1.9.1)(@types/node@22.19.17)(@vitest/coverage-v8@4.1.4)(vite@7.3.1(@types/node@22.19.17))
       vitest-mock-extended:
         specifier: 'catalog:'
-        version: 3.1.1(typescript@5.9.3)(vitest@4.1.4)
+        version: 4.0.0(typescript@5.9.3)(vitest@4.1.4)
 
   apps/to-do-webapp:
     dependencies:
@@ -566,7 +566,7 @@ importers:
         version: 4.1.4(@opentelemetry/api@1.9.1)(@types/node@25.5.2)(@vitest/coverage-v8@4.1.4)(vite@7.3.1(@types/node@25.5.2))
       vitest-mock-extended:
         specifier: 'catalog:'
-        version: 3.1.1(typescript@5.9.3)(vitest@4.1.4)
+        version: 4.0.0(typescript@5.9.3)(vitest@4.1.4)
 
   packages/to-do-domain:
     dependencies:
@@ -600,7 +600,7 @@ importers:
         version: 4.1.4(@opentelemetry/api@1.9.1)(@types/node@25.5.2)(@vitest/coverage-v8@4.1.4)(vite@7.3.1(@types/node@25.5.2))
       vitest-mock-extended:
         specifier: 'catalog:'
-        version: 3.1.1(typescript@5.9.3)(vitest@4.1.4)
+        version: 4.0.0(typescript@5.9.3)(vitest@4.1.4)
 
   packages/typescript-config-node: {}
 
@@ -5792,11 +5792,11 @@ packages:
       yaml:
         optional: true
 
-  vitest-mock-extended@3.1.1:
-    resolution: {integrity: sha512-IQBKkEYB5BW4eJ+8JHZRzrLkKIJu5zkLJsU6u8vB+skSXbES+Di86nrUIbXwEQivDXcR4APMZFSvt398+iqKYA==}
+  vitest-mock-extended@4.0.0:
+    resolution: {integrity: sha512-m2FmH8JYfxzZoLsHuhXRY+Pv++a3zd91HYpSz81tpRLEHbtFkEL2QcWvJowucWuNTirzQURKfWbJJSXbYqkTsA==}
     peerDependencies:
       typescript: 3.x || 4.x || 5.x || 6.x
-      vitest: '>=3.0.0'
+      vitest: '>=4.0.0'
 
   vitest@4.1.4:
     resolution: {integrity: sha512-tFuJqTxKb8AvfyqMfnavXdzfy3h3sWZRWwfluGbkeR7n0HUev+FmNgZ8SDrRBTVrVCjgH5cA21qGbCffMNtWvg==}
@@ -8811,7 +8811,7 @@ snapshots:
     optionalDependencies:
       '@typescript-eslint/eslint-plugin': 8.57.2(@typescript-eslint/parser@8.58.1(eslint@10.2.0)(typescript@5.9.3))(eslint@10.2.0)(typescript@5.9.3)
       typescript: 5.9.3
-      vitest: 4.1.4(@opentelemetry/api@1.9.1)(@types/node@22.19.17)(@vitest/coverage-v8@4.1.4)(vite@7.3.1(@types/node@22.19.17))
+      vitest: 4.1.4(@opentelemetry/api@1.9.1)(@types/node@25.5.2)(@vitest/coverage-v8@4.1.4)(vite@7.3.1(@types/node@25.5.2))
     transitivePeerDependencies:
       - supports-color
 
@@ -12077,7 +12077,7 @@ snapshots:
       '@types/node': 25.5.2
       fsevents: 2.3.3
 
-  vitest-mock-extended@3.1.1(typescript@5.9.3)(vitest@4.1.4):
+  vitest-mock-extended@4.0.0(typescript@5.9.3)(vitest@4.1.4):
     dependencies:
       ts-essentials: 10.1.1(typescript@5.9.3)
       typescript: 5.9.3
