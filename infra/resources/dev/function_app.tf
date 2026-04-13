@@ -6,8 +6,10 @@ locals {
     # Cosmos Container Names
     COSMOSDB_TASKS_CONTAINER_NAME = azurerm_cosmosdb_sql_container.tasks.name
 
-    # Options to load instrumentation file with AI or Azure Monitor
+    # Load the azure-tracing bootstrap (now includes DefaultAzureCredential support)
     NODE_OPTIONS = "--import @pagopa/azure-tracing"
+    # Enable Application Insights authentication with Entra ID
+    APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
   }
   azure_function_v3_settings = {
     COSMOSDB_DATABASE_NAME = azurerm_cosmosdb_sql_database.db.name
@@ -84,4 +86,11 @@ module "todo_api_function_app_roles" {
       secrets = "reader"
     }
   }]
+}
+
+resource "azurerm_role_assignment" "function_app_monitoring_metrics_publisher" {
+  description          = "Allow ${module.todo_api_function_app.function_app.function_app.name} to publish metrics to Application Insights"
+  scope                = module.playground_monitoring.application_insights_id
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = module.todo_api_function_app.function_app.function_app.principal_id
 }

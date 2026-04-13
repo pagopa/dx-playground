@@ -73,3 +73,10 @@ module "to_do_api" {
     target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
 }
+
+resource "azurerm_role_assignment" "apim_to_appinsights" {
+  scope                = module.playground_monitoring.application_insights_id
+  description          = "Allow ${module.apim.name} to publish metrics to Application Insights"
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = module.apim.principal_id
+}

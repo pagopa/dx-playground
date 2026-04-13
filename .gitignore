@@ -160,6 +160,8 @@ web_modules/
 
 # Output of 'npm pack'
 *.tgz
+# Allow local package tarballs used for dev/poc
+!local-packages/*.tgz
 
 # Yarn Integrity file
 .yarn-integrity

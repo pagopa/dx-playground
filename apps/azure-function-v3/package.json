@@ -7,7 +7,7 @@
   "dependencies": {
     "@azure/functions": "^3.5.1",
     "@opentelemetry/api": "^1.9.1",
-    "@pagopa/azure-tracing": "catalog:",
+    "@pagopa/azure-tracing": "file:../../local-packages/pagopa-azure-tracing-0.4.17.tgz",
     "@pagopa/express-azure-functions": "^4.0.1",
     "@pagopa/ts-commons": "catalog:",
     "@to-do/azure-adapters": "workspace:^",

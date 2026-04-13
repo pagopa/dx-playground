@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@azure/functions": "catalog:",
-    "@pagopa/azure-tracing": "catalog:",
+    "@pagopa/azure-tracing": "file:../../local-packages/pagopa-azure-tracing-0.4.17.tgz",
     "@pagopa/handler-kit": "catalog:",
     "@pagopa/handler-kit-azure-func": "catalog:",
     "@pagopa/ts-commons": "catalog:",
