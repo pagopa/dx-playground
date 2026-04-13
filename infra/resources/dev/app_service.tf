@@ -4,9 +4,6 @@ locals {
     API_BASE_PATH     = "todo"
     API_KEY           = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.todo_webapp_apim_key.versionless_id})"
     OTEL_SERVICE_NAME = "To Do WebApp"
-    # Use a custom env var name so the platform does not auto-initialise Application Insights
-    # with key-based auth (which would conflict with our managed-identity setup in instrumentation.ts)
-    AZURE_MONITOR_CONNECTION_STRING = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.application_insights_connection_string.versionless_id})"
     # Enable Application Insights authentication with Entra ID, so that the App Service can send telemetry to AI without needing to manage credentials
     APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
   }
