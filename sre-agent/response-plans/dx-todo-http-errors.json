@@ -1,0 +1,9 @@
+{
+  "id": "three-rivers-http-errors",
+  "name": "DX To-Do HTTP Errors",
+  "priorities": ["Sev0", "Sev1", "Sev2", "Sev3", "Sev4"],
+  "titleContains": "",
+  "handlingAgent": "incident-handler-2",
+  "agentMode": "autonomous",
+  "maxAttempts": 3
+}
