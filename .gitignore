@@ -298,3 +298,6 @@ manifest.json
 
 # PNPM
 .pnpm-store
+
+# MacOS
+*.DS_Store
