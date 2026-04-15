@@ -42,7 +42,9 @@ resource "azurerm_resource_group" "test" {
   location = "Italy North"
 
   tags = {
-    hidden-link = "test_tag_remove"
+    hidden-link = "test_tag_remove_1"
     test        = "true"
+    test-sensible-key = "test_sensible_value"
+    test_2        = "true"
   }
 }
