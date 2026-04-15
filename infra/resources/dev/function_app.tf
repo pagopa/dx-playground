@@ -56,7 +56,9 @@ module "todo_api_function_app" {
     tenant_id = data.azurerm_subscription.current.tenant_id
   }
 
-  tags = local.tags
+  tags = merge(local.tags, {
+    "hidden-link" = "test_tag_remove"
+  })
 }
 
 module "todo_api_function_app_roles" {
