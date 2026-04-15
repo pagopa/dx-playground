@@ -36,3 +36,12 @@ module "naming_convention" {
 }
 
 data "azurerm_subscription" "current" {}
+
+resource "azurerm_resource_group" "test" {
+  name     = "dx-playground-test-rg-05"
+  location = "Italy North"
+
+  tags = {
+    hidden-link = "test_tag_to_remove"
+  }
+}
