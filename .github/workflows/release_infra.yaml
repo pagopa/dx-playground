@@ -16,6 +16,9 @@ permissions:
   pull-requests: write
   id-token: write
 
+env:
+  ACTIONS_STEP_DEBUG: false
+
 jobs:
   release_dev:
     uses: pagopa/dx/.github/workflows/infra_apply.yaml@feat-remove-grep-hidden-link-from-infra-apply
