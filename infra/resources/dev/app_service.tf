@@ -41,35 +41,3 @@ module "todo_webapp_app_service" {
 
   tags = local.tags
 }
-
-module "todo_webapp_roles" {
-  source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 1.2"
-
-  principal_id    = module.todo_webapp_app_service.app_service.app_service.principal_id
-  subscription_id = data.azurerm_subscription.current.subscription_id
-
-  apim = [
-    {
-      name                = module.apim.name
-      resource_group_name = module.apim.resource_group_name
-      description         = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to make call to ${module.apim.name}"
-      role                = "reader"
-  }]
-
-  key_vault = [{
-    name                = azurerm_key_vault.vault.name
-    resource_group_name = azurerm_key_vault.vault.resource_group_name
-    description         = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to read secrets on ${azurerm_key_vault.vault.name}"
-    roles = {
-      secrets = "reader"
-    }
-  }]
-}
-
-resource "azurerm_role_assignment" "app_service_monitoring_metrics_publisher" {
-  description          = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to publish metrics to Application Insights"
-  scope                = module.playground_monitoring.application_insights_id
-  role_definition_name = "Monitoring Metrics Publisher"
-  principal_id         = module.todo_webapp_app_service.app_service.app_service.principal_id
-}
