@@ -5,6 +5,11 @@ resource "azurerm_log_analytics_workspace" "main" {
   sku                 = "PerGB2018"
   retention_in_days   = 30
 
+  local_authentication_enabled = false
+  identity {
+    type = "SystemAssigned"
+  }
+
   tags = var.tags
 }
 
