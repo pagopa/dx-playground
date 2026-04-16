@@ -14,9 +14,9 @@ resource "dx_available_subnet_cidr" "next_todo_webapp_cidr" {
 
 module "todo_webapp_app_service" {
   source  = "pagopa-dx/azure-app-service/azurerm"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
-  node_version        = 22
+  node_version        = 24
   environment         = merge(local.environment, { app_name = "fe" })
   resource_group_name = local.resource_group_name
 

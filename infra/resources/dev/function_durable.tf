@@ -9,7 +9,7 @@
 #
 # module "function_test_durable" {
 #   source  = "pagopa-dx/azure-function-app/azurerm"
-#   version = "~> 4.1"
+#   version = "~> 5.0"
 #
 #   has_durable_functions    = true
 #   application_insights_key = "app-insights-key"

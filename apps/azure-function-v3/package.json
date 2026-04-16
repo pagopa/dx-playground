@@ -31,7 +31,7 @@
   "scripts": {
     "clean": "shx rm -rf ./dist ./out",
     "build": "tsc",
-    "build:artifact": "esbuild index=dist/main.js --bundle --format=esm --platform=node --target=node20 --packages=external --outdir=out --allow-overwrite",
+    "build:artifact": "esbuild dist/main.js --bundle --format=esm --platform=node --target=node24 --packages=external --outfile=out/index.js --allow-overwrite",
     "typecheck": "tsc --noemit",
     "lint": "eslint src --fix",
     "lint:check": "eslint src",

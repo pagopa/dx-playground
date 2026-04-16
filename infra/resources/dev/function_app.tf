@@ -26,9 +26,9 @@ resource "dx_available_subnet_cidr" "todo_api_cidr" {
 
 module "todo_api_function_app" {
   source  = "pagopa-dx/azure-function-app/azurerm"
-  version = "~> 4.1"
+  version = "~> 5.0"
 
-  node_version        = 22
+  node_version        = 24
   environment         = merge(local.environment, { app_name = "be" })
   resource_group_name = local.resource_group_name
 
