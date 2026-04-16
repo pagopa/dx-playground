@@ -33,8 +33,10 @@ resource "azurerm_role_assignment" "app_service_monitoring_metrics_publisher" {
 
 # API - Function App
 module "todo_api_function_app_roles" {
-  source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 1.0"
+  # source  = "pagopa-dx/azure-role-assignments/azurerm"
+  # version = "~> 1.0"
+
+  source = "git::https://github.com/pagopa/dx.git//infra/modules/azure_role_assignments?ref=CES-1960-azure-managed-redis-role-assignments"
 
   principal_id    = module.todo_api_function_app.function_app.function_app.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
@@ -57,6 +59,12 @@ module "todo_api_function_app_roles" {
       secrets = "reader"
     }
   }]
+
+  managed_redis = [{
+    id   = module.redis.id
+    role = "writer"
+  }]
+
 }
 
 resource "azurerm_role_assignment" "function_app_monitoring_metrics_publisher" {
@@ -66,9 +74,40 @@ resource "azurerm_role_assignment" "function_app_monitoring_metrics_publisher" {
   principal_id         = module.todo_api_function_app.function_app.function_app.principal_id
 }
 
-resource "azurerm_managed_redis_access_policy_assignment" "todo_api_function_app" {
-  managed_redis_id = module.redis.id
-  object_id        = module.todo_api_function_app.function_app.function_app.principal_id
+# API - Function App (Slot)
+module "todo_api_function_app_roles_slot" {
+  # source  = "pagopa-dx/azure-role-assignments/azurerm"
+  # version = "~> 1.0"
+
+  source = "git::https://github.com/pagopa/dx.git//infra/modules/azure_role_assignments?ref=CES-1960-azure-managed-redis-role-assignments"
+
+  principal_id    = module.todo_api_function_app.function_app.function_app.slot.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
+
+  cosmos = [
+    {
+      account_name        = module.cosmos.name
+      resource_group_name = module.cosmos.resource_group_name
+      database            = azurerm_cosmosdb_sql_database.db.name
+      description         = "Allow ${module.todo_api_function_app.function_app.function_app.slot.name} to read and write on ${module.cosmos.name}"
+      role                = "writer"
+    }
+  ]
+
+  key_vault = [{
+    name                = azurerm_key_vault.vault.name
+    resource_group_name = azurerm_key_vault.vault.resource_group_name
+    description         = "Allow ${module.todo_api_function_app.function_app.function_app.slot.name} to read secrets on ${azurerm_key_vault.vault.name}"
+    roles = {
+      secrets = "reader"
+    }
+  }]
+
+  managed_redis = [{
+    id   = module.redis.id
+    role = "writer"
+  }]
+
 }
 
 resource "azurerm_managed_redis_access_policy_assignment" "todo_api_function_app_slot" {
