@@ -7,7 +7,7 @@ To make sure your development setup matches with production follow the recommend
 
 ### Node.js
 Use [nodenv](https://github.com/nodenv/nodenv) to install the required
-version of Node.js from `.node-version` (`24.14.1`).  
+version of Node.js from `.node-version`.  
 Once you've installed `nodenv`, run the following script:
 ```shell
 nodenv install
