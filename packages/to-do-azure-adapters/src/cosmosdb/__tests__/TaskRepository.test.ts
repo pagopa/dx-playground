@@ -1,5 +1,5 @@
 import { Container, ErrorResponse } from "@azure/cosmos";
-import { ItemAlreadyExists, TaskCodec } from "@to-do/domain";
+import { ItemAlreadyExists, ItemNotFound, TaskCodec } from "@to-do/domain";
 import { aTask } from "@to-do/domain/test/data";
 import * as E from "fp-ts/lib/Either.js";
 import * as O from "fp-ts/lib/Option.js";
@@ -11,6 +11,28 @@ import { makeContainerMock } from "./mocks.js";
 describe("TaskRepository", () => {
   describe("delete", () => {
     const { id } = aTask;
+    it("should return ItemNotFound when the item does not exist", async () => {
+      const container = makeContainerMock();
+
+      const error = new ErrorResponse("");
+      error.code = 404;
+
+      container.item.mockReturnValueOnce({
+        delete: () => Promise.reject(error),
+      });
+
+      const repository = makeTaskRepository(container as unknown as Container);
+
+      const actual = await repository.delete(id)();
+      expect(actual).toMatchObject(
+        E.left(
+          new ItemNotFound(
+            `The item was not found; original error body: ${error.body}`,
+          ),
+        ),
+      );
+      expect(container.item).nthCalledWith(1, id, id);
+    });
     it("should return a Left with the error", async () => {
       const container = makeContainerMock();
 

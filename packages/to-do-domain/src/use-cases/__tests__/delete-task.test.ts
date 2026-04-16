@@ -9,7 +9,7 @@ import { deleteTaskById } from "../delete-task.js";
 
 describe("deleteTask", () => {
   const { id } = aTask;
-  it("should delete the task", async () => {
+  it("should delete the task without fetching it first", async () => {
     const env = makeTestEnvironment();
 
     env.taskRepository.get.mockReturnValueOnce(TE.right(O.some(aTask)));
@@ -17,20 +17,22 @@ describe("deleteTask", () => {
 
     const actual = await deleteTaskById(id)(env)();
     expect(actual).toStrictEqual(E.right(void 0));
-    expect(env.taskRepository.get).nthCalledWith(1, id);
+    expect(env.taskRepository.get).not.toHaveBeenCalled();
     expect(env.taskRepository.delete).nthCalledWith(1, id);
   });
 
-  it("should return ItemNotFound error", async () => {
+  it("should return ItemNotFound from delete without fetching first", async () => {
     const env = makeTestEnvironment();
 
     const error = new ItemNotFound("Task not found");
 
-    env.taskRepository.get.mockReturnValueOnce(TE.right(O.none));
+    env.taskRepository.get.mockReturnValueOnce(TE.right(O.some(aTask)));
+    env.taskRepository.delete.mockReturnValueOnce(TE.left(error));
+
     const actual = await deleteTaskById(id)(env)();
 
     expect(actual).toStrictEqual(E.left(error));
-    expect(env.taskRepository.get).nthCalledWith(1, id);
-    expect(env.taskRepository.delete).not.toHaveBeenCalled();
+    expect(env.taskRepository.get).not.toHaveBeenCalled();
+    expect(env.taskRepository.delete).nthCalledWith(1, id);
   });
 });
