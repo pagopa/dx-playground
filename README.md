@@ -6,7 +6,8 @@ This project requires specific versions of the following tools.
 To make sure your development setup matches with production follow the recommended installation methods.
 
 ### Node.js
-Use [nodenv](https://github.com/nodenv/nodenv) to install the required version of Node.js.  
+Use [nodenv](https://github.com/nodenv/nodenv) to install the required
+version of Node.js from `.node-version`.  
 Once you've installed `nodenv`, run the following script:
 ```shell
 nodenv install
