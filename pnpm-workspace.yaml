@@ -30,7 +30,7 @@ catalog:
   shx: ^0.4.0
   swagger-cli: ^4.0.4
   ts2esm: ^2.2.7
-  typescript: ^5.8.3
+  typescript: ^6.0.2
   ulid: ^3.0.2
   vitest: ^4.1.4
   vitest-mock-extended: ^4.0.0

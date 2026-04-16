@@ -20,6 +20,7 @@
     "@pagopa/eslint-config": "catalog:",
     "@pagopa/typescript-config-node": "workspace:^",
     "@types/express": "catalog:",
+    "@types/node": "catalog:",
     "azure-functions-core-tools": "catalog:",
     "esbuild": "catalog:",
     "eslint": "catalog:",
