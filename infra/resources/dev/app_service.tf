@@ -6,6 +6,7 @@ locals {
     OTEL_SERVICE_NAME = "To Do WebApp"
     # Enable Application Insights authentication with Entra ID, so that the App Service can send telemetry to AI without needing to manage credentials
     APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
+    APPLICATIONINSIGHTS_ENTRA_ID_AUTH_ENABLED = "true"
   }
 }
 

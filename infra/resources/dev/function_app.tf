@@ -10,6 +10,7 @@ locals {
     NODE_OPTIONS = "--import @pagopa/azure-tracing"
     # Enable Application Insights authentication with Entra ID
     APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
+    APPLICATIONINSIGHTS_ENTRA_ID_AUTH_ENABLED = "true"
   }
   azure_function_v3_settings = {
     COSMOSDB_DATABASE_NAME = azurerm_cosmosdb_sql_database.db.name
