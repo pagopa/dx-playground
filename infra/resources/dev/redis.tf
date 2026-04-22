@@ -11,3 +11,8 @@ module "redis" {
 
   tags = local.tags
 }
+
+resource "azurerm_managed_redis_access_policy_assignment" "todo_api_function_app" {
+  managed_redis_id = module.redis.id
+  object_id        = module.todo_api_function_app.function_app.function_app.principal_id
+}

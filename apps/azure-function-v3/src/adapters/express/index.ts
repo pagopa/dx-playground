@@ -5,7 +5,9 @@ import { Capabilities, listTasks } from "@to-do/domain";
 import express, { Express } from "express";
 import * as E from "fp-ts/lib/Either.js";
 
-export const makeExpressApp = (env: Capabilities) => {
+type Env = Pick<Capabilities, "taskRepository">;
+
+export const makeExpressApp = (env: Env) => {
   const app = express();
 
   app.use(express.json());

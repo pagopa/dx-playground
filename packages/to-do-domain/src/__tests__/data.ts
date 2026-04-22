@@ -1,6 +1,7 @@
 import { mock } from "vitest-mock-extended";
 
 import { Task } from "../Task.js";
+import { TaskCacheRepository } from "../TaskCacheRepository.js";
 import { TaskIdGenerator } from "../TaskIdGenerator.js";
 import { TaskRepository } from "../TaskRepository.js";
 
@@ -12,6 +13,7 @@ export const aTask: Task = {
 };
 
 export const makeTestEnvironment = () => ({
+  taskCacheRepository: mock<TaskCacheRepository>(),
   taskIdGenerator: mock<TaskIdGenerator>(),
   taskRepository: mock<TaskRepository>(),
 });

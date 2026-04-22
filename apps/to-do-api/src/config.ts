@@ -12,12 +12,16 @@ export interface Config {
     readonly dbName: string;
     readonly endpoint: string;
   };
+  readonly redis: {
+    readonly endpoint: string;
+  };
 }
 
 const EnvsCodec = t.type({
   COSMOSDB_DATABASE_NAME: NonEmptyString,
   COSMOSDB_ENDPOINT: NonEmptyString,
   COSMOSDB_TASKS_CONTAINER_NAME: NonEmptyString,
+  REDIS_ENDPOINT: NonEmptyString,
 });
 
 /**
@@ -39,6 +43,9 @@ export const getConfigOrError = (
           },
           dbName: envs.COSMOSDB_DATABASE_NAME,
           endpoint: envs.COSMOSDB_ENDPOINT,
+        },
+        redis: {
+          endpoint: envs.REDIS_ENDPOINT,
         },
       }),
     ),
