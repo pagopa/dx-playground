@@ -4,6 +4,7 @@ import {
   createCosmosClient,
   makeTaskRepository,
 } from "@to-do/azure-adapters/cosmosdb";
+import { createRedisClient, makeTaskCache } from "@to-do/azure-adapters/redis";
 import * as E from "fp-ts/lib/Either.js";
 import { pipe } from "fp-ts/lib/function.js";
 
@@ -26,8 +27,12 @@ const cosmosClient = createCosmosClient({ endpoint: config.cosmosDb.endpoint });
 
 const db = cosmosClient.database(config.cosmosDb.dbName);
 const taskContainer = db.container(config.cosmosDb.containers.tasks);
+const redisClient = createRedisClient({ endpoint: config.redis.endpoint });
+
+const TASK_CACHE_TTL_SECONDS = 300;
 
 const env = {
+  taskCacheRepository: makeTaskCache(redisClient, TASK_CACHE_TTL_SECONDS),
   taskIdGenerator: makeTaskIdGenerator(),
   taskRepository: makeTaskRepository(taskContainer),
 };
