@@ -5,10 +5,6 @@ module "redis" {
   resource_group_name = local.resource_group_name
   use_case            = "development"
 
-  virtual_network = data.azurerm_virtual_network.test_vnet
-
-  log_analytics_workspace_id = module.playground_monitoring.log_analytics_workspace_id
-
   tags = local.tags
 }
 
