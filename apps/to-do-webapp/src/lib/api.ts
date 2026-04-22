@@ -21,6 +21,20 @@ export const getTaskList = async () =>
     ),
   )();
 
+export const getTask = async (taskId: TaskId) =>
+  pipe(
+    TE.tryCatch(
+      () => client.getTaskById({ taskId }),
+      () => new Error("Server error"),
+    ),
+    TE.map(E.mapLeft((errors) => new Error(errors.join("\n")))),
+    TE.chain(TE.fromEither),
+    TE.fold(
+      (error) => () => Promise.reject(error),
+      (result) => () => Promise.resolve(result),
+    ),
+  )();
+
 export const insertTask = async (title: string) =>
   pipe(
     TE.tryCatch(

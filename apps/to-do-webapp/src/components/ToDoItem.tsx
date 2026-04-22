@@ -1,4 +1,9 @@
-import { Checkbox, ListItem, ListItemText } from "@mui/material";
+import {
+  Checkbox,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
 import React from "react";
 
 import { completeTask } from "@/lib/api";
@@ -8,6 +13,8 @@ interface TodoItemProps {
   id: TaskId;
   // Function to execute when a task is completed
   onComplete: (id: TaskId) => void;
+  // Function to execute when a task row is selected for details
+  onSelect: (id: TaskId) => void;
   state: "COMPLETED" | "DELETED" | "INCOMPLETE";
   title: string;
 }
@@ -15,6 +22,7 @@ interface TodoItemProps {
 const ToDoItem: React.FC<TodoItemProps> = ({
   id,
   onComplete,
+  onSelect,
   state,
   title,
 }) => {
@@ -30,12 +38,15 @@ const ToDoItem: React.FC<TodoItemProps> = ({
     }
   };
   return (
-    <ListItem dense divider={true} key={id}>
+    <ListItem dense disablePadding divider={true} key={id}>
       <Checkbox
         checked={state === "COMPLETED"}
         onChange={() => handleTaskComplete(id)}
+        onClick={(event) => event.stopPropagation()}
       />
-      <ListItemText primary={title} />
+      <ListItemButton onClick={() => onSelect(id)}>
+        <ListItemText primary={title} />
+      </ListItemButton>
     </ListItem>
   );
 };

@@ -3,9 +3,11 @@
 import { Alert, Container, Divider, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
+import TaskDetailsDialog from "@/components/TaskDetailsDialog";
 import ToDoList from "@/components/ToDoList";
 import ToDoTextArea from "@/components/ToDoTextArea";
 import { getTaskList } from "@/lib/api";
+import { TaskId } from "@/lib/client/TaskId";
 import { TaskItem } from "@/lib/client/TaskItem";
 import { TaskItemList } from "@/lib/client/TaskItemList";
 export const dynamic = "force-dynamic";
@@ -13,6 +15,7 @@ export const dynamic = "force-dynamic";
 export default function Home() {
   const [tasks, setTasks] = useState<TaskItemList>([]);
   const [error, setError] = useState<null | string>(null);
+  const [selectedTaskId, setSelectedTaskId] = useState<null | TaskId>(null);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -55,8 +58,19 @@ export default function Home() {
       {error ? (
         <Alert severity="error">{error}</Alert>
       ) : (
-        <ToDoList onTaskComplete={completeTask} tasks={tasks} />
+        <ToDoList
+          onTaskComplete={completeTask}
+          onTaskSelect={setSelectedTaskId}
+          tasks={tasks}
+        />
       )}
+
+      <TaskDetailsDialog
+        onClose={() => setSelectedTaskId(null)}
+        onComplete={completeTask}
+        open={selectedTaskId !== null}
+        taskId={selectedTaskId}
+      />
     </Container>
   );
 }
