@@ -8,7 +8,10 @@ import * as RTE from "fp-ts/lib/ReaderTaskEither.js";
 import { toHttpProblemJson } from "../../http/codec.js";
 import { parsePathParameter } from "../../http/middleware.js";
 
-type Env = Pick<Capabilities, "taskIdGenerator" | "taskRepository">;
+type Env = Pick<
+  Capabilities,
+  "taskCacheRepository" | "taskIdGenerator" | "taskRepository"
+>;
 
 const makeHandlerKitHandler: H.Handler<
   H.HttpRequest,

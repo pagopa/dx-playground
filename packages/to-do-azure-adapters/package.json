@@ -7,6 +7,10 @@
     "./cosmosdb": {
       "import": "./dist/cosmosdb/index.js",
       "types": "./dist/cosmosdb/index.d.ts"
+    },
+    "./redis": {
+      "import": "./dist/redis/index.js",
+      "types": "./dist/redis/index.d.ts"
     }
   },
   "scripts": {
@@ -20,6 +24,8 @@
   "dependencies": {
     "@azure/cosmos": "catalog:",
     "@azure/identity": "catalog:",
+    "@redis/client": "catalog:",
+    "@redis/entraid": "catalog:",
     "@to-do/domain": "workspace:^",
     "fp-ts": "catalog:",
     "io-ts": "catalog:"

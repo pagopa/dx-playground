@@ -12,6 +12,8 @@
 
     "COSMOSDB_TASKS_CONTAINER_NAME": "<insert-here-tasks-container-name>",
 
+    "REDIS_ENDPOINT": "<insert-here-the-redis-endpoint>",
+
     // Application Insights
 
     // Enable host Application Insights integration

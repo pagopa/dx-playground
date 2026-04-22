@@ -6,6 +6,6 @@
     "sourceMap": true,
     "declaration": true
   },
-  "include": ["src/cosmosdb/**/*.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
-} 
+}
