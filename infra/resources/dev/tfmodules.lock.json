@@ -6,10 +6,10 @@
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-api-management/azurerm/2.2.3"
   },
   "cosmos": {
-    "hash": "a50142b41c634dcaba43aaa0bdd73535753ea89ee061d2785c86b068b569101b",
-    "version": "0.4.0",
+    "hash": "e0915535ac46a8158939786c68bc35fbae39af8ceb85a89a5f1cacd1126de680",
+    "version": "0.4.1",
     "name": "azure_cosmos_account",
-    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-cosmos-account/azurerm/0.4.0"
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-cosmos-account/azurerm/0.4.1"
   },
   "naming_convention": {
     "hash": "8610b9bd32f85eef8aedb86aeca427239c3665ac9ef7a632d721d50895c34814",
