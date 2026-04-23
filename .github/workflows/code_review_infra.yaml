@@ -30,7 +30,10 @@ jobs:
       base_path: infra/resources
       env_vars: |
         TF_VAR_image_tag=sha-f21eae5
-        TF_VAR_message=value with spaces
+        TF_VAR_description=release candidate with spaces
+        TF_VAR_image_name=ghcr.io/pagopa/example:sha-f21eae5
+        TF_VAR_extra_tags=env=dev,team=platform,service=api
+        TF_VAR_json={"cpu":"0.5","memory":"1Gi","enabled":true}
+        TF_VAR_command_literal=$HOME $(date) ${PATH}
         TF_VAR_equals=a=b=c
-        TF_VAR_dollar=$HOME $(date)
-        MISSING_EQUALS
+        TF_VAR_empty=
