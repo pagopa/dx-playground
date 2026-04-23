@@ -21,10 +21,16 @@ permissions:
 
 jobs:
   code_review_dev:
-    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+    uses: pagopa/dx/.github/workflows/infra_plan.yaml@fix-env_vars-input-in-infra-workflows
     name: Code Review Infra Plan
     secrets: inherit
     with:
       environment: dev
       override_github_environment: infra-dev
       base_path: infra/resources
+      env_vars: |
+        TF_VAR_image_tag=sha-f21eae5
+        TF_VAR_message=value with spaces
+        TF_VAR_equals=a=b=c
+        TF_VAR_dollar=$HOME $(date)
+        MISSING_EQUALS
