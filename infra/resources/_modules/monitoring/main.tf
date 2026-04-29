@@ -1,19 +1,25 @@
 resource "azurerm_log_analytics_workspace" "main" {
-  name                = provider::dx::resource_name(merge(local.naming_config, { resource_type = "log_analytics" }))
-  location            = var.environment.location
-  resource_group_name = var.resource_group_name
-  sku                 = "PerGB2018"
-  retention_in_days   = 30
+  name                         = provider::dx::resource_name(merge(local.naming_config, { resource_type = "log_analytics" }))
+  location                     = var.environment.location
+  resource_group_name          = var.resource_group_name
+  sku                          = "PerGB2018"
+  retention_in_days            = 30
+  local_authentication_enabled = false
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   tags = var.tags
 }
 
 resource "azurerm_application_insights" "main" {
-  name                = provider::dx::resource_name(merge(local.naming_config, { resource_type = "application_insights" }))
-  location            = var.environment.location
-  resource_group_name = var.resource_group_name
-  application_type    = "other"
-  workspace_id        = azurerm_log_analytics_workspace.main.id
+  name                          = provider::dx::resource_name(merge(local.naming_config, { resource_type = "application_insights" }))
+  location                      = var.environment.location
+  resource_group_name           = var.resource_group_name
+  application_type              = "other"
+  workspace_id                  = azurerm_log_analytics_workspace.main.id
+  local_authentication_disabled = true
 
   tags = var.tags
 }
