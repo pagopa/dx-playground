@@ -8,14 +8,10 @@ locals {
 
     # Options to load instrumentation file with AI or Azure Monitor
     NODE_OPTIONS = "--import @pagopa/azure-tracing"
-  }
-  azure_function_v3_settings = {
-    COSMOSDB_DATABASE_NAME = azurerm_cosmosdb_sql_database.db.name
-    COSMOSDB_ENDPOINT      = module.cosmos.endpoint
 
-    # Cosmos Container Names
-    COSMOSDB_TASKS_CONTAINER_NAME = azurerm_cosmosdb_sql_container.tasks.name
-    NODE_OPTIONS                  = "--import @pagopa/azure-tracing"
+    # Application Insights settings
+    APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
+    APPLICATIONINSIGHTS_ENTRA_ID_AUTH_ENABLED = "true"
   }
 }
 
