@@ -12,6 +12,9 @@ locals {
     # Application Insights settings
     APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
     APPLICATIONINSIGHTS_ENTRA_ID_AUTH_ENABLED = "true"
+
+    # Redis
+    REDIS_ENDPOINT = module.redis.endpoint
   }
 }
 
