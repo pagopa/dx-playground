@@ -8,14 +8,10 @@ locals {
 
     # Options to load instrumentation file with AI or Azure Monitor
     NODE_OPTIONS = "--import @pagopa/azure-tracing"
-  }
-  azure_function_v3_settings = {
-    COSMOSDB_DATABASE_NAME = azurerm_cosmosdb_sql_database.db.name
-    COSMOSDB_ENDPOINT      = module.cosmos.endpoint
 
-    # Cosmos Container Names
-    COSMOSDB_TASKS_CONTAINER_NAME = azurerm_cosmosdb_sql_container.tasks.name
-    NODE_OPTIONS                  = "--import @pagopa/azure-tracing"
+    # Application Insights settings
+    APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
+    APPLICATIONINSIGHTS_ENTRA_ID_AUTH_ENABLED = "true"
   }
 }
 
@@ -57,31 +53,4 @@ module "todo_api_function_app" {
   }
 
   tags = local.tags
-}
-
-module "todo_api_function_app_roles" {
-  source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 1.0"
-
-  principal_id    = module.todo_api_function_app.function_app.function_app.principal_id
-  subscription_id = data.azurerm_subscription.current.subscription_id
-
-  cosmos = [
-    {
-      account_name        = module.cosmos.name
-      resource_group_name = module.cosmos.resource_group_name
-      database            = azurerm_cosmosdb_sql_database.db.name
-      description         = "Allow ${module.todo_api_function_app.function_app.function_app.name} to read and write on ${module.cosmos.name}"
-      role                = "writer"
-    }
-  ]
-
-  key_vault = [{
-    name                = azurerm_key_vault.vault.name
-    resource_group_name = azurerm_key_vault.vault.resource_group_name
-    description         = "Allow ${module.todo_api_function_app.function_app.function_app.name} to read secrets on ${azurerm_key_vault.vault.name}"
-    roles = {
-      secrets = "reader"
-    }
-  }]
 }

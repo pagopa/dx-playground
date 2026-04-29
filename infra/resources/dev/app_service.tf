@@ -1,9 +1,11 @@
 locals {
   to_do_webapp_settings = {
-    API_BASE_URL      = module.apim.gateway_url
-    API_BASE_PATH     = "todo"
-    API_KEY           = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.todo_webapp_apim_key.versionless_id})"
-    OTEL_SERVICE_NAME = "To Do WebApp"
+    API_BASE_URL                              = module.apim.gateway_url
+    API_BASE_PATH                             = "todo"
+    API_KEY                                   = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.todo_webapp_apim_key.versionless_id})"
+    OTEL_SERVICE_NAME                         = "To Do WebApp"
+    APPLICATIONINSIGHTS_AUTHENTICATION_STRING = "Authorization=AAD"
+    APPLICATIONINSIGHTS_ENTRA_ID_AUTH_ENABLED = "true"
   }
 }
 
@@ -37,29 +39,4 @@ module "todo_webapp_app_service" {
   application_insights_sampling_percentage = 100
 
   tags = local.tags
-}
-
-module "todo_webapp_roles" {
-  source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 1.2"
-
-  principal_id    = module.todo_webapp_app_service.app_service.app_service.principal_id
-  subscription_id = data.azurerm_subscription.current.subscription_id
-
-  apim = [
-    {
-      name                = module.apim.name
-      resource_group_name = module.apim.resource_group_name
-      description         = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to make call to ${module.apim.name}"
-      role                = "reader"
-  }]
-
-  key_vault = [{
-    name                = azurerm_key_vault.vault.name
-    resource_group_name = azurerm_key_vault.vault.resource_group_name
-    description         = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to read secrets on ${azurerm_key_vault.vault.name}"
-    roles = {
-      secrets = "reader"
-    }
-  }]
 }
