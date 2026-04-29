@@ -27,11 +27,9 @@
 | <a name="module_playground_monitoring"></a> [playground\_monitoring](#module\_playground\_monitoring) | ../_modules/monitoring | n/a |
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 | <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 5.0 |
-| <a name="module_todo_api_function_app_roles"></a> [todo\_api\_function\_app\_roles](#module\_todo\_api\_function\_app\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.0 |
 | <a name="module_todo_app_service_roles"></a> [todo\_app\_service\_roles](#module\_todo\_app\_service\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 2.0 |
 | <a name="module_todo_function_app_roles"></a> [todo\_function\_app\_roles](#module\_todo\_function\_app\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 2.0 |
 | <a name="module_todo_webapp_app_service"></a> [todo\_webapp\_app\_service](#module\_todo\_webapp\_app\_service) | pagopa-dx/azure-app-service/azurerm | ~> 3.0 |
-| <a name="module_todo_webapp_roles"></a> [todo\_webapp\_roles](#module\_todo\_webapp\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 1.2 |
 
 ## Resources
 
