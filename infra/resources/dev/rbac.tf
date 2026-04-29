@@ -24,6 +24,13 @@ module "todo_app_service_roles" {
   }]
 }
 
+resource "azurerm_role_assignment" "app_service_monitoring_metrics_publisher" {
+  description          = "Allow ${module.todo_webapp_app_service.app_service.app_service.name} to publish metrics to Application Insights"
+  scope                = module.playground_monitoring.application_insights_id
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = module.todo_webapp_app_service.app_service.app_service.principal_id
+}
+
 ## To Do API - Function App
 module "todo_function_app_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
@@ -50,4 +57,19 @@ module "todo_function_app_roles" {
       secrets = "reader"
     }
   }]
+}
+
+resource "azurerm_role_assignment" "function_app_monitoring_metrics_publisher" {
+  description          = "Allow ${module.todo_api_function_app.function_app.function_app.name} to publish metrics to Application Insights"
+  scope                = module.playground_monitoring.application_insights_id
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = module.todo_api_function_app.function_app.function_app.principal_id
+}
+
+# APIM
+resource "azurerm_role_assignment" "apim_to_appinsights" {
+  scope                = module.playground_monitoring.application_insights_id
+  description          = "Allow ${module.apim.name} to publish metrics to Application Insights"
+  role_definition_name = "Monitoring Metrics Publisher"
+  principal_id         = module.apim.principal_id
 }
