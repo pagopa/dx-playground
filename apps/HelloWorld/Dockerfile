@@ -12,8 +12,8 @@ WORKDIR /app
 
 COPY --from=build /out/ ./
 
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=http://+:80
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT ["dotnet", "HelloWorld.dll"]
