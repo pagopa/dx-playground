@@ -24,3 +24,4 @@ jobs:
       docker_image_description: "test image"
       docker_image_name: pagopa/hello-world
       dockerfile_path: ./apps/HelloWorld/Dockerfile
+      build_args: "COMMIT_SHA=$(date +'%Y-%m-%dT%H:%M:%S')"
