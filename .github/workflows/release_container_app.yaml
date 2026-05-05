@@ -14,7 +14,7 @@ on:
 
 jobs:
   deploy_app:
-    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@fixes/incremental-rollout
+    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@fixes/ca-traffic-set
     name: Deploy Test App
     secrets: inherit
     with:
