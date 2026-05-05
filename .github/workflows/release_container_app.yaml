@@ -1,0 +1,26 @@
+name: Deploy Azure Container App
+
+permissions:
+  contents: read
+  attestations: write
+  packages: write
+  id-token: write
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - troubleshooting-containerapp
+
+jobs:
+  deploy_app:
+    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@fixes/incremental-rollout
+    name: Deploy Test App
+    secrets: inherit
+    with:
+      container_app: dx-d-itn-deployment-ca-01
+      resource_group_name: dx-d-itn-ghrapp-rg-01
+      environment: app-dev
+      docker_image_description: "test image"
+      docker_image_name: pagopa/hello-world
+      dockerfile_path: ./apps/HelloWorld/Dockerfile

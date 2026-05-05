@@ -301,3 +301,23 @@ manifest.json
 
 # MacOS
 *.DS_Store
+
+# Build results
+**/artifacts/
+**/.idea/
+**/[Dd]ebug/
+**/[Dd]ebugPublic/
+**/[Rr]elease/
+**/[Rr]eleases/
+**/bld/
+**/[Bb]in/
+**/[Oo]bj/
+**/msbuild.log
+**/msbuild.err
+**/msbuild.wrn
+**/msbuild.binlog
+**/.deps/
+**/.dirstamp
+**/.libs/
+**/*.lo
+**/*.o
