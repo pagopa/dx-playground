@@ -12,7 +12,6 @@ Contains deployable applications. Each application is a separate workspace that 
 
 **Applications:**
 
-- `azure-function-v3/` - Azure Function application (v3)
 - `test-durable-function/` - Azure Durable Functions implementation
 - `test-opex-api/` - Test API for operational excellence
 - `to-do-api/` - Azure Function REST API for To Do List (main API service)
