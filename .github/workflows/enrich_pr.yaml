@@ -7,6 +7,9 @@ jobs:
 
   add_assignee:
     name: Add assignee
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
 
     steps:
