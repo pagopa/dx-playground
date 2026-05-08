@@ -57,6 +57,12 @@ module "todo_function_app_roles" {
       secrets = "reader"
     }
   }]
+
+  managed_redis = [{
+    id          = module.redis.id
+    description = "Allow ${module.todo_api_function_app.function_app.function_app.name} to read and write on ${module.redis.name}"
+    role        = "writer"
+  }]
 }
 
 resource "azurerm_role_assignment" "function_app_monitoring_metrics_publisher" {
