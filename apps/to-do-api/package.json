@@ -1,6 +1,6 @@
 {
   "name": "to-do-api",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "type": "module",
   "private": true,
   "description": "Azure Function REST API for To Do List",
