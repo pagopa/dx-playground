@@ -1,5 +1,11 @@
 # @infra/resources
 
+## 1.6.0
+
+### Minor Changes
+
+- [#383](https://github.com/pagopa/dx-playground/pull/383) [`f752003`](https://github.com/pagopa/dx-playground/commit/f752003e4d68d85504122ce1b544b5c15eff3337) Thanks [@kin0992](https://github.com/kin0992)! - Add Redis (Azure Managed Redis) to the infra. Use the `pagopa-dx/azure-managed-redis/azurerm` Terraform module
+
 ## 1.5.0
 
 ### Minor Changes
