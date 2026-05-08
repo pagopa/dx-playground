@@ -7,7 +7,7 @@
 |------|---------|
 | <a name="requirement_azuread"></a> [azuread](#requirement\_azuread) | ~> 3.0 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 4.58 |
-| <a name="requirement_dx"></a> [dx](#requirement\_dx) | ~> 0.0 |
+| <a name="requirement_dx"></a> [dx](#requirement\_dx) | ~> 0.10 |
 
 ## Providers
 
@@ -15,7 +15,7 @@
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.8.0 |
 | <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.72.0 |
-| <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0.0 |
+| <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0.10 |
 
 ## Modules
 

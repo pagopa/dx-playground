@@ -7,12 +7,9 @@ module "azure_core_values" {
 
 module "azure_bootstrap" {
   source  = "pagopa-dx/azure-github-environment-bootstrap/azurerm"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   environment = local.azure_environment
-
-  subscription_id = data.azurerm_subscription.current.id
-  tenant_id       = data.azurerm_client_config.current.tenant_id
 
   entraid_groups = {
     admins_object_id    = data.azuread_group.admins.object_id
@@ -43,12 +40,10 @@ module "azure_bootstrap" {
     }
   }
 
-  pep_vnet_id                        = module.azure_core_values.common_vnet.id
   private_dns_zone_resource_group_id = module.azure_core_values.network_resource_group_id
   opex_resource_group_id             = module.azure_core_values.opex_resource_group_id
 
-  additional_resource_group_ids = [data.azurerm_resource_group.test_workflow.id]
-  tags                          = local.tags
+  tags = local.tags
 }
 
 resource "azurerm_role_assignment" "infra_ci" {
