@@ -14,6 +14,8 @@ catalog:
   '@pagopa/handler-kit-azure-func': ^2.0.7
   '@pagopa/openapi-codegen-ts': ^14.0.0
   '@pagopa/ts-commons': ^13.1.2
+  '@redis/client': ^5.12.1
+  '@redis/entraid': ^5.12.1
   '@types/js-yaml': ^4.0.9
   '@types/node': ^24.12.3
   '@vitest/coverage-v8': ^4.1.5

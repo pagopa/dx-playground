@@ -9,7 +9,10 @@ import { TaskItem } from "../../../generated/definitions/internal/TaskItem.js";
 import { toHttpProblemJson, toTaskItemAPI } from "../../http/codec.js";
 import { parsePathParameter } from "../../http/middleware.js";
 
-type Env = Pick<Capabilities, "taskIdGenerator" | "taskRepository">;
+type Env = Pick<
+  Capabilities,
+  "taskCacheRepository" | "taskIdGenerator" | "taskRepository"
+>;
 
 const makeHandlerKitHandler: H.Handler<
   H.HttpRequest,
