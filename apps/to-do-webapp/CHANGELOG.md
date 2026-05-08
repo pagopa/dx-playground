@@ -1,5 +1,13 @@
 # to-do-webapp
 
+## 0.3.16
+
+### Patch Changes
+
+- [#360](https://github.com/pagopa/dx-playground/pull/360) [`1dce2e9`](https://github.com/pagopa/dx-playground/commit/1dce2e94a65f62c110b15a25acfb9dc024ff3307) Thanks [@kin0992](https://github.com/kin0992)! - Upgrade dependencies
+
+- [`71854d0`](https://github.com/pagopa/dx-playground/commit/71854d0d9b64f2e577963efe839323e9bad5b680) Thanks [@kin0992](https://github.com/kin0992)! - Build with Webpack instead of Turbopack to avoid a Next.js 16 Turbopack bug where externalized modules (e.g. `require-in-the-middle` used by OpenTelemetry via `@pagopa/azure-tracing`) are assigned hashed names that Node cannot resolve at runtime in the standalone output deployed to App Service.
+
 ## 0.3.15
 
 ### Patch Changes
