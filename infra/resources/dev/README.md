@@ -14,7 +14,7 @@
 | Name | Version |
 |------|---------|
 | <a name="provider_azuread"></a> [azuread](#provider\_azuread) | 3.8.0 |
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.70.0 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 4.72.0 |
 | <a name="provider_dx"></a> [dx](#provider\_dx) | ~> 0.0 |
 
 ## Modules
@@ -25,6 +25,7 @@
 | <a name="module_cosmos"></a> [cosmos](#module\_cosmos) | pagopa-dx/azure-cosmos-account/azurerm | ~> 0.3 |
 | <a name="module_naming_convention"></a> [naming\_convention](#module\_naming\_convention) | pagopa-dx/azure-naming-convention/azurerm | ~> 0.0 |
 | <a name="module_playground_monitoring"></a> [playground\_monitoring](#module\_playground\_monitoring) | ../_modules/monitoring | n/a |
+| <a name="module_redis"></a> [redis](#module\_redis) | pagopa-dx/azure-managed-redis/azurerm | ~> 0.1 |
 | <a name="module_to_do_api"></a> [to\_do\_api](#module\_to\_do\_api) | ../_modules/api | n/a |
 | <a name="module_todo_api_function_app"></a> [todo\_api\_function\_app](#module\_todo\_api\_function\_app) | pagopa-dx/azure-function-app/azurerm | ~> 5.0 |
 | <a name="module_todo_app_service_roles"></a> [todo\_app\_service\_roles](#module\_todo\_app\_service\_roles) | pagopa-dx/azure-role-assignments/azurerm | ~> 2.0 |
