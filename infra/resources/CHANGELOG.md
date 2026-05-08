@@ -1,5 +1,15 @@
 # @infra/resources
 
+## 1.7.0
+
+### Minor Changes
+
+- [#385](https://github.com/pagopa/dx-playground/pull/385) [`cbc71c1`](https://github.com/pagopa/dx-playground/commit/cbc71c19c8c362fd74924a43617b227a6972ff17) Thanks [@kin0992](https://github.com/kin0992)! - To Do API Function App now uses Redis to cache `GET /tasks/{id}` requests
+
+### Patch Changes
+
+- [#384](https://github.com/pagopa/dx-playground/pull/384) [`f8885d1`](https://github.com/pagopa/dx-playground/commit/f8885d1c5b0444109a67d6607a8a8d93c0f219b3) Thanks [@kin0992](https://github.com/kin0992)! - Give permissions to read/write Redis to the To Do API Function App
+
 ## 1.6.0
 
 ### Minor Changes

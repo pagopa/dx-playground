@@ -1,5 +1,17 @@
 # to-do-api
 
+## 0.11.0
+
+### Minor Changes
+
+- [#385](https://github.com/pagopa/dx-playground/pull/385) [`cbc71c1`](https://github.com/pagopa/dx-playground/commit/cbc71c19c8c362fd74924a43617b227a6972ff17) Thanks [@kin0992](https://github.com/kin0992)! - To Do API Function App now uses Redis to cache `GET /tasks/{id}` requests
+
+### Patch Changes
+
+- Updated dependencies [[`cbc71c1`](https://github.com/pagopa/dx-playground/commit/cbc71c19c8c362fd74924a43617b227a6972ff17)]:
+  - @to-do/azure-adapters@0.2.0
+  - @to-do/domain@0.3.0
+
 ## 0.10.1
 
 ### Patch Changes
