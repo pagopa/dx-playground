@@ -6,10 +6,10 @@
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-api-management/azurerm/2.2.3"
   },
   "cosmos": {
-    "hash": "e0915535ac46a8158939786c68bc35fbae39af8ceb85a89a5f1cacd1126de680",
-    "version": "0.4.1",
+    "hash": "dc7d7e3a7845f673d856757b6bd52ba89f6ba54d2d3dcba0030476543dd1752c",
+    "version": "0.4.2",
     "name": "azure_cosmos_account",
-    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-cosmos-account/azurerm/0.4.1"
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-cosmos-account/azurerm/0.4.2"
   },
   "naming_convention": {
     "hash": "8610b9bd32f85eef8aedb86aeca427239c3665ac9ef7a632d721d50895c34814",
@@ -40,5 +40,11 @@
     "version": "3.0.0",
     "name": "azure_app_service",
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-app-service/azurerm/3.0.0"
+  },
+  "redis": {
+    "hash": "4b20e75e3dea2a653e4aab55ffd5fe6b239d312c7fd28f01ba19ff6c41709d9d",
+    "version": "0.1.0",
+    "name": "azure_managed_redis",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-managed-redis/azurerm/0.1.0"
   }
 }
