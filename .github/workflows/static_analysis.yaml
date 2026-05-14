@@ -17,3 +17,4 @@ jobs:
     secrets: inherit
     with:
       enable_modified_files_detection: true
+      dx_policies_ref: CES-2004-implementare-una-rule-per-trivy-che-impedisce-di-usare-data-source-su-keyvault
