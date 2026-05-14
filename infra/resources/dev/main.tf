@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.14.0"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -11,6 +12,10 @@ terraform {
     dx = {
       source  = "pagopa-dx/azure"
       version = "~> 0.10"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "3.3.0"
     }
   }
 
@@ -36,3 +41,7 @@ module "naming_convention" {
 }
 
 data "azurerm_subscription" "current" {}
+
+provider "null" {
+
+}
