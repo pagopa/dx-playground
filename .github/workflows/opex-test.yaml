@@ -1,0 +1,17 @@
+name: Deploy OpEx Dashboards
+
+on:
+  push:
+    branches: [test/opex-action]
+
+jobs:
+  deploy:
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    uses: pagopa/dx/.github/workflows/opex-dashboard-deploy.yaml@chores/opex-workflow
+    secrets: inherit
+    with:
+      config_pattern: "apps/**/config.yaml"
+      github_environment: opex-dev
