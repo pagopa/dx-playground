@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dummy Web App</title>
+    <meta
+      name="description"
+      content="Minimal static web app ready for Azure Static Web Apps deployment."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">dx-playground</p>
+        <h1>Dummy web app for Azure Static Web Apps.</h1>
+        <p class="lead">
+          This workspace contains only static assets and produces a plain
+          <strong>dist</strong> folder for the shared release workflow.
+        </p>
+      </section>
+
+      <section class="grid" aria-label="Deployment highlights">
+        <article class="card">
+          <p class="card-label">Build</p>
+          <h2>Zero framework runtime</h2>
+          <p>
+            The build step copies files from public to dist with no server or
+            framework-specific export.
+          </p>
+        </article>
+
+        <article class="card">
+          <p class="card-label">Deploy</p>
+          <h2>Shared DX workflow</h2>
+          <p>
+            Release is delegated to the PagoPA DX reusable workflow for Azure
+            Static Web Apps.
+          </p>
+        </article>
+
+        <article class="card">
+          <p class="card-label">Scope</p>
+          <h2>Deliberately minimal</h2>
+          <p>
+            This app exists only to validate the Azure Static Web Apps release
+            path in this repository.
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+name: Deploy Dummy Web App
+
+on:
+  push:
+    tags:
+      - "dummy-web-app@[0-9]+.[0-9]+.[0-9]+"
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+    branches:
+      - main
+    paths:
+      - "apps/dummy-web-app/**"
+      - ".github/workflows/deploy_static_web_app.yaml"
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: write
+
+jobs:
+  deploy:
+    uses: pagopa/dx/.github/workflows/release-azure-staticapp-v1.yaml@release-azure-static-webapp-starts-on-release
+    with:
+      workspace_name: dummy-web-app
+      output_dir: dist
+      static_web_app_name: "dx-d-itn-test-preview-sapp-01"
+      resource_group_name: "dx-d-itn-test-rg-01"
+      environment: "app-dev"
+    secrets: inherit
