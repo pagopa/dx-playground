@@ -1,0 +1,9 @@
+{
+  "name": "dummy-web-app",
+  "version": "0.0.2",
+  "private": true,
+  "scripts": {
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { force: true, recursive: true });\"",
+    "build": "node --input-type=module -e \"import { cpSync, rmSync } from 'node:fs'; rmSync('dist', { force: true, recursive: true }); cpSync('public', 'dist', { recursive: true });\""
+  }
+}

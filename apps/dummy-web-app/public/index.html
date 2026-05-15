@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dummy Web App</title>
+    <meta
+      name="description"
+      content="Minimal static web app ready for Azure Static Web Apps deployment."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">dx-playground</p>
+        <h1>Dummy web app for Azure Static Web Apps.</h1>
+        <p class="lead">
+          This workspace contains only static assets and produces a plain
+          <strong>dist</strong> folder for the shared release workflow.
+        </p>
+
+        <section class="feature-banner" aria-label="New feature preview">
+          <div class="feature-copy">
+            <p class="feature-label">New feature</p>
+            <h2 class="feature-title">Release pulse panel</h2>
+            <p class="feature-text">
+              A more visible landing state that highlights the two deployment
+              paths under test: preview from pull requests and production from
+              version tags.
+            </p>
+          </div>
+
+          <div class="feature-tags" aria-label="Release flow states">
+            <span class="tag">PR preview</span>
+            <span class="tag">Tag release</span>
+            <span class="tag">Production</span>
+          </div>
+        </section>
+
+        <div class="actions">
+          <a class="button button-primary" href="#release-flow">
+            See release flow
+          </a>
+          <a class="button button-secondary" href="#preview-panel">
+            Preview feature
+          </a>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Release flow summary" id="preview-panel">
+        <article class="metric">
+          <p class="metric-value">PR</p>
+          <p class="metric-label">Preview environment on open or update</p>
+        </article>
+
+        <article class="metric">
+          <p class="metric-value">TAG</p>
+          <p class="metric-label">Production deployment on version release</p>
+        </article>
+
+        <article class="metric">
+          <p class="metric-value">LIVE</p>
+          <p class="metric-label">Dummy app publishes a static dist bundle</p>
+        </article>
+      </section>
+
+      <section class="grid" aria-label="Deployment highlights" id="release-flow">
+        <article class="card">
+          <p class="card-label">Build</p>
+          <h2>Zero framework runtime</h2>
+          <p>
+            The build step copies files from public to dist with no server or
+            framework-specific export.
+          </p>
+        </article>
+
+        <article class="card">
+          <p class="card-label">Deploy</p>
+          <h2>Shared DX workflow</h2>
+          <p>
+            Release is delegated to the PagoPA DX reusable workflow for Azure
+            Static Web Apps.
+          </p>
+        </article>
+
+        <article class="card card-highlight">
+          <p class="card-label">Scope</p>
+          <h2>Visible preview iteration</h2>
+          <p>
+            This version adds a bold visual feature so preview deployments are
+            immediately recognizable during review.
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
