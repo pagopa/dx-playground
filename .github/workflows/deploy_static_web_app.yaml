@@ -3,7 +3,7 @@ name: Deploy Dummy Web App
 on:
   push:
     tags:
-      - 'dummy-web-app@[0-9]+.[0-9]+.[0-9]+'
+      - "dummy-web-app@[0-9]+.[0-9]+.[0-9]+"
   pull_request:
     types:
       - opened
@@ -13,39 +13,8 @@ on:
     branches:
       - main
     paths:
-      - 'apps/dummy-web-app/**'
-      - '.github/workflows/deploy_static_web_app.yaml'
-  workflow_dispatch:
-    inputs:
-      static_web_app_name:
-        description: "Azure Static Web App name"
-        type: string
-        required: true
-      resource_group_name:
-        description: "Azure Static Web App resource group name"
-        type: string
-        required: true
-        default: "dx-d-itn-playground-rg-01"
-      environment:
-        description: "Environment where the artifact will be deployed"
-        type: string
-        required: true
-        default: "app-dev"
-      use_private_agent:
-        description: "Use a private agent to deploy the built artifact"
-        type: boolean
-        required: false
-        default: true
-      use_labels:
-        description: "Use labels to start the right environment's GitHub runner. If use_labels is true, also use_private_agent must be set to true"
-        type: boolean
-        required: false
-        default: false
-      override_labels:
-        description: "Needed for special cases where the environment alone is not sufficient as a distinguishing label"
-        type: string
-        required: false
-        default: ""
+      - "apps/dummy-web-app/**"
+      - ".github/workflows/deploy_static_web_app.yaml"
 
 permissions:
   contents: read
@@ -54,29 +23,11 @@ permissions:
 
 jobs:
   deploy:
-    if: github.event_name != 'workflow_dispatch'
     uses: pagopa/dx/.github/workflows/release-azure-staticapp-v1.yaml@release-azure-static-webapp-starts-on-release
     with:
       workspace_name: dummy-web-app
       output_dir: dist
-      static_web_app_name: ${{ vars.DUMMY_WEB_APP_STATIC_WEB_APP_NAME }}
-      resource_group_name: ${{ vars.DUMMY_WEB_APP_RESOURCE_GROUP_NAME || 'dx-d-itn-playground-rg-01' }}
-      environment: ${{ vars.DUMMY_WEB_APP_ENVIRONMENT || 'app-dev' }}
-      use_private_agent: ${{ vars.DUMMY_WEB_APP_USE_PRIVATE_AGENT != 'false' }}
-      use_labels: ${{ vars.DUMMY_WEB_APP_USE_LABELS == 'true' }}
-      override_labels: ${{ vars.DUMMY_WEB_APP_OVERRIDE_LABELS || '' }}
-    secrets: inherit
-
-  deploy_manual:
-    if: github.event_name == 'workflow_dispatch'
-    uses: pagopa/dx/.github/workflows/release-azure-staticapp-v1.yaml@release-azure-static-webapp-starts-on-release
-    with:
-      workspace_name: dummy-web-app
-      output_dir: dist
-      static_web_app_name: ${{ inputs.static_web_app_name }}
-      resource_group_name: ${{ inputs.resource_group_name }}
-      environment: ${{ inputs.environment }}
-      use_private_agent: ${{ inputs.use_private_agent }}
-      use_labels: ${{ inputs.use_labels }}
-      override_labels: ${{ inputs.override_labels }}
+      static_web_app_name: "dx-d-itn-test-preview-sapp-01"
+      resource_group_name: "dx-d-itn-test-rg-01"
+      environment: "app-dev"
     secrets: inherit
