@@ -19,9 +19,9 @@ env:
 
 jobs:
   test-devcontainer:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container:
-      image: ghcr.io/${{ github.repository }}/devcontainer:latest
+      image: ghcr.io/pagopa/github-self-hosted-runner-azure:latest
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
