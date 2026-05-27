@@ -1,0 +1,52 @@
+name: Build and Push DevContainer
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".devcontainer/**"
+  pull_request:
+    paths:
+      - ".devcontainer/**"
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/devcontainer
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.REGISTRY_PAT }}
+
+      - name: Build and push devcontainer image
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          cacheFrom: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          push: always
+          imageTag: latest
+          platform: linux/amd64
+
+      - name: Output image details
+        run: |
+          echo "Image pushed to: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
