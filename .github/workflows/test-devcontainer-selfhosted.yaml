@@ -1,0 +1,72 @@
+name: Test DevContainer on Self-Hosted Runner
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Build and Push DevContainer"]
+    types:
+      - completed
+    branches:
+      - test-devcontainer-build
+
+permissions:
+  contents: read
+  packages: read
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/devcontainer
+
+jobs:
+  test-devcontainer:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}/devcontainer:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+      options: --user root
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Verify devcontainer environment
+        run: |
+          echo "=== Environment Information ==="
+          echo "Working Directory: $(pwd)"
+          echo "User: $(whoami)"
+          echo "OS: $(cat /etc/os-release | grep PRETTY_NAME)"
+          echo ""
+          # echo "=== Installed Tools ==="
+          # echo "Node version: $(node --version)"
+          # echo "pnpm version: $(corepack enable && pnpm --version)"
+          # echo "Terraform version: $(terraform --version | head -n1)"
+          # echo "Azure CLI version: $(az --version | head -n1)"
+          # echo "GitHub CLI version: $(gh --version | head -n1)"
+          # echo "Trivy version: $(trivy --version | head -n1)"
+          # echo ""
+          # echo "=== Git Configuration ==="
+          # git config --list | grep safe.directory || echo "No safe directory configured"
+
+      # - name: Test pnpm workspace
+      #   run: |
+      #     echo "=== Testing pnpm workspace ==="
+      #     corepack enable
+      #     pnpm install --frozen-lockfile
+      #     echo "Dependencies installed successfully"
+
+      # - name: Test infrastructure commands
+      #   run: |
+      #     echo "=== Testing Terraform ==="
+      #     cd infra/resources
+      #     terraform fmt -check -recursive || echo "Terraform fmt check completed"
+      #     echo "Infrastructure commands tested successfully"
+
+      # - name: Summary
+      #   if: always()
+      #   run: |
+      #     echo "=== Test Summary ==="
+      #     echo "DevContainer image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+      #     echo "Runner: self-hosted on Container Apps"
+      #     echo "All tests completed!"
