@@ -19,7 +19,7 @@ env:
 
 jobs:
   test-devcontainer:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container:
       image: ghcr.io/${{ github.repository }}/devcontainer:latest
       credentials:
