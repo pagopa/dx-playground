@@ -21,7 +21,7 @@ jobs:
   test-devcontainer:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/pagopa/github-self-hosted-runner-azure:latest
+      image: ghcr.io/${{ github.repository }}/devcontainer:latest
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
@@ -30,6 +30,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
+
+      - name: "Setup Mise"
+        uses: jdx/mise-action@v4
+
+      - name: "Verify Mise Installation"
+        run: |
+          terraform version
 
       - name: Verify devcontainer environment
         run: |

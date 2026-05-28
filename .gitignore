@@ -301,3 +301,5 @@ manifest.json
 
 # MacOS
 *.DS_Store
+
+.mise/
