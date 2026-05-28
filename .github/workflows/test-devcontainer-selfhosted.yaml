@@ -19,13 +19,13 @@ env:
 
 jobs:
   test-devcontainer:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/${{ github.repository }}/devcontainer:latest
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-      options: --user root
+    runs-on: self-hosted
+    # container:
+    #   image: ghcr.io/${{ github.repository }}/devcontainer:latest
+    #   credentials:
+    #     username: ${{ github.actor }}
+    #     password: ${{ secrets.GITHUB_TOKEN }}
+    #   options: --user root
 
     steps:
       - name: Checkout repository
