@@ -28,3 +28,4 @@ jobs:
       environment: dev
       override_github_environment: infra-dev
       base_path: infra/resources
+      connection_string: "InstrumentationKey=bd858043-3e63-4354-aa7f-73e273c68525;IngestionEndpoint=https://italynorth-0.in.applicationinsights.azure.com/;LiveEndpoint=https://italynorth.livediagnostics.monitor.azure.com/;ApplicationId=e2b4c152-d43c-47d1-ac0f-9870d8a79e98"
