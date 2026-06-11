@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   release_dev:
-    uses: pagopa/dx/.github/workflows/infra_apply.yaml@feat-add-application-insight-plan #main
+    uses: pagopa/dx/.github/workflows/infra_apply.yaml@feat-add-application-insight-plan-2 #main
     name: Release Infrastructure
     secrets: inherit
     with:
