@@ -29,7 +29,7 @@
     "@pagopa/eslint-config": "catalog:",
     "@pagopa/typescript-config-node": "workspace:^",
     "@types/node": "catalog:",
-    "@typescript-eslint/parser": "^8.59.3",
+    "@typescript-eslint/parser": "^8.62.0",
     "azure-functions-core-tools": "catalog:",
     "eslint": "catalog:",
     "prettier": "catalog:",
