@@ -73,5 +73,3 @@ module "to_do_api" {
     target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
 }
-
-# Test 222
