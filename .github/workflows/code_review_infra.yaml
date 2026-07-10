@@ -10,7 +10,7 @@ on:
       - ready_for_review
     paths:
       # Trigger the workflow when resources are modified
-      - "infra/resources_test/**"
+      - "infra/resources/**"
       # Trigger the workflow when the involved workflows are modified
       - ".github/workflows/code_review_infra.yaml"
 
@@ -27,4 +27,4 @@ jobs:
     with:
       environment: dev
       override_github_environment: infra-dev
-      base_path: infra/resources_test
+      base_path: infra/resources
