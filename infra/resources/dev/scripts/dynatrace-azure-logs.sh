@@ -25,7 +25,7 @@ readonly EVENT_HUB_CONNECTION_STRING_REGEX="^Endpoint=sb:\/\/.*EntityPath=[^[:sp
 readonly FILTER_CONFIG_REGEX="([^;\s].+?)=([^;]*)"
 readonly TAGS_REGEX="^([^<>,%&\?\/]+?:[^,]+,?)+$"
 readonly REQUIRE_VALID_CERTIFICATE_DEFAULT=true
-
+#TEST2
 print_help()
 {
    printf "
@@ -314,7 +314,7 @@ fi
 
 check_arg --deployment-name "$DEPLOYMENT_NAME" "$DEPLOYMENT_NAME_REGEX"
 check_arg --resource-group "$RESOURCE_GROUP" ".+"
-if [[ "$ENABLE_USER_ASSIGNED_MANAGED_IDENTITY" == "false" ]] || [[ -z "$ENABLE_USER_ASSIGNED_MANAGED_IDENTITY" ]]; then 
+if [[ "$ENABLE_USER_ASSIGNED_MANAGED_IDENTITY" == "false" ]] || [[ -z "$ENABLE_USER_ASSIGNED_MANAGED_IDENTITY" ]]; then
   check_arg --event-hub-connection-string "$EVENT_HUB_CONNECTION_STRING" "$EVENT_HUB_CONNECTION_STRING_REGEX"
 fi
 if [ -z "$REQUIRE_VALID_CERTIFICATE" ]; then REQUIRE_VALID_CERTIFICATE=$REQUIRE_VALID_CERTIFICATE_DEFAULT; fi
