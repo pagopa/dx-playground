@@ -1,4 +1,4 @@
-name: Infra Code Review
+name: Infra Code Review - multiple
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ on:
       - ready_for_review
     paths:
       # Trigger the workflow when resources are modified
-      - "infra/resources/**"
+      - "infra/resources_test/**"
       # Trigger the workflow when the involved workflows are modified
       - ".github/workflows/code_review_infra.yaml"
 
@@ -27,4 +27,4 @@ jobs:
     with:
       environment: dev
       override_github_environment: infra-dev
-      base_path: infra/resources
+      base_path: infra/resources_test

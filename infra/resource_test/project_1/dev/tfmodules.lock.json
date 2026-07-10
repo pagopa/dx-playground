@@ -1,0 +1,50 @@
+{
+  "apim": {
+    "hash": "010357578132c3cd7931c62e2b87b03b544bb044ded8034b5291de7b9e88d500",
+    "version": "2.2.3",
+    "name": "azure_api_management",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-api-management/azurerm/2.2.3"
+  },
+  "cosmos": {
+    "hash": "181d9f2c931ffd698408c83b25a302f193c035dde15e43ef429f263f5b468a21",
+    "version": "0.4.3",
+    "name": "azure_cosmos_account",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-cosmos-account/azurerm/0.4.3"
+  },
+  "naming_convention": {
+    "hash": "8610b9bd32f85eef8aedb86aeca427239c3665ac9ef7a632d721d50895c34814",
+    "version": "0.0.8",
+    "name": "azure_naming_convention",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-naming-convention/azurerm/0.0.8"
+  },
+  "todo_api_function_app": {
+    "hash": "d31ce9fad7a8c180762b175b691cbb3b114c2caf3dca7f28da754c9f9bac20b3",
+    "version": "5.0.2",
+    "name": "azure_function_app",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-function-app/azurerm/5.0.2"
+  },
+  "todo_app_service_roles": {
+    "hash": "4b05c2a48659f272b3c88c4ce846de09870a45e996fbabd1036e36f412112040",
+    "version": "2.1.0",
+    "name": "azure_role_assignments",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-role-assignments/azurerm/2.1.0"
+  },
+  "todo_function_app_roles": {
+    "hash": "4b05c2a48659f272b3c88c4ce846de09870a45e996fbabd1036e36f412112040",
+    "version": "2.1.0",
+    "name": "azure_role_assignments",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-role-assignments/azurerm/2.1.0"
+  },
+  "todo_webapp_app_service": {
+    "hash": "d2bd824eb844d2977996cf38a49dd241a17c8430e84a882444e125446e1aa6d2",
+    "version": "3.0.0",
+    "name": "azure_app_service",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-app-service/azurerm/3.0.0"
+  },
+  "redis": {
+    "hash": "77903b9c00afb8a12c08ffcd07a33b870602e6ac031ad5815fa470ab45518fd1",
+    "version": "0.1.2",
+    "name": "azure_managed_redis",
+    "source": "https://registry.terraform.io/modules/pagopa-dx/azure-managed-redis/azurerm/0.1.2"
+  }
+}
