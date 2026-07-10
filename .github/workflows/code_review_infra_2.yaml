@@ -12,7 +12,7 @@ on:
       # Trigger the workflow when resources are modified
       - "infra/resources_test/**"
       # Trigger the workflow when the involved workflows are modified
-      - ".github/workflows/code_review_infra.yaml"
+      - ".github/workflows/code_review_infra_2.yaml"
 
 permissions:
   contents: read
