@@ -34,3 +34,4 @@ jobs:
       terraform_permission_check_model_deployment_name: gpt-5-5
       terraform_permission_check_cd_identity_name: dx-d-itn-playground-infra-github-cd-id-01
       terraform_permission_check_azure_mcp_enabled: true
+      terraform_permission_check_dx_ref: ci-ai-phase/05
