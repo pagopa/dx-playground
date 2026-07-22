@@ -29,7 +29,7 @@ jobs:
       use_private_agent: true
       terraform_permission_check_enabled: true
       terraform_permission_check_gateway_url: https://dx-d-itn-ai-apim-01.azure-api.net/ai/v1/responses
-      terraform_permission_check_model_deployment_name: gpt-5-5
+      terraform_permission_check_model_deployment_name: gpt-5-6-luna
       terraform_permission_check_cd_identity_name: dx-d-itn-playground-infra-github-cd-id-01
       terraform_permission_check_cd_identity_resource_group_name: dx-d-itn-playground-rg-01
       terraform_permission_check_dx_ref: ci-ai-phase/06
