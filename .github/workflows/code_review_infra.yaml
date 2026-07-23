@@ -8,6 +8,7 @@ on:
       - synchronize
       - reopened
       - ready_for_review
+      - edited
     paths:
       - "infra/resources/**"
       - ".github/workflows/code_review_infra.yaml"
