@@ -1,4 +1,4 @@
-name: Infra Code Review
+name: Infra Plan
 
 on:
   workflow_dispatch:
@@ -8,10 +8,9 @@ on:
       - synchronize
       - reopened
       - ready_for_review
+      - edited
     paths:
-      # Trigger the workflow when resources are modified
       - "infra/resources/**"
-      # Trigger the workflow when the involved workflows are modified
       - ".github/workflows/code_review_infra.yaml"
 
 permissions:
@@ -21,10 +20,12 @@ permissions:
 
 jobs:
   code_review_dev:
-    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+    uses: pagopa/dx/.github/workflows/infra_plan.yaml@ci-det-phase/01
     name: Code Review Infra Plan
     secrets: inherit
     with:
       environment: dev
       override_github_environment: infra-dev
       base_path: infra/resources
+      infra_cd_identity_name: dx-d-itn-playground-infra-github-cd-id-01
+      infra_cd_identity_resource_group_name: dx-d-itn-playground-rg-01
