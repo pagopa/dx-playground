@@ -27,6 +27,7 @@ jobs:
           fetch-tags: true
           fetch-depth: 0
           token: ${{ secrets.GH_BOT_PAT }}
+          persist-credentials: false
 
       - name: Node Setup
         uses: pagopa/dx/.github/actions/node-setup@main

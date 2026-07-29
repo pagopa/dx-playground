@@ -42,6 +42,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 2
+          persist-credentials: false
 
       - name: Azure Login
         uses: azure/login@532459ea530d8321f2fb9bb10d1e0bcf23869a43 # v3.0.0
@@ -55,7 +56,9 @@ jobs:
         with:
           node-version-file: ".node-version"
       - run: npm install -g @stoplight/spectral-cli
-      - run: spectral lint "${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}\apis\*.{json,yml,yaml}" --ruleset https://raw.githubusercontent.com/connectedcircuits/devops-api-linter/main/rules.yaml
+      - run: spectral lint "${INPUTS_API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH}\apis\*.{json,yml,yaml}" --ruleset https://raw.githubusercontent.com/connectedcircuits/devops-api-linter/main/rules.yaml
+        env:
+          INPUTS_API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH: ${{ inputs.API_MANAGEMENT_SERVICE_OUTPUT_FOLDER_PATH }}
 
       # Add this step for each APIM environment and pass specific set of secrets that you want replaced in the env section below
       - name: "Perform namevalue secret substitution in configuration.${{ inputs.API_MANAGEMENT_ENVIRONMENT}}.yaml"
