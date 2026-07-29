@@ -3,6 +3,13 @@ packages:
   - packages/*
   - infra/*
 
+allowBuilds:
+  azure-functions-core-tools: true
+  esbuild: true
+  protobufjs: true
+  sharp: true
+  unrs-resolver: true
+
 catalog:
   '@azure/cosmos': ^4.10.0
   '@azure/functions': ^4.16.2
@@ -53,6 +60,10 @@ cleanupUnusedCatalogs: true
 injectWorkspacePackages: true
 
 linkWorkspacePackages: true
+
+minimumReleaseAgeExclude:
+  - '@pagopa/azure-tracing@0.5.7'
+  - '@pagopa/eslint-config@6.2.2'
 
 onlyBuiltDependencies:
   - azure-functions-core-tools
