@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.0",
-    "@mui/material": "^6.4.11",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^6.5.0",
     "@pagopa/azure-tracing": "catalog:",
     "@pagopa/ts-commons": "catalog:",
     "fp-ts": "catalog:",

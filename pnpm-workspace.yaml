@@ -14,12 +14,12 @@ catalog:
   '@azure/cosmos': ^4.10.0
   '@azure/functions': ^4.16.2
   '@azure/identity': ^4.13.1
-  '@cdktf/provider-azurerm': ^14.2.0
+  '@cdktf/provider-azurerm': ^14.23.1
   '@pagopa/azure-tracing': ^0.5.7
   '@pagopa/eslint-config': ^6.2.2
-  '@pagopa/handler-kit': ^1.1.0
-  '@pagopa/handler-kit-azure-func': ^2.0.7
-  '@pagopa/openapi-codegen-ts': ^14.0.0
+  '@pagopa/handler-kit': ^1.1.1
+  '@pagopa/handler-kit-azure-func': ^2.0.8
+  '@pagopa/openapi-codegen-ts': ^14.2.0
   '@pagopa/ts-commons': ^13.1.2
   '@redis/client': ^5.12.1
   '@redis/entraid': ^5.12.1
@@ -31,7 +31,7 @@ catalog:
   constructs: ^10.7.1
   esbuild: ^0.28.1
   eslint: ^10.8.0
-  fp-ts: ^2.16.10
+  fp-ts: ^2.16.11
   io-ts: ^2.2.22
   js-yaml: ^4.3.0
   prettier: ^3.9.6
@@ -51,7 +51,7 @@ catalogs:
     next: ^16.2.12
   react:
     '@types/react': ^19.2.17
-    '@types/react-dom': ^19.1.3
+    '@types/react-dom': ^19.2.3
     react: ^19.2.8
     react-dom: ^19.2.8
 
@@ -64,6 +64,11 @@ linkWorkspacePackages: true
 minimumReleaseAgeExclude:
   - '@pagopa/azure-tracing@0.5.7'
   - '@pagopa/eslint-config@6.2.2'
+  - tsup@8.3.5
+  - uuid@11.1.1
+  - '@opentelemetry/core@2.8.0'
+  - '@opentelemetry/propagator-jaeger@2.9.0'
+  - sharp@0.35.0
 
 onlyBuiltDependencies:
   - azure-functions-core-tools
@@ -72,7 +77,9 @@ onlyBuiltDependencies:
   - sharp
   - unrs-resolver
 overrides:
+  '@opentelemetry/core@<2.8.0': ^2.8.0
   '@opentelemetry/exporter-prometheus@<0.217.0': '>=0.217.0'
+  '@opentelemetry/propagator-jaeger@<2.9.0': ^2.9.0
   '@opentelemetry/sdk-node@<0.217.0': '>=0.217.0'
   axios@>=1.0.0 <1.15.0: '>=1.15.0'
   axios@>=1.0.0 <1.15.1: '>=1.15.1'
@@ -92,6 +99,9 @@ overrides:
   picomatch@<2.3.2: '>=2.3.2'
   postcss@<8.5.10: '>=8.5.10'
   rollup@>=3.0.0 <3.30.0: '>=3.30.0'
+  sharp@<0.35.0: ^0.35.0
+  tsup@<=8.3.4: ^8.3.5
+  uuid@<11.1.1: ^11.1.1
   vite@>=7.0.0 <=7.3.1: '>=7.3.2'
   vite@>=7.1.0 <=7.3.1: '>=7.3.2'
   yaml@>=1.0.0 <1.10.3: '>=1.10.3'
