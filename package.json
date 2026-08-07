@@ -2,21 +2,22 @@
   "name": "dx-playground",
   "private": true,
   "scripts": {
-    "code-review": "turbo run typecheck lint:check test",
-    "build": "turbo run build",
-    "typecheck": "turbo run typecheck",
-    "lint": "turbo run lint",
-    "test": "vitest",
+    "validate": "nx affected --targets=build,test,lint:check,typecheck",
+    "code-review": "nx run-many --targets=typecheck,lint:check,test",
+    "build": "nx run-many --target=build",
+    "typecheck": "nx run-many --target=typecheck",
+    "lint": "nx run-many --target=lint",
+    "test": "nx run-many --target=test",
     "test:coverage": "vitest --coverage",
-    "version": "changeset version",
-    "release": "changeset tag",
-    "infra:generate": "turbo run infra:generate --no-color --output-logs=new-only --no-update-notifier"
+    "release:plan": "nx release plan",
+    "infra:generate": "nx run-many --target=infra:generate"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.7.0",
-    "@changesets/cli": "^2.31.1",
+    "@nx/eslint": "catalog:",
+    "@nx/js": "catalog:",
+    "@nx/vitest": "catalog:",
     "@vitest/coverage-v8": "catalog:",
-    "turbo": "^2.10.7",
+    "nx": "catalog:",
     "vitest": "catalog:"
   },
   "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72"
