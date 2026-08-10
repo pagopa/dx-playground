@@ -1,0 +1,47 @@
+name: az acme TLS Renewal
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - rfc-tls-certificates
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  az-acme-tls-renewal:
+    runs-on: ubuntu-latest
+    environment: infra-dev-cd
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Azure Login
+        uses: azure/login@532459ea530d8321f2fb9bb10d1e0bcf23869a43 # v3.0.0
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
+          subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+      - name: Setup az-acme CLI
+        uses: az-acme/setup-cli-action@84fbdbae05257dad0fdc1d87166667492acd0fae # v1.0.0
+        with:
+          version: 0.5
+
+      - name: Print Help
+        run: |
+          az-acme help order
+
+      - name: Order Certificate (Staging)
+        run: |
+          az-acme order \
+            --key-vault-uri https://ax-d-itn-common-kv-01.vault.azure.net/ \
+            --certificate cert-le-stg-101 \
+            --server https://acme-staging-v02.api.letsencrypt.org/directory \
+            --subject azacme.dev.dx.pagopa.it \
+            --account-secret le-private-key-json \
+            --azure-dns-zone /subscriptions/35e6e3b2-4388-470e-a1b9-ad3bc34326d1/resourceGroups/dx-d-itn-network-rg-01/providers/Microsoft.Network/dnszones/dev.dx.pagopa.it \
+            --zone-name dx.pagopa.it \
+            --verbose
