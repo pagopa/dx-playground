@@ -73,9 +73,6 @@ catalogs:
     io-ts:
       specifier: ^2.2.22
       version: 2.2.22
-    js-yaml:
-      specifier: ^4.3.0
-      version: 4.3.0
     prettier:
       specifier: ^3.9.6
       version: 3.9.6
@@ -247,7 +244,7 @@ importers:
         version: 0.21.0(constructs@10.7.1)
       cdktf-monitoring-stack:
         specifier: workspace:^
-        version: link:../../packages/cdktf-monitoring-stack
+        version: file:packages/cdktf-monitoring-stack
       constructs:
         specifier: 'catalog:'
         version: 10.7.1
@@ -305,7 +302,7 @@ importers:
         version: 0.21.0(constructs@10.7.1)
       cdktf-monitoring-stack:
         specifier: workspace:^
-        version: link:../../packages/cdktf-monitoring-stack
+        version: file:packages/cdktf-monitoring-stack
       constructs:
         specifier: 'catalog:'
         version: 10.7.1
@@ -456,7 +453,7 @@ importers:
         version: 10.7.1
       js-yaml:
         specifier: 'catalog:'
-        version: 4.3.0
+        version: 4.3.1
     devDependencies:
       '@pagopa/eslint-config':
         specifier: 'catalog:'
@@ -487,7 +484,7 @@ importers:
         version: 0.21.0(constructs@10.7.1)
       cdktf-monitoring-stack:
         specifier: workspace:^
-        version: link:../cdktf-monitoring-stack
+        version: file:packages/cdktf-monitoring-stack
     devDependencies:
       '@pagopa/eslint-config':
         specifier: 'catalog:'
@@ -3227,6 +3224,9 @@ packages:
   caniuse-lite@1.0.30001806:
     resolution: {integrity: sha512-72Cuvd95zbSYPKq6Fhg8eDJRlzgWDf7/mtoZv6Qe/DYNCEBdNxoA3+rZAU2ZhGCpZlns3EssFavaZomckT5Uuw==}
 
+  cdktf-monitoring-stack@file:packages/cdktf-monitoring-stack:
+    resolution: {directory: packages/cdktf-monitoring-stack, type: directory}
+
   cdktf@0.21.0:
     resolution: {integrity: sha512-bdTOOyrFSXw0p5d7/3dye7ZWYzrUatyMjWEAAwTGoqghjygRj6Q55y1QZnSB021NRDzYZ3BhFGsOkpmIjQMzNQ==}
     peerDependencies:
@@ -4300,6 +4300,10 @@ packages:
 
   js-yaml@4.3.0:
     resolution: {integrity: sha512-1td788aAnnZ5qs7V2QIRl1owjtYpbKt749Y3xauqQgwIIGF/xXWz1wMTEBx5O3LK3lXLVuqXPdPxj2BoFHaW9Q==}
+    hasBin: true
+
+  js-yaml@4.3.1:
+    resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
     hasBin: true
 
   jsesc@3.1.0:
@@ -8695,6 +8699,13 @@ snapshots:
 
   caniuse-lite@1.0.30001806: {}
 
+  cdktf-monitoring-stack@file:packages/cdktf-monitoring-stack:
+    dependencies:
+      '@cdktf/provider-azurerm': 14.23.1(cdktf@0.21.0(constructs@10.7.1))(constructs@10.7.1)
+      cdktf: 0.21.0(constructs@10.7.1)
+      constructs: 10.7.1
+      js-yaml: 4.3.0
+
   cdktf@0.21.0(constructs@10.7.1):
     dependencies:
       constructs: 10.7.1
@@ -10024,6 +10035,10 @@ snapshots:
       esprima: 4.0.1
 
   js-yaml@4.3.0:
+    dependencies:
+      argparse: 2.0.1
+
+  js-yaml@4.3.1:
     dependencies:
       argparse: 2.0.1
 
