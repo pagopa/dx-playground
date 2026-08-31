@@ -20,7 +20,7 @@ pnpm must be installed using [Corepack](https://pnpm.io/getting-started/install)
 
 ```shell
 corepack enable
-# Check the installd version
+# Check the installed version
 pnpm -v
 ```
 
@@ -54,20 +54,54 @@ Each sub-folder is a workspace.
 It contains the _infrastructure-as-code_ project that defines the resources for the project as well as the execution environments.  
 Database schemas and migrations are defined here too, in case they are needed.
 
+## Development
+
+The pnpm workspaces are orchestrated by [Nx](https://nx.dev). Common commands
+run the matching target across the workspace:
+
+```shell
+pnpm build
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm code-review
+```
+
+Use `pnpm nx show projects` to list projects and `pnpm nx affected` to run
+targets only for projects changed from the configured base branch.
 
 ## Releases
 
-Releases are handled using [Changeset](https://github.com/changesets/changesets).
-Changeset takes care of bumping packages, updating the changelog, and tag the repository accordingly.
+Releases use [Nx Release version plans](https://nx.dev/features/manage-releases).
+Projects are versioned independently and retain the
+`{projectName}@{version}` tag format used by deployment workflows.
 
 #### How it works
 
-- When opening a Pull Request with a change intended to be published, [add a changeset file](https://github.com/changesets/changesets/blob/main/docs/adding-a-changeset.md) to the proposed changes.
-- Once the Pull Request is merged, a new Pull Request named `Version Packages` will be automatically opened with all the release changes such as version bumping for each involved app or package and changelog update; if an open `Version Packages` PR already exists, it will be updated and the package versions calculated accordingly (see https://github.com/changesets/changesets/blob/main/docs/decisions.md#how-changesets-are-combined).
-  Only apps and packages mentioned in the changeset files will be bumped.
-- Review the `Version Packages` PR and merge it when ready. Changeset files will be deleted.
-- A Release entry is created for each app or package whose version has been bumped.
+- Add a version plan for a releasable change with `pnpm release:plan`.
+- The plan is written under `.nx/version-plans/` and checked on pull requests.
+- After merge, the DX release workflow opens or updates the `Version Packages`
+  pull request.
+- Merging `Version Packages` publishes the release tags and GitHub releases.
 
-> [!TIP]  
-> You can also set up the [Changeset bot](https://github.com/apps/changeset-bot) to alert you with a warning message (for example, [this one](https://github.com/pagopa/dx-playground/pull/9#issuecomment-2507383352)) if a changeset is missing.  
-> Additionally, the bot provides the capability to create a changeset file directly through the GitHub user interface.  
+## GitHub App authentication
+
+The DX release workflows use the repository secrets
+`GH_APP_RELEASE_CLIENT_ID` and `GH_APP_RELEASE_APP_KEY`. Bootstrapper workflows
+use `GH_APP_CLIENT_ID`, `GH_APP_KEY`, and `GH_APP_INSTALLATION_ID`.
+
+The Azure self-hosted runner reads these credentials from the shared Key Vault:
+
+- `github-runner-app-id`
+- `github-runner-app-installation-id`
+- `github-runner-app-key`
+
+The DX Terraform module maps them at runtime to `GITHUB_APP_ID`,
+`GITHUB_APP_INSTALLATION_ID`, and `GITHUB_APP_KEY`, and configures
+`REGISTRATION_TOKEN_API_URL`. Secret values must be populated through approved
+secure channels and must never be committed.
+
+The AWS CodeBuild runner remains on its existing SSM-backed PAT because the
+current stable AWS bootstrap contract does not expose the runner-container
+GitHub App inputs and the shared core state does not export a CodeConnection
+ARN.
