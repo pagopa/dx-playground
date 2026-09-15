@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   code_review_dev:
-    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+    uses: pagopa/dx/.github/workflows/infra_plan.yaml@a18d71062ddaaa09f8e145835a05aefd7701935e # main
     name: Code Review Infra Plan
     secrets: inherit
     with:
