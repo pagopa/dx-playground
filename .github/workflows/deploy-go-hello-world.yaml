@@ -1,0 +1,31 @@
+name: Deploy Go Hello World Container App
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "apps/go-hello-world/**"
+      - ".github/workflows/deploy-go-hello-world.yaml"
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+  packages: write
+
+jobs:
+  deploy:
+    name: Deploy Go Hello World
+    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@feat-add-auto-approve-for-container-app-workflow
+    secrets: inherit
+    with:
+      dockerfile_path: ./apps/go-hello-world/Dockerfile
+      dockerfile_context: ./apps/go-hello-world
+      docker_image_name: ${{ github.repository }}/go-hello-world
+      docker_image_description: "Temporary Go hello world application"
+      container_app: container-app-cc38
+      resource_group_name: release-poc
+      environment: app-dev
+      disable_auto_deploy: false
