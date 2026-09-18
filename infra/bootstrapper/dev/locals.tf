@@ -58,12 +58,4 @@ locals {
     name                = replace("${local.project}tfstatest01", "-", "")
     resource_group_name = "${local.project}-tfstate-rg-01"
   }
-
-  repository = {
-    name            = "dx-playground"
-    configure       = true
-    description     = "A playground for the DevEx team"
-    topics          = ["dx", "typescript"]
-    reviewers_teams = ["engineering-team-devex"]
-  }
 }
