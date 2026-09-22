@@ -19,9 +19,7 @@
       "matchDatasources": ["terraform-registry"],
       "matchPackageNames": ["/^pagopa-dx\\//"],
       "matchUpdateTypes": ["major"],
-      "enabled": true,
-      "groupName": "PagoPA DX Terraform major updates",
-      "separateMultipleMajor": true
+      "groupName": "PagoPA DX Terraform major updates"
     }
   ]
 }
