@@ -21,7 +21,7 @@
       "matchUpdateTypes": ["major"],
       "enabled": true,
       "groupName": "PagoPA DX Terraform major updates",
-      "separateMultipleMajor": true
+      "separateMultipleMajor": false
     }
   ]
 }
