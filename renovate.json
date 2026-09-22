@@ -10,8 +10,10 @@
     },
     {
       "matchManagers": ["terraform", "terraform-version"],
+      "matchDatasources": ["terraform-registry"],
+      "matchPackageNames": ["!/^pagopa-dx\\//"],
       "separateMultipleMajor": true,
-      "groupName": "Terraform providers and modules",
+      "groupName": "Terraform providers",
       "schedule": ["* 0-8 * * 1"]
     },
     {
@@ -19,9 +21,7 @@
       "matchDatasources": ["terraform-registry"],
       "matchPackageNames": ["/^pagopa-dx\\//"],
       "matchUpdateTypes": ["major"],
-      "enabled": true,
-      "groupName": "PagoPA DX Terraform major updates",
-      "separateMultipleMajor": false
+      "groupName": "PagoPA DX Terraform major updates"
     }
   ]
 }
