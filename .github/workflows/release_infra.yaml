@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   release_dev:
-    uses: pagopa/dx/.github/workflows/infra_apply.yaml@main
+    uses: pagopa/dx/.github/workflows/infra_apply.yaml@1323cb47dc65aadf61a04c4f34bdef49cb8da727 # main
     name: Release Infrastructure
     secrets: inherit
     with:

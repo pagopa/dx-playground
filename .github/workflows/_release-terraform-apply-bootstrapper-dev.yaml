@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   release:
-    uses: pagopa/dx/.github/workflows/release-terraform-bootstrapper-v1.yaml@main
+    uses: pagopa/dx/.github/workflows/release-terraform-bootstrapper-v1.yaml@1323cb47dc65aadf61a04c4f34bdef49cb8da727 # main
     name: Release Bootstrapper (dev)
     secrets: inherit
     with:

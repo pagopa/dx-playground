@@ -18,7 +18,7 @@ permissions:
 jobs:
   deploy:
     name: Deploy Go Hello World
-    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@feat-add-auto-approve-for-container-app-workflow
+    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@04d61d8a038c90f4b9230cd6a4dbd186499f1b3f # feat-add-auto-approve-for-container-app-workflow
     secrets: inherit
     with:
       dockerfile_path: ./apps/go-hello-world/Dockerfile
