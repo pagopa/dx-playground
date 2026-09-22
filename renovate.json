@@ -1,0 +1,27 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "separateMultipleMajor": true,
+      "groupName": "GitHub Actions",
+      "schedule": ["* 0-8 * * 1"]
+    },
+    {
+      "matchManagers": ["terraform", "terraform-version"],
+      "separateMultipleMajor": true,
+      "groupName": "Terraform providers and modules",
+      "schedule": ["* 0-8 * * 1"]
+    },
+    {
+      "matchManagers": ["terraform"],
+      "matchDatasources": ["terraform-registry"],
+      "matchPackageNames": ["/^pagopa-dx\\//"],
+      "matchUpdateTypes": ["major"],
+      "enabled": true,
+      "groupName": "PagoPA DX Terraform major updates",
+      "separateMultipleMajor": true
+    }
+  ]
+}
