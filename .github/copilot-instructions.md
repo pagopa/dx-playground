@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is a **monorepo** project managed with **pnpm workspaces** and **Turborepo** for build orchestration. The project follows a modular architecture with applications, shared packages, and infrastructure-as-code.
+This is a **monorepo** project managed with **pnpm workspaces** and **Nx** for task orchestration and releases. The project follows a modular architecture with applications, shared packages, and infrastructure-as-code.
 
 ## Project Structure
 
@@ -50,9 +50,9 @@ Azure API Management configurations including APIs, backends, policies, diagnost
 
 - **Language**: TypeScript (primary), JavaScript
 - **Runtime**: Node.js (version managed via nodenv)
-- **Package Manager**: pnpm 10.28.0+ (installed via Corepack)
-- **Monorepo Tool**: Turborepo 2.7.4+
-- **Version Management**: Changesets for releases
+- **Package Manager**: pnpm 11.17.0+ (installed via Corepack)
+- **Monorepo Tool**: Nx 23.1+
+- **Version Management**: Nx Release version plans
 
 ### Frontend
 
@@ -117,10 +117,11 @@ Azure API Management configurations including APIs, backends, policies, diagnost
   - `pnpm code-review` - Run full validation (typecheck + lint + test)
   - `pnpm infra:generate` - Generate infrastructure code
 
-- **Turborepo**: Manages task dependencies and caching (see `turbo.json`)
-  - Tasks: `clean`, `build`, `typecheck`, `lint`, `lint:check`, `generate`, `test`
-  - Caching: Configured per task with inputs/outputs
-  - Dependencies: Tasks can depend on other tasks using `dependsOn`
+- **Nx**: Manages project discovery, task dependencies, affected execution, and
+  release plans (see `nx.json`)
+  - Use `pnpm nx show projects` to inspect projects
+  - Use `pnpm nx affected` for change-scoped validation
+  - Use `pnpm nx run <project>:<target>` for a single project
 
 ### Package Management
 
@@ -137,8 +138,8 @@ Azure API Management configurations including APIs, backends, policies, diagnost
 
 ### Release Process
 
-1. Add changeset file when opening PRs with publishable changes: `pnpm changeset`
-2. Changesets bot will create/update "Version Packages" PR
+1. Add a version plan for publishable changes: `pnpm release:plan`
+2. The DX release workflow creates or updates the "Version Packages" PR
 3. Merge "Version Packages" PR to publish releases
 4. GitHub releases are created automatically for bumped versions
 
@@ -214,22 +215,16 @@ pnpm test:coverage
 # Generate infrastructure code
 pnpm infra:generate
 
-# Create a changeset
-pnpm changeset
-
-# Version packages (handled by CI)
-pnpm version
-
-# Tag releases (handled by CI)
-pnpm release
+# Create an Nx Release version plan
+pnpm release:plan
 ```
 
 ## Best Practices
 
 1. **Always run `generate` scripts** before building apps that use codegen
-2. **Use Turborepo task dependencies** to ensure proper build order
+2. **Use Nx target dependencies** to ensure proper build order
 3. **Follow semantic versioning** for all packages and apps
-4. **Add changesets** for all user-facing changes
+4. **Add Nx version plans** for all releasable changes
 5. **Keep shared logic in packages**, not duplicated in apps
 6. **Document OpenAPI specs** before implementing endpoints
 7. **Use catalog versions** for consistent dependencies
@@ -293,7 +288,7 @@ Ensure you have the following tools installed with version management:
 - When creating new packages, add them to `pnpm-workspace.yaml`
 - When modifying infrastructure, update corresponding Terraform modules
 - When generating code, ensure source OpenAPI specs are valid
-- When adding scripts, consider if they should be in Turborepo pipeline
+- When adding scripts, consider whether they need Nx target defaults
 - Always maintain type safety - avoid `any` types
 - Follow fp-ts patterns for error handling (Either, Option, TaskEither)
 - Use io-ts for runtime validation of external data
