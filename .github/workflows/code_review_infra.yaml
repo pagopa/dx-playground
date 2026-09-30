@@ -28,3 +28,12 @@ jobs:
       environment: dev
       override_github_environment: infra-dev
       base_path: infra/resources
+
+  # code_review_test:
+  #   uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+  #   name: Code Review Infra Plan - TEST
+  #   secrets: inherit
+  #   with:
+  #     environment: test
+  #     override_github_environment: infra-dev
+  #     base_path: infra/resources
