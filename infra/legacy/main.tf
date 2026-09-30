@@ -22,7 +22,7 @@ provider "azurerm" {
 
 module "azure_storage_account" {
   source  = "pagopa-dx/azure-storage-account/azurerm"
-  version = "~> 2.1"
+  version = "~> 4.0"
 
   environment         = merge(var.environment, { app_name = "legz" })
   use_case            = "default"

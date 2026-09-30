@@ -1,13 +1,13 @@
 module "aws_core_values" {
   source  = "pagopa-dx/aws-core-values-exporter/aws"
-  version = "~> 0.0"
+  version = "~> 2.0"
 
   core_state = local.core_state
 }
 
 module "aws_bootstrap" {
   source  = "pagopa-dx/aws-github-environment-bootstrap/aws"
-  version = "~> 0.0"
+  version = "~> 2.0"
 
   environment = local.aws_environment
 

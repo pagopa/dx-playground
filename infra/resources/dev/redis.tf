@@ -1,6 +1,6 @@
 module "redis" {
   source  = "pagopa-dx/azure-managed-redis/azurerm"
-  version = "~> 0.1"
+  version = "~> 2.0"
 
   environment         = merge(local.environment, { app_name = "" })
   resource_group_name = local.resource_group_name

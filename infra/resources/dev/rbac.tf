@@ -1,7 +1,7 @@
 ## To Do WebApp - App Service
 module "todo_app_service_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 2.0"
+  version = "~> 4.0"
 
   principal_id    = module.todo_webapp_app_service.app_service.app_service.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
@@ -34,7 +34,7 @@ resource "azurerm_role_assignment" "app_service_monitoring_metrics_publisher" {
 ## To Do API - Function App
 module "todo_function_app_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
-  version = "~> 2.0"
+  version = "~> 4.0"
 
   principal_id    = module.todo_api_function_app.function_app.function_app.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
