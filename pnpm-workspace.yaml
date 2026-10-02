@@ -6,11 +6,15 @@ packages:
 allowBuilds:
   azure-functions-core-tools: true
   esbuild: true
+  nx: true
   protobufjs: true
   sharp: true
   unrs-resolver: true
 
 catalog:
+  '@nx/eslint': 23.1.1
+  '@nx/js': 23.1.1
+  '@nx/vitest': 23.1.1
   '@azure/cosmos': ^4.10.0
   '@azure/functions': ^4.16.2
   '@azure/identity': ^4.13.1
@@ -34,6 +38,7 @@ catalog:
   fp-ts: ^2.16.11
   io-ts: ^2.2.22
   js-yaml: ^4.3.0
+  nx: 23.1.1
   prettier: ^3.9.6
   shx: ^0.4.0
   swagger-cli: ^4.0.4
@@ -73,6 +78,7 @@ minimumReleaseAgeExclude:
 onlyBuiltDependencies:
   - azure-functions-core-tools
   - esbuild
+  - nx
   - protobufjs
   - sharp
   - unrs-resolver

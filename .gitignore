@@ -267,7 +267,8 @@ terraform.rc
 
 ### Turbo ###
 # Turborepo task cache
-.turbo
+.nx/cache
+.nx/workspace-data
 
 ### yarn ###
 # https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
@@ -287,7 +288,6 @@ terraform.rc
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/yarn,turbo,terraform,jetbrains+all,node
-changeset-status.json
 
 # CDKTF
 .gen/

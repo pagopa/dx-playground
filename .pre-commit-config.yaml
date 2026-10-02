@@ -24,5 +24,4 @@ repos:
       - id: terraform_providers_lock_staged
       - id: lock_modules
         exclude: ^.*/(_modules|modules|\.terraform)(/.*)?$ # directories to exclude
-        files: infra/(github_runner|identity/dev|repository|resources/dev) # directories with terraform files to validate
-
+        files: infra/(bootstrapper/dev|repository|resources/dev) # directories with terraform files to validate

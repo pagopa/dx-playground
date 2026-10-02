@@ -1,21 +1,33 @@
-name: "Code Review"
+name: Validate
 
 on:
   workflow_dispatch:
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
     paths:
       - apps/**
       - packages/**
-      - yarn.lock
+      - package.json
+      - go.work
+      - pnpm-lock.yaml
+      - pnpm-workspace.yaml
+      - nx.json
+      - .nx/version-plans/**
+      - .github/workflows/code_review.yaml
 
 permissions:
   contents: read
 
 jobs:
-  code_review:
-    uses: pagopa/dx/.github/workflows/js_code_review.yaml@8739151463bdcd6c0e3c867d053665b54a0bc618
-    name: Code Review
+  validate:
+    name: Validate
+    uses: pagopa/dx/.github/workflows/validate-v1.yaml@main
     secrets: inherit
     permissions:
+      actions: read
       contents: read
       pull-requests: write

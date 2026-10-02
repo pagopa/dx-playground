@@ -6,6 +6,6 @@ workflows:
   - changed-files:
       - any-glob-to-any-file: [ '.github/workflows/**' ]
 
-changeset:
+version-plan:
   - changed-files:
-      - any-glob-to-any-file: [ '.changeset/**' ]
+      - any-glob-to-any-file: [ '.nx/version-plans/**' ]

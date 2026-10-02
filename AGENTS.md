@@ -4,7 +4,7 @@ This document gives operating instructions for agentic coding assistants working
 Place: repository root. Keep concise; follow existing conventions in `.github/copilot-instructions.md`.
 
 Build / Lint / Test (commands)
-- Root monorepo (uses pnpm + Turborepo)
+- Root monorepo (uses pnpm + Nx)
   - Install deps: `pnpm install` (Corepack enabled)
   - Full code review (typecheck + lint check + test): `pnpm code-review`
   - Build everything: `pnpm build`
@@ -14,6 +14,9 @@ Build / Lint / Test (commands)
   - Test with coverage: `pnpm test:coverage`
 
 - Workspace / package scoped
+  - Prefer Nx project targets:
+    - `pnpm nx test to-do-api`
+    - `pnpm nx run to-do-api:typecheck`
   - Run package scripts from package dir, e.g.:
     - `cd apps/to-do-api && pnpm typecheck`
     - `cd apps/to-do-api && pnpm lint:check`
@@ -37,6 +40,7 @@ Code generation / infra
 - Infra generator job (root): `pnpm infra:generate`
 
 Repository tooling notes
+- Task orchestration: Nx (`nx.json`). Prefer `pnpm nx affected` in CI.
 - Tests: Vitest (workspace config in `vitest.workspace.ts`)
 - Linting: ESLint with `@pagopa/eslint-config`. Use `lint:check` in CI.
 - Formatting: Prettier + EditorConfig (2-space indent, LF, max_line_length=80).
@@ -90,7 +94,7 @@ Testing
 
 Git / PR / release workflow for agents
 - Always run `pnpm code-review` before creating PRs.
-- Add a changeset for any package version bump: `pnpm changeset`.
+- Add an Nx version plan for releasable changes: `pnpm release:plan`.
 - Follow the Definition of Done from `.github/copilot-instructions.md`:
   - Typecheck passes, lint passes, tests pass, new functionality has tests, code-review passes.
 
@@ -106,7 +110,7 @@ Cursor rules
 - No Cursor rules were found in `.cursor/rules/` or `.cursorrules` at the time this file was created. If such rules are added, update this file and follow their constraints.
 
 Practical tips for agents
-- When making changes: 1) run `pnpm generate` if package uses codegen, 2) run `pnpm typecheck` and `pnpm lint`, 3) run package tests (`pnpm test -- <path or -t pattern>`), 4) run `pnpm code-review`.
+- When making changes: 1) run the project's `generate` target if it uses codegen, 2) run affected Nx targets, 3) run package tests, 4) run `pnpm code-review`.
 - For workspace-specific work prefer `pnpm --filter <package>` to avoid running the entire monorepo when not needed.
 - When adding dependencies, prefer using `catalog:` versions defined in `pnpm-workspace.yaml` or `workspace:^` for internal packages.
 
