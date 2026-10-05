@@ -25,7 +25,7 @@ jobs:
       dockerfile_context: ./apps/go-hello-world
       docker_image_name: ${{ github.repository }}/go-hello-world
       docker_image_description: "Temporary Go hello world application"
-      container_app: dx-u-itn-modules-test-ca-01
-      resource_group_name: dx-u-itn-modules-ca-rg-01
-      environment: app-uat
+      container_app: dx-d-itn-modules-test-ca-01
+      resource_group_name: dx-d-itn-modules-ca-rg-01
+      environment: app-dev
       enable_auto_deploy: false
