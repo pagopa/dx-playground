@@ -30,7 +30,7 @@ jobs:
           persist-credentials: false
 
       - name: Node Setup
-        uses: pagopa/dx/.github/actions/node-setup@main
+        uses: pagopa/dx/.github/actions/node-setup@6abcf9bc0956833202dae18c8218b4a4bc85a7f5 # main
 
       - name: Install dependencies
         run: pnpm install
