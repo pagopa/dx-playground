@@ -1,6 +1,6 @@
 module "cosmos" {
   source  = "pagopa-dx/azure-cosmos-account/azurerm"
-  version = "~> 0.3"
+  version = "~> 0.4"
 
   environment                          = merge(local.environment, { app_name = "pg" })
   resource_group_name                  = local.resource_group_name
