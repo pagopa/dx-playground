@@ -39,6 +39,7 @@ module "playground_container_app" {
       client_id                     = data.azuread_application.entra_auth_app.client_id
       tenant_id                     = data.azurerm_subscription.current.tenant_id
       unauthenticated_client_action = "Return401"
+      allowed_callers_client_ids    = [data.azuread_service_principal.apim.client_id]
     }
   }
 

@@ -2,7 +2,15 @@
     <inbound>
         <base />
         <authentication-managed-identity resource="${entra-id-app}" />
-        <set-backend-service backend-id="${backend-id}" />
+        <choose>
+            <when condition="@(context.Operation.UrlTemplate.StartsWith(&quot;/ca/&quot;))">
+                <set-backend-service backend-id="${container-backend-id}" />
+                <rewrite-uri template="@(context.Request.Url.Path.Substring(context.Request.Url.Path.IndexOf(&quot;/ca/&quot;) + 3))" />
+            </when>
+            <otherwise>
+                <set-backend-service backend-id="${backend-id}" />
+            </otherwise>
+        </choose>
         <cors>
             <allowed-origins>
                 <origin>*</origin>

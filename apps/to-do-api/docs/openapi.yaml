@@ -21,6 +21,19 @@ paths:
         '500':
           description: Internal Server error
 
+  /ca/info:
+    get:
+      operationId: caInfo
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationInfo'
+        '500':
+          description: Internal Server error
+
   /tasks:
     post:
       operationId: createTask
@@ -51,6 +64,51 @@ paths:
                 $ref: '#/components/schemas/ProblemJSON'
     get:
       operationId: listTasks
+      summary: List tasks
+      responses:
+        '200':
+          description: Returns a list of tasks.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItemList'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+
+  /ca/tasks:
+    post:
+      operationId: caCreateTask
+      summary: Create a new task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskItem'
+      responses:
+        '201':
+          description: Returns the created task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '400':
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+    get:
+      operationId: caListTasks
       summary: List tasks
       responses:
         '200':
@@ -101,6 +159,64 @@ paths:
       description: Delete a task
       summary: Delete a task
       operationId: deleteTask
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+          required: true
+          description: The id of the task
+      responses:
+        '204':
+          description: Task deleted
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+
+  /ca/tasks/{taskId}:
+    get:
+      description: Get information of a task
+      summary: Get a task
+      operationId: caGetTaskById
+      parameters:
+        - in: path
+          name: taskId
+          schema:
+            type: string
+          required: true
+          description: The id of the task
+      responses:
+        '200':
+          description: Details of a task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskItem'
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemJSON'
+    delete:
+      description: Delete a task
+      summary: Delete a task
+      operationId: caDeleteTask
       parameters:
         - in: path
           name: taskId

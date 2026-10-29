@@ -72,4 +72,10 @@ module "to_do_api" {
     url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}/api"
     target_resource_id = module.todo_api_function_app.function_app.function_app.id
   }
+
+  container_backend = {
+    name               = "to-do-api-container-app"
+    url                = "https://${module.playground_container_app.url}/api"
+    target_resource_id = module.playground_container_app.id
+  }
 }
