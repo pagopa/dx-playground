@@ -5,6 +5,17 @@ module "azure_core_values" {
   core_state = local.core_state
 }
 
+resource "azurerm_user_assigned_identity" "todo_container_app_key_vault" {
+  name = provider::dx::resource_name(merge(local.environment, {
+    app_name      = "demo-kv"
+    resource_type = "managed_identity"
+  }))
+  location            = local.environment.location
+  resource_group_name = local.resource_group_name
+
+  tags = local.tags
+}
+
 module "playground_container_app" {
   source  = "pagopa-dx/azure-container-app/azurerm"
   version = "~> 8.0"
@@ -13,16 +24,28 @@ module "playground_container_app" {
   resource_group_name = local.resource_group_name
   use_case            = "development"
 
+  user_assigned_identity_id = azurerm_user_assigned_identity.todo_container_app_key_vault.id
+
   container_app_environment_id = module.azure_core_values.github_runner.environment_id
   container_port               = 80
 
   containers = [
     {
-      image = "nginx:latest"
-      name  = "nginx"
+      image = "ghcr.io/pagopa/dx-playground/to-do-api:latest"
+      name  = "to-do-api"
+
+      environment_variables = [
+        for name, value in merge(local.to_do_api_settings, {
+          APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_key_vault_secret.application_insights_connection_string.versionless_id
+          OTEL_SERVICE_NAME                     = "To Do API"
+          }) : {
+          name  = name
+          value = value
+        }
+      ]
 
       liveness_probe = {
-        path = "/"
+        path = "/api/info"
       }
     }
   ]
@@ -44,4 +67,6 @@ module "playground_container_app" {
   }
 
   tags = local.tags
+
+  depends_on = [module.todo_container_app_key_vault_roles]
 }
