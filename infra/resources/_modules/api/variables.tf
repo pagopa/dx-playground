@@ -24,8 +24,8 @@ variable "api" {
   })
 }
 
-variable "backend" {
-  description = "Backend API configuration"
+variable "container_backend" {
+  description = "Container App backend API configuration"
   type = object({
     name               = string
     url                = string

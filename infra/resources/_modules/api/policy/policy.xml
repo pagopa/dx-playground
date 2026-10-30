@@ -2,7 +2,7 @@
     <inbound>
         <base />
         <authentication-managed-identity resource="${entra-id-app}" />
-        <set-backend-service backend-id="${backend-id}" />
+        <set-backend-service backend-id="${container-backend-id}" />
         <cors>
             <allowed-origins>
                 <origin>*</origin>

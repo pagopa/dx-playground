@@ -12,7 +12,7 @@ data "azurerm_subnet" "pep_snet" {
   resource_group_name  = data.azurerm_virtual_network.test_vnet.resource_group_name
 }
 
-# Entra ID application used as identity provider for Function App authentication.
+# Entra ID application used as identity provider for Container App authentication.
 # Callers (e.g. APIM) use their Managed Identity to obtain a JWT from this app.
 data "azuread_application" "entra_auth_app" {
   display_name = "playground-test-apim-auth"

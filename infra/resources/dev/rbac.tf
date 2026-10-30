@@ -31,12 +31,28 @@ resource "azurerm_role_assignment" "app_service_monitoring_metrics_publisher" {
   principal_id         = module.todo_webapp_app_service.app_service.app_service.principal_id
 }
 
-## To Do API - Function App
-module "todo_function_app_roles" {
+module "todo_container_app_key_vault_roles" {
   source  = "pagopa-dx/azure-role-assignments/azurerm"
   version = "~> 2.0"
 
-  principal_id    = module.todo_api_function_app.function_app.function_app.principal_id
+  principal_id    = azurerm_user_assigned_identity.todo_container_app_key_vault.principal_id
+  subscription_id = data.azurerm_subscription.current.subscription_id
+
+  key_vault = [{
+    name                = azurerm_key_vault.vault.name
+    resource_group_name = azurerm_key_vault.vault.resource_group_name
+    description         = "Allow the Container App Key Vault identity to read secrets on ${azurerm_key_vault.vault.name}"
+    roles = {
+      secrets = "reader"
+    }
+  }]
+}
+
+module "todo_container_app_roles" {
+  source  = "pagopa-dx/azure-role-assignments/azurerm"
+  version = "~> 2.0"
+
+  principal_id    = module.playground_container_app.principal_id
   subscription_id = data.azurerm_subscription.current.subscription_id
 
   cosmos = [
@@ -44,32 +60,23 @@ module "todo_function_app_roles" {
       account_name        = module.cosmos.name
       resource_group_name = module.cosmos.resource_group_name
       database            = azurerm_cosmosdb_sql_database.db.name
-      description         = "Allow ${module.todo_api_function_app.function_app.function_app.name} to read and write on ${module.cosmos.name}"
+      description         = "Allow ${module.playground_container_app.name} to read and write on ${module.cosmos.name}"
       role                = "writer"
     }
   ]
 
-  key_vault = [{
-    name                = azurerm_key_vault.vault.name
-    resource_group_name = azurerm_key_vault.vault.resource_group_name
-    description         = "Allow ${module.todo_api_function_app.function_app.function_app.name} to read secrets on ${azurerm_key_vault.vault.name}"
-    roles = {
-      secrets = "reader"
-    }
-  }]
-
   managed_redis = [{
     id          = module.redis.id
-    description = "Allow ${module.todo_api_function_app.function_app.function_app.name} to read and write on ${module.redis.name}"
+    description = "Allow ${module.playground_container_app.name} to read and write on ${module.redis.name}"
     role        = "writer"
   }]
 }
 
-resource "azurerm_role_assignment" "function_app_monitoring_metrics_publisher" {
-  description          = "Allow ${module.todo_api_function_app.function_app.function_app.name} to publish metrics to Application Insights"
+resource "azurerm_role_assignment" "container_app_monitoring_metrics_publisher" {
+  description          = "Allow ${module.playground_container_app.name} to publish metrics to Application Insights"
   scope                = module.playground_monitoring.application_insights_id
   role_definition_name = "Monitoring Metrics Publisher"
-  principal_id         = module.todo_api_function_app.function_app.function_app.principal_id
+  principal_id         = module.playground_container_app.principal_id
 }
 
 # APIM

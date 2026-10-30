@@ -54,7 +54,7 @@ module "apim" {
 module "to_do_api" {
   source = "../_modules/api"
 
-  entra_id_app_client_id = module.todo_api_function_app.entra_id_authentication.audience_client_id
+  entra_id_app_client_id = data.azuread_application.entra_auth_app.client_id
 
   api = {
     name         = "to-do-api"
@@ -67,9 +67,9 @@ module "to_do_api" {
   apim_name           = module.apim.name
   resource_group_name = module.apim.resource_group_name
 
-  backend = {
-    name               = "to-do-api-azure-function"
-    url                = "https://${module.todo_api_function_app.function_app.function_app.default_hostname}/api"
-    target_resource_id = module.todo_api_function_app.function_app.function_app.id
+  container_backend = {
+    name               = "to-do-api-container-app"
+    url                = "https://${module.playground_container_app.url}/api"
+    target_resource_id = module.playground_container_app.id
   }
 }
