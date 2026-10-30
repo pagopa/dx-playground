@@ -43,7 +43,7 @@
   },
   "playground_container_app": {
     "hash": "1b22b0e7d3a0159918027d803245cc73356e0fd597dfb085cb2d51edadb38570",
-    "version": "unknown",
+    "version": "8.0.3",
     "name": "unknown",
     "source": "https://registry.terraform.io/modules/pagopa-dx/azure-container-app/azurerm/8.0.3"
   },
