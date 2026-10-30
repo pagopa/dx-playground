@@ -26,39 +26,28 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       environments: ${{ steps.detect.outputs.environments }}
-    env:
-      TURBO_CACHE_DIR: .turbo-cache
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
-      - name: Setup yarn
-        shell: bash
-        run: corepack enable
+      - name: Setup Node.js
+        uses: pagopa/dx/.github/actions/node-setup@main
   
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version-file: ".node-version"
-          cache: yarn
-          cache-dependency-path: "yarn.lock"
-  
-      - name: Setup turbo cache
-        if: ${{ env.TURBO_CACHE_DIR != '' }}
+      - name: Cache Nx
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: ./${{ env.TURBO_CACHE_DIR }}
-          key: ${{ runner.os }}-turbo-${{ github.job }}-${{ github.sha }}
+          path: .nx/cache
+          key: ${{ runner.os }}-nx-${{ github.job }}-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-turbo-${{ github.job }}-
+            ${{ runner.os }}-nx-${{ github.job }}-${{ hashFiles('pnpm-lock.yaml') }}-
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
 
       - name: Generate Terraform code
-        run: |
-          yarn turbo run infra:generate
+        run: pnpm infra:generate
 
       - name: Verify generated files
         run: |

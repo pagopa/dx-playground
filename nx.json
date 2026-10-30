@@ -1,0 +1,81 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "parallel": 10,
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["generate", "^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["generate", "^build", "^typecheck"]
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "options": {
+        "fix": true
+      },
+      "configurations": {
+        "ci": {
+          "fix": false
+        }
+      }
+    },
+    "lint:check": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "configurations": {
+        "ci": {
+          "coverage": true
+        }
+      }
+    },
+    "infra:generate": {
+      "dependsOn": ["^build"]
+    }
+  },
+  "release": {
+    "versionPlans": true,
+    "projects": ["apps/*", "packages/*", "infra/resources"],
+    "projectsRelationship": "independent",
+    "version": {},
+    "changelog": {
+      "projectChangelogs": {
+        "createRelease": false,
+        "file": "{projectRoot}/CHANGELOG.md",
+        "renderOptions": {
+          "authors": true,
+          "applyUsernameToAuthors": true,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
+      }
+    },
+    "git": {
+      "commit": false,
+      "tag": true,
+      "stageChanges": false
+    },
+    "releaseTag": {
+      "pattern": "{projectName}@{version}"
+    }
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/vitest",
+      "options": {
+        "testTargetName": "test"
+      },
+      "include": ["apps/**", "packages/**"]
+    },
+    {
+      "plugin": "@nx/eslint/plugin",
+      "options": {
+        "targetName": "lint"
+      },
+      "include": ["apps/**", "packages/**"]
+    }
+  ],
+  "analytics": false,
+  "neverConnectToCloud": true
+}
