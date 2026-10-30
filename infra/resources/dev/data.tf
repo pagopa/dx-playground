@@ -15,7 +15,7 @@ data "azurerm_subnet" "pep_snet" {
 # Entra ID application used as identity provider for Container App authentication.
 # Callers (e.g. APIM) use their Managed Identity to obtain a JWT from this app.
 data "azuread_application" "entra_auth_app" {
-  display_name = "playground-test-apim-auth"
+  display_name = "io-managed-identity-auth-app"
 }
 
 data "azuread_service_principal" "apim" {

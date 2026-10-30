@@ -22,6 +22,14 @@ module "todo_app_service_roles" {
       secrets = "reader"
     }
   }]
+
+}
+
+resource "azurerm_role_assignment" "container_app_storage_account_contributor" {
+  description          = "Allow the Container App identity to access its host storage account"
+  scope                = module.todo_api_host_storage.id
+  role_definition_name = "Storage Account Contributor"
+  principal_id         = azurerm_user_assigned_identity.todo_container_app_key_vault.principal_id
 }
 
 resource "azurerm_role_assignment" "app_service_monitoring_metrics_publisher" {
@@ -45,6 +53,20 @@ module "todo_container_app_key_vault_roles" {
     roles = {
       secrets = "reader"
     }
+  }]
+
+  storage_blob = [{
+    storage_account_name = module.todo_api_host_storage.name
+    resource_group_name  = module.todo_api_host_storage.resource_group_name
+    description          = "Allow the Container App identity to manage host storage blobs"
+    role                 = "owner"
+  }]
+
+  storage_queue = [{
+    storage_account_name = module.todo_api_host_storage.name
+    resource_group_name  = module.todo_api_host_storage.resource_group_name
+    description          = "Allow the Container App identity to manage host storage queues"
+    role                 = "writer"
   }]
 }
 

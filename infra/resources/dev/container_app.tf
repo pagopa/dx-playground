@@ -17,11 +17,23 @@ locals {
   }
 }
 
-module "azure_core_values" {
-  source  = "pagopa-dx/azure-core-values-exporter/azurerm"
-  version = "~> 0.0"
+module "todo_container_app_environment" {
+  source  = "pagopa-dx/azure-container-app-environment/azurerm"
+  version = "~> 5.0"
 
-  core_state = local.core_state
+  environment         = merge(local.environment, { app_name = "demo" })
+  resource_group_name = local.resource_group_name
+  use_case            = "development"
+
+  log_analytics_workspace_id = module.playground_monitoring.log_analytics_workspace_id
+
+  networking = {
+    virtual_network_id                   = data.azurerm_virtual_network.test_vnet.id
+    private_dns_zone_resource_group_name = data.azurerm_resource_group.net_rg.name
+    public_network_access_enabled        = false
+  }
+
+  tags = local.tags
 }
 
 resource "azurerm_user_assigned_identity" "todo_container_app_key_vault" {
@@ -36,8 +48,9 @@ resource "azurerm_user_assigned_identity" "todo_container_app_key_vault" {
 }
 
 module "playground_container_app" {
-  source  = "pagopa-dx/azure-container-app/azurerm"
-  version = "~> 8.0"
+  # source  = "pagopa-dx/azure-container-app/azurerm"
+  # version = "~> 8.0"
+  source = "github.com/pagopa/dx//infra/modules/azure_container_app?ref=features/container-app-allowed-clients"
 
   environment         = merge(local.environment, { app_name = "demo" })
   resource_group_name = local.resource_group_name
@@ -45,7 +58,7 @@ module "playground_container_app" {
 
   user_assigned_identity_id = azurerm_user_assigned_identity.todo_container_app_key_vault.id
 
-  container_app_environment_id = module.azure_core_values.github_runner.environment_id
+  container_app_environment_id = module.todo_container_app_environment.id
   container_port               = 80
 
   containers = [
@@ -57,6 +70,10 @@ module "playground_container_app" {
         for name, value in merge(local.to_do_api_settings, {
           APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_key_vault_secret.application_insights_connection_string.versionless_id
           OTEL_SERVICE_NAME                     = "To Do API"
+          AzureWebJobsStorage__accountName      = module.todo_api_host_storage.name
+          AzureWebJobsStorage__clientId         = azurerm_user_assigned_identity.todo_container_app_key_vault.client_id
+          AzureWebJobsStorage__credential       = "managedidentity"
+          AzureWebJobsStorage__queueServiceUri  = module.todo_api_host_storage.primary_queue_endpoint
           }) : {
           name  = name
           value = value
@@ -87,5 +104,8 @@ module "playground_container_app" {
 
   tags = local.tags
 
-  depends_on = [module.todo_container_app_key_vault_roles]
+  depends_on = [
+    module.todo_container_app_key_vault_roles,
+    azurerm_role_assignment.container_app_storage_account_contributor,
+  ]
 }
