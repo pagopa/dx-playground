@@ -24,15 +24,6 @@ variable "api" {
   })
 }
 
-variable "backend" {
-  description = "Backend API configuration"
-  type = object({
-    name               = string
-    url                = string
-    target_resource_id = string
-  })
-}
-
 variable "container_backend" {
   description = "Container App backend API configuration"
   type = object({
