@@ -170,11 +170,11 @@ jobs:
           path: infra/
 
       - name: Azure Login
-        uses: pagopa/dx/.github/actions/azure-login@main
+        uses: pagopa/dx/.github/actions/azure-login@a48a894c64c3f04404ebe274ce9a750c903c7d70 # main
 
       - name: Terraform Setup
         id: set-terraform-version
-        uses: pagopa/dx/.github/actions/terraform-setup@main
+        uses: pagopa/dx/.github/actions/terraform-setup@a48a894c64c3f04404ebe274ce9a750c903c7d70 # main
 
       - name: Terraform Init
         working-directory: ${{ steps.directory.outputs.dir }}
