@@ -18,6 +18,6 @@ data "azuread_application" "entra_auth_app" {
   display_name = "playground-test-apim-auth"
 }
 
-data "azuread_service_principal" "apim" {
-  display_name = module.apim.name
-}
+# data "azuread_service_principal" "apim" {
+#   display_name = module.apim.name
+# }
