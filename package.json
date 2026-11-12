@@ -1,23 +1,8 @@
 {
-  "name": "dx-playground",
+  "name": "dx-copilot-setup-smoke",
   "private": true,
-  "scripts": {
-    "code-review": "turbo run typecheck lint:check test",
-    "build": "turbo run build",
-    "typecheck": "turbo run typecheck",
-    "lint": "turbo run lint",
-    "test": "vitest",
-    "test:coverage": "vitest --coverage",
-    "version": "changeset version",
-    "release": "changeset tag",
-    "infra:generate": "turbo run infra:generate --no-color --output-logs=new-only --no-update-notifier"
-  },
-  "devDependencies": {
-    "@changesets/changelog-github": "^0.7.0",
-    "@changesets/cli": "^2.31.1",
-    "@vitest/coverage-v8": "catalog:",
-    "turbo": "^2.10.7",
-    "vitest": "catalog:"
-  },
+  "description": "Smoke test for the copilot-setup-steps workflow shipped by dx init",
+  "license": "UNLICENSED",
+  "type": "module",
   "packageManager": "pnpm@11.17.0+sha512.cca3cea332ad254bb84145f966d19f4879615210346fc92c79a047f23a0d7b3cca3c3792f0076ba1f1831d277efbcf0a9119b31a9a60eca7fb3d6231f331ef72"
 }
