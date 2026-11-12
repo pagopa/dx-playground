@@ -4,7 +4,9 @@
 name: Smoke bootstrap
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - smoke/copilot-setup-steps
 
 permissions:
   contents: read
