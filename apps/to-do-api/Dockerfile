@@ -1,6 +1,6 @@
 # Build from the repository root with:
 # docker build -f apps/to-do-api/Dockerfile -t to-do-api .
-FROM node:24-bookworm-slim AS build
+FROM node:24-bookworm-slim@sha256:dc26ae92c9fb15cf6b1d63e20f0944b2efe0f115b20e00be48fb23fceb061c54 AS build
 
 WORKDIR /workspace
 
