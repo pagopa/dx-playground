@@ -19,7 +19,7 @@ jobs:
       group: ${{ github.workflow }}-cd
       # Override this configuration to prevent cancelling a running deploy.
       cancel-in-progress: false
-    uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@main
+    uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@d025f45d6725b88af4a7b6e391f4ae13d58af13c # main
     secrets: inherit
     with:
       workspace_name: to-do-api
