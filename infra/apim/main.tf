@@ -16,20 +16,6 @@ resource "azurerm_virtual_network" "test" {
   tags                = local.tags
 }
 
-resource "dx_available_subnet_cidr" "apim" {
-  virtual_network_id = azurerm_virtual_network.test.id
-  prefix_length      = 24
-}
-
-resource "azurerm_subnet" "apim" {
-  name = provider::dx::resource_name(merge(local.environment, {
-    resource_type = "apim_subnet"
-  }))
-  virtual_network_name = azurerm_virtual_network.test.name
-  resource_group_name  = azurerm_resource_group.test.name
-  address_prefixes     = [dx_available_subnet_cidr.apim.cidr_block]
-}
-
 resource "azurerm_private_dns_zone" "apim" {
   for_each = toset([
     "azure-api.net",
@@ -43,24 +29,25 @@ resource "azurerm_private_dns_zone" "apim" {
 }
 
 module "apim" {
-  source  = "pagopa-dx/azure-api-management/azurerm"
-  version = "~> 4.2"
+  source = "git::https://github.com/pagopa/dx.git//infra/modules/azure_api_management?ref=72d82774cdec98cb7ff860e6bb340b0cccb18b13"
 
   environment         = local.environment
   resource_group_name = azurerm_resource_group.test.name
   tags                = local.tags
 
   # Developer SKU exercises subnet adoption without production-tier costs.
-  use_case = "development"
-  virtual_network = {
-    name                = azurerm_virtual_network.test.name
-    resource_group_name = azurerm_resource_group.test.name
-  }
-  subnet_id = azurerm_subnet.apim.id
+  use_case        = "development"
+  virtual_network = azurerm_virtual_network.test.id
 
-  publisher_email           = "playground@pagopa.it"
-  publisher_name            = "Playground Publisher"
-  notification_sender_email = "playground@pagopa.it"
+  publisher_email = "playground@pagopa.it"
+  publisher_name  = "Playground Publisher"
+
+  # Azure's existing default hostname is already the default SSL binding.
+  hostname_configuration = {
+    proxy = {
+      use_resource_name_as_default = true
+    }
+  }
 
   depends_on = [azurerm_private_dns_zone.apim]
 }
