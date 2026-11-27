@@ -50,6 +50,20 @@ permissions:
   id-token: write
   attestations: write
 jobs:
+  control_build:
+    name: Control build (dx main, no deployment)
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: pagopa/dx/.github/actions/build-workspace@main
+        with:
+          workspace_name: ${{ inputs.workspace_name }}
   deploy:
     if: github.event_name == 'workflow_dispatch'
     uses: pagopa/dx/.github/workflows/release-azure-appsvc-v1.yaml@test/actions-hardening
