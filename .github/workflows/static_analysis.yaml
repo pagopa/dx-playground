@@ -22,4 +22,4 @@ jobs:
     name: Terraform Validation
     secrets: inherit
     with:
-      enable_modified_files_detection: true
+      enable_modified_files_detection: false

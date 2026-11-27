@@ -3,6 +3,7 @@ node = "24.15.0"
 pnpm = "11.17.0"
 terraform = "1.16.0"
 azure-cli = "2.91.0"
+uv = "0.13.0"
 
 [settings]
 experimental = true
