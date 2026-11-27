@@ -1,0 +1,11 @@
+{
+  "name": "@pagopa/dx-hardening-release-probe",
+  "version": "0.0.0-hardening.0",
+  "description": "Test-only probe for the release-v2 publish path. DO NOT MERGE.",
+  "files": [
+    "README.md"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}

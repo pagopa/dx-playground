@@ -1,5 +1,10 @@
 name: Hardening Release v2 no-op
 
+# Test-only consumer (DO NOT MERGE). Push runs the "skip" release mode.
+# Dispatch runs DX "publish-all", whose only publisher is the
+# hardening-release-probe project: it checks the publish-step credentials and
+# runs `npm publish --dry-run`, so nothing is published.
+
 on:
   push:
     branches: [test/actions-hardening]
@@ -9,32 +14,50 @@ permissions: {}
 
 jobs:
   preflight:
-    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Require an unconfigured, unchanged release workspace
+      - name: Require a probe-only, side-effect-free release workspace
         env:
           BEFORE_SHA: ${{ github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
         run: |
+          set -euo pipefail
+          probe=tools/hardening-release-probe/project.json
           node --input-type=module -e '
             import assert from "node:assert/strict";
             import { existsSync, readFileSync } from "node:fs";
             assert.equal(existsSync(".nx/version-plans"), false);
-            assert.deepEqual(JSON.parse(readFileSync("nx.json")).release.projects, []);
-          '
-          # An initial branch push has no valid before SHA: skip release.
-          test "$BEFORE_SHA" != 0000000000000000000000000000000000000000
-          test -z "$(git diff --name-only "$BEFORE_SHA" HEAD -- .nx/version-plans)"
+            assert.deepEqual(
+              JSON.parse(readFileSync("nx.json")).release.projects,
+              ["hardening-release-probe"],
+            );
+            const target = JSON.parse(readFileSync(process.argv[1]))
+              .targets["nx-release-publish"];
+            assert.equal(
+              target.options.command,
+              "bash tools/hardening-release-probe/probe.sh",
+            );
+          ' "$probe"
+          test "$(git grep -l nx-release-publish -- '*project.json' '*package.json')" = "$probe"
+          # Tag/release sync only acts on merged Version Packages PRs.
+          test "$(gh pr list -R "$REPOSITORY" --state merged \
+            --head nx-release/main --json number --jq length)" = 0
+          if [[ "$EVENT_NAME" == push ]]; then
+            # An initial branch push has no valid before SHA: skip release.
+            test "$BEFORE_SHA" != 0000000000000000000000000000000000000000
+            test -z "$(git diff --name-only "$BEFORE_SHA" HEAD -- .nx/version-plans)"
+          fi
 
   release:
-    # Dispatch means publish-all in nx-release; never execute that path.
-    if: github.event_name == 'push'
     needs: preflight
     permissions:
       contents: write
@@ -43,7 +66,9 @@ jobs:
       pull-requests: write
     uses: pagopa/dx/.github/workflows/release-v2.yaml@test/actions-hardening
     with:
-      environment: app-dev-cd
+      # The only playground environment holding GH_APP_* secrets. It has
+      # required reviewers and an exact-branch policy for this test branch.
+      environment: bootstrapper-dev-cd
     secrets:
       app-client-id: ${{ secrets.GH_APP_CLIENT_ID }}
       app-private-key: ${{ secrets.GH_APP_KEY }}

@@ -7,6 +7,9 @@
     }
   },
   "release": {
-    "projects": []
+    "projects": ["hardening-release-probe"],
+    "version": {
+      "versionActions": "./tools/hardening-release-probe/version-actions.cjs"
+    }
   }
 }

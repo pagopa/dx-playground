@@ -2,6 +2,13 @@ name: Deploy Go Hello World Container App
 
 on:
   workflow_dispatch:
+    inputs:
+      docker_image_tag:
+        description: >-
+          Existing image tag to redeploy without building or pushing. The
+          deployed tag makes the release a revision no-op.
+        type: string
+        default: sha-6bf5b48
   push:
     branches:
       - main
@@ -25,7 +32,10 @@ jobs:
       dockerfile_context: ./apps/go-hello-world
       docker_image_name: ${{ github.repository }}/go-hello-world
       docker_image_description: "Temporary Go hello world application"
-      container_app: container-app-cc38
-      resource_group_name: release-poc
-      environment: dev
+      # Test branch only: main targets container-app-cc38/release-poc and the
+      # dev-cd environment, none of which exist. These are the deployed ones.
+      docker_image_tag: ${{ inputs.docker_image_tag }}
+      container_app: dx-d-itn-playground-go-ca-01
+      resource_group_name: dx-d-itn-github-runner-rg-01
+      environment: app-dev
       enable_auto_deploy: false

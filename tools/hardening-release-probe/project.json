@@ -1,0 +1,15 @@
+{
+  "name": "hardening-release-probe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "root": "tools/hardening-release-probe",
+  "projectType": "library",
+  "targets": {
+    "nx-release-publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "bash tools/hardening-release-probe/probe.sh",
+        "forwardAllArgs": false
+      }
+    }
+  }
+}
