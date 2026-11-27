@@ -18,7 +18,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "infra/resources/dev",
-        "command": "terraform init -input=false && terraform plan -input=false -lock-timeout=120s -no-color",
+        "command": ": \"${ARM_CLIENT_ID:?Missing Azure client ID for Terraform plan}\" \"${ARM_TENANT_ID:?Missing Azure tenant ID for Terraform plan}\" \"${ARM_SUBSCRIPTION_ID:?Missing Azure subscription ID for Terraform plan}\" && terraform init -input=false && terraform plan -input=false -lock-timeout=120s -no-color",
         "forwardAllArgs": false
       },
       "configurations": {
