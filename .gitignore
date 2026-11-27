@@ -269,6 +269,10 @@ terraform.rc
 # Turborepo task cache
 .turbo
 
+# Nx test workspace caches
+.nx/cache/
+.nx/workspace-data/
+
 ### yarn ###
 # https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
 

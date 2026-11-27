@@ -1,6 +1,8 @@
 name: Static Analysis
 
 on:
+  push:
+    branches: [test/actions-hardening]
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize]
@@ -10,9 +12,13 @@ on:
       - .pre-commit-config.yaml
       - .trivyignore
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   tf_analysis:
-    uses: pagopa/dx/.github/workflows/static_analysis.yaml@main
+    uses: pagopa/dx/.github/workflows/static_analysis.yaml@test/actions-hardening
     name: Terraform Validation
     secrets: inherit
     with:

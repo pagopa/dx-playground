@@ -1,0 +1,23 @@
+name: Hardening Validate v2
+
+on:
+  push:
+    branches: [test/actions-hardening]
+  workflow_dispatch:
+  pull_request:
+    paths: [infra/resources/**, nx.json, mise.toml]
+
+permissions: {}
+
+jobs:
+  validate:
+    permissions:
+      actions: read
+      contents: read
+      packages: read
+      pull-requests: write
+      id-token: write
+    uses: pagopa/dx/.github/workflows/validate-v2.yaml@test/actions-hardening
+    secrets:
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}

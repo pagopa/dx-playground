@@ -8,10 +8,15 @@ on:
       - "infra/legacy/**"
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
 jobs:
   apply_dev:
     name: Apply Development
-    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@implement-upload-download-terraform-plan-actions
+    uses: pagopa/dx/.github/workflows/release-terraform-legacy-v1.yaml@test/actions-hardening
     secrets: inherit
     with:
       environment: infra-dev

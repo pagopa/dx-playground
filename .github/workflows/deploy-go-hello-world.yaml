@@ -18,7 +18,7 @@ permissions:
 jobs:
   deploy:
     name: Deploy Go Hello World
-    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@feat-add-auto-approve-for-container-app-workflow
+    uses: pagopa/dx/.github/workflows/release-azure-containerapp-v1.yaml@test/actions-hardening
     secrets: inherit
     with:
       dockerfile_path: ./apps/go-hello-world/Dockerfile
@@ -27,5 +27,5 @@ jobs:
       docker_image_description: "Temporary Go hello world application"
       container_app: container-app-cc38
       resource_group_name: release-poc
-      environment: dev
-      disable_auto_deploy: true
+      environment: app-dev
+      enable_auto_deploy: false

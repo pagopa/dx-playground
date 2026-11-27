@@ -1,0 +1,49 @@
+name: Hardening Release v2 no-op
+
+on:
+  push:
+    branches: [test/actions-hardening]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  preflight:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Require an unconfigured, unchanged release workspace
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          node --input-type=module -e '
+            import assert from "node:assert/strict";
+            import { existsSync, readFileSync } from "node:fs";
+            assert.equal(existsSync(".nx/version-plans"), false);
+            assert.deepEqual(JSON.parse(readFileSync("nx.json")).release.projects, []);
+          '
+          # An initial branch push has no valid before SHA: skip release.
+          test "$BEFORE_SHA" != 0000000000000000000000000000000000000000
+          test -z "$(git diff --name-only "$BEFORE_SHA" HEAD -- .nx/version-plans)"
+
+  release:
+    # Dispatch means publish-all in nx-release; never execute that path.
+    if: github.event_name == 'push'
+    needs: preflight
+    permissions:
+      contents: write
+      id-token: write
+      packages: write
+      pull-requests: write
+    uses: pagopa/dx/.github/workflows/release-v2.yaml@test/actions-hardening
+    with:
+      environment: app-dev-cd
+    secrets:
+      app-client-id: ${{ secrets.GH_APP_CLIENT_ID }}
+      app-private-key: ${{ secrets.GH_APP_KEY }}

@@ -1,0 +1,12 @@
+[tools]
+node = "24.15.0"
+pnpm = "11.17.0"
+terraform = "1.16.0"
+azure-cli = "2.91.0"
+
+[settings]
+experimental = true
+minimum_release_age = "7d"
+
+[deps.pnpm]
+run = "pnpm install --frozen-lockfile"

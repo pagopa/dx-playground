@@ -1,6 +1,7 @@
 name: Deploy Dummy Web App
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - "dummy-web-app@[0-9]+.[0-9]+.[0-9]+"
@@ -26,7 +27,7 @@ permissions:
 
 jobs:
   deploy:
-    uses: pagopa/dx/.github/workflows/release-azure-staticapp-v1.yaml@release-azure-static-webapp-starts-on-release
+    uses: pagopa/dx/.github/workflows/release-azure-staticapp-v1.yaml@test/actions-hardening
     with:
       workspace_name: dummy-web-app
       output_dir: dist

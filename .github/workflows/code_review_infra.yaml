@@ -1,6 +1,8 @@
 name: Infra Code Review
 
 on:
+  push:
+    branches: [test/actions-hardening]
   workflow_dispatch:
   pull_request:
     types:
@@ -21,7 +23,7 @@ permissions:
 
 jobs:
   code_review_dev:
-    uses: pagopa/dx/.github/workflows/infra_plan.yaml@main
+    uses: pagopa/dx/.github/workflows/infra_plan.yaml@test/actions-hardening
     name: Code Review Infra Plan
     secrets: inherit
     with:

@@ -6,6 +6,7 @@ packages:
 allowBuilds:
   azure-functions-core-tools: true
   esbuild: true
+  nx: true
   protobufjs: true
   sharp: true
   unrs-resolver: true
