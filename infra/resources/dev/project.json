@@ -9,6 +9,9 @@
         "cwd": "infra/resources/dev",
         "command": "test -z \"${ARM_CLIENT_ID:-}\" && test -z \"${ARM_SUBSCRIPTION_ID:-}\" && test -z \"${ARM_TENANT_ID:-}\" && test -z \"${GH_APP_KEY:-}\" && test -z \"${GITHUB_TOKEN:-}\" && terraform fmt -check",
         "forwardAllArgs": false
+      },
+      "configurations": {
+        "ci": {}
       }
     },
     "plan": {
@@ -17,6 +20,9 @@
         "cwd": "infra/resources/dev",
         "command": "terraform init -input=false && terraform plan -input=false -lock-timeout=120s -no-color",
         "forwardAllArgs": false
+      },
+      "configurations": {
+        "ci": {}
       }
     }
   }

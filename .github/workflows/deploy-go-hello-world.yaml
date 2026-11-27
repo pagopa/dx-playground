@@ -27,5 +27,5 @@ jobs:
       docker_image_description: "Temporary Go hello world application"
       container_app: container-app-cc38
       resource_group_name: release-poc
-      environment: app-dev
+      environment: dev
       enable_auto_deploy: false
